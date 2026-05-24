@@ -9,7 +9,6 @@ theme:
     logo: fontawesome/solid/database
   features:
     - navigation.sections
-    - navigation.expand
   palette:
     - scheme: default
       primary: teal
@@ -25,9 +24,10 @@ theme:
         name: Cambiar a modo claro
 plugins:
 - search
+extra_javascript:
+  - js/nav-collapse-anexos.js
 nav:
-- Inicio: index.md
-- Entorno: 00entorno.md
+- "Inicio": index.md
 - "1.- Sistemas de almacenamiento": 01intro.md
 - "2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido": 02er.md
 - "3.- Diseño lógico: Modelo Relacional. Normalización": 03mr.md
@@ -44,14 +44,15 @@ nav:
   - "12.2.- Redis": 12redis.md
 - "13.- MongoDB": 13mongodb.md
 - Anexos:
+  - Entorno: 00entorno.md
   - Consultas geoespaciales sobre MariaDB: anexos/geoespaciales.md
   - Consultas jerárquicas: anexos/jerarquicas.md
   - El tipo de datos JSON en SQL: anexos/json.md
   - Restricciones en las relaciones: anexos/restricciones-relaciones.md
   - Supuestos completos: anexos/supuestos.md
   - Relaciones ternarias en el modelo conceptual: anexos/ternarias.md
-- Validación CE: validacion.md
-- Relación con otros módulos profesionales: relacion.md
-- Autoevaluación: satisfaccion.md
-- Vocabulari: vocabulari.md
-- Tags: tags.md
+  - Validación CE: validacion.md
+  - Relación con otros módulos profesionales: relacion.md
+  - Autoevaluación: satisfaccion.md
+  - Vocabulari: vocabulari.md
+  - Tags: tags.md
