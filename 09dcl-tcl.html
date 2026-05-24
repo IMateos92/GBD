@@ -1,0 +1,3215 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="08sql-subquerys.html">
+      
+      
+        <link rel="next" href="10plsql.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/fa-database.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>9.- DCL y TCL. Usuarios, permisos y transacciones - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sql-control-de-usuarios" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V288c0 44.2 100.3 80 224 80s224-35.8 224-80zm0-77.8V80c0-44.2-100.3-80-224-80S0 35.8 0 80v48c0 44.2 100.3 80 224 80s224-35.8 224-80m-49.5 261.8C351.6 406.5 289.9 416 224 416s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V432c0 44.2 100.3 80 224 80s224-35.8 224-80v-66.2c-14.8 9.8-31.8 17.7-49.5 24"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              9.- DCL y TCL. Usuarios, permisos y transacciones
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="lime"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V288c0 44.2 100.3 80 224 80s224-35.8 224-80zm0-77.8V80c0-44.2-100.3-80-224-80S0 35.8 0 80v48c0 44.2 100.3 80 224 80s224-35.8 224-80m-49.5 261.8C351.6 406.5 289.9 416 224 416s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V432c0 44.2 100.3 80 224 80s224-35.8 224-80v-66.2c-14.8 9.8-31.8 17.7-49.5 24"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="09dcl-tcl.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-7h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (7h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DCL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DCL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permisos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permisos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#otorgando-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Otorgando permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quitando-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quitando permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PhpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transacciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transacciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transacciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACID
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autocommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocommit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pasos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puntos-de-parada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puntos de parada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concurrencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrencia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Concurrencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de problemas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mecanismos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mecanismos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mecanismos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bloqueos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloqueos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloqueos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bloqueos-explicitos-de-filas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloqueos explícitos de filas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloqueos-explicitos-de-tablas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloqueos explícitos de tablas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#niveles-de-aislamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Niveles de aislamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-7h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (7h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Seguridad
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seguridad">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-contrasenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de contraseñas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DCL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DCL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usuarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usuarios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permisos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permisos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#otorgando-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Otorgando permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quitando-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quitando permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PhpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transacciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transacciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transacciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACID
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#autocommit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Autocommit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pasos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puntos-de-parada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puntos de parada
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concurrencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concurrencia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Concurrencia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de problemas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mecanismos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mecanismos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mecanismos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bloqueos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloqueos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bloqueos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bloqueos-explicitos-de-filas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloqueos explícitos de filas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloqueos-explicitos-de-tablas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bloqueos explícitos de tablas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#niveles-de-aislamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Niveles de aislamiento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:ra2">RA2</a>
+<a href="tags.html#tag:ra4">RA4</a>
+<a href="tags.html#tag:sql">SQL</a>
+<a href="tags.html#tag:sql---dcl">SQL - DCL</a>
+<a href="tags.html#tag:sql---tcl">SQL - TCL</a></p>
+<h1 id="sql-control-de-usuarios">SQL - Control de usuarios</h1>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta UT finalizaremos los RA2: <strong>Crea bases de datos definiendo su estructura y las características de sus elementos según el modelo relacional</strong> y RA4: <strong>Modifica la información almacenada en la base de datos utilizando asistentes, herramientas gráficas y el lenguaje de manipulación de datos</strong>.</p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<p>Respecto al RABD.2:</p>
+<ul>
+<li><strong>CE2g</strong>: Se han creado los usuarios y se les han asignado privilegios.</li>
+<li><strong>CE2h</strong>: Se han utilizado asistentes, herramientas gráficas y los lenguajes de definición y control de datos.</li>
+</ul>
+<p>Respecto al RABD.4:</p>
+<ul>
+<li><strong>CE4e</strong>: Se ha reconocido el funcionamiento de las transacciones.</li>
+<li><strong>CE4f</strong>: Se han anulado parcial o totalmente los cambios producidos por una transacción.</li>
+<li><strong>CE4g</strong>: Se han identificado los efectos de las distintas políticas de bloqueo de registros.</li>
+<li><strong>CE4h</strong>: Se han adoptado medidas para mantener la integridad y consistencia de la información.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Bases de datos relacionales:</p>
+<ul>
+<li>Usuarios. Privilegios.</li>
+<li>Lenguaje de control de datos (DCL).</li>
+</ul>
+<p>Tratamiento de datos:</p>
+<ul>
+<li>Transacciones.</li>
+<li>Políticas de bloqueo. Concurrencia.</li>
+</ul>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Qué mecanismos de control de acceso implementan los SGBD?</li>
+<li>¿Qué sublenguaje de SQL se encarga de gestionar el control de acceso de los usuarios?</li>
+<li>¿Cómo podemos crear un usuario en <em>MariaDB</em>?</li>
+<li>A la hora de crear un usuario, ¿Podemos indicar desde qué <em>hosts</em> se puede conectar? ¿De qué manera?</li>
+<li>¿Qué tipo de permisos se le pueden dar a un usuario sobre un recurso?</li>
+<li>¿Qué cláusula es necesaria incluir a la hora de crear un usuario para que el nuevo usuario pueda dar permisos a otros usuarios?</li>
+<li>¿Qué sublenguaje de SQL se encarga de gestionar el control de las transacciones?</li>
+<li>¿Qué es una transacción en SQL y por qué es importante?</li>
+<li>¿Cuáles son los pasos básicos en la ejecución de una transacción?</li>
+<li>¿Qué diferencia hay entre los comandos <code>COMMIT</code> y <code>ROLLBACK</code>?</li>
+<li>¿Cuáles son las propiedades ACID y qué garantiza cada una de ellas?</li>
+<li>¿Qué efecto tiene activar o desactivar el <em>autocommit</em> en un SGBD?</li>
+<li>Explica la utilidad de los puntos de control (<code>SAVEPOINT</code>) en una transacción.</li>
+<li>¿Cuáles son los principales problemas de concurrencia que pueden surgir en un SGBD?</li>
+<li>Explica la diferencia entre una lectura sucia y una lectura no repetible.</li>
+<li>¿Qué es el control de concurrencia y qué mecanismos existen para gestionarlo?</li>
+<li>¿Cuáles son los niveles de aislamiento de transacciones y qué problemas evitan?</li>
+<li>¿Qué tipos de bloqueos se pueden dar en un SGBD? ¿Mediante qué sentencias SQL?</li>
+</ol>
+<h3 id="programacion-de-aula-7h">Programación de Aula (7h)</h3>
+<p>Esta unidad es la novena, impartiéndose a mitad de la segunda evaluación, a principios de febrero, con una duración estimada de 7 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>DCL. Gestión de <a href="#usuarios">usuarios</a></td>
+<td><a href="#AC901">AC901</a></td>
+<td>CE2g, CE2h</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Gestión de <a href="#permisos">permisos</a></td>
+<td><a href="#AC902">AC902</a></td>
+<td>CE2g, CE2h</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#transacciones">Transacciones</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#pasos">Uso</a> de <em>commit</em> y <em>rollback</em></td>
+<td><a href="#AC904">AC904</a></td>
+<td>CE4e, CE4f</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#puntos-de-parada">Puntos de parada</a></td>
+<td><a href="#AC905">AC905</a></td>
+<td>CE4g, CE4h</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#concurrencia">Concurrencia</a> y <a href="#bloqueos">Bloqueos</a></td>
+<td><a href="#AC907">AC907</a></td>
+<td>CE4e, CE4f, CE4g</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#niveles-de-aislamiento">Niveles de aislamiento</a></td>
+<td><a href="#AC908">AC908</a></td>
+<td>CE4e, CE4f, CE4g, CE4h</td>
+</tr>
+</tbody>
+</table>
+<h2 id="seguridad">Seguridad</h2>
+<p>La seguridad en un SGBD es fundamental para proteger la integridad, confidencialidad y disponibilidad de la información almacenada.</p>
+<p>Para ello, se implementan <strong>mecanismos de control de acceso</strong> mediante la gestión de usuarios y la asignación de privilegios. Este control permite definir qué operaciones puede realizar cada usuario o rol sobre los distintos objetos de la base de datos, limitando el acceso a información sensible y previniendo acciones no autorizadas.</p>
+<p>En SQL, dentro del DCL, las sentencias como <code>GRANT</code> y <code>REVOKE</code> permiten otorgar o revocar permisos de acceso y modificación sobre los datos. De esta forma, se establece un entorno seguro donde cada usuario tiene acceso únicamente a los recursos necesarios para sus funciones.</p>
+<p>Además del control de acceso, la seguridad de un SGBD también se refuerza mediante el <strong>uso de transacciones y políticas de bloqueo y concurrencia</strong>. Las transacciones garantizan que las operaciones sobre la base de datos se ejecuten de manera atómica, consistente, aislada y duradera (propiedades ACID), lo que previene inconsistencias en caso de errores o fallos del sistema.</p>
+<p>Para manejar el acceso concurrente de múltiples usuarios, los SGBD implementan mecanismos de bloqueo que evitan conflictos y garantizan la integridad de los datos. Estos bloqueos, combinados con estrategias de control de concurrencia, aseguran que las transacciones se gestionen de forma ordenada y segura, minimizando riesgos como condiciones de carrera, lecturas sucias o actualizaciones perdidas. Todo esto contribuye a mantener la coherencia y fiabilidad de la base de datos frente a accesos simultáneos y posibles fallos.</p>
+<h3 id="uso-de-contrasenas">Uso de contraseñas</h3>
+<p>Independientemente de la gestión de seguridad de los SGBD, las aplicaciones que desarrollemos normalmente utilizarán una base de datos donde se almacene la contraseña de los usuarios. Ni que decir tiene que almacenar las contraseñas en texto plano es un agujero de seguridad, ya que si la base de datos se compromete, las contraseñas de todos los usuarios quedarán expuestas.</p>
+<p>Una forma de proteger las contraseñas es almacenarlas encriptadas, de manera que aunque la base de datos se vea comprometida, los atacantes no podrán recuperar las contraseñas originales. Para ello, se emplean algoritmos de encriptación <em>hash</em> que generan un valor único e irreversible a partir de la contraseña original.</p>
+<p>Un ejemplo de tabla de usuarios con contraseñas encriptadas podría ser la siguiente:</p>
+<pre><code>CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    salt VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    esta_activo BOOLEAN DEFAULT TRUE
+);
+</code></pre>
+<p>Conviene explicar el propósito del campo <code>salt</code>. El <em>salt</em> es un valor aleatorio único que se añade a cada contraseña antes del proceso de <em>hashing</em>. Su propósito es hacer que cada <em>hash</em> sea único, incluso para contraseñas idénticas. Mediante su uso, dos usuarios que tengan la misma contraseña tendrán almacenado diferente <code>password_hash</code>. Para ello, usaremos primero la función hash <a href="https://mariadb.com/docs/server/reference/sql-functions/secondary-functions/encryption-hashing-and-compression-functions/md5"><code>MD5</code></a> para crear una cadena aleatoria.</p>
+<p>A continuación, cuando insertemos un nuevo usuario, tras concatenar la contraseña con el <em>salt</em>, debemos encriptar el resultado mediante la función <em>hash</em> <a href="https://mariadb.com/docs/server/reference/sql-functions/secondary-functions/encryption-hashing-and-compression-functions/sha2"><code>SHA2</code></a>:</p>
+<pre><code>-- Generar salt aleatorio
+SET @salt = SUBSTRING(MD5(RAND()) FROM 1 FOR 16);
+
+-- Insertar usuario con hash SHA256 + salt
+INSERT INTO usuarios (username, email, password_hash, salt) 
+VALUES (
+    'usuario1', 
+    'user@email.com',
+    SHA2(CONCAT('mi_password', @salt), 256),
+    @salt
+);
+</code></pre>
+<p>Por lo tanto, cuando queramos recuperar un usuario que ha hecho <em>login</em> en la aplicación, necesitamos volver a concatenar la contraseña con el <em>salt</em>, realizar el <em>hash</em> y finalmente, comparar las dos cadenas encriptadas:</p>
+<pre><code>SELECT * FROM usuarios 
+WHERE username = 'usuario1' 
+AND password_hash = SHA2(CONCAT('mi_password', salt), 256);
+</code></pre>
+<p>Dicho esto, los algoritmos <em>MD5</em> y <em>SHA2</em>, a día de hoy, están obsoletos (se consideran criptográficamente rotos o son fácilmente <em>hackeables</em> por fuerza bruta), y por ello, en vez de basarse en las funciones de encriptación que ofrece el SGBD, es mejor hacer uso de los algoritmos <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>, <a href="https://en.wikipedia.org/wiki/scrypt">scrypt</a> o <a href="https://en.wikipedia.org/wiki/Argon2">argon2</a> desde el lenguaje de programación que utilice el SGBD, ya sea <em>Java</em>, <em>PHP</em> o <em>Python</em>.</p>
+<h2 id="dcl">DCL</h2>
+<p>El <em>Data Control Language</em> (DCL - Lenguaje de control de datos) se emplea para gestionar los permisos y privilegios de acceso a los objetos dentro de una base de datos, estableciendo políticas de seguridad que determinan qué usuarios o roles pueden interactuar con los datos y de qué manera.</p>
+<p>A través del DCL, los administradores de bases de datos pueden otorgar o revocar permisos, asegurando que cada usuario solo pueda realizar las acciones que le han sido expresamente autorizadas. Este control es esencial para proteger la información sensible, evitar accesos no autorizados y mantener la integridad de los datos.</p>
+<h3 id="usuarios">Usuarios</h3>
+<p>Así pues, el primer paso es la creación de usuarios y sus credenciales.</p>
+<p>SQL proporciona comandos específicos para crear, modificar y eliminar usuarios, aunque la sintaxis puede variar ligeramente según el SGBD (como <em>MariaDB</em>, <em>PostgreSQL</em> u <em>Oracle</em>).</p>
+<p>Para <strong>crear</strong> un nuevo usuario se realiza con la sentencia <a href="https://mariadb.com/kb/en/create-user/">CREATE USER</a>, mediante la sintaxis</p>
+<pre><code>CREATE USER nombre_usuario IDENTIFIED BY 'contraseña';
+</code></pre>
+<p>Al indicar la contraseña, esta se encriptará con un <em>hash</em> mediante el algoritmo <code>mysql_native_password</code>. El <em>hash</em> es irreversible, lo que significa que no se puede recuperar la contraseña original a partir de él.</p>
+<p>Además, en <em>MariaDB</em>, podemos especificar el <em>host</em> desde donde se permite la conexión:</p>
+<pre><code>CREATE USER 'nombre_usuario'@'localhost' IDENTIFIED BY 'contraseña';
+</code></pre>
+<p>Recuerda que cuando empezasteis a usar <em>MariaDB</em>, el usuario se creó desde <em>Docker</em>, pero podemos crear uno nuevo mediante:</p>
+<pre><code>CREATE USER s8abd IDENTIFIED BY 's8a';
+</code></pre>
+<p>Usuarios existentes</p>
+<p>Para averiguar qué usuarios existen en el sistema, en <em>MariaDB</em> debemos hacer una consulta sobre la tabla <code>mysql.user</code>:</p>
+<pre><code>select host, user, password from mysql.user;
+-- +-----------+-------------+-------------------------------------------+
+-- | Host      | User        | Password                                  |
+-- +-----------+-------------+-------------------------------------------+
+-- | localhost | mariadb.sys |                                           |
+-- | localhost | root        | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |
+-- | 127.0.0.1 | healthcheck | *E6203A3A57998AFD011DDBF30FB411FC065F318C |
+-- | ::1       | healthcheck | *E6203A3A57998AFD011DDBF30FB411FC065F318C |
+-- | localhost | healthcheck | *E6203A3A57998AFD011DDBF30FB411FC065F318C |
+-- | %         | s8a         | *3D3F19386045EE9D580D9527B41DF893A95325B7 |
+-- | %         | s8abd       | *3D3F19386045EE9D580D9527B41DF893A95325B7 |
+-- +-----------+-------------+-------------------------------------------+
+-- 7 rows in set (0.001 sec)
+</code></pre>
+<p>La columna <code>host</code> indica desde dónde nos podemos conectar a la base de datos, de manera que mediante <code>root</code> sólo nos podemos conectar desde la propia máquina (<code>localhost</code>), mientras que los usuarios <code>s8a</code> y <code>s8abd</code> pueden conectarse desde cualquier lugar (<code>%</code> hace la función de comodín).</p>
+<p>Si hubiéramos querido que nuestro usuario sólo pudiera conectarse desde <em>localhost</em> (o cualquier otro <em>host</em>), hemos de indicarlo mediante <code>nombre_usuario@host</code>:</p>
+<pre><code>CREATE USER s8abd@localhost IDENTIFIED BY 's8a';
+</code></pre>
+<p>Si necesitamos <strong>cambiar</strong> la contraseña o actualizar las propiedades de un usuario existente, utilizaremos la instrucción <a href="https://mariadb.com/kb/en/alter-user/"><code>ALTER USER</code></a>, con la sintaxis:</p>
+<pre><code>ALTER USER nombre_usuario IDENTIFIED BY 'nueva_contraseña';
+</code></pre>
+<p>También se pueden modificar atributos adicionales, como el límite de conexiones o configuraciones de autenticación.</p>
+<p>Finalmente, para <strong>eliminar</strong> usuarios utilizaremos la sentencia <a href="https://mariadb.com/kb/en/drop-user/"><code>DROP USER</code></a>, revocando todos sus privilegios y eliminando su acceso a la base de datos.</p>
+<pre><code>DROP USER nombre_usuario;
+</code></pre>
+<p>Es recomendable revocar previamente los permisos asignados para asegurar una gestión ordenada.</p>
+<h3 id="permisos">Permisos</h3>
+<p>Hemos comentado previamente que los usuarios tendrán diferentes permisos sobre los recursos de una base de datos. Para ello, las principales sentencias del DCL son <strong><code>GRANT</code></strong> y <strong><code>REVOKE</code></strong>.</p>
+<p>La instrucción <code>GRANT</code> permite asignar permisos específicos a usuarios o roles, como la capacidad de consultar (<code>SELECT</code>), insertar (<code>INSERT</code>), actualizar (<code>UPDATE</code>) o eliminar (<code>DELETE</code>) datos en tablas o vistas. También se pueden otorgar privilegios sobre procedimientos almacenados o esquemas completos.</p>
+<p>Por otro lado, la sentencia <code>REVOKE</code> se utiliza para retirar esos permisos cuando ya no son necesarios o cuando se detecta un posible riesgo de seguridad.</p>
+<p>Además, algunos sistemas permiten incluir la opción <strong><code>WITH GRANT OPTION</code></strong>, que autoriza a un usuario a conceder los privilegios que ha recibido a otros usuarios. Esta gestión granular de permisos es clave para implementar políticas de seguridad robustas, evitando accesos indebidos y minimizando el riesgo de errores o ataques malintencionados.</p>
+<p>Comprobando permisos</p>
+<p>¿Cómo puedo saber los permisos que tengo? Para ello, necesitamos ejecutar el comando <a href="https://mariadb.com/kb/en/show-grants/"><code>SHOW GRANTS</code></a>:</p>
+<pre><code>SHOW GRANTS for CURRENT_USER;
+-- +----------------------------------------------------------------------------------------------+
+-- | Grants for s8a@%                                                                             |
+-- +----------------------------------------------------------------------------------------------+
+-- | GRANT ALL PRIVILEGES ON *.* TO `s8a`@`%` IDENTIFIED BY PASSWORD '*3D...B7' WITH GRANT OPTION |
+-- | GRANT ALL PRIVILEGES ON `pruebas`.* TO `s8a`@`%`                                             |
+-- +----------------------------------------------------------------------------------------------+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<p>En cambio, si comprobamos los permisos del usuario que hemos creado en esta sesión:</p>
+<pre><code>SHOW GRANTS for s8abd;
+-- +---------------------------------------------------------------------+
+-- | Grants for s8abd@%                                                  |
+-- +---------------------------------------------------------------------+
+-- | GRANT USAGE ON *.* TO `s8abd`@`%` IDENTIFIED BY PASSWORD '*DF...FD' |
+-- +---------------------------------------------------------------------+
+-- 1 row in set (0.003 sec)
+</code></pre>
+<p>Tras crear un usuario, es necesario asignar permisos mediante el DCL con <code>GRANT</code> y retirarlos con <code>REVOKE</code>.</p>
+<h4 id="otorgando-permisos">Otorgando permisos</h4>
+<p>Así pues, mediante la sentencia <a href="https://mariadb.com/kb/en/grant/">GRANT</a> daremos privilegios a un usuario sobre uno o más objetos, mediante la siguiente sintaxis:</p>
+<pre><code>GRANT privilegio ON objeto TO usuario [WITH GRANT OPTION]
+</code></pre>
+<p>Los posibles privilegios (los cuales podemos consultar con el comando <a href="https://mariadb.com/kb/en/show-privileges/"><code>SHOW PRIVILEGES</code></a>) más comunes son:</p>
+<ul>
+<li><code>USAGE</code>: permite que el usuario exista y se conecte, pero sin ningún permiso de acceso a datos.</li>
+<li><code>SELECT</code>: para acceder a tablas o vistas.</li>
+<li><code>INSERT[(nombre_columna)]:</code> Si se especifica el <code>nombre_columna</code>, se otorga permiso para insertar en la columna especificada. Si se omite, se permite insertar valores en todas las columnas.</li>
+<li><code>UPDATE[(nombre_columna)]</code>: Lo mismo que <code>INSERT</code> para modificar.</li>
+<li><code>DELETE</code>: para eliminar registros de una tabla o vista.</li>
+<li><code>GRANT OPTION</code>: permite dar permisos a otro usuario.</li>
+<li><code>ALL</code>: otorga todos los permisos menos <code>GRANT OPTION</code>.</li>
+</ul>
+<p>Y para indicar el recurso se emplea la nomenclatura <code>bd.recurso</code>, siendo <em>recurso</em> una tabla, vista, etc...</p>
+<p>Por ejemplo, si nos conectamos con el usuario <code>s8a</code> el cual sí que tiene permisos para dar privilegios, podemos hacer:</p>
+<pre><code>GRANT SELECT, INSERT ON empresa.* TO s8abd;
+GRANT SELECT ON retail.customers TO s8abd;
+</code></pre>
+<p>Si nos conectamos con ese nuevo usuario, y accedemos a la base de datos de <code>retail</code>, podemos ver que sólo puede ver la tabla <code>customers</code> :</p>
+<pre><code>use retail;
+show tables;
+-- +------------------+
+-- | Tables_in_retail |
+-- +------------------+
+-- | customers        |
+-- +------------------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Finalmente, si queremos dar permisos de administración a un usuario haremos:</p>
+<pre><code>GRANT ALL PRIVILEGES ON base_de_datos.* TO nombre_usuario;
+</code></pre>
+<p>Si queremos que los usuarios que creamos puedan dar permisos a futuros usuarios, necesitamos indicarlo con <code>WITH GRANT OPTION</code>:</p>
+<pre><code>GRANT ALL PRIVILEGES ON base_de_datos.* TO nombre_usuario WITH GRANT OPTION;
+</code></pre>
+<p>Así pues, si quisiéramos crear un nuevo usuario <code>administrador</code> que pueda hacer de todo, e incluso dar nuevos permisos, haríamos:</p>
+<pre><code>CREATE USER administrador@localhost IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON *.* TO administrador@localhost WITH GRANT OPTION;
+</code></pre>
+<p>Consejos seguridad</p>
+<p>Una gestión adecuada de usuarios implica también definir roles, agrupar permisos y establecer políticas de acceso según los principios de <em>mínimos privilegios</em>, donde cada usuario tiene solo los permisos estrictamente necesarios.</p>
+<h4 id="quitando-permisos">Quitando permisos</h4>
+<p>Si en algún momento tenemos que quitarle permisos a un usuario, podemos revocar los privilegios sobre un objeto mediante el comando <a href="https://mariadb.com/kb/en/revoke/"><code>REVOKE</code></a>, con la siguiente sintaxis:</p>
+<pre><code>REVOKE privilegio ON objeto FROM usuario
+</code></pre>
+<p>Así pues, si queremos quitarle el permiso de inserción que antes le habíamos dado al usuario <code>s8abd</code> haríamos:</p>
+<pre><code>REVOKE INSERT ON empresa.* FROM 's8abd';
+</code></pre>
+<p>FLUSH PRIVILEGES</p>
+<p>El comando <code>FLUSH PRIVILEGES</code> se utiliza para recargar los privilegios en memoria después de realizar cambios en las tablas de privilegios del sistema, y los cambios tengan efecto inmediato.</p>
+<p>Cuando utilizamos los comandos del DCL (<code>GRANT</code>, <code>REVOKE</code>, <code>CREATE USER</code>, <code>DROP USER</code>, <code>ALTER USER</code>), <em>MariaDB</em> actualiza automáticamente los privilegios en memoria. Por tanto, en un uso normal no es necesario ejecutar <code>FLUSH PRIVILEGES</code>.</p>
+<p>Sin embargo, si en algún caso modificamos directamente las tablas internas del sistema (como <code>mysql.user</code>) mediante sentencias DML, el servidor no detecta el cambio automáticamente. En ese caso, debemos ejecutar:</p>
+<pre><code>FLUSH PRIVILEGES;
+</code></pre>
+<h3 id="roles">Roles</h3>
+<p>Si queremos aplicarle los mismos permisos a varios usuarios, podemos hacer uso de los roles. Formalmente, un rol es un conjunto de privilegios que se pueden asignar a uno o más usuarios. Mediante los roles, se simplifica la gestión de permisos, ya que en lugar de asignar privilegios individualmente a cada usuario, se pueden agrupar en un rol y luego asignar ese rol a los usuarios correspondientes.</p>
+<p>Para ello, usaremos la sentencia <a href="https://mariadb.com/kb/en/create-role/"><code>CREATE ROLE</code></a>, por ejemplo, para crear un rol desarrollador</p>
+<pre><code>CREATE ROLE desarrollador;
+</code></pre>
+<p>Una vez creado un rol, le daremos permisos mediante <code>GRANT</code> o se los quitaremos mediante <code>REVOKE</code>, y finalmente le asignaremos el rol a uno o más usuarios mediante <code>GRANT rol TO usuario</code>.</p>
+<pre><code>GRANT ALL ON empresa.* to desarrollador;
+GRANT desarrollador to s8abd;
+</code></pre>
+<p>Si ahora recuperamos los permisos del usuario <code>s8abd</code> veremos que tiene asociado el rol <code>desarrollador</code>:</p>
+<pre><code>SHOW GRANTS for s8abd;
+-- +--------------------------------------------------------------------+
+-- | Grants for s8abd@%                                                 |
+-- +--------------------------------------------------------------------+
+-- | GRANT `desarrollador` TO `s8abd`@`%`                               |
+-- | GRANT USAGE ON *.* TO `s8abd`@`%` IDENTIFIED BY PASSWORD '*D...FD' |
+-- +--------------------------------------------------------------------+
+-- 2 rows in set (0.000 sec)
+</code></pre>
+<p>Y si recuperamos la info del rol tendremos:</p>
+<pre><code>SHOW GRANTS for desarrollador;
+-- +--------------------------------------------------------+
+-- | Grants for desarrollador                               |
+-- +--------------------------------------------------------+
+-- | GRANT USAGE ON *.* TO `desarrollador`                  |
+-- | GRANT ALL PRIVILEGES ON `empresa`.* TO `desarrollador` |
+-- +--------------------------------------------------------+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<p>En cambio, si queremos quitarle el rol a un usuario, usaremos <code>REVOKE rol FROM usuario</code>.</p>
+<p>Por último, si queremos eliminar un rol usaremos <a href="https://mariadb.com/kb/en/drop-role/"><code>DROP ROLE</code></a>:</p>
+<p>Más información en la <a href="https://mariadb.com/kb/en/roles_overview/">documentación oficial</a> de <em>MariaDB</em>.</p>
+<h3 id="phpmyadmin">PhpMyAdmin</h3>
+<p>Si queremos comprobar los usuarios existentes mediante <em>PhpMyAdmin</em>, podemos entrar a la opción <em>Cuentas de usuario</em> y crear, modificar o eliminar los usuarios del sistema.</p>
+<p><img alt="" src="images/09users-phpmyadmin.png" title="Cuentas de usuario en PhpMyAdmin" /></p>
+<p>Cuentas de usuario en PhpMyAdmin</p>
+<h2 id="transacciones">Transacciones</h2>
+<p>Una transacción SQL es un conjunto de sentencias SQL que se ejecutan de forma indivisible (atómica), como si fueran una única operación. El uso de las transacciones es esencial para mantener la integridad de los datos.</p>
+<p>Los pasos a la hora de realizar una transacción se resumen en:</p>
+<ol>
+<li>Iniciar la transacción</li>
+<li>Realizar las operaciones</li>
+<li>Finalizar la transacción</li>
+<li>Confirmar el resultado</li>
+</ol>
+<pre><code>sequenceDiagram
+    autonumber
+    Usuario-&gt;&gt;BD: Inicia TX
+    Usuario-&gt;&gt;BD: Realiza operaciones
+    Usuario-&gt;&gt;BD: Finaliza TX
+    BD--&gt;&gt;Usuario: Confirma
+</code></pre>
+<p>Para finalizar las transacciones, podemos hacerlo mediante:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/commit/"><code>COMMIT</code></a>: aceptamos todos los cambios</li>
+<li><a href="https://mariadb.com/kb/en/rollback/"><code>ROLLBACK</code></a>: deshacemos las operaciones</li>
+<li>Un comando DDL, DCL, al finalizar una sesión de trabajo o al producirse un fallo o caída del sistema.</li>
+</ul>
+<p>La gestión de transacciones forma parte del sublenguaje TCL (<em>Transaction Control Language</em>), el cual incluye los comandos <code>COMMIT</code>, <code>ROLLBACK</code> y <a href="https://mariadb.com/kb/en/savepoint/"><code>SAVEPOINT</code></a>.</p>
+<p>En cuanto a los SGBD, la gran mayoría de los sistemas existentes en el mercado ofrece soporte transaccional, con diferentes políticas de bloqueo. Por ejemplo, <em>MariaDB</em> sólo permite realizar transacciones con el motor de almacenamiento <em>InnoDB</em>.</p>
+<p>Pese a realizar las operaciones de forma segura, el uso de TCL implica un procesamiento adicional que penaliza el rendimiento.</p>
+<h3 id="acid">ACID</h3>
+<p>Todo SGBD que se considera transaccional debe cumplir con las propiedades ACID:</p>
+<ul>
+<li><strong>A</strong>tomicidad: La transacción es indivisible. Esto quiere decir que o se ejecutan todas las sentencias o no se ejecuta ninguna.</li>
+<li><strong>C</strong>onsistencia: Después de una transacción, la base de datos estará en un estado válido y consistente.</li>
+<li>Aislamiento (<em><strong>I</strong>solation</em>): Cada transacción accede a los datos de forma aislada, de modo que si una transacción necesita acceder a datos que otra está usando, deberá esperar a que esta termine. Es decir, si una transacción quiere acceder de forma concurrente a los datos que están siendo utilizados por otra transacción, no podrá hacerlo hasta que la primera haya terminado.</li>
+<li><strong>D</strong>urabilidad: Los cambios que realiza una transacción sobre la base de datos son permanentes.</li>
+</ul>
+<h3 id="autocommit">Autocommit</h3>
+<p>Por defecto, los SGBD tienen activo el modo <a href="https://mariadb.com/kb/en/server-system-variables/#autocommit"><code>autocommit</code></a>, indicando que se aceptan automáticamente todos los cambios realizados y no es posible deshacerlos. De esta manera, cada operación individual se considera una transacción.</p>
+<p>Para consultar el nivel del <em>autocommit</em>, necesitamos realizar una consulta sobre la propiedad <code>@@AUTOCOMMIT</code></p>
+<pre><code>SELECT @@AUTOCOMMIT;
+</code></pre>
+<p>Para desactivarlo, le asignamos el valor 0:</p>
+<pre><code>SET AUTOCOMMIT = 0;
+</code></pre>
+<p>Al desactivarlo tendremos una transacción abierta. Los cambios sólo se aplicarían ejecutando la sentencia <code>COMMIT</code> de forma explícita, o cancelaremos la transacción mediante <code>ROLLBACK</code>.</p>
+<p>Si necesitamos volver a activarlo, le asignamos el valor 1:</p>
+<pre><code>SET AUTOCOMMIT = 1;
+</code></pre>
+<h3 id="pasos">Pasos</h3>
+<p>Aunque el <em>autocommit</em> esté activo, es posible realizar transacciones explícitas, y realmente, es la forma recomendada de trabajar, ya que nos permite controlar mejor el proceso. Para ello, para realizar una <a href="https://mariadb.com/kb/es/start-transaction/">transacción</a>, tal como hemos visto previamente, el primer paso es iniciarla y ejecutar una serie de operaciones:</p>
+<ol>
+<li>Indicar que vamos a realizar una transacción con la sentencia <code>START TRANSACTION</code> ( o<code>BEGIN</code>, <code>BEGIN WORK</code>, que siendo comandos equivalentes, se mantienen por compatibilidad con otros sistemas como <em>PostgreSQL</em>). Al iniciar la transacción, el <code>AUTOCOMMIT</code> se deshabilita automáticamente.</li>
+<li>Realizar las operaciones de manipulación de datos sobre la base datos (insertar, actualizar o borrar filas).</li>
+<li>
+<p>Dos posibilidades:</p>
+</li>
+<li>
+<p>Si las operaciones se han completado y queremos que los cambios se apliquen de forma permanente → <code>COMMIT</code></p>
+<p>```</p>
+<hr />
+<p>config:
+      look: handDrawn</p>
+<hr />
+<p>flowchart LR
+      A([Estado inicial]) --&gt; B[START TRANSACTION]
+      B --&gt; C{{Sentencia SQL 1}}
+      C --&gt; D{{Sentencia SQL 2}}
+      D --&gt; E[COMMIT]
+      E --&gt; F([Estado final])
+  <code>``
+   2. Si durante las operaciones ocurre algún error y no queremos aplicar los cambios realizados, podemos deshacerlos →</code>ROLLBACK`. Al hacer <em>rollback</em> se abandona la transacción y se cancelan todos los cambios realizados previamente por la transacción, volviendo al estado inicial previo al inicio de la transacción.</p>
+<p>```</p>
+<hr />
+<p>config:
+      look: handDrawn</p>
+<hr />
+<p>flowchart LR
+      A([Estado inicial]) --&gt; B[START TRANSACTION]
+      B --&gt; C{{Sentencia SQL 1}}
+      C --&gt; D{{Sentencia SQL 2}}
+      D --&gt; E[ROLLBACK]
+      E --&gt; A
+  ```</p>
+</li>
+</ol>
+<p>Veamos un ejemplo donde creamos una base de datos <code>pruebas</code>, junto a una tabla <code>cliente</code>:</p>
+<pre><code>DROP DATABASE IF EXISTS pruebas;
+CREATE DATABASE pruebas CHARACTER SET utf8mb4;
+USE pruebas;
+
+CREATE TABLE cliente (
+    id INT UNSIGNED PRIMARY KEY,
+    nombre VARCHAR (32),
+    ciudad VARCHAR (32)
+);
+</code></pre>
+<p>A continuación, podemos realizar diferentes operaciones dentro de una única transacción:</p>
+<pre><code>START TRANSACTION;
+INSERT INTO cliente VALUES (1, 'Andreu', 'Badajoz');
+INSERT INTO cliente VALUES (2, 'Marina', 'Badajoz');
+INSERT INTO cliente VALUES (33, 'Pedro', 'Badajoz');
+DELETE FROM cliente WHERE nombre = 'Andreu';
+COMMIT;
+</code></pre>
+<p>De esta manera, las tres inserciones y el borrado se ejecutan como una única operación. Si abrimos dos terminales y entramos con dos sesiones diferentes, y ejecutamos el siguiente flujo, obtendremos:</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Resultado 1</th>
+<th>Usuario 2</th>
+<th>Resultado 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>START TRANSACTION;</code> <code>INSERT INTO cliente VALUES (1, 'Andreu', 'Badajoz');</code> <code>INSERT INTO cliente VALUES (2, 'Marina', 'Badajoz');</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SELECT * FROM CLIENTE;</code></td>
+<td><code>1, Andreu, Badajoz</code> <code>2, Marina, Badajoz</code></td>
+<td><code>SELECT * FROM CLIENTE;</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>INSERT INTO cliente VALUES (33, 'Pedro', 'Badajoz');</code> <code>DELETE FROM cliente WHERE nombre = 'Andreu';</code> <code>COMMIT;</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SELECT * FROM CLIENTE;</code></td>
+<td><code>2, Marina, Badajoz</code> <code>33, Pedro, Badajoz</code></td>
+<td><code>SELECT * FROM CLIENTE;</code></td>
+<td><code>2, Marina, Badajoz</code> <code>33, Pedro, Badajoz</code></td>
+</tr>
+</tbody>
+</table>
+<p>Autoevaluación</p>
+<p>Si en cambio ejecutásemos el siguiente fragmento, tras haber acabado de crear la tabla:</p>
+<pre><code>START TRANSACTION;
+INSERT INTO cliente VALUES (1, 'Andreu', 'Badajoz');
+COMMIT;
+SET AUTOCOMMIT=0;
+INSERT INTO cliente VALUES (2, 'Marina', 'Badajoz');
+INSERT INTO cliente VALUES (33, 'Pedro', 'Badajoz');
+DELETE FROM cliente WHERE nombre = 'Andreu';
+</code></pre>
+<ol>
+<li>¿Qué contendría la tabla <code>cliente</code>? <a href="#fn:1">1</a></li>
+<li>Y si tras hacer el borrado, ejecutamos <code>ROLLBACK</code> ¿Qué contendrá ahora la tabla? <a href="#fn:2">2</a></li>
+</ol>
+<h3 id="puntos-de-parada">Puntos de parada</h3>
+<p>Los puntos de parada definen puntos de control intermedios dentro de una transacción, de forma que si se efectúa <code>ROLLBACK</code> éste pueda ser total (toda la transacción) o hasta uno de los puntos de control de la transacción.</p>
+<p>Para ello, primero los definiremos mediante la etiqueta <a href="https://mariadb.com/kb/en/savepoint/"><code>SAVEPOINT</code></a> dentro de una transacción.</p>
+<p>Posteriormente, al ocurrir un error, podemos indicar que realice un <code>ROLLBACK TO [SAVEPOINT] etiqueta</code>, deshaciendo sólo las instrucciones que se han ejecutado hasta el punto de parada indicado.</p>
+<p>Si queremos eliminar un punto de parada, necesitaremos hacerlo mediante <code>RELEASE SAVEPOINT etiqueta</code></p>
+<pre><code>START TRANSACTION;
+INSERT INTO cliente VALUES(1, 'José Manuel', 'Badajoz');
+SAVEPOINT P1;
+INSERT INTO cliente VALUES(2, 'Marina', 'Badajoz');
+SAVEPOINT P2;
+INSERT INTO cliente VALUES(3, 'Andreu', 'Badajoz');
+
+-- Recuperamos los clientes que acabamos de insertar
+SELECT * FROM cliente;
+ROLLBACK TO P1;         -- Deshace los insert de Marina y Andreu
+SELECT * FROM cliente;  -- Mostrará solo José Manuel
+ROLLBACK TO P2;         -- Dará error porque al haber hecho ROLLBACK a un punto de control anterior desaparece P2
+COMMIT;                 -- Sólo quedará guardado José Manuel
+</code></pre>
+<h2 id="concurrencia">Concurrencia</h2>
+<p>En el contexto de bases de datos, el término concurrencia se refiere a la capacidad de un sistema de bases de datos para permitir que múltiples usuarios o procesos accedan y manipulen los datos al mismo tiempo, sin que esto afecte a la integridad, consistencia o el rendimiento del sistema.</p>
+<p>Cuando se utilizan transacciones, pueden darse problemas de concurrencia en el acceso a los datos, es decir, problemas ocasionados por el acceso al mismo dato de dos transacciones distintas. Cuando diferentes usuarios realizan cambios en el mismo recurso de una base de datos al mismo tiempo se produce un bloqueo.</p>
+<p>Un caso de uso muy común es la compra de entradas para eventos (cine, teatro, conciertos,...) donde en un primer paso se selecciona el asiento y posteriormente se realiza la operación. Cuando un usuario selecciona un asiento, éste se bloquea para que ningún usuario pueda adquirirlo, pero ¿y si dos usuarios seleccionan el mismo asiento, pero uno es más rápido que el otro a la hora de confirmar la compra?</p>
+<p>Pensemos en otro ejemplo. Cuando realizamos un <em>bizum</em> o una transferencia bancaria entre dos usuarios, la cantidad se resta de la cuenta bancaria de origen y se suma en la de destino. Entre una operación y otra pueden pasar muchas cosas ¿Y si se va la luz? ¿Y si el usuario origen no tiene saldo? ¿Restamos y luego sumamos?</p>
+<p>La gestión de la concurrencia es un equilibrio entre garantizar la seguridad de los datos y maximizar el rendimiento del sistema.</p>
+<h3 id="tipos-de-problemas">Tipos de problemas</h3>
+<p>Cuando consultamos una base de datos, cada transacción ve una instantánea de los datos, es decir, una versión de la base de datos, sin tener en cuenta el estado actual de los datos que hay por debajo. Así se evita que la transacción vea datos inconsistentes producidos por la actualización de otra transacción concurrente, proporcionando aislamiento transaccional para cada sesión de la base de datos.</p>
+<p>Cuando no tenemos control de concurrencia, se pueden producir condiciones de carrera al perder información en una actualización:</p>
+<ul>
+<li><strong>Condición de carrera</strong> (<em>Lost Update</em>) : Se producen errores o inconsistencias cuando dos procesos intentan modificar los mismos datos simultáneamente.</li>
+</ul>
+<p>El usuario 1 comprueba los asientos disponibles, y también lo hace el usuario 2. Ambos ven que el asiento 33 está libre, y al mismo tiempo, inician el proceso de reserva.</p>
+<p>La operación que llega al sistema primero se ejecuta, pero como no hay control de concurrencia, la segunda operación también se ejecuta, sobrescribiendo el resultado de la primera, y de ahí el término 'condición de carrera'.</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT estado FROM asientos WHERE num = 33;</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SELECT estado FROM asientos WHERE num = 33;</code></td>
+</tr>
+<tr>
+<td><code>UPDATE asientos SET estado = "ocupado" WHERE num = 33 and usuario = 1;</code></td>
+<td><code>UPDATE asientos SET estado = "ocupado" WHERE num = 33 and usuario = 2;</code></td>
+</tr>
+</tbody>
+</table>
+<p>La solución es introducir transacciones e incluir la lectura dentro de la transacción.</p>
+<p>Si introducimos transacciones para evitar las condiciones de carrera, aparecen otro tipo de problemas:</p>
+<ul>
+<li>Lectura no repetible</li>
+<li>Lectura sucia</li>
+<li>
+<p>Lectura fantasma</p>
+</li>
+<li>
+<p><strong>Lectura No Repetible</strong> (<em>Non-Repeatable Read</em>): Se produce cuando en una transacción se consulta el mismo dato dos veces, y la segunda vez encuentra que el valor del dato ha sido modificado por otra transacción.</p>
+</li>
+</ul>
+<p>El usuario 1 consulta el estado de los asientos y comprueba que el asiento 33 está libre. Mientras tanto el usuario 2, reserva dicho asiento, y cuando el usuario 1 vuelve a confirmar el asiento para realiza la reserva le aparece que está ocupado.</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT estado FROM asientos WHERE num = 33;</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>UPDATE asientos SET estado = "ocupado" WHERE num = 33;</code> <code>COMMIT;</code></td>
+</tr>
+<tr>
+<td><code>SELECT estado FROM asientos WHERE num = 33;</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Lectura sucia</strong> (<em>Dirty Read</em>). Sucede cuando una segunda transacción lee datos que están siendo modificados por una transacción antes de que haga COMMIT.</li>
+</ul>
+<p>El usuario 1 reserva el asiento, que queda marcado como ocupado, pero sin realizar el <code>COMMIT</code>. El usuario 2 comprueba su estado y aparece como ocupado, y tras ello, el usuario 1 cancela la reserva, liberando un asiento que realmente no ha llegado a estar ocupado.</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UPDATE asientos SET estado = "ocupado" WHERE num = 33;</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SELECT estado FROM asientos WHERE num = 33;</code></td>
+</tr>
+<tr>
+<td><code>ROLLBACK;</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Lectura fantasma</strong> (<em>Phantom Read</em>): Se trata de una variación de lecturas no repetibles. Este error ocurre cuando una transacción ejecuta dos veces una consulta que devuelve un conjunto de filas y en la segunda ejecución de la consulta aparecen/desaparecen nuevas filas en el conjunto que no existían cuando se inició la transacción.</li>
+</ul>
+<p>El usuario 1 comprueba los asientos disponibles. A la vez, el usuario 2 elimina el asiento 33 ya que se ha roto y no debe aparecer entre los asientos existentes. Cuando el usuario 1 vuelve a comprobar los asientos existentes, comprueba su estado y el asiento no aparece, cuando antes sí aparecía (de ahí que sea una lectura fantasma).</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT num FROM asientos WHERE estado = "libre";</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>DELETE FROM asientos WHERE num = 33;</code> <code>COMMIT;</code></td>
+</tr>
+<tr>
+<td><code>SELECT num FROM asientos WHERE estado = "libre";</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="mecanismos">Mecanismos</h3>
+<p>Los sistemas gestores de bases de datos (SGBD) implementan diferentes técnicas para garantizar la consistencia y aislamiento de las transacciones:</p>
+<ul>
+<li>Control de concurrencia mediante <strong>bloqueos</strong> (<em>Locks</em>). Los bloqueos son mecanismos que previenen conflictos entre las transacciones que acceden a los mismos recursos, bien sea a estructuras de datos compartidas o a un registro del diccionario de datos.</li>
+<li><strong>Versionado de datos</strong> (MVCC, <em>Multi-Version Concurrency Control</em>): Permite que cada transacción trabaje con su propia copia de los datos, evitando bloqueos y mejorando el rendimiento en sistemas con alta concurrencia. Cuando hay una modificación de datos, en lugar de sobrescribir una fila en actualizaciones, se almacena una nueva versión de la fila mientras se mantiene la versión anterior hasta que ya no sea necesaria (las transacciones que la usan han finalizado). Las versiones anteriores de una fila se almacenan en el espacio de "deshacer" (undo space) para permitir transacciones y lecturas consistentes.</li>
+<li>Protocolos de <strong>serialización</strong>: Garantizan que las transacciones se ejecuten de manera que los resultados sean equivalentes a ejecutarlas en secuencia, evitando interferencias.</li>
+<li><strong>Niveles de aislamiento</strong>: Establecen reglas sobre cómo se gestionan las interacciones entre transacciones (<code>READ UNCOMMITTED</code>, <code>READ COMMITTED</code>, <code>REPEATABLE READ</code>, <code>SERIALIZABLE</code>) para dar solución a los problemas de concurrencia comentados anteriormente.</li>
+</ul>
+<h4 id="bloqueos">Bloqueos</h4>
+<p>Cuando un SGBD aísla las transacciones de usuario, utiliza los bloqueos para restringir el acceso de otros usuarios a dichos datos.</p>
+<p>Los bloqueos pueden ser:</p>
+<ul>
+<li><strong>Compartidos</strong> (<em>Shared</em>): Permiten que varios procesos lean los mismos datos, pero no los modifiquen. Múltiples usuarios leyendo datos pueden compartirlos, manteniendo bloqueos para prevenir accesos concurrentes por una escritura.</li>
+<li><strong>Exclusivos</strong> (<em>Exclusive</em>): Restringen el acceso a los datos a un solo proceso para lecturas y escrituras. La primera transacción que bloquea el recurso es la única que puede alterarlo hasta liberar el bloqueo.</li>
+</ul>
+<p>Cuando se produce una condición de carrera, dependiendo del nivel de aislamiento, el SGBD actuará de una manera u otra, lo que impacta directamente en el rendimiento y la cantidad de bloqueos necesarios.</p>
+<p>Si retomamos el ejemplo de los clientes y tenemos dos usuarios que trabajan sobre los mismos datos, y un usuario en una transacción modifica un registro, y no termina de hacer commit ni rollback, cuando un segundo usuario intenta acceder al mismo registro, se producirá un bloqueo:</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INSERT INTO cliente VALUES (1, 'José Manuel', 'Badajoz');</code>  <code>INSERT INTO cliente VALUES (2, 'Marina', 'Badajoz');</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>START TRANSACTION;</code>  <code>DELETE FROM cliente WHERE nombre = 'Marina';</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SELECT * FROM cliente;</code> Sólo aparece <code>José Manuel</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>UPDATE cliente SET ciudad = "El Verger" WHERE nombre = 'Marina';</code></td>
+</tr>
+</tbody>
+</table>
+<p>En este punto el usuario 2 se queda <em>colgado</em> esperando a que se resuelva la transacción del usuario 1. Finalmente obtendrá un error tras un tiempo de espera:</p>
+<pre><code>ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting transaction
+</code></pre>
+<p>A medida que ajustamos el comportamiento del SGBD como el idóneo para nuestro negocio, podremos llegar a un estado donde el número de bloqueos necesario aumenta, y por lo tanto, disminuye la concurrencia entre los diferentes usuarios, implicando una caída del rendimiento general. En dicho punto, podemos hacer una gestión explícita de los bloqueos o que se encargue el SGBD, pudiendo configurar nosotros los diferentes niveles de aislamiento.</p>
+<h5 id="bloqueos-explicitos-de-filas">Bloqueos explícitos de filas</h5>
+<p>Este tipo de bloqueos se produce cuando modificamos campos de una fila (o se borran o marcan para ser modificados). El caso de uso más común es cuando necesitamos bloquear un número de filas antes de hacer cambios (como ciertas entradas o asientos). De esta manera, podemos prevenir el conjunto de filas que pueden ser modificadas y asegurarnos que no habrá ningún conflicto con otras transacciones.</p>
+<p>Para ello, usaremos la sentencia <a href="https://mariadb.com/kb/en/for-update/"><code>SELECT ... FOR UPDATE</code></a>:</p>
+<pre><code>START TRANSACTION;
+SELECT CodEmp FROM empleado WHERE NumHi = 0 FOR UPDATE;
+</code></pre>
+<p>De este modo, se bloquearán todos los empleados sin hijos, y desde otras sesiones si intentan modificar cualquiera de ellos, la transacción se quedará bloqueada hasta que esta termine.</p>
+<p>Los bloqueos a nivel de fila no afectan a los datos consultados, únicamente se utilizan para bloquear las escrituras en la misma fila.</p>
+<h5 id="bloqueos-explicitos-de-tablas">Bloqueos explícitos de tablas</h5>
+<p>Cuando el bloqueo automático no es suficiente, y necesitamos tener un mayor control con acceso exclusivo a ciertas tablas y vistas en sesiones paralelas (o concurrentes), es posible bloquear el acceso a las tablas.</p>
+<p>El bloqueo de tablas (<a href="https://mariadb.com/kb/en/lock-tables/"><code>LOCK TABLE</code></a>) protege contra accesos inapropiados de lecturas o escrituras de otras sesiones, impidiendo que otros accesos puedan
+cambiar simultáneamente los datos.</p>
+<p>La sintaxis es:</p>
+<pre><code>LOCK TABLE &lt;nombre_tabla&gt; [[as] &lt;alias&gt;] READ | WRITE
+[, &lt;nombre_tabla&gt; [[as] &lt;alias&gt;] READ | WRITE ] ...
+</code></pre>
+<p>Si indicamos la opción <code>READ</code>, va a permitir leer sobre las tablas, pero no escribir. En cambio, la opción <code>WRITE</code> permite que la sesión que ejecuta el bloqueo pueda escribir sobre la tabla, pero el resto de sesiones no pueden ni leer ni escribir en esa tabla mientras dure el bloqueo — quedan en espera hasta que se libere con <code>UNLOCK TABLES.</code></p>
+<p>Dicho de otro modo:</p>
+<ul>
+<li><code>READ</code>: la sesión que bloquea y todas las demás pueden leer la tabla, pero nadie puede escribir en ella (ni siquiera la sesión que hizo el bloqueo).</li>
+<li><code>WRITE</code>: solo la sesión que bloquea puede leer y escribir. El resto de sesiones no pueden hacer nada con esa tabla (ni leer ni escribir) hasta que se libere el bloqueo.</li>
+</ul>
+<p>Por ejemplo, si bloqueamos una tabla, para poder acceder a ella, deberemos hacerlo por su nombre conjuntamente con el alias:</p>
+<pre><code>LOCK TABLE empleado as empLocked READ;
+select * from empleado;
+-- ERROR 1100 (HY000): Table 'empleado' was not locked with LOCK TABLES
+select * from empleado as empLocked;
+-- Muestra el listado de empleados
+</code></pre>
+<p>Cuando se ejecuta <code>LOCK TABLES</code> se hace un <code>COMMIT</code> implícito, por lo tanto, si había alguna transacción abierta, esta acaba. Si la conexión finaliza (normalmente o anormalmente) antes de desbloquear las tablas, automáticamente se desbloquean las tablas.</p>
+<p>Otro caso de uso muy común es bloquear todas las tablas de todas las bases de datos del SGBD, para hacer, por ejemplo, copias de seguridad, mediante un <a href="https://mariadb.com/kb/en/flush/"><code>FLUSH</code></a>:</p>
+<pre><code>FLUSH TABLES WITH READ LOCK;
+</code></pre>
+<p>Para desbloquear las tablas (todas las que estuvieran bloqueadas), haremos un <a href="https://mariadb.com/kb/en/transactions-unlock-tables/"><code>UNLOCK</code></a>:</p>
+<pre><code>UNLOCK TABLES;
+</code></pre>
+<h4 id="niveles-de-aislamiento">Niveles de aislamiento</h4>
+<p>Acabamos de estudiar que cuando se trabaja con transacciones, el SGBD puede bloquear conjuntos de datos para evitar o permitir que sucedan estos problemas. Según el nivel de concurrencia que se desee, podemos utilizar cuatro niveles de aislamiento, definiendo cómo los cambios hechos por una transacción son visibles a otras transacciones:</p>
+<ul>
+<li><strong><em>Read Uncommitted</em></strong> - <code>READ UNCOMMITTED</code> (lectura no confirmada/no acometida/no comprometida). En este nivel no se realiza ningún bloqueo, por lo tanto, permite que sucedan los tres problemas. Todas las consultas se realizan sin bloqueos, de manera que los cambios hechos por una transacción pueden verlos las otras.</li>
+<li><strong><em>Read Committed</em></strong> - <code>READ COMMITTED</code> (lectura confirmada / acometida / comprometida). En este caso los datos leídos por una transacción pueden ser modificados por otras transacciones, por lo tanto, se pueden dar tanto la lectura no repetible como las lecturas fantasmas.</li>
+<li><strong><em>Repeatable Read</em></strong> - <code>REPEATABLE READ</code> (lectura repetible). En este nivel ningún registro recuperado mediante un <code>SELECT</code> puede modificarlo otra transacción, por lo tanto, sólo pueden ocurrir lecturas fantasmas. Es el nivel de aislamiento por defecto que utiliza <em>InnoDB</em>.</li>
+<li><strong><em>Serializable</em></strong> - <code>SERIALIZABLE</code>. En este caso las transacciones se ejecutan unas detrás de otras, sin que exista la posibilidad de concurrencia, a no ser que el SGBD pueda asegurar que no hay conflicto con el acceso a los datos.</li>
+</ul>
+<p>En resumen, los problemas que cubren los diferentes niveles de aislamiento, son:</p>
+<table>
+<thead>
+<tr>
+<th>Nivel de aislamiento</th>
+<th>Lectura fantasma</th>
+<th>Lectura no repetible</th>
+<th>Lectura sucia</th>
+<th>Condición de carrera</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>READ UNCOMMITTED</code></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>👍</td>
+</tr>
+<tr>
+<td><code>READ COMMITTED</code></td>
+<td>-</td>
+<td>-</td>
+<td>👍</td>
+<td>👍</td>
+</tr>
+<tr>
+<td><code>REPEATABLE READ</code></td>
+<td>-</td>
+<td>👍</td>
+<td>👍</td>
+<td>👍</td>
+</tr>
+<tr>
+<td><code>SERIALIZABLE</code></td>
+<td>👍</td>
+<td>👍</td>
+<td>👍</td>
+<td>👍</td>
+</tr>
+</tbody>
+</table>
+<p>Para configurar uno u otro nivel, por ejemplo, en <em>MariaDB</em>, podemos cambiar el <a href="https://mariadb.com/kb/en/set-transaction/#isolation-levels">nivel de aislamiento</a> del SGBD en el fichero de configuración con la propiedad <code>transaction-isolation</code> (desde <em>MariaDB</em> 11.1.1):</p>
+<pre><code>transaction-isolation = 'READ COMMITTED'
+</code></pre>
+<p>También podemos hacerlo para la sesión activa desde el cliente de <em>MariaDB</em> mediante <a href="https://mariadb.com/kb/en/set-transaction/"><code>SET SESSION TRANSACTION</code></a>:</p>
+<pre><code>SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+</code></pre>
+<p>O para una transacción concreta, antes de iniciar la transacción, mediante <a href="https://mariadb.com/kb/en/set-transaction/"><code>SET TRANSACTION ISOLATION LEVEL</code></a>:</p>
+<pre><code>SET TRANSACTION ISOLATION LEVEL
+    {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE}
+</code></pre>
+<p>Por ejemplo, podríamos hacer una transacción <em>serializable</em> del siguiente modo:</p>
+<pre><code>SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+START TRANSACTION;
+SELECT CodEmp INTO @jefazo FROM empleado WHERE CodDep = &quot;DIRGE&quot;;
+UPDATE empleado SET SalEmp = SalEmp * 1.1 WHERE CodEmp = @jefazo;
+COMMIT;
+</code></pre>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Sintaxis SQL oficial de <a href="https://www.postgresql.org/docs/current/sql-commands.md">PostgreSQL</a> y <a href="https://mariadb.com/kb/en/sql-statements/">MariaDB</a>.</li>
+<li><a href="https://www.youtube.com/watch?v=mNaX4NfsM0c">Cómo no vender la misma entrada a dos personas diferentes - T3chFest 2023</a></li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em><a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u6/a1/continguts.md">Gestió d'usuaris i privilegis</a></em> i <em><a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u5/a3/continguts.md">Control de transaccions i concurrencia</a></em> - <em>Institut Obert de Catalunya</em>.</p>
+</li>
+<li><a href="https://josejuansanchez.org/bd/unidad-dcl-sql-teoria/index.md">Lenguaje de control de datos (DCL)</a> y <a href="https://josejuansanchez.org/bd/unidad-11-teoria/index.md#transacciones">Transacciones</a> de <em>José Juan Sánchez</em>.</li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut3/recopila.md">Implementación de bases de datos relacionales / Apartado 12.- Lenguaje de control de datos (DCL).</a> de <em>Javier Gutiérrez</em>.</li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema6/index.md">Seguridad de los datos. DCL</a> de gestionbasesdatos.readthedocs.io</li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<ul>
+<li>
+<p><strong>AC901</strong>. (RABD.2 // CE2g, CE2h // 2p) Sobre la instalación de <em>MariaDB</em> que utilizas normalmente, realiza las siguientes operaciones, indicando los comandos necesarios y adjuntando capturas de pantalla de los resultados obtenidos:</p>
+</li>
+<li>
+<p>Comprueba los usuarios existentes en nuestro SGBD.</p>
+</li>
+<li>Crea un usuario <code>ac901local</code> con contraseña <code>s8a</code> que sólo pueda conectarse desde <code>localhost</code>. Comprueba que puedes acceder con el nuevo usuario.</li>
+<li>Crea un usuario <code>ac901remoto</code> con contraseña <code>s8a</code> que pueda conectarse desde cualquier lugar. Comprueba que puedes acceder con el nuevo usuario.</li>
+<li>Modifica la contraseña del usuario <code>ac901remoto</code> para que sea <code>severo</code>. Comprueba que puedes acceder con la nueva contraseña.</li>
+<li>Vuelve a comprobar los usuarios existentes en nuestro SGBD.</li>
+<li>
+<p>Elimina el usuario <code>ac901remoto</code>.</p>
+</li>
+<li>
+<p><strong>AC902</strong>. (RABD.2 // CE2g, CE2h // 2p) Sobre la instalación de <em>MariaDB</em> que utilizas normalmente, realiza las siguientes operaciones, indicando los comandos necesarios y adjuntando capturas de pantalla de los resultados obtenidos:</p>
+</li>
+<li>
+<p>Comprueba los permisos del usuario <code>s8a</code>.</p>
+</li>
+<li>
+<p>Sobre el usuario <code>ac901local</code>:</p>
+<ol>
+<li>Comprueba sus permisos</li>
+<li>Asigna los permisos necesarios para que sólo pueda acceder a la tabla <code>habilidad</code>, pudiendo hacer consultas, inserciones y borrados, pero no modificaciones sobre los datos.</li>
+<li>Comprueba de nuevo los permisos.</li>
+<li>
+<p>Entra al sistema como el usuario <code>ac901local</code>, y realiza las siguientes operaciones sobre la tabla <code>habilidad</code>:</p>
+</li>
+<li>
+<p>Insertar una nueva habilidad.</p>
+</li>
+<li>Intenta modificar la nueva habilidad</li>
+<li>Elimina la habilidad insertada.</li>
+<li>Crea un nuevo usuario <code>ac902lectura</code> con contraseña <code>s8a</code> que únicamente pueda consultar todas las tablas de la base de datos <code>empresa</code>.</li>
+<li>Crea un nuevo usuario <code>ac903todo</code> con contraseña <code>s8a</code> pueda hacer de todo en el sistema, a modo de administrador del sistema.</li>
+<li>Entra al sistema como el usuario <code>ac903todo</code>, y elimina los usuarios <code>ac901local</code> y <code>ac902lectura</code>.</li>
+<li>Recupera los usuarios existentes en el sistema.</li>
+</ol>
+</li>
+<li>
+<p><strong>AP903</strong>. (RABD.2 // CE2g, CE2h // 3p) Una clínica se pone en contacto con nosotros para que les ayudemos a organizar su sistema de gestión de bases de datos. Actualmente, tienen tres bases de datos: <code>administracion</code>, <code>historiales</code> y <code>farmacia</code>, y necesitan una estructura de permisos adecuada que refleje el siguiente organigrama:</p>
+</li>
+<li>
+<p><code>rol_recepcion</code>: <code>SELECT</code> en <code>administracion.*</code>, <code>INSERT</code> en <code>administracion.citas</code>.</p>
+</li>
+<li><code>rol_medico</code>: <code>SELECT</code>, <code>UPDATE</code> en <code>historiales.*</code>; <code>SELECT</code> en <code>farmacia.medicamentos</code>.</li>
+<li><code>rol_farmaceutico</code>: <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> en <code>farmacia.*</code>.</li>
+<li><code>rol_admin_bd</code>: <code>ALL</code> en las tres bases de datos + <code>WITH GRANT OPTION</code>.</li>
+</ul>
+<p>Tras crear los roles anteriores, se pide realizar las siguientes tareas, indicando los comandos necesarios y adjuntando capturas de pantalla de los resultados obtenidos:</p>
+<ol>
+<li>Crea un usuario por cada rol y asígnaselo. Verifica con <code>SHOW GRANTS</code> que todo es correcto.</li>
+<li>Crea un nuevo usuario <code>dr_severo</code> con contraseña <code>s8a</code> y asígnale el rol de médico.</li>
+<li>El médico <code>dr_severo</code> asciende y necesita también poder insertar en historiales. En lugar de tocar el rol (que afectaría a todos), añade el permiso directamente a su usuario. Comprueba los permisos del médico y analiza cómo conviven permisos de rol y permisos directos.</li>
+<li>
+<p>Por último, el otro médico que creaste previamente, deja la clínica. Desde el departamento TIC nos indican el proceso completo y seguro para revocar accesos:</p>
+<ol>
+<li>Quitar el rol.</li>
+<li>Verificar que no quedan permisos residuales.</li>
+<li>Eliminar el usuario.</li>
+</ol>
+</li>
+<li>
+<p><strong>AC904</strong>. (RABD.4 // CE4e, CE4f // 3p) A partir del siguiente fragmento de código que realiza transacciones, se pide:</p>
+</li>
+<li>
+<p>Contesta a las preguntas que aparecen como comentarios dentro del código:</p>
+<p>```
+ CREATE TABLE cuentas (
+     id INTEGER UNSIGNED PRIMARY KEY,
+     saldo DECIMAL(11,2) CHECK (saldo &gt;= 0)
+ );</p>
+<p>INSERT INTO cuentas VALUES (1, 1000);
+ INSERT INTO cuentas VALUES (2, 2000);
+ INSERT INTO cuentas VALUES (3, 0);</p>
+<p>START TRANSACTION;
+ UPDATE cuentas SET saldo = saldo - 100 WHERE id = 1;
+ UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2;
+ COMMIT;
+ -- a) ¿Qué contiene cuentas en este momento? Indica los valores concretos de cada registro.</p>
+<p>START TRANSACTION;
+ UPDATE cuentas SET saldo = saldo - 100 WHERE id = 9999;
+ UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2;
+ COMMIT;
+ -- b) ¿Qué sucede cuando una cuenta no existe? ¿Se ha modificado el saldo de la cuenta 2?</p>
+<p>START TRANSACTION;
+ UPDATE cuentas SET saldo = saldo + 100 WHERE id = 2;
+ UPDATE cuentas SET saldo = saldo - 100 WHERE id = 3;
+ COMMIT;
+ -- c) ¿Y si una cuenta no tiene saldo? ¿Se han modificado ambos saldos? ¿Ninguno? ¿Solo uno? Justifica tu respuesta.
+ ```
+  2. A continuación, indica las sentencias SQL necesarias para realizar las siguientes tareas dentro de una única operación:</p>
+<ol>
+<li>Inserta una nueva cuenta, la 4, con un saldo de 400€.</li>
+<li>Inserta la cuenta 5 con un saldo de 500€.</li>
+<li>Modifica la cuenta 3 para que su saldo sea 300€.</li>
+<li>
+<p>Y en otra operación:</p>
+</li>
+<li>
+<p>Inserta la cuenta 6 con un saldo de 600€.</p>
+</li>
+<li>Modifica las cuentas 4 y 5 y quítales 200€ (en una única operación).</li>
+<li>Deshaz las dos últimas operaciones.</li>
+</ol>
+</li>
+<li>
+<p><strong>AC905</strong>. (RABD.4 // CE4e, CE4f // 3p) A partir del siguiente fragmento de código que realiza transacciones, sin ejecutar el código, indica el resultado de las consultas realizadas en las líneas 11 y 21, justificando tu respuesta:</p>
+</li>
+</ol>
+<p>```
+  CREATE TABLE producto (
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      precio DOUBLE
+  );</p>
+<p>INSERT INTO producto (id, nombre) VALUES (1, 'Primero');
+  INSERT INTO producto (id, nombre) VALUES (2, 'Segundo');
+  INSERT INTO producto (id, nombre) VALUES (3, 'Tercero');</p>
+<p>SELECT * FROM producto;</p>
+<p>START TRANSACTION;
+  INSERT INTO producto (id, nombre) VALUES (4, 'Cuarto');
+  SAVEPOINT sp1;
+  INSERT INTO producto (id, nombre) VALUES (5, 'Quinto');
+  INSERT INTO producto (id, nombre) VALUES (6, 'Sexto');
+  ROLLBACK TO sp1;
+  COMMIT;</p>
+<p>SELECT * FROM producto;
+  ```</p>
+<p>A continuación, indica las sentencias SQL necesarias para realizar las siguientes tareas dentro de una única operación:</p>
+<ol>
+<li>Coloca un punto de guardado nombrado <code>SP2</code></li>
+<li>Inserta el producto 10 con nombre <code>Deu</code> y con 10€ de precio.</li>
+<li>Inserta el producto 11 con nombre <code>Onze</code> y con 100€ de precio.</li>
+<li>Coloca un punto de guardado nombrado <code>SP3</code></li>
+<li>Modifica el precio de <code>Onze</code> para que sea de 11€.</li>
+<li>Cancela las operaciones posteriores a <code>SP3</code> y confirma la transacción.</li>
+<li>
+<p>Muestra el resultado de la tabla <code>producto</code> y justifica los registros que aparecen.</p>
+</li>
+<li>
+<p><strong>AR906</strong>. (RABD.4 // CE4e // 3p) Analiza el siguiente fragmento de código y piensa si funcionará correctamente, sabiendo que <code>CodDepDep</code> es una clave ajena que apunta a <code>CodDep</code>:</p>
+</li>
+</ol>
+<p>```
+  START TRANSACTION;
+  INSERT INTO departamento (CodDep, NomDep, CodDepDep) VALUES
+      ("TX1", "TX1 apuntará a TX2", "TX2");
+  INSERT INTO departamento (CodDep, NomDep, CodDepDep) VALUES
+      ("TX2", "TX2 apunta a TX1", "TX1");</p>
+<p>COMMIT;
+  ```</p>
+<p>¿Se ha insertado algún registro? ¿Ambos?</p>
+<p>Y si lo cambiamos por la siguiente transacción ¿Cambia algo?</p>
+<p><code>START TRANSACTION;
+  INSERT INTO departamento (CodDep, NomDep, CodDepDep) VALUES
+      ("TX1", "TX1 apuntará a TX2", NULL);
+  INSERT INTO departamento (CodDep, NomDep, CodDepDep) VALUES
+      ("TX2", "TX2 apunta a TX1", "TX1");
+  UPDATE departamento SET CodDepDep = "TX2" WHERE CodDep = "TX1";
+  COMMIT;</code></p>
+<ul>
+<li><strong>AC907</strong>. (RABD.4 // CE4e, CE4f, CE4g, CE4h // 3p) Abre dos sesiones contra el SGBD con dos usuarios distintos (por ejemplo, <code>s8a</code> y <code>root</code>) en dos terminales. Con uno de ellos, ejecuta las siguientes sentencias:</li>
+</ul>
+<p>```
+  CREATE OR REPLACE TABLE departamento (
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      jefe VARCHAR(100));</p>
+<p>INSERT INTO departamento (id, nombre, jefe) VALUES (1, 'Contabilidad', "J1");
+  INSERT INTO departamento (id, nombre, jefe) VALUES (2, 'Marketing', "J1");
+  INSERT INTO departamento (id, nombre, jefe) VALUES (3, 'I+D', "J2");
+  ```</p>
+<p>Inserta el departamento <code>4</code> con tu nombre y <code>J3</code> como tu jefe.</p>
+<p>A continuación, anota las sentencias necesarias para cada caso y adjunta capturas de pantalla de cada uno de los terminales de los usuarios:</p>
+<ol>
+<li>
+<p>Con el usuario indicado, realiza las siguientes tareas y contesta a las preguntas que se plantean:</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comienza una transacción Consulta la tabla <code>departamento</code></td>
+<td></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+<tr>
+<td>Modifica el jefe de <em>Marketing</em> para que sea <code>J2</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Consulta la tabla <code>departamento</code></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+<tr>
+<td></td>
+<td>Elimina el departamento de <em>Marketing</em></td>
+<td>¿Qué sucede?</td>
+</tr>
+<tr>
+<td>2. ¿Qué cambiaría si hubiéramos bloqueado la tabla con accesos de lectura?</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comienza una transacción Bloquea la tabla <code>departamento</code> para permitir sólo accesos de lectura Consulta la tabla <code>departamento</code> utilizando el bloqueo</td>
+<td></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+<tr>
+<td>Modifica el jefe de <em>Marketing</em> para que sea <code>J2</code> (utilizando el bloqueo)</td>
+<td></td>
+<td>¿Qué sucede?</td>
+</tr>
+<tr>
+<td></td>
+<td>Consulta la tabla <code>departamento</code></td>
+<td>¿Qué sucede?</td>
+</tr>
+<tr>
+<td>Desbloquea la tabla <code>departamento</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. ¿Y si la bloqueamos para accesos de escritura?</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comienza una transacción Bloquea la tabla <code>departamento</code> para permitir sólo accesos de escritura Consulta la tabla <code>departamento</code> utilizando el bloqueo</td>
+<td></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+<tr>
+<td>Modifica el jefe de <em>Marketing</em> para que sea <code>J2</code> (utilizando el bloqueo)</td>
+<td></td>
+<td>¿Qué sucede?</td>
+</tr>
+<tr>
+<td></td>
+<td>Consulta la tabla <code>departamento</code></td>
+<td>¿Qué sucede?</td>
+</tr>
+<tr>
+<td>Desbloquea la tabla <code>departamento</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>AC908</strong>. (RABD.4 // CE4e, CE4f, CE4g, CE4h // 3p) Abre dos sesiones contra el SGBD con dos usuarios distintos (por ejemplo, <code>s8a</code> y <code>root</code>) en dos terminales. Con uno de ellos, ejecuta las siguientes sentencias:</p>
+</li>
+</ol>
+<p>```
+  CREATE TABLE persona (
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL);</p>
+<p>INSERT INTO persona (id, nombre) VALUES (1, 'Andreu');
+  INSERT INTO persona (id, nombre) VALUES (2, 'Marina');
+  ```</p>
+<p>Inserta la persona con el id <code>3</code> y tu nombre.</p>
+<p>A continuación, con el usuario indicado, realiza las siguientes tareas y contesta a las preguntas que se plantean:</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comienza una transacción</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Modifica el nombre de <code>Andreu</code> por <code>Andreu 4K</code>. Consulta la tabla <code>persona</code></td>
+<td>Consulta la tabla <code>persona</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+<tr>
+<td></td>
+<td>Cambia el nivel de aislamiento a <em>Lectura no confirmada</em>. (solo para la siguiente transacción)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Comienza una transacción</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Consulta la tabla <code>persona</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+<tr>
+<td>Anula la sentencia realizada</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Consulta la tabla <code>persona</code></td>
+<td>Consulta la tabla <code>persona</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Qué datos aparecen y por qué?</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>¿Qué tipo de problema de acceso concurrente a los datos se ha producido con el <em>Usuario 2</em> al realizar la primera consulta?</li>
+<li>
+<p>¿Cómo se podría solucionar? Ejecuta otra vez las sentencias anteriores solucionando el problema.</p>
+</li>
+<li>
+<p><strong>AR909</strong>. (RABD.4 // CE4e, CE4f, CE4g, CE4h // 3p) Realiza los ejemplos de los apartados <a href="https://josejuansanchez.org/bd/unidad-11-teoria/index.md#niveles-de-aislamiento">6.7.1 al 6.7.4</a> de los apuntes del docente <em>José Juan Sánchez</em>, adjuntando capturas de las operaciones y contestando a las preguntas que plantea.</p>
+</li>
+<li>
+<p><strong>AP910</strong>. (RABD.4 // CE4e, CE4f, CE4g, CE4h // 3p) Abre dos sesiones contra el SGBD con dos usuarios distintos (por ejemplo, <code>s8a</code> y <code>root</code>) en dos terminales. Con uno de ellos, ejecuta las siguiente sentencias:</p>
+</li>
+</ol>
+<p>```
+  CREATE OR REPLACE TABLE departamento (
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      jefe VARCHAR(100));</p>
+<p>INSERT INTO departamento (id, nombre, jefe) VALUES (1, 'Contabilidad', "J1");
+  INSERT INTO departamento (id, nombre, jefe) VALUES (2, 'Marketing', "J1");
+  INSERT INTO departamento (id, nombre, jefe) VALUES (3, 'I+D', "J2");
+  ```</p>
+<p>A continuación, con el usuario indicado, realiza las siguientes tareas y contesta a las preguntas que se plantean:</p>
+<table>
+<thead>
+<tr>
+<th>Usuario 1</th>
+<th>Usuario 2</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comprueba el nivel de aislamiento</td>
+<td>Comprueba el nivel de aislamiento</td>
+<td></td>
+</tr>
+<tr>
+<td>Si no es <em>Lectura repetible</em>, cambiarlo</td>
+<td>Si no es <em>Lectura repetible</em>, cambiarlo</td>
+<td></td>
+</tr>
+<tr>
+<td>Comienza una transacción</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Modifica el jefe de <code>Contabilidad</code> a <code>J3</code>. No confirma los datos Consulta la tabla <code>departamento</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Comienza una transacción</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Consulta la tabla <code>departamento</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Ve el cambio realizado por el usuario 1? ¿Por qué?</td>
+</tr>
+<tr>
+<td></td>
+<td>Modifica el jefe de <code>Marketing</code> a <code>J4</code>. No confirma los datos</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Ha podido realizar el cambio? ¿Por qué?</td>
+</tr>
+<tr>
+<td></td>
+<td>Modifica el jefe de <code>Contabilidad</code> a <code>J5</code>. No confirma los datos</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Ha podido realizar el cambio? ¿Por qué?</td>
+</tr>
+<tr>
+<td></td>
+<td>Cierra la sesión y vuelve a entrar</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Consulta la tabla <code>departamento</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>¿Qué ocurre con los cambios realizados por el usuario 2? ¿Por qué?</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>PR911</strong>. (RABD.2, RABD.4 // CE2g, CE2h, CE4e, CE4f, CE4g, CE4h // 2p RABD.2 + 4p RABD.4) Dado el siguiente DDL sobre un sistema bancario:</li>
+</ul>
+<p>```
+  CREATE DATABASE banco;
+  USE banco;</p>
+<p>CREATE TABLE clientes (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      nombre VARCHAR(100),
+      dni VARCHAR(9) UNIQUE
+  );</p>
+<p>CREATE TABLE cuentas (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      cliente_id INT,
+      iban VARCHAR(24) UNIQUE,
+      saldo DECIMAL(12,2) CHECK (saldo &gt;= 0),
+      tipo ENUM('corriente','ahorro'),
+      FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+  );</p>
+<p>CREATE TABLE movimientos (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      cuenta_origen INT,
+      cuenta_destino INT,
+      importe DECIMAL(12,2),
+      fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      estado ENUM('pendiente','completado','anulado') DEFAULT 'pendiente'
+  );
+  ```</p>
+<p>Se pide, adjuntando los comandos y capturas de pantallas de cada operación, realizar las siguientes tareas:</p>
+<ol>
+<li>Crea los siguientes tres usuarios: <code>cajero</code> (solo puede hacer <code>SELECT</code> e <code>INSERT</code> en <code>movimientos</code>), <code>gestor</code> (<code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> en todas las tablas del banco), y <code>auditor</code> (solo <code>SELECT</code> en todas las tablas).</li>
+<li>Crea un rol <code>empleado_basico</code> y asígnalo a <code>cajero</code>. Comprueba con <code>SHOW GRANTS</code> que los permisos son correctos.</li>
+<li>Conéctate como <code>cajero</code> e intenta borrar un cliente. ¿Qué ocurre? Justifica tu respuesta.</li>
+<li>
+<p>Implementa una transferencia de 500€ de la cuenta 1 a la 2 con el siguiente procedimiento, utilizando transacciones y puntos de guardado:</p>
+<ul>
+<li>Tras insertar el movimiento con estado pendiente, crear el punto de guardado <code>sp_movimiento</code>.</li>
+<li>Tras restar <code>saldo</code> en la cuenta de origen, crear el punto de guardado <code>sp_resta</code>.</li>
+<li>Sumar saldo en la cuenta de destino.</li>
+<li>Si todo va bien, actualizar el movimiento a <code>completado</code> y hacer <code>COMMIT</code>.</li>
+<li>Si falla la suma, por ejemplo, por saldo insuficiente, deshacer la opción al punto de guardado <code>sp_movimiento</code> y actualizar el estado a <code>anulado</code>.</li>
+<li>Finaliza la transacción.</li>
+<li>Provoca intencionadamente un fallo (por ejemplo, transfieriendo más saldo del disponible). Demuestra que el <code>SAVEPOINT</code> funciona correctamente y que el saldo de ambas cuentas queda intacto.</li>
+<li>Abre dos sesiones. El <em>Usuario 1</em> inicia una transferencia (sin <code>COMMIT</code>). El <em>Usuario 2</em> intenta hacer otra transferencia sobre la misma cuenta origen. Documenta qué ocurre y cuánto tarda en aparecer el error de <em>timeout</em>.</li>
+<li>Repite el apartado <code>f</code> usando <code>SELECT ... FOR UPDATE</code> en la cuenta origen para bloquearla explícitamente. ¿Qué diferencia observas?</li>
+</ul>
+</li>
+<li>
+<p><strong>AR912</strong>. (RABD.2, RABD.4 // CE2g, CE2h, CE4e, CE4f, CE4g, CE4h // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</p>
+</li>
+</ol>
+<hr />
+<ol>
+<li>Si estamos en la misma sesión, contendrá a <code>Marina</code> y a <code>Pedro</code>. En cambio, si desde otra sesión comprobamos la tabla, sólo aparecerá <code>Andreu</code>, ya que el resto de instrucciones no se han confirmado mediante <code>COMMIT</code>. <a href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></li>
+<li>Ahora tanto el usuario local a la transacción como el resto de usuarios sólo verán a <code>Andreu</code>. <a href="#fnref:2" title="Jump back to footnote 2 in the text">↩</a></li>
+</ol>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="js/nav-collapse-anexos.js"></script>
+      
+    
+  </body>
+</html>

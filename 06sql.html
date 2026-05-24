@@ -1,0 +1,4492 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="05ddl.html">
+      
+      
+        <link rel="next" href="07sql-group.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/fa-database.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>6.- Consultas sencillas. Funciones. Joins - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#consultas-sencillas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V288c0 44.2 100.3 80 224 80s224-35.8 224-80zm0-77.8V80c0-44.2-100.3-80-224-80S0 35.8 0 80v48c0 44.2 100.3 80 224 80s224-35.8 224-80m-49.5 261.8C351.6 406.5 289.9 416 224 416s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V432c0 44.2 100.3 80 224 80s224-35.8 224-80v-66.2c-14.8 9.8-31.8 17.7-49.5 24"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6.- Consultas sencillas. Funciones. Joins
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="lime"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V288c0 44.2 100.3 80 224 80s224-35.8 224-80zm0-77.8V80c0-44.2-100.3-80-224-80S0 35.8 0 80v48c0 44.2 100.3 80 224 80s224-35.8 224-80m-49.5 261.8C351.6 406.5 289.9 416 224 416s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V432c0 44.2 100.3 80 224 80s224-35.8 224-80v-66.2c-14.8 9.8-31.8 17.7-49.5 24"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="06sql.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-11h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (11h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algebra-relacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Álgebra Relacional
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Álgebra Relacional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultas-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultas SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proyeccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proyección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proyección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#duplicados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operaciones-aritmeticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones aritméticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funciones-agregadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones agregadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cadenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cadenas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fecha-hora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fecha / Hora
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condicionales-y-nulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Condicionales y Nulos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Otras
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ordenando-y-limitando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ordenando y Limitando
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ordenando y Limitando">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#empates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Empates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rangos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rangos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conjuntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conjuntos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patron-texto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patrón texto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valor-nulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Valor nulo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operadores-logicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operadores lógicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uniendo-tablas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uniendo Tablas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uniendo Tablas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#producto-cartesiano" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producto cartesiano
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion-interna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composición interna
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Composición interna">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#natural-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Natural join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultas-sobre-varias-tablas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas sobre varias tablas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion-reflexiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composición reflexiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion-externa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composición externa
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Composición externa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antijoin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Antijoin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-outer-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Outer Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operadores-de-conjuntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operadores de conjuntos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-11h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (11h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algebra-relacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Álgebra Relacional
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Álgebra Relacional">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultas-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultas SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proyeccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proyección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proyección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#duplicados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicados
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operaciones-aritmeticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones aritméticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funciones-agregadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones agregadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cadenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cadenas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fecha-hora" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fecha / Hora
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condicionales-y-nulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Condicionales y Nulos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Otras
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ordenando-y-limitando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ordenando y Limitando
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ordenando y Limitando">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#empates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Empates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selección
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selección">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rangos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rangos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conjuntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conjuntos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#patron-texto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Patrón texto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valor-nulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Valor nulo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operadores-logicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operadores lógicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uniendo-tablas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uniendo Tablas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uniendo Tablas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#producto-cartesiano" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Producto cartesiano
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion-interna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composición interna
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Composición interna">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#natural-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Natural join
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consultas-sobre-varias-tablas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas sobre varias tablas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion-reflexiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composición reflexiva
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion-externa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Composición externa
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Composición externa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antijoin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Antijoin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-outer-join" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Outer Join
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operadores-de-conjuntos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operadores de conjuntos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:ra3">RA3</a>
+<a href="tags.html#tag:sql">SQL</a>
+<a href="tags.html#tag:sql---dml">SQL - DML</a></p>
+<h1 id="consultas-sencillas">Consultas sencillas</h1>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta UT vamos a comenzar a trabajar el RA3: <strong>Consulta la información almacenada en una base de datos empleando asistentes, herramientas gráficas y el lenguaje de manipulación de datos</strong>.</p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<ul>
+<li><strong>CE3a</strong>: Se han identificado las herramientas y sentencias para realizar consultas.</li>
+<li><strong>CE3b</strong>: Se han realizado consultas simples sobre una tabla.</li>
+<li><strong>CE3c</strong>: Se han realizado consultas sobre el contenido de varias tablas mediante composiciones internas.</li>
+<li><strong>CE3d</strong>: Se han realizado consultas sobre el contenido de varias tablas mediante composiciones externas.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Realización de consultas:</p>
+<ul>
+<li>Proyección, selección y ordenación de registros.</li>
+<li>Operadores. Operadores de comparación. Operadores lógicos.</li>
+<li>Composiciones internas.</li>
+<li>Composiciones externas.</li>
+</ul>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Qué diferencia existe entre una proyección y una selección?</li>
+<li>¿Y entre un producto cartesiano y un <em>join</em>?</li>
+<li>¿Qué es una cláusula?</li>
+<li>A la hora de recuperar los campos en una consulta, ¿cuándo usaremos <code>*</code>?</li>
+<li>¿Qué cláusula utilizaremos para eliminar los elementos duplicados?</li>
+<li>¿Y cómo renombramos el nombre de una columna en el resultado de una consulta?</li>
+<li>¿Qué es la sentencia <code>DISTINCT</code> y cómo se utiliza?</li>
+<li>¿Podemos crear variables en un campo de una consulta para utilizarlas dentro de la misma consulta?</li>
+<li>¿Con qué función podemos obtener el total de elementos de una tabla?</li>
+<li>¿Qué función hay que emplear para calcular la fecha exacta dentro de 3 meses?</li>
+<li>¿Qué función hay que emplear para redondear hacia debajo o hacia arriba?</li>
+<li>¿Cuál es la ordenación por defecto con la sentencia <code>ORDER BY</code> y cómo se cambia?</li>
+<li>¿Qué tipos de combinaciones podemos hacer entre tablas?</li>
+<li>¿Qué diferencia hay entre un <code>inner join</code> y un <code>left join</code>, y cómo afecta al resultado de la consulta?</li>
+<li>¿Podemos combinar una tabla consigo misma?</li>
+<li>¿Para qué se emplean los alias en un <em>join</em>?</li>
+<li>¿Cómo se recuperan registros comunes a dos tablas?</li>
+<li>¿Qué operadores de conjuntos conoces?</li>
+</ol>
+<h3 id="programacion-de-aula-11h">Programación de Aula (11h)</h3>
+<p>Esta unidad es la sexta, siendo la primera del bloque de consultas, impartiéndose al principio de la segunda evaluación, a principios de diciembre, con una duración estimada de 11 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#algebra-relacional">Álgebra relacional</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#consultas-sql">SQL</a></td>
+<td><a href="#AC601">AC601</a></td>
+<td>CE3a, CE3b</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#funciones-agregadas">Funciones agregadas</a> y de <a href="#cadenas">cadenas</a></td>
+<td><a href="#AC602">AC602</a></td>
+<td>CE3b</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#fecha-hora">Funciones de fecha</a> y <a href="#ordenando-y-limitando">ordenando</a></td>
+<td><a href="#AC603">AC603</a></td>
+<td>CE3b</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#seleccion">Filtrando</a></td>
+<td><a href="#AC606">AC606</a></td>
+<td>CE3b</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Interpretando consultas</td>
+<td><a href="#AC607">AC607</a></td>
+<td>CE3b</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#uniendo-tablas">Uniendo tablas</a> con <a href="#composicion-interna">composición interna</a></td>
+<td><a href="#AC610">AC610</a></td>
+<td>CE3c</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#composicion-externa">Composición externa</a></td>
+<td><a href="#AC611">AC611</a></td>
+<td>CE3d</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Supuesto <em>retail</em></td>
+<td><a href="#PR614">PR614</a></td>
+<td>CE3b, CE3c, CE3d</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Resolución del supuesto</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Presentación del reto - consultas</td>
+<td><a href="#PY615">PY615</a></td>
+<td>CE3a, CE3b, CE3c, CE3d</td>
+</tr>
+</tbody>
+</table>
+<h2 id="algebra-relacional">Álgebra Relacional</h2>
+<p>El álgebra relacional es un lenguaje formal utilizado para realizar consultas y operaciones sobre bases de datos relacionales. Fue propuesto por <em>Edgar F. Codd</em> en 1970 como parte de su trabajo en la teoría de bases de datos relacionales. En lugar de ser un lenguaje de programación como SQL, es un conjunto de operaciones matemáticas que permiten manipular conjuntos de datos (relaciones o tablas) de una manera lógica y estructurada.</p>
+<h3 id="operaciones">Operaciones</h3>
+<p>Las operaciones que podemos realizar son:</p>
+<table>
+<thead>
+<tr>
+<th>Operación</th>
+<th>Notación</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Selección</strong></td>
+<td><strong>σ</strong>condición(Relación)</td>
+<td>Selecciona las tuplas que cumplen una condición específica.</td>
+</tr>
+<tr>
+<td><strong>Proyección</strong></td>
+<td><strong>π</strong>atributos(Relación)</td>
+<td>Devuelve una nueva relación con solo las columnas seleccionadas.</td>
+</tr>
+<tr>
+<td><strong>Unión</strong></td>
+<td>Relación1 <strong>∪</strong> Relación2</td>
+<td>Combina las tuplas de dos relaciones con el mismo esquema.</td>
+</tr>
+<tr>
+<td><strong>Intersección</strong></td>
+<td>Relación1 <strong>∩</strong> Relación2</td>
+<td>Devuelve las tuplas que están en ambas relaciones.</td>
+</tr>
+<tr>
+<td><strong>Diferencia</strong></td>
+<td>Relación1 <strong>−</strong> Relación2</td>
+<td>Devuelve las tuplas que están en la primera relación pero no en la segunda.</td>
+</tr>
+<tr>
+<td><strong>Producto cartesiano</strong></td>
+<td>Relación1 <strong>×</strong> Relación2</td>
+<td>Combina cada tupla de la primera relación con cada tupla de la segunda.</td>
+</tr>
+<tr>
+<td><strong>Renombrar</strong></td>
+<td><strong>ρ</strong>nuevoNombre(Relación)</td>
+<td>Cambia el nombre de una relación o de sus atributos.</td>
+</tr>
+<tr>
+<td><strong>Join natural</strong></td>
+<td>Relación1 <strong>⨝</strong> Relación2</td>
+<td>Une dos relaciones en función de un atributo común de forma implícita.</td>
+</tr>
+<tr>
+<td><strong>Join equi</strong></td>
+<td>Relación1 <strong>⨝</strong>condición Relación2</td>
+<td>Une dos relaciones en función de una condición, normalmente una igualdad.</td>
+</tr>
+</tbody>
+</table>
+<p>Supongamos que tenemos el siguiente esquema relacional:</p>
+<p>Y las siguientes tablas con datos:</p>
+<ul>
+<li><code>PRODUCTO</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lavadora</td>
+<td>400</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tostadora</td>
+<td>50</td>
+<td>3</td>
+</tr>
+<tr>
+<td>- <code>CATEGORIA</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Electrónica</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Electrodomésticos</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>PRODUCTO_IMPORTACION</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>Monitor</td>
+<td>300</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Teclado</td>
+<td>20</td>
+<td>2</td>
+</tr>
+<tr>
+<td>- <code>PRODUCTO_LUJO</code> (productos con precio mayor a 500)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Veamos el resultado de realizar algunas operaciones:</p>
+<ul>
+<li>Selección <strong>σ</strong></li>
+</ul>
+<hr />
+<p><code>σprecio &gt; 100(PRODUCTO)</code></p>
+<p>Selecciona los productos con un precio mayor a 100.</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lavadora</td>
+<td>400</td>
+<td>3</td>
+</tr>
+<tr>
+<td>- Proyección <strong>π</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><code>πnombre, precio(PRODUCTO)</code></p>
+<p>Muestra únicamente los nombres y precios de los productos.</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Televisor</td>
+<td>500</td>
+</tr>
+<tr>
+<td>Laptop</td>
+<td>1200</td>
+</tr>
+<tr>
+<td>Smartphone</td>
+<td>800</td>
+</tr>
+<tr>
+<td>Lavadora</td>
+<td>400</td>
+</tr>
+<tr>
+<td>Tostadora</td>
+<td>50</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Unión <strong>∪</strong></li>
+</ul>
+<hr />
+<p><code>PRODUCTO ∪ PRODUCTO_IMPORTACION</code></p>
+<p>Combina dos tablas de productos. Es necesario que ambas tablas compartan el mismo esquema (cantidad de columnas y dominios).</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lavadora</td>
+<td>400</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tostadora</td>
+<td>50</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Monitor</td>
+<td>300</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Teclado</td>
+<td>20</td>
+<td>2</td>
+</tr>
+<tr>
+<td>- Intersección <strong>∩</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><code>PRODUCTO ∩ PRODUCTO_LUJO</code></p>
+<p>Muestra los productos que están tanto en <strong>PRODUCTO</strong> como en <strong>PRODUCTO_LUJO</strong></p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Diferencia <strong>−</strong></li>
+</ul>
+<hr />
+<p><code>PRODUCTO − PRODUCTO_LUJO</code></p>
+<p>Devuelve los productos que están en <strong>PRODUCTO</strong> pero no en <strong>PRODUCTO_LUJO</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lavadora</td>
+<td>400</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tostadora</td>
+<td>50</td>
+<td>3</td>
+</tr>
+<tr>
+<td>- Producto cartesiano <strong>×</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><code>PRODUCTO × CATEGORIA</code></p>
+<p>Combina cada producto con cada categoría (mostramos solo algunas combinaciones por espacio):</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+<th>nombre_categoria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+<td>Electrónica</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>3</td>
+<td>Electrodomésticos</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>1</td>
+<td>Electrónica</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><em>Join natural</em> <em>⨝</em>*</li>
+</ul>
+<hr />
+<p><code>PRODUCTO ⨝ CATEGORIA</code></p>
+<p>Combina las tablas de <strong>PRODUCTO</strong> y <strong>CATEGORIA</strong> basándose en los atributos que tengan comunes, en este caso, <code>categoria_id</code>.</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+<th>nombre_categoria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+<td>Electrónica</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lavadora</td>
+<td>400</td>
+<td>3</td>
+<td>Electrodomésticos</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tostadora</td>
+<td>50</td>
+<td>3</td>
+<td>Electrodomésticos</td>
+</tr>
+<tr>
+<td>- Join equi <strong>⨝expresión</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><code>PRODUCTO ⨝PRODUCTO.categoria_id = CATEGORIA.id CATEGORIA</code></p>
+<p>Une las tablas <strong>PRODUCTO</strong> y <strong>CATEGORIA</strong> basándose en la condición de igualdad entre <code>PRODUCTO.categoria_id</code> y <code>CATEGORIA.id</code>. En este caso, es igual al <em>join natural</em>:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>nombre</th>
+<th>precio</th>
+<th>categoria_id</th>
+<th>nombre_categoria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Televisor</td>
+<td>500</td>
+<td>1</td>
+<td>Electrónica</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Laptop</td>
+<td>1200</td>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smartphone</td>
+<td>800</td>
+<td>2</td>
+<td>Informática</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lavadora</td>
+<td>400</td>
+<td>3</td>
+<td>Electrodomésticos</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Tostadora</td>
+<td>50</td>
+<td>3</td>
+<td>Electrodomésticos</td>
+</tr>
+</tbody>
+</table>
+<p>Una vez vistas las operaciones, lo más normal es combinarlas para extraer información de las tablas. A continuación se muestran algunos ejemplos:</p>
+<ol>
+<li>Seleccionar todos los productos de la tabla PRODUCTO</li>
+</ol>
+<p><code>πid, nombre, precio, categoria_id(PRODUCTO)</code>
+2. Seleccionar los productos cuyo precio sea menor o igual a 500</p>
+<p><code>𝜎precio ≤ 500(PRODUCTO)</code>
+3. Nombre y precio de los productos cuyo precio sea superior a 300.</p>
+<p><code>πnombre, precio(𝜎precio &gt; 300(PRODUCTO))</code>
+4. Nombre de los productos de la categoría <code>Electrodomésticos</code> (primero el <em>join</em> y luego selección)</p>
+<p><code>πnombre(PRODUCTO ⨝PRODUCTO.categoria_id = CATEGORIA.id ∧
+   CATEGORIA.nombre = "Electrodomésticos" CATEGORIA)</code>
+5. Nombre de los productos de la categoría <code>Electrodomésticos</code> (primero la selección y luego el <em>join</em>)</p>
+<p><code>πnombre(PRODUCTO ⨝PRODUCTO.categoria_id = CATEGORIA.id (𝜎nombre = "Electrodomésticos"(CATEGORIA))</code></p>
+<p>Estas operaciones forman la base teórica de cómo las bases de datos relacionales manipulan los datos y son fundamentales para comprender el funcionamiento de lenguajes como SQL.</p>
+<h2 id="consultas-sql">Consultas SQL</h2>
+<p>Preparando los datos</p>
+<p>La base de datos que vamos a utilizar a lo largo de los apuntes gestiona los datos de una empresa, sus departamentos y empleados, así como las habilidades de éstos.</p>
+<p><img alt="" src="images/06bd-empresa.png" title="Modelo físico de la BD Empresa" /></p>
+<p>Modelo físico de la BD Empresa</p>
+<p>MariaDB / MySQLPostgreSQL</p>
+<p>A partir del <a href="resources/06bd-empresa.sql"><em>script</em> DDL</a> puedes importar los datos mediante:</p>
+<pre><code>mariadb -u s8a -p &lt; 06bd-empresa.sql;
+</code></pre>
+<p>A continuación, nos conectamos mediante el cliente que nos sintamos más cómodo. Por ejemplo:</p>
+<pre><code>mariadb -u s8a -p empresa;
+</code></pre>
+<p>Recuerda que, si quieres saber la estructura de una tabla, podemos utilizar la sentencia <code>DESCRIBE</code>/ <code>DESC</code>:</p>
+<pre><code>DESCRIBE empleado;
+-- +----------+---------------+------+-----+---------+----------------+
+-- | Field    | Type          | Null | Key | Default | Extra          |
+-- +----------+---------------+------+-----+---------+----------------+
+-- | CodEmp   | int(10)       | NO   | PRI | NULL    | auto_increment |
+-- | CodDep   | char(5)       | YES  | MUL | NULL    |                |
+-- | ExTelEmp | varchar(9)    | YES  |     | NULL    |                |
+-- | FecInEmp | date          | YES  |     | NULL    |                |
+-- | FecNaEmp | date          | YES  |     | NULL    |                |
+-- | NifEmp   | varchar(9)    | YES  |     | NULL    |                |
+-- | NomEmp   | varchar(40)   | YES  |     | NULL    |                |
+-- | NumHi    | int(1)        | YES  |     | NULL    |                |
+-- | SalEmp   | decimal(12,2) | YES  |     | NULL    |                |
+-- +----------+---------------+------+-----+---------+----------------+
+-- 9 rows in set (0.000 sec)
+</code></pre>
+<p>A partir del <a href="resources/06bd-empresa-psql.sql"><em>script</em> DDL</a> puedes importar los datos mediante:</p>
+<pre><code>psql -U s8a -d postgres -f 06bd-empresa-psql.sql
+</code></pre>
+<p>A continuación, nos conectamos mediante el cliente que nos sintamos más cómodo. Por ejemplo:</p>
+<pre><code>psql -U s8a empresa;
+</code></pre>
+<p>Recuerda que, si quieres saber la estructura de una tabla, podemos utilizar el metacomando <code>\d</code>:</p>
+<pre><code>\d empleado;
+--                                        Table &quot;public.empleado&quot;
+--   Column  |         Type          | Collation | Nullable |                  Default
+-- ----------+-----------------------+-----------+----------+--------------------------------------------
+--  CodEmp   | integer               |           | not null | nextval('&quot;empleado_CodEmp_seq&quot;'::regclass)
+--  CodDep   | character(5)          |           |          |
+--  ExTelEmp | character varying(9)  |           |          |
+--  FecInEmp | date                  |           |          |
+--  FecNaEmp | date                  |           |          |
+--  NifEmp   | character varying(9)  |           |          |
+--  NomEmp   | character varying(40) |           |          |
+--  NumHi    | integer               |           |          |
+--  SalEmp   | numeric(12,2)         |           |          |
+-- Indexes:
+--     &quot;empleado_pkey&quot; PRIMARY KEY, btree (&quot;CodEmp&quot;)
+-- Check constraints:
+--     &quot;empleado_NumHi_check&quot; CHECK (&quot;NumHi&quot; &gt;= 0 AND &quot;NumHi&quot; &lt;= 9)
+-- Foreign-key constraints:
+--     &quot;fk_emp_dep&quot; FOREIGN KEY (&quot;CodDep&quot;) REFERENCES departamento(&quot;CodDep&quot;) ON UPDATE CASCADE
+-- Referenced by:
+--     TABLE &quot;centro&quot; CONSTRAINT &quot;fk_cen_emp&quot; FOREIGN KEY (&quot;CodEmpDir&quot;) REFERENCES empleado(&quot;CodEmp&quot;) ON UPDATE CASCADE
+--     TABLE &quot;departamento&quot; CONSTRAINT &quot;fk_dep_emp&quot; FOREIGN KEY (&quot;CodEmpDir&quot;) REFERENCES empleado(&quot;CodEmp&quot;) ON UPDATE CASCADE
+--     TABLE &quot;habemp&quot; CONSTRAINT &quot;fk_habemp_emp&quot; FOREIGN KEY (&quot;CodEmp&quot;) REFERENCES empleado(&quot;CodEmp&quot;) ON UPDATE CASCADE
+--     TABLE &quot;hijo&quot; CONSTRAINT &quot;fk_hij_emp&quot; FOREIGN KEY (&quot;CodEmp&quot;) REFERENCES empleado(&quot;CodEmp&quot;) ON UPDATE CASCADE ON DELETE CASCADE
+</code></pre>
+<p>En la sesión anterior estudiamos tanto la parte DDL como DML del lenguaje SQL. En esta sesión y las siguientes nos vamos a centrar en las consultas, que formarían parte de DML, y más en concreto de DQL (<em>Data Query Language</em>). Para ello, utilizaremos la sentencia <code>SELECT</code> definiendo consultas que pueden ocupar una línea o varias decenas, que acceden a una única tabla (o vista), o a múltiples tablas combinadas mediante el uso de <em>joins</em>, e incluso que utiliza diversos esquemas dentro de la misma base de datos.</p>
+<p>Así pues, entremos en detalle en la sentencia <strong><code>SELECT ... FROM</code></strong>. Su sintaxis completa, con las opciones más frecuentes, tanto para <a href="https://mariadb.com/kb/en/select/">MariaDB</a> como para <em>PostgreSQL</em> es:</p>
+<pre><code>SELECT {* | [DISTINCT] {columna | expresión} [[AS] alias], ... }
+FROM tabla
+    [WHERE condición]
+    [GROUP BY col1 [, col2] ...]
+    [HAVING predicado grupo]
+    [ORDER BY col-n| pos-n [ASC|DESC] , col-m| pos-m [ASC|DES]…]
+    [LIMIT {[offset,] row_count | row_count OFFSET offset}];
+</code></pre>
+<p>En todo consulta siempre deberemos indicar qué datos queremos recuperar y de dónde lo haremos. Tras ejecutar una consulta obtendremos una tabla de datos, que puede tener una o varias columnas y ninguna, una o varias filas.</p>
+<p>Formato</p>
+<p>A la hora de escribir una consulta, podemos dividirla en varias líneas para facilitar su legibilidad. Recuerda que hasta que no encuentre el carácter de <code>;</code>, el intérprete SQL no ejecutará la consulta.</p>
+<p>Además, podemos utilizar espacios o tabuladores para indentar el código:</p>
+<pre><code>-- Todo en una línea
+select nombre, apellidos, fnac from cliente order by salario desc;
+
+-- En líneas separadas
+select nombre, apellidos, fnac
+from cliente
+order by salario desc;
+
+-- En líneas separadas, con atributos en diversas líneas
+select nombre,
+    apellidos,
+    fnac
+from cliente
+order by salario desc;
+</code></pre>
+<h3 id="proyeccion">Proyección</h3>
+<p>Para seleccionar campos utilizaremos bien <strong><code>*</code></strong> para indicar que queremos todas las columnas, o indicaremos de uno en uno el nombre de los campos que queremos recuperar;</p>
+<p>MariaDB / MySQLPostgreSQL</p>
+<pre><code>select * from centro;
+-- +--------+-----------+--------------------+-----------------------------+-----------+
+-- | CodCen | CodEmpDir | NomCen             | DirCen                      | PobCen    |
+-- +--------+-----------+--------------------+-----------------------------+-----------+
+-- | DIGE   |         1 | Dirección General  | Av. Constitución 88         | Murcia    |
+-- | FAZS   |         6 | Fábrica Zona Sur   | Pol. Ind. Gral. Bastarreche | Cartagena |
+-- | OFZS   |         5 | Oficinas Zona Sur  | Pl. España 14               | Cartagena |
+-- +--------+-----------+--------------------+-----------------------------+-----------+
+-- 3 rows in set (0.000 sec)
+
+select CodCen, PobCen from centro;
+-- +--------+-----------+
+-- | CodCen | PobCen    |
+-- +--------+-----------+
+-- | DIGE   | Murcia    |
+-- | FAZS   | Cartagena |
+-- | OFZS   | Cartagena |
+-- +--------+-----------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>En el caso de <em>PostgreSQL</em>, como hemos creado las columnas con notación <em>CamelCase</em>, hemos de indicar los campos entre comillas dobles. Por defecto, <em>PostgreSQL</em> espera que todos los nombres de las columnas estén en minúsculas.</p>
+<pre><code>select * from centro;
+--  CodCen | CodEmpDir |      NomCen       |           DirCen            |  PobCen
+-- --------+-----------+-------------------+-----------------------------+-----------
+--  DIGE   |         1 | Dirección General | Av. Constitución 88         | Murcia
+--  FAZS   |         6 | Fábrica Zona Sur  | Pol. Ind. Gral. Bastarreche | Cartagena
+--  OFZS   |         5 | Oficinas Zona Sur | Pl. España 14               | Cartagena
+-- (3 rows)
+
+select &quot;CodCen&quot;, &quot;PobCen&quot; from centro;
+--  CodCen |  PobCen
+-- --------+-----------
+--  DIGE   | Murcia
+--  FAZS   | Cartagena
+--  OFZS   | Cartagena
+-- (3 rows)
+</code></pre>
+<p>Para renombrar las columnas obtenidas, tras cada columna, mediante <strong><code>as</code></strong> podemos indicarle un alias a cada una de ellas:</p>
+<pre><code>select CodCen as codigo, PobCen as poblacion from centro;
+-- +--------+-----------+
+-- | codigo | poblacion |
+-- +--------+-----------+
+-- | DIGE   | Murcia    |
+-- | FAZS   | Cartagena |
+-- | OFZS   | Cartagena |
+-- +--------+-----------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<h4 id="duplicados">Duplicados</h4>
+<p>Si realizamos la siguiente consulta sobre la tabla <code>empleado</code>, obtendremos todos los códigos de departamento de los empleados. Como podéis observar, aparecen repetidos, porque obtenemos una fila por empleado existente en la tabla:</p>
+<pre><code>select CodDep from empleado;
+-- +--------+
+-- | CodDep |
+-- +--------+
+-- | ADMZS  |
+-- | DIRGE  |
+-- | IN&amp;DI  |
+-- | JEFZS  |
+-- | PROZS  |
+-- | PROZS  |
+-- | PROZS  |
+-- | PROZS  |
+-- | VENZS  |
+-- | VENZS  |
+-- +--------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<p>Si nos interesa recuperar datos que no contengan repetidos, podemos emplear <strong><code>distinct</code></strong>:</p>
+<pre><code>select distinct CodDep from empleado;
+-- +--------+
+-- | CodDep |
+-- +--------+
+-- | ADMZS  |
+-- | DIRGE  |
+-- | IN&amp;DI  |
+-- | JEFZS  |
+-- | PROZS  |
+-- | VENZS  |
+-- +--------+
+-- 6 rows in set (0.000 sec)
+</code></pre>
+<h4 id="operaciones-aritmeticas">Operaciones aritméticas</h4>
+<p>Cada vez que hacemos referencia a un campo o un valor, también podemos realizar operaciones aritméticas sobre el valor de los campos (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, ...)</p>
+<p>Por ejemplo, mediante la siguiente consulta podemos obtener de cada empleado, su nombre y salario, y su salario incrementado un 16%:</p>
+<pre><code>select NomEmp, SalEmp, SalEmp*1.16 from empleado;
+-- +-----------------------------+------------+--------------+
+-- | NomEmp                      | SalEmp     | SalEmp*1.16  |
+-- +-----------------------------+------------+--------------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 | 8352000.0000 |
+-- | Manrique Bacterio, Luisa    | 4500000.00 | 5220000.0000 |
+-- | Monforte Cid, Roldán        | 5200000.00 | 6032000.0000 |
+-- | Topaz Illán, Carlos         | 3200000.00 | 3712000.0000 |
+-- | Alada Veraz, Juana          | 6200000.00 | 7192000.0000 |
+-- | Gozque Altanero, Cándido    | 5000000.00 | 5800000.0000 |
+-- | Forzado López, Galeote      | 1600000.00 | 1856000.0000 |
+-- | Mascullas Alto, Eloísa      | 1600000.00 | 1856000.0000 |
+-- | Mando Correa, Rosa          | 3100000.00 | 3596000.0000 |
+-- | Mosc Amuerta, Mario         | 1300000.00 | 1508000.0000 |
+-- +-----------------------------+------------+--------------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<p>En <em>MariaDB</em> / <em>MySQL</em> podemos hacer cálculos sobre cálculos de otras columnas previas, utilizando asignaciones. Para ello, asignamos el resultado de una expresión a una variable a la que anteponemos el símbolo <code>@</code>. De esta forma, podemos usar dicha variable a lo largo de nuestra consulta:</p>
+<pre><code>select NomEmp, SalEmp,
+       @SalImp:=SalEmp*1.16,
+       @SalImp*1.05 as bonus
+from empleado;
+-- +-----------------------------+------------+----------------------+---------+
+-- | NomEmp                      | SalEmp     | @SalImp:=SalEmp*1.16 | bonus   |
+-- +-----------------------------+------------+----------------------+---------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 |              8352000 | 8769600 |
+-- | Manrique Bacterio, Luisa    | 4500000.00 |              5220000 | 5481000 |
+-- | Monforte Cid, Roldán        | 5200000.00 |              6032000 | 6333600 |
+-- | Topaz Illán, Carlos         | 3200000.00 |              3712000 | 3897600 |
+-- | Alada Veraz, Juana          | 6200000.00 |              7192000 | 7551600 |
+-- | Gozque Altanero, Cándido    | 5000000.00 |              5800000 | 6090000 |
+-- | Forzado López, Galeote      | 1600000.00 |              1856000 | 1948800 |
+-- | Mascullas Alto, Eloísa      | 1600000.00 |              1856000 | 1948800 |
+-- | Mando Correa, Rosa          | 3100000.00 |              3596000 | 3775800 |
+-- | Mosc Amuerta, Mario         | 1300000.00 |              1508000 | 1583400 |
+-- +-----------------------------+------------+----------------------+---------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<p>En cambio, en <em>PostgreSQL</em> no es posible utilizar variables de esta forma, pero sí podemos repetir la expresión tantas veces como necesitemos:</p>
+<pre><code>select &quot;NomEmp&quot;, &quot;SalEmp&quot;,
+       &quot;SalEmp&quot;*1.16 as &quot;SalImp&quot;,
+       (&quot;SalEmp&quot;*1.16)*1.05 as bonus
+from empleado;
+--            NomEmp           |   SalEmp   |    SalImp    |     bonus
+-- ----------------------------+------------+--------------+----------------
+--  Saladino Mandamás, Augusto | 7200000.00 | 8352000.0000 | 8769600.000000
+--  Manrique Bacterio, Luisa   | 4500000.00 | 5220000.0000 | 5481000.000000
+--  Monforte Cid, Roldán       | 5200000.00 | 6032000.0000 | 6333600.000000
+--  Topaz Illán, Carlos        | 3200000.00 | 3712000.0000 | 3897600.000000
+--  Alada Veraz, Juana         | 6200000.00 | 7192000.0000 | 7551600.000000
+--  Gozque Altanero, Cándido   | 5000000.00 | 5800000.0000 | 6090000.000000
+--  Forzado López, Galeote     | 1600000.00 | 1856000.0000 | 1948800.000000
+--  Mascullas Alto, Eloísa     | 1600000.00 | 1856000.0000 | 1948800.000000
+--  Mando Correa, Rosa         | 3100000.00 | 3596000.0000 | 3775800.000000
+--  Mosc Amuerta, Mario        | 1300000.00 | 1508000.0000 | 1583400.000000
+-- (10 rows)
+</code></pre>
+<p>El operador CASE</p>
+<p>El operador <a href="https://mariadb.com/kb/en/case-operator/">CASE</a> permite agregar a la proyección la estructura lógica condicional de <code>if/else</code>. Su sintaxis es la siguiente:</p>
+<pre><code>CASE campo WHEN [valor1] THEN resultado [WHEN [valor2] THEN resultado ...] [ELSE resultado] END
+CASE WHEN [condición] THEN resultado [WHEN [condición] THEN resultado ...] [ELSE resultado] END
+</code></pre>
+<p>Por ejemplo, a la hora de mostrar los empleados, si queremos que cuando el número de teléfono sea nulo muestre <code>0000</code> haríamos:</p>
+<pre><code>select CodEmp, CASE WHEN ExTelEmp is null THEN &quot;0000&quot; ELSE ExTelEmp END as NuevaExt 
+from empleado;
+-- +--------+----------+
+-- | CodEmp | NuevaExt |
+-- +--------+----------+
+-- |      1 | 1111     |
+-- |      2 | 2233     |
+-- |      3 | 2133     |
+-- |      4 | 3838     |
+-- |      5 | 1239     |
+-- |      6 | 23838    |
+-- |      7 | 0000     |
+-- |      8 | 0000     |
+-- |      9 | 12124    |
+-- |     10 | 0000     |
+-- +--------+----------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<p>Veamos otro ejemplo. En el caso de los departamentos, la columna <code>TiDir</code> indica el tipo de director, con los valores <code>P</code> para indicar en propiedad y <code>F</code> para detallar que es un director en funciones. Si quisiéramos mostrar la frase <code>Definitivo</code> o <code>Interino</code> para estos casos haríamos:</p>
+<pre><code>select CodDep, TiDir,
+       CASE TiDir WHEN &quot;P&quot; THEN &quot;Definitivo&quot; WHEN &quot;F&quot; THEN &quot;Interino&quot; END as TipoDirector
+from departamento;
+-- +--------+-------+--------------+
+-- | CodDep | TiDir | TipoDirector |
+-- +--------+-------+--------------+
+-- | ADMZS  | P     | Definitivo   |
+-- | DIRGE  | P     | Definitivo   |
+-- | IN&amp;DI  | P     | Definitivo   |
+-- | JEFZS  | F     | Interino     |
+-- | PROZS  | P     | Definitivo   |
+-- | VENZS  | F     | Interino     |
+-- +--------+-------+--------------+
+-- 6 rows in set (0.000 sec)
+</code></pre>
+<h3 id="funciones">Funciones</h3>
+<p>A la hora de recuperar o filtrar datos, es muy común utilizar <a href="https://mariadb.com/kb/en/built-in-functions/">funciones</a> que facilitan el trabajo con cadenas, cálculos numéricos, etc.. Como ya has estudiado en el módulo profesional de <em>Programación</em>, las funciones reciben uno o más datos de entrada, también conocidos como parámetros (aunque existen algunas funciones que no reciben ninguno), y devuelven un resultado en base a los datos de entrada.</p>
+<p>Cabe destacar que las funciones no están completamente estandarizadas entre los diferentes SGBD, así pues, conviene revisar la sintaxis exacta en el caso de migrar de un sistema a otro.</p>
+<h4 id="funciones-agregadas">Funciones agregadas</h4>
+<p>Se emplean para realizar cálculos sobre el total de elementos de la consulta (o agrupación). Tras el <code>SELECT</code> indicaremos la función (o funciones) a realizar sobre el total de elementos devueltos por la consulta.</p>
+<p>Vamos a comenzar contando la cantidad de filas mediante la función <a href="https://mariadb.com/kb/en/count/"><code>COUNT(expr)</code></a> pasándole como expresión <code>*</code>, lo cual indica que utilice todas las columnas, independientemente de su valor:</p>
+<pre><code>-- Cantidad de empleados
+select COUNT(*) from empleado;
+-- +----------+
+-- | COUNT(*) |
+-- +----------+
+-- |       10 |
+-- +----------+
+-- 1 row in set (0.000 sec)
+
+-- Cantidad de registros en la relación N:M entre empleado y habilidad
+select COUNT(*) from habemp;
+-- +----------+
+-- | COUNT(*) |
+-- +----------+
+-- |        6 |
+-- +----------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Si queremos recuperar cuantos elementos diferentes tenemos de un campo, en la expresión usaremos <code>DISTINCT</code>:</p>
+<pre><code>-- Cantidad de empleados que tienen habilidades
+select COUNT(DISTINCT codemp) from habemp;
+-- +------------------------+
+-- | COUNT(DISTINCT codemp) |
+-- +------------------------+
+-- |                      4 |
+-- +------------------------+
+-- 1 row in set (0.002 sec)
+</code></pre>
+<p>Otras funciones de agregación que podemos emplear son:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/sum/"><code>SUM(expr)</code></a>: Suma todos los valores de una expresión/columna</li>
+<li><a href="https://mariadb.com/kb/en/min/"><code>MIN(expr)</code></a> / <a href="https://mariadb.com/kb/en/max/"><code>MAX(expr)</code></a>: Mínimo o máximo de una expresión/columna</li>
+<li><a href="https://mariadb.com/kb/en/avg/"><code>AVG(expr)</code></a>: Valor medio de una expresión/columna</li>
+</ul>
+<pre><code>-- Total de hijos de los empleados
+select SUM(NumHi) from empleado;
+-- +------------+
+-- | SUM(NumHi) |
+-- +------------+
+-- |          7 |
+-- +------------+
+-- 1 row in set (0.000 sec)
+
+-- Salario más alto
+select MAX(SalEmp) from empleado;
+-- +-------------+
+-- | MAX(SalEmp) |
+-- +-------------+
+-- |  7200000.00 |
+-- +-------------+
+-- 1 row in set (0.001 sec)
+
+-- Salario medio
+select AVG(SalEmp) from empleado;
+-- +----------------+
+-- | AVG(SalEmp)    |
+-- +----------------+
+-- | 3890000.000000 |
+-- +----------------+
+-- 1 row in set (0.000 sec)
+
+-- Salario máximo y medio de empleados
+select MAX(SalEmp), AVG(SalEmp) from empleado;
+-- +-------------+----------------+
+-- | MAX(SalEmp) | AVG(SalEmp)    |
+-- +-------------+----------------+
+-- |  7200000.00 | 3890000.000000 |
+-- +-------------+----------------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>En la próxima unidad estudiaremos como podemos <a href="07sql-group.html#agregaciones">agregar datos</a> por algunas columnas y realizar cálculos sobre ellas, lo que nos permitirá obtener información del tipo <em>"Cantidad de empleados de cada departamento"</em>, <em>"Salario medio por centro de los empleados"</em>, etc...</p>
+<h4 id="cadenas">Cadenas</h4>
+<p>Mediante <a href="https://mariadb.com/kb/en/string-functions/">funciones de cadenas de texto</a> podemos realizar múltiples operaciones:</p>
+<table>
+<thead>
+<tr>
+<th>Función MariaDB</th>
+<th>Función PostgreSQL</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://mariadb.com/kb/en/concat/"><code>CONCAT(cadena1, cadena2, …)</code></a></td>
+<td><a href="https://www.postgresql.org/docs/current/functions-string.md#FUNCTIONS-STRING-SQL"><code>CONCAT(cadena1, cadena2, …)</code></a> o <a href="https://www.postgresql.org/docs/current/functions-string.md#FUNCTIONS-STRING-SQL"><code>cadena1 || cadena2</code></a></td>
+<td>Permite unir/concatenar cadenas</td>
+</tr>
+<tr>
+<td><a href="https://mariadb.com/kb/en/lower/"><code>LOWER(cadena)</code> / <code>LCASE(cadena)</code></a></td>
+<td><a href="https://www.postgresql.org/docs/current/functions-string.md#FUNCTIONS-STRING-SQL"><code>LOWER(cadena)</code></a></td>
+<td>Transforma <code>cadena</code> a minúsculas</td>
+</tr>
+<tr>
+<td><a href="https://mariadb.com/kb/en/upper/"><code>UPPER(cadena)</code> / <code>UCASE(cadena)</code></a></td>
+<td><a href="https://www.postgresql.org/docs/current/functions-string.md#FUNCTIONS-STRING-SQL"><code>UPPER(cadena)</code></a></td>
+<td>Transforma <code>cadena</code> en MAYÚSCULAS</td>
+</tr>
+<tr>
+<td><a href="https://mariadb.com/kb/en/left/"><code>LEFT(cadena, longitud)</code></a> / <a href="https://mariadb.com/kb/en/right/"><code>RIGHT</code></a></td>
+<td><a href="https://www.postgresql.org/docs/current/functions-string.md#FUNCTIONS-STRING-SQL"><code>LEFT(cadena, longitud)</code> / <code>RIGHT(cadena, longitud)</code></a></td>
+<td>Devuelve los <code>longitud</code> caracteres de más a la izquierda/derecha de la <code>cadena</code></td>
+</tr>
+<tr>
+<td><a href="https://mariadb.com/kb/en/trim/"><code>TRIM(cadena)</code></a> / <a href="https://mariadb.com/kb/en/ltrim/"><code>LTRIM</code></a> / <a href="https://mariadb.com/kb/en/rtrim/"><code>RTRIM</code></a></td>
+<td><a href="https://www.postgresql.org/docs/current/functions-string.md#FUNCTIONS-STRING-SQL"><code>TRIM(cadena) / LTRIM(cadena) / RTRIM(cadena)</code></a></td>
+<td>Elimina los espacios en blanco por delante y por detrás, o solamente los de delante/izquierda (<em>L</em>) o los de detrás/derecha (<em>R</em>)</td>
+</tr>
+</tbody>
+</table>
+<p>Algunos ejemplos de su uso:</p>
+<pre><code>select CONCAT(CodEmp,'_', CodDep) as concatenacion from empleado;
+-- select CodEmp || '_' || CodDep as concatenacion from empleado;  -- PostgreSQL
+-- +---------------+
+-- | concatenacion |
+-- +---------------+
+-- | 5_ADMZS       |
+-- | 1_DIRGE       |
+-- | 2_IN&amp;DI       |
+-- | 6_JEFZS       |
+-- | 7_PROZS       |
+-- | 8_PROZS       |
+-- | 9_PROZS       |
+-- | 10_PROZS      |
+-- | 3_VENZS       |
+-- | 4_VENZS       |
+-- +---------------+
+-- 10 rows in set (0.000 sec)
+
+select UPPER(NomEmp), LEFT(NomEmp, 2), LEFT(RIGHT(NomEmp, 2),1) from empleado;
+-- +-----------------------------+-----------------+--------------------------+
+-- | UPPER(NomEmp)               | LEFT(NomEmp, 2) | LEFT(RIGHT(NomEmp, 2),1) |
+-- +-----------------------------+-----------------+--------------------------+
+-- | SALADINO MANDAMÁS, AUGUSTO  | Sa              | t                        |
+-- | MANRIQUE BACTERIO, LUISA    | Ma              | s                        |
+-- | MONFORTE CID, ROLDÁN        | Mo              | á                        |
+-- | TOPAZ ILLÁN, CARLOS         | To              | o                        |
+-- | ALADA VERAZ, JUANA          | Al              | n                        |
+-- | GOZQUE ALTANERO, CÁNDIDO    | Go              | d                        |
+-- | FORZADO LÓPEZ, GALEOTE      | Fo              | t                        |
+-- | MASCULLAS ALTO, ELOÍSA      | Ma              | s                        |
+-- | MANDO CORREA, ROSA          | Ma              | s                        |
+-- | MOSC AMUERTA, MARIO         | Mo              | i                        |
+-- +-----------------------------+-----------------+--------------------------+
+-- 10 rows in set (0.002 sec)
+</code></pre>
+<p>Otras funciones que podemos utilizar son <a href="https://mariadb.com/docs/server/reference/sql-functions/string-functions/char_length"><code>CHAR_LENGTH(cadena)</code></a> para obtener el tamaño, <a href="https://mariadb.com/docs/server/reference/sql-functions/string-functions/locate"><code>LOCATE(subcadena, cadena)</code></a> para encontrar una subcadena en una cadena, <a href="https://mariadb.com/docs/server/reference/sql-functions/string-functions/replace-function"><code>REPLACE(cadena, cadenaOrigen, cadenaDestino)</code></a> para sustituir una subcadena por otra o <a href="https://mariadb.com/docs/server/reference/sql-functions/string-functions/reverse"><code>REVERSE(cadena)</code></a> para invertir una cadena.</p>
+<h4 id="fecha-hora">Fecha / Hora</h4>
+<p>Si trabajamos con campos de tipo fecha, podemos emplear las siguientes funciones en <a href="https://mariadb.com/kb/en/date-time-functions/">MariaDB</a> o <a href="https://www.postgresql.org/docs/current/functions-datetime.md">PostgreSQL</a>:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/now/"><code>NOW()</code> / <code>CURRENT_TIMESTAMP</code></a>: fecha y hora actual del sistema.</li>
+<li><a href="https://mariadb.com/kb/en/curdate/"><code>CURDATE()</code> / <code>CURRENT_DATE</code></a>: fecha actual en formato <code>yyyy-mm-dd</code> o <code>yyyymmdd</code>.</li>
+<li><a href="https://mariadb.com/kb/en/datediff/"><code>DATEDIFF(fecha1, fecha2)</code></a> en <em>MariaDB</em>, o <code>AGE(fecha1, fecha2)</code> en <em>PostgreSQL</em>: diferencia de días entre dos fechas. También se puede restar fechas directamente (<code>fecha1 - fecha2</code>) siempre y cuando ambos campos sean de tipo <code>DATE</code>.</li>
+<li><a href="https://mariadb.com/kb/en/timestampdiff/"><code>TIMESTAMPDIFF(unidad, fecha1, fecha2)</code></a> en <em>MariaDB</em>, o <a href="https://www.postgresql.org/docs/current/functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT"><code>EXTRACT(unidad FROM AGE(fecha1, fecha2))</code></a> en <em>PostgreSQL</em>: diferencia medida en <code>unidad</code> entre dos fechas.</li>
+<li><a href="https://mariadb.com/kb/en/date_add/"><code>DATE_ADD(fecha, INTERVAL expresión Tipo)</code></a> / <a href="https://mariadb.com/kb/en/date_sub/"><code>DATE_SUB</code></a>, pudiendo utilizar los siguientes <a href="https://mariadb.com/kb/en/date-and-time-units/">tipos</a> en <em>MariaDB</em>, o directamente en <em>PostgreSQL</em> sobre un campo fecha, le podemos sumar o restar un <code>INTERVAL</code>.</li>
+</ul>
+<pre><code>-- fecha y hora actual (en el momento de crear los apuntes)
+select NOW(), CURRENT_TIMESTAMP, CURDATE(), CURRENT_DATE;
+-- +---------------------+---------------------+------------+
+-- | NOW()               | CURRENT_TIMESTAMP   | CURDATE()  |
+-- +---------------------+---------------------+------------+
+-- | 2024-11-17 17:39:51 | 2024-11-17 17:39:51 | 2024-11-17 |
+-- +---------------------+---------------------+------------+
+-- 1 row in set (0.000 sec)
+
+-- días que faltan hasta navidad
+select DATEDIFF(NOW(), '2024-12-25');
+-- +-------------------------------+
+-- | DATEDIFF(NOW(), '2024-12-25') |
+-- +-------------------------------+
+-- |                           -38 |
+-- +-------------------------------+
+-- 1 row in set (0.000 sec)
+
+select DATEDIFF('2026-01-12', '2026-01-01');
+-- SELECT DATE '2026-01-12' - DATE '2026-01-01';
+-- SELECT AGE(DATE '2026-01-12', DATE '2026-01-01');  -- PostgreSQL
+-- +--------------------------------------+
+-- | DATEDIFF('2026-01-12', '2026-01-01') |
+-- +--------------------------------------+
+-- |                                   11 |
+-- +--------------------------------------+
+-- 1 row in set (0.000 sec)
+
+-- fecha de hoy y dentro de 3 meses
+select NOW(), DATE_ADD(NOW(), INTERVAL +3 MONTH)
+-- select NOW(), NOW() + INTERVAL '3 months' -- PostgreSQL
+-- +---------------------+------------------------------------+
+-- | NOW()               | DATE_ADD(NOW(), INTERVAL +3 MONTH) |
+-- +---------------------+------------------------------------+
+-- | 2024-11-17 17:35:08 | 2025-02-17 17:35:08                |
+-- +---------------------+------------------------------------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Por otro lado, además de operaciones sobre campos fecha, también podemos realizar transformaciones sobre fecha para obtener una parte o información relativa a la misma en <em>MariaDB</em>:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/year/"><code>YEAR(fecha)</code></a>: año en formato <code>aaaa</code></li>
+<li><a href="https://mariadb.com/kb/en/month/"><code>MONTH(fecha)</code></a>: mes en formato <code>mm</code></li>
+<li>Otras funciones útiles son <code>SECOND</code>, <code>MINUTE</code>, <code>HOUR</code>, <code>DAY</code>, <code>WEEK</code>, <code>DAYOFWEEK</code> …</li>
+</ul>
+<p>O en <em>PostgreSQL</em>, directamente mediante <a href="https://www.postgresql.org/docs/current/functions-datetime.md#FUNCTIONS-DATETIME-EXTRACT"><code>EXTRACT unidad from CAMPO</code></a> o <code>DATE_PART('unidad', CAMPO)</code>:</p>
+<pre><code>select CodEmp, FecInEmp, YEAR(FecInEmp) as anyoInc, MONTH(FecInEmp) as mesInc,
+       DAYOFWEEK(FecInEmp) as diaSemana from empleado;
+-- select &quot;CodEmp&quot;, &quot;FecInEmp&quot;, EXTRACT(YEAR FROM &quot;FecInEmp&quot;) as anyoInc, EXTRACT(MONTH FROM &quot;FecInEmp&quot;) as mesInc,
+--        EXTRACT(DOW FROM &quot;FecInEmp&quot;)+1 as diaSemana from empleado; -- PostgreSQL
+-- +--------+------------+---------+--------+-----------+
+-- | CodEmp | FecInEmp   | anyoInc | mesInc | diaSemana |
+-- +--------+------------+---------+--------+-----------+
+-- |      1 | 1972-07-01 |    1972 |      7 |         7 |
+-- |      2 | 1991-06-14 |    1991 |      6 |         6 |
+-- |      3 | 1984-06-08 |    1984 |      6 |         6 |
+-- |      4 | 1990-08-09 |    1990 |      8 |         5 |
+-- |      5 | 1976-08-07 |    1976 |      8 |         7 |
+-- |      6 | 1991-08-01 |    1991 |      8 |         5 |
+-- |      7 | 1994-06-30 |    1994 |      6 |         5 |
+-- |      8 | 1994-08-15 |    1994 |      8 |         2 |
+-- |      9 | 1982-06-10 |    1982 |      6 |         5 |
+-- |     10 | 1993-11-02 |    1993 |     11 |         3 |
+-- +--------+------------+---------+--------+-----------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<p>Por último, para formatear un campo de tipo fecha y mostrarla conforme necesitemos, dependiendo del SGBD utilizaremos:</p>
+<ul>
+<li><em>MariaDB</em>: podemos hacer uso de <a href="https://mariadb.com/kb/en/date_format/"><code>DATE_FORMAT(fecha, formato)</code></a> para obtener información similar a la anterior (le podemos pasar un tercer parámetro con el <em>locale</em> para configurar el idioma de salida y sobrescribir el del sistema):</li>
+</ul>
+<p><code>select CodEmp, FecInEmp,
+      DATE_FORMAT(FecInEmp, "%Y %y") as anyoInc,
+      DATE_FORMAT(FecInEmp, "%M %m") as mesInc,
+      DATE_FORMAT(FecInEmp, "%w")+1 as diaSemana
+  from empleado;
+  -- +--------+------------+---------+-------------+-----------+
+  -- | CodEmp | FecInEmp   | anyoInc | mesInc      | diaSemana |
+  -- +--------+------------+---------+-------------+-----------+
+  -- |      1 | 1972-07-01 | 1972 72 | July 07     |         7 |
+  -- |      2 | 1991-06-14 | 1991 91 | June 06     |         6 |
+  -- |      3 | 1984-06-08 | 1984 84 | June 06     |         6 |
+  -- |      4 | 1990-08-09 | 1990 90 | August 08   |         5 |
+  -- |      5 | 1976-08-07 | 1976 76 | August 08   |         7 |
+  -- |      6 | 1991-08-01 | 1991 91 | August 08   |         5 |
+  -- |      7 | 1994-06-30 | 1994 94 | June 06     |         5 |
+  -- |      8 | 1994-08-15 | 1994 94 | August 08   |         2 |
+  -- |      9 | 1982-06-10 | 1982 82 | June 06     |         5 |
+  -- |     10 | 1993-11-02 | 1993 93 | November 11 |         3 |
+  -- +--------+------------+---------+-------------+-----------+
+  -- 10 rows in set (0.001 sec)</code>
+- <em>PostgreSQL</em>: usaremos <a href="https://www.postgresql.org/docs/current/functions-formatting.md"><code>TO_CHAR()</code></a></p>
+<p><code>select "CodEmp", "FecInEmp",
+      TO_CHAR("FecInEmp", 'YYYY YY') as anyoInc,
+      TO_CHAR("FecInEmp", 'Month MM') as mesInc,
+      EXTRACT(DOW FROM "FecInEmp") + 1 as diaSemana
+  from empleado;
+  --  CodEmp |  FecInEmp  | anyoinc |    mesinc    | diasemana 
+  -- --------+------------+---------+--------------+-----------
+  --       1 | 1972-07-01 | 1972 72 | July      07 |         7
+  --       2 | 1991-06-14 | 1991 91 | June      06 |         6
+  --       3 | 1984-06-08 | 1984 84 | June      06 |         6
+  --       4 | 1990-08-09 | 1990 90 | August    08 |         5
+  --       5 | 1976-08-07 | 1976 76 | August    08 |         7
+  --       6 | 1991-08-01 | 1991 91 | August    08 |         5
+  --       7 | 1994-06-30 | 1994 94 | June      06 |         5
+  --       8 | 1994-08-15 | 1994 94 | August    08 |         2
+  --       9 | 1982-06-10 | 1982 82 | June      06 |         5
+  --      10 | 1993-11-02 | 1993 93 | November  11 |         3
+  -- (10 rows)</code></p>
+<p>Finalmente, otra función muy importante a la hora de trabajar con fechas es la función <a href="https://mariadb.com/kb/en/cast/"><code>CAST(expr as tipo)</code></a> que realiza la conversión de tipos de datos.</p>
+<p>De esta manera podemos convertir una expresión de cadena en un tipo fecha:</p>
+<pre><code>select CAST(&quot;2024-12-9&quot; as DATE);
+</code></pre>
+<h4 id="condicionales-y-nulos">Condicionales y Nulos</h4>
+<p>De forma similar al operador <a href="#CASE"><code>CASE</code></a>, únicamente en <em>MariaDB</em>, si preferimos, podemos hacer uso de la función <a href="https://mariadb.com/kb/en/if-function/"><code>IF(expr,V,F)</code></a>.</p>
+<p>Por ejemplo, podemos reescribir la misma consulta vista anteriormente:</p>
+<pre><code>select CodEmp, CASE WHEN ExTelEmp is null THEN &quot;0000&quot; ELSE ExTelEmp END as NuevaExt 
+from empleado;
+</code></pre>
+<p>por otra que utilice la función <code>IF</code> mejorando la legibilidad:</p>
+<pre><code>select CodEmp, IF(ExTelEmp is null, &quot;0000&quot;, ExTelEmp) as NuevaExt from empleado;
+-- +--------+----------+
+-- | CodEmp | NuevaExt |
+-- +--------+----------+
+-- |      1 | 1111     |
+-- |      2 | 2233     |
+-- |      3 | 2133     |
+-- |      4 | 3838     |
+-- |      5 | 1239     |
+-- |      6 | 23838    |
+-- |      7 | 0000     |
+-- |      8 | 0000     |
+-- |      9 | 12124    |
+-- |     10 | 0000     |
+-- +--------+----------+
+-- 10 rows in set (0.003 sec)
+</code></pre>
+<p>Cuando trabajamos con nulos también podemos emplear las funciones:</p>
+<ul>
+<li>Tanto en <em>MariaDB</em> como <em>PostgreSQL</em>, usaremos <a href="https://mariadb.com/kb/en/coalesce/"><code>COALESCE(campo1, campo2, ...)</code></a>: devuelve el primer valor no nulo de la lista de parámetros</li>
+<li>En <em>MariaDB</em>, también podemos utilizar <a href="https://mariadb.com/kb/en/ifnull/"><code>IFNULL(campo, valor)</code></a>: devuelve <code>valor</code> si <code>campo</code> es nulo</li>
+</ul>
+<p>Dicho esto, las siguientes consultas obtienen el mismo resultado:</p>
+<pre><code>select CodEmp, COALESCE(ExTelEmp, '0000') as NuevaExt from empleado;
+select CodEmp, IF(ExTelEmp is null, &quot;0000&quot;, ExTelEmp) as NuevaExt from empleado;
+select CodEmp, IFNULL(ExTelEmp, '0000') as NuevaExt from empleado;
+</code></pre>
+<h4 id="otras">Otras</h4>
+<p>También tenemos funciones <a href="https://mariadb.com/kb/en/numeric-functions/">matemáticas</a> como:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/abs/"><code>ABS(num)</code></a>: obtiene el valor absoluto de <code>num</code></li>
+<li><a href="https://mariadb.com/kb/en/sqrt/"><code>SQRT(num)</code></a>, <a href="https://mariadb.com/kb/en/pow/"><code>POW(base, exponente)</code></a>: raíz cuadrada de <code>num</code>, potencia de <code>base</code> elevado a <code>exponente</code></li>
+<li><a href="https://mariadb.com/kb/en/rand/"><code>RAND()</code></a>: obtiene un número aleatorio</li>
+<li><a href="https://mariadb.com/kb/en/round/"><code>ROUND(num)</code></a> / <a href="https://mariadb.com/kb/en/floor/"><code>FLOOR(num)</code></a> / <a href="https://mariadb.com/kb/en/ceiling/"><code>CEILING(num)</code></a>: redondea un número, por exceso o por defecto</li>
+<li><a href="https://mariadb.com/kb/en/abs/"><code>TRUNCATE(num,d)</code></a>: trunca <code>num</code> con <code>d</code> decimales</li>
+</ul>
+<p>Veamos unos ejemplos de redondeo de cantidades:</p>
+<pre><code>select AVG(NumHi), ROUND(avg(NumHi)), FLOOR(avg(NumHi)), CEILING(avg(NumHi)), TRUNCATE(AVG(NumHi), 1) from empleado;
+-- +------------+-------------------+-------------------+---------------------+-------------------------+
+-- | AVG(NumHi) | ROUND(avg(NumHi)) | FLOOR(avg(NumHi)) | CEILING(avg(NumHi)) | truncate(avg(NumHi), 1) |
+-- +------------+-------------------+-------------------+---------------------+-------------------------+
+-- |     0.7000 |                 1 |                 0 |                   1 |                     0.7 |
+-- +------------+-------------------+-------------------+---------------------+-------------------------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Otra función muy empleada es <a href="https://mariadb.com/kb/en/format/"><code>FORMAT(numero, decimales)</code></a> para formatear los números con separadores de miles y cantidad de decimales:</p>
+<pre><code>select FORMAT(1234567890.12345678, 4), FORMAT(1234567890.12, 4), FORMAT(1234567890.12345678, 0) ;
+-- +--------------------------------+--------------------------+--------------------------------+
+-- | FORMAT(1234567890.12345678, 4) | FORMAT(1234567890.12, 4) | FORMAT(1234567890.12345678, 0) |
+-- +--------------------------------+--------------------------+--------------------------------+
+-- | 1,234,567,890.1235             | 1,234,567,890.1200       | 1,234,567,890                  |
+-- +--------------------------------+--------------------------+--------------------------------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>También podemos emplear funciones para <a href="https://mariadb.com/kb/en/encryption-hashing-and-compression-functions/">encriptar o comprimir</a>, así como para trabajar con <a href="https://mariadb.com/kb/en/geographic-functions/">coordenadas geográficas</a>.</p>
+<h3 id="ordenando-y-limitando">Ordenando y Limitando</h3>
+<p>Es muy común tener que ordenar el resultado de una consulta para darle más importancia a unos campos que otros, e incluso, reducir el número de tuplas recuperadas.</p>
+<p>Así pues, para ordenar mediante la cláusula <a href="https://mariadb.com/kb/en/order-by/"><code>ORDER BY {campo | pos} [ASC|DESC]</code></a>, indicando los diferentes campos separados por coma.</p>
+<pre><code>select NomEmp, NifEmp from empleado ORDER BY NomEmp;
+-- +-----------------------------+-----------+
+-- | NomEmp                      | NifEmp    |
+-- +-----------------------------+-----------+
+-- | Alada Veraz, Juana          | 38223923T |
+-- | Forzado López, Galeote      | 47123132D |
+-- | Gozque Altanero, Cándido    | 26454122D |
+-- | Mando Correa, Rosa          | 11312121D |
+-- | Manrique Bacterio, Luisa    | 21231347K |
+-- | Mascullas Alto, Eloísa      | 32132154H |
+-- | Monforte Cid, Roldán        | 23823930D |
+-- | Mosc Amuerta, Mario         | 32939393D |
+-- | Saladino Mandamás, Augusto  | 21451451V |
+-- | Topaz Illán, Carlos         | 38293923L |
+-- +-----------------------------+-----------+
+-- 10 rows in set (0.003 sec)
+</code></pre>
+<p>Por defecto, la ordenación se realiza de forma ascendente. Por lo tanto, la consulta anterior y la siguiente son similares:</p>
+<pre><code>select NomEmp, NifEmp from empleado ORDER BY NomEmp;
+select NomEmp, NifEmp from empleado ORDER BY NomEmp ASC;
+</code></pre>
+<p>Algunos desarrolladores prefieren explicitar el orden de <code>ORDER BY</code> para evitar ambigüedades. Otros, en cambio, prefieren obviar la opción <code>ASC</code> para reducir el tamaño de las consultas.</p>
+<p>Por otro lado, tal como hemos comentado previamente, podemos ordenar por más de una columna, indicando para cada una de ellas diferentes tipos de ordenaciones:</p>
+<pre><code>select CodDep, NomEmp from empleado ORDER BY CodDep ASC, NomEmp DESC;
+-- +--------+-----------------------------+
+-- | CodDep | NomEmp                      |
+-- +--------+-----------------------------+
+-- | ADMZS  | Alada Veraz, Juana          |
+-- | DIRGE  | Saladino Mandamás, Augusto  |
+-- | IN&amp;DI  | Manrique Bacterio, Luisa    |
+-- | JEFZS  | Gozque Altanero, Cándido    |
+-- | PROZS  | Mosc Amuerta, Mario         |
+-- | PROZS  | Mascullas Alto, Eloísa      |
+-- | PROZS  | Mando Correa, Rosa          |
+-- | PROZS  | Forzado López, Galeote      |
+-- | VENZS  | Topaz Illán, Carlos         |
+-- | VENZS  | Monforte Cid, Roldán        |
+-- +--------+-----------------------------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<p>Rendimiento</p>
+<p>Hay que tener en cuenta que ordenar los resultados de una consulta requiere colocar todos los datos en memoria, y dependiendo de la cantidad, puede ser una operación computacionalmente compleja.</p>
+<p>Finalmente, a la hora de indicar el nombre de las columnas de ordenación, también podemos un número indicando la posición de la columna (en el siguiente ejemplo, 1 referencia a <code>NomEmp</code> y 2 a <code>NifEmp</code>):</p>
+<pre><code>select NomEmp, Nifemp from empleado ORDER BY 1 ASC;
+-- +-----------------------------+-----------+
+-- | NomEmp                      | Nifemp    |
+-- +-----------------------------+-----------+
+-- | Alada Veraz, Juana          | 38223923T |
+-- | Forzado López, Galeote      | 47123132D |
+-- | Gozque Altanero, Cándido    | 26454122D |
+-- | Mando Correa, Rosa          | 11312121D |
+-- | Manrique Bacterio, Luisa    | 21231347K |
+-- | Mascullas Alto, Eloísa      | 32132154H |
+-- | Monforte Cid, Roldán        | 23823930D |
+-- | Mosc Amuerta, Mario         | 32939393D |
+-- | Saladino Mandamás, Augusto  | 21451451V |
+-- | Topaz Illán, Carlos         | 38293923L |
+-- +-----------------------------+-----------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<p>Además, si queremos restringir y limitar el número de resultados de la consulta usaremos <a href="https://mariadb.com/kb/en/limit/"><code>LIMIT cantidad</code></a>:</p>
+<pre><code>select CodEmp, NomEmp from empleado LIMIT 3;
+-- +--------+-----------------------------+
+-- | CodEmp | NomEmp                      |
+-- +--------+-----------------------------+
+-- |      1 | Saladino Mandamás, Augusto  |
+-- |      2 | Manrique Bacterio, Luisa    |
+-- |      3 | Monforte Cid, Roldán        |
+-- +--------+-----------------------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Reduciendo el tráfico</p>
+<p>En ocasiones, cuando queremos obtener una muestra de los datos, en vez de hacer una consulta <code>select * from ...</code> para comprobar qué datos almacena una determinada tabla, es mucho mejor acostumbrarse a realizar un <code>select * from ... LIMIT 10</code>. De este modo, no sobrecargamos el servidor ni incrementamos el tráfico de datos.</p>
+<p>Si no queremos coger los primeros elementos, podemos hacer uso <a href="https://mariadb.com/kb/en/limit/"><code>LIMIT inicio, cantidad</code></a>, teniendo en cuenta que <code>inicio</code> referencia al desplazamiento, es decir, la cantidad de filas que se ignorarán.</p>
+<pre><code>select CodEmp, NomEmp from empleado LIMIT 2,4;
+-- +--------+---------------------------+
+-- | CodEmp | NomEmp                    |
+-- +--------+---------------------------+
+-- |      3 | Monforte Cid, Roldán      |
+-- |      4 | Topaz Illán, Carlos       |
+-- |      5 | Alada Veraz, Juana        |
+-- |      6 | Gozque Altanero, Cándido  |
+-- +--------+---------------------------+
+-- 4 rows in set (0.000 sec)
+</code></pre>
+<p>Por último, podemos expresar lo mismo mediante <a href="https://mariadb.com/kb/en/limit/"><code>LIMIT cantidad OFFSET inicio</code></a>, sólo que cambiamos el orden de los parámetros:</p>
+<pre><code>select CodEmp, NomEmp from empleado LIMIT 4 OFFSET 2;
+-- +--------+---------------------------+
+-- | CodEmp | NomEmp                    |
+-- +--------+---------------------------+
+-- |      3 | Monforte Cid, Roldán      |
+-- |      4 | Topaz Illán, Carlos       |
+-- |      5 | Alada Veraz, Juana        |
+-- |      6 | Gozque Altanero, Cándido  |
+-- +--------+---------------------------+
+-- 4 rows in set (0.000 sec)
+</code></pre>
+<h4 id="empates">Empates</h4>
+<p>¿Qué sucede si al ordenar hay varios registros que empatan en la primera/última posición? Por ejemplo, si ordenamos por salario y los dos últimos empleados tienen el mismo salario, ¿cuál de los dos se mostrará?</p>
+<p>Es muy común realizar consultas donde queremos recuperar el mejor/peor elemento que cumple un criterio, y en ocasiones, hay empates y la técnica de ordenar y recuperar un elemento mediante <code>ORDER BY campo LIMIT 1</code> no funciona.</p>
+<p>Para resolver estos casos, <em>MariaDB</em> soporta la cláusula <a href="https://mariadb.com/docs/server/reference/sql-statements/data-manipulation/selecting-data/select-offset-fetch"><code>FETCH FIRST n ROWS WITH TIES</code></a> que permite recuperar todas las filas que empatan en una posición. <em>PostgreSQL</em> no soporta esta cláusula, pero se puede simular mediante una subconsulta o utilizando <code>DISTINCT ON</code>.</p>
+<p>Por ejemplo, para recuperar los empleados con salarios más bajos, haríamos:</p>
+<pre><code>-- Recuperar los empleados con el salario más bajo
+select NomEmp, SalEmp from empleado
+    ORDER BY SalEmp ASC
+    FETCH FIRST 1 ROW WITH TIES;
+-- +-------------------------+------------+
+-- | NomEmp                  | SalEmp     |
+-- +-------------------------+------------+
+-- | Mosc Amuerta, Mario     | 1300000.00 |
+-- +-------------------------+------------+
+-- 1 row in set (0.000 sec)
+
+-- Recuperar los empleados con los dos salarios más bajos
+select NomEmp, SalEmp from empleado
+    ORDER BY SalEmp ASC
+    FETCH FIRST 2 ROWS WITH TIES;
+-- +-------------------------+------------+
+-- | NomEmp                  | SalEmp     |
+-- +-------------------------+------------+
+-- | Mosc Amuerta, Mario     | 1300000.00 |
+-- | Mascullas Alto, Eloísa  | 1600000.00 |
+-- | Forzado López, Galeote  | 1600000.00 |
+-- +-------------------------+------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<h3 id="seleccion">Selección</h3>
+<p>La selección en SQL permite filtrar filas de una tabla en función de condiciones específicas. Esto se logra mediante la cláusula <code>WHERE</code>, que define los criterios de filtrado.</p>
+<p>Para filtrar los datos y realizar una selección de tuplas, podemos emplear tanto <a href="https://mariadb.com/kb/en/function-and-operator-reference/">funciones como operadores</a> dentro del <code>WHERE</code>. Para realizar las comparaciones, se expresan mediante <code>expresion1 operador expresion2</code>, pudiendo utilizar los operadores relacionales <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>=</code>, <code>!=</code>, así como los operadores lógicos como <code>and</code>, <code>or</code>, <code>not</code>, etc...</p>
+<pre><code>select NomEmp, CodDep, FecNaEmp from empleado WHERE CodDep='DIRGE';
+-- +-----------------------------+--------+------------+
+-- | NomEmp                      | CodDep | FecNaEmp   |
+-- +-----------------------------+--------+------------+
+-- | Saladino Mandamás, Augusto  | DIRGE  | 1961-08-07 |
+-- +-----------------------------+--------+------------+
+-- 1 row in set (0.000 sec)
+
+select NomEmp from empleado WHERE SalEmp&lt;2000000;
+-- +-------------------------+
+-- | NomEmp                  |
+-- +-------------------------+
+-- | Forzado López, Galeote  |
+-- | Mascullas Alto, Eloísa  |
+-- | Mosc Amuerta, Mario     |
+-- +-------------------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Como puede observarse, no es necesario que el o los atributos que usemos en la selección luego aparezcan en la proyección, ni viceversa.</p>
+<h4 id="rangos">Rangos</h4>
+<p>Supongamos que queremos recuperar los empleados que cobran entre uno y dos millones. Podemos hacerlo haciendo uso de una conjunción entre dos comparaciones:</p>
+<pre><code>select NomEmp, SalEmp from empleado where SalEmp &gt;= 1000000 AND SalEmp &lt;= 2000000;
+-- +-------------------------+------------+
+-- | NomEmp                  | SalEmp     |
+-- +-------------------------+------------+
+-- | Forzado López, Galeote  | 1600000.00 |
+-- | Mascullas Alto, Eloísa  | 1600000.00 |
+-- | Mosc Amuerta, Mario     | 1300000.00 |
+-- +-------------------------+------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Si el conjunto de valores a comparar forma parte de un rango numérico, es mejor utilizar <a href="https://mariadb.com/kb/en/between-and/"><code>BETWEEN .. AND</code></a>, siguiendo la sintaxis <code>expresión1 [NOT] BETWEEN expresión2 AND expresión3</code>:</p>
+<p>Así pues, la misma consulta la podemos reescribir así:</p>
+<pre><code>select NomEmp, SalEmp from empleado where SalEmp BETWEEN 1000000 AND 2000000;
+-- +-------------------------+------------+
+-- | NomEmp                  | SalEmp     |
+-- +-------------------------+------------+
+-- | Forzado López, Galeote  | 1600000.00 |
+-- | Mascullas Alto, Eloísa  | 1600000.00 |
+-- | Mosc Amuerta, Mario     | 1300000.00 |
+-- +-------------------------+------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>También podemos negar la cláusula o usarla con fechas:</p>
+<pre><code>select NomEmp, SalEmp from empleado
+    where SalEmp NOT BETWEEN 2000000 AND 6000000;
+-- +-----------------------------+------------+
+-- | NomEmp                      | SalEmp     |
+-- +-----------------------------+------------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 |
+-- | Alada Veraz, Juana          | 6200000.00 |
+-- | Forzado López, Galeote      | 1600000.00 |
+-- | Mascullas Alto, Eloísa      | 1600000.00 |
+-- | Mosc Amuerta, Mario         | 1300000.00 |
+-- +-----------------------------+------------+
+-- 5 rows in set (0.000 sec)
+
+select NomEmp, FecInEmp, FecNaEmp from empleado
+    where FecInEmp BETWEEN '1970/01/01' AND '1980/01/01';
+-- +-----------------------------+------------+------------+
+-- | NomEmp                      | FecInEmp   | FecNaEmp   |
+-- +-----------------------------+------------+------------+
+-- | Saladino Mandamás, Augusto  | 1972-07-01 | 1961-08-07 |
+-- | Alada Veraz, Juana          | 1976-08-07 | 1958-03-08 |
+-- +-----------------------------+------------+------------+
+-- 2 rows in set (0.000 sec)
+</code></pre>
+<h4 id="conjuntos">Conjuntos</h4>
+<p>Si en vez de un rango, queremos comprobar si el resultado de la expresión coincide con uno de entre una lista de valores (los cuales deben coincidir en su tipo de datos), usaremos el operador <a href="https://mariadb.com/kb/en/in/"><code>IN</code></a> con la sintaxis <code>exp1 [NOT] IN (const1 [,const2])</code></p>
+<pre><code>select Codemp, NomEmp, SalEmp from empleado where Codemp IN (1,3,5,7);
+-- +--------+-----------------------------+------------+
+-- | Codemp | NomEmp                      | SalEmp     |
+-- +--------+-----------------------------+------------+
+-- |      1 | Saladino Mandamás, Augusto  | 7200000.00 |
+-- |      3 | Monforte Cid, Roldán        | 5200000.00 |
+-- |      5 | Alada Veraz, Juana          | 6200000.00 |
+-- |      7 | Forzado López, Galeote      | 1600000.00 |
+-- +--------+-----------------------------+------------+
+
+select NomEmp, CodDep from empleado where CodDep IN ('PROZS','VENZS');
+-- +-------------------------+--------+
+-- | NomEmp                  | CodDep |
+-- +-------------------------+--------+
+-- | Forzado López, Galeote  | PROZS  |
+-- | Mascullas Alto, Eloísa  | PROZS  |
+-- | Mando Correa, Rosa      | PROZS  |
+-- | Mosc Amuerta, Mario     | PROZS  |
+-- | Monforte Cid, Roldán    | VENZS  |
+-- | Topaz Illán, Carlos     | VENZS  |
+-- +-------------------------+--------+
+-- 6 rows in set (0.000 sec)
+</code></pre>
+<h4 id="patron-texto">Patrón texto</h4>
+<p>Cuando tenemos campos de tipo texto, lo normal no es comparar por todo el valor exacto, sino por una subcadena existente. Para ello, usaremos el operador <a href="https://mariadb.com/kb/en/like/"><code>LIKE</code></a> acompañado de un patrón, siguiendo la sintaxis <code>columna [NOT] LIKE patrón</code>.</p>
+<p>En el patrón de búsqueda, podemos emplear los comodines <code>_</code> para indicar que ocupa un carácter y <code>%</code> para cero o más caracteres.</p>
+<pre><code>-- Centros que acaban en Sur
+select NomCen, PobCen from centro where Nomcen LIKE '%Sur';
+-- +-------------------+-----------+
+-- | NomCen            | PobCen    |
+-- +-------------------+-----------+
+-- | Fábrica Zona Sur  | Cartagena |
+-- | Oficinas Zona Sur | Cartagena |
+-- +-------------------+-----------+
+-- 2 rows in set (0.003 sec)
+
+-- Empleados cuya segunda letra del nombre sea a
+select Nomemp, CodDep from empleado where Nomemp LIKE '_a%';
+-- +-----------------------------+--------+
+-- | Nomemp                      | CodDep |
+-- +-----------------------------+--------+
+-- | Saladino Mandamás, Augusto  | DIRGE  |
+-- | Manrique Bacterio, Luisa    | IN&amp;DI  |
+-- | Mascullas Alto, Eloísa      | PROZS  |
+-- | Mando Correa, Rosa          | PROZS  |
+-- +-----------------------------+--------+
+-- 4 rows in set (0.000 sec)
+</code></pre>
+<p>Expresiones regulares</p>
+<p>Si la lógica a comprobar es más compleja, podemos hacer uso de expresiones regulares, mediante la cláusula <a href="https://mariadb.com/kb/en/regexp/"><code>REGEXP</code></a>. Algunos ejemplos:</p>
+<ul>
+<li>Empleados cuyo nombre empieza por vocal (<code>^</code> comienza y entre corchetes ponemos todos los posibles valores, es decir, por una vocal en mayúsculas o minúsculas)</li>
+</ul>
+<p><code>select CodEmp, NomEmp from empleado
+  where NomEmp REGEXP '^[AEIOUaeiou]';</code>
+- Departamentos cuyo nombre contiene exactamente dos palabras (<code>^[^ ]+</code> una o más letras al inicio, y <code>[^ ]+$</code> una o más letras al final)</p>
+<p><code>select CodDep, NomDep
+  from departamento
+  where NomDep REGEXP '^[^ ]+ [^ ]+$';</code></p>
+<h4 id="valor-nulo">Valor nulo</h4>
+<p>Para comprobar si un campo contiene valores nulos (o si queremos saber si tiene algún valor, sea cual sea) usaremos el operador <a href="https://mariadb.com/kb/en/is-null/"><code>IS NULL</code></a> con la sintaxis <code>columna IS [NOT] NULL</code>:</p>
+<pre><code>select NomEmp, ExtelEmp from empleado where ExtelEmp IS NULL;
+-- +-------------------------+----------+
+-- | NomEmp                  | ExtelEmp |
+-- +-------------------------+----------+
+-- | Forzado López, Galeote  | NULL     |
+-- | Mascullas Alto, Eloísa  | NULL     |
+-- | Mosc Amuerta, Mario     | NULL     |
+-- +-------------------------+----------+
+-- 3 rows in set (0.000 sec)
+
+select NomEmp, ExtelEmp from empleado where ExtelEmp IS NOT NULL;
+-- +-----------------------------+----------+
+-- | NomEmp                      | ExtelEmp |
+-- +-----------------------------+----------+
+-- | Saladino Mandamás, Augusto  | 1111     |
+-- | Manrique Bacterio, Luisa    | 2233     |
+-- | Monforte Cid, Roldán        | 2133     |
+-- | Topaz Illán, Carlos         | 3838     |
+-- | Alada Veraz, Juana          | 1239     |
+-- | Gozque Altanero, Cándido    | 23838    |
+-- | Mando Correa, Rosa          | 12124    |
+-- +-----------------------------+----------+
+</code></pre>
+<h4 id="operadores-logicos">Operadores lógicos</h4>
+<p>Respecto a las condiciones compuestas, podemos unir operadores mediante <code>AND</code> (conjunción), <code>OR</code> (disyunción) y <code>NOT</code> (negación).</p>
+<pre><code>select NomEmp, CodDep, ExtelEmp from empleado
+    where CodDep='ADMZS' OR ExtelEmp IS NULL;
+-- +-------------------------+--------+----------+
+-- | NomEmp                  | CodDep | ExtelEmp |
+-- +-------------------------+--------+----------+
+-- | Alada Veraz, Juana      | ADMZS  | 1239     |
+-- | Forzado López, Galeote  | PROZS  | NULL     |
+-- | Mascullas Alto, Eloísa  | PROZS  | NULL     |
+-- | Mosc Amuerta, Mario     | PROZS  | NULL     |
+-- +-------------------------+--------+----------+
+
+select NomEmp, CodDep, SalEmp from empleado
+    where CodDep in ('ADMZS','PROZS','VENZS') AND SalEmp&gt;5000000;
+-- +-----------------------+--------+------------+
+-- | NomEmp                | CodDep | SalEmp     |
+-- +-----------------------+--------+------------+
+-- | Alada Veraz, Juana    | ADMZS  | 6200000.00 |
+-- | Monforte Cid, Roldán  | VENZS  | 5200000.00 |
+-- +-----------------------+--------+------------+
+</code></pre>
+<p>Prioridad de los operadores</p>
+<p>Conviene recordar la <a href="https://mariadb.com/kb/en/operator-precedence/">prioridad de los operadores</a> a la hora de evaluar una expresión:</p>
+<ul>
+<li>Se evalúa la multiplicación (<code>*</code>) y la división (<code>/</code>) al mismo nivel.</li>
+<li>A continuación sumas (<code>+</code>) y restas (<code>-</code>).</li>
+<li>Todas las comparaciones (<code>&lt;</code>, <code>&gt;</code>, …).</li>
+<li>Después se evalúan los operadores <code>IS NULL</code>, <code>IN</code>, <code>LIKE</code></li>
+<li><code>BETWEEN</code>...</li>
+<li><code>NOT</code>.</li>
+<li><code>AND</code>.</li>
+<li><code>OR</code>.</li>
+</ul>
+<h2 id="uniendo-tablas">Uniendo Tablas</h2>
+<p>Hasta ahora nos hemos dedicado a realizar consultas sobre uno o más atributos de una determinada tabla. El modelo relacional se basa en la relación de una o más tablas, y por lo tanto, necesitamos de un mecanismo que nos permite obtener información de tablas que están relacionadas.</p>
+<p>Dicho esto, para unir varias tablas (realizar un <a href="https://mariadb.com/kb/en/join-syntax/"><em>join</em></a>) tenemos diferentes <a href="https://mariadb.com/kb/en/join-syntax/">formas</a> de hacerlo:</p>
+<ul>
+<li><em>cross join</em>: producto cartesiano entre dos tablas</li>
+<li><em>inner join</em>: une dos tablas por campos que coinciden en valor.</li>
+<li><em>natural join</em>: une dos tablas por campos que se llaman igual</li>
+<li><em>outer join</em>: une dos tablas, recuperando todos los elementos que están en una de ellas y de la segunda los que coinciden en valor. En este caso, podemos distinguir entre <em>left join</em> o <em>right join</em> dependiendo que tabla es la que aporta todos los elementos.</li>
+</ul>
+<p>En el siguiente gráfico tienes resumidas de forma visual todas las combinaciones posibles:</p>
+<p><img alt="" src="images/06joins-sql.svg" title="Joins en SQL - De GermanX - Trabajo propio, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=55878387" /></p>
+<p>Joins en SQL - De GermanX - Trabajo propio, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=55878387</p>
+<p>Veamos estas operaciones en detalle.</p>
+<h3 id="producto-cartesiano">Producto cartesiano</h3>
+<p>El producto cartesiano (<em>cross join</em>) de dos tablas son todas las combinaciones de las filas de una tabla unidas a las filas de la otra tabla. Es decir, cada fila de A se cruza con todas las de B.</p>
+<pre><code>select NomEmp, nomdep from empleado, departamento;
+-- +-----------------------------+----------------------------+
+-- | NomEmp                      | NomDep                     |
+-- +-----------------------------+----------------------------+
+-- | Saladino Mandamás, Augusto  | Administración Zona Sur    |
+-- | Saladino Mandamás, Augusto  | Dirección General          |
+-- | Saladino Mandamás, Augusto  | Investigación y Diseño     |
+-- | Saladino Mandamás, Augusto  | Jefatura Fábrica Zona Sur  |
+-- | Saladino Mandamás, Augusto  | Producción Zona Sur        |
+-- | Saladino Mandamás, Augusto  | Ventas Zona Sur            |
+-- | Manrique Bacterio, Luisa    | Administración Zona Sur    |
+-- | Manrique Bacterio, Luisa    | Dirección General          |
+-- | Manrique Bacterio, Luisa    | Investigación y Diseño     |
+-- ...
+-- Empleado: 10 registros X Departamento: 6 registros
+-- Resultado: 60 registros
+</code></pre>
+<p>Otra forma de expresar lo mismo es mediante <code>cross join</code>:</p>
+<pre><code>select NomEmp, NomDep from empleado CROSS JOIN departamento;
+</code></pre>
+<h3 id="composicion-interna">Composición interna</h3>
+<p>La operación <code>[INNER] JOIN</code> combina registros de dos tablas siempre que existan valores coincidentes en un campo común (clave ajena con clave primaria). Para ello, se indica una tabla seguida (opcionalmente con el prefijo <code>INNER</code>) de <code>JOIN</code> con la segunda tabla, y tras <code>ON</code>, igualamos la clave ajena con la primaria:</p>
+<pre><code>select NomEmp, NomDep from empleado JOIN departamento ON empleado.CodDep=departamento.CodDep;
+-- +-----------------------------+----------------------------+
+-- | NomEmp                      | NomDep                     |
+-- +-----------------------------+----------------------------+
+-- | Alada Veraz, Juana          | Administración Zona Sur    |
+-- | Saladino Mandamás, Augusto  | Dirección General          |
+-- | Manrique Bacterio, Luisa    | Investigación y Diseño     |
+-- | Gozque Altanero, Cándido    | Jefatura Fábrica Zona Sur  |
+-- | Forzado López, Galeote      | Producción Zona Sur        |
+-- | Mascullas Alto, Eloísa      | Producción Zona Sur        |
+-- | Mando Correa, Rosa          | Producción Zona Sur        |
+-- | Mosc Amuerta, Mario         | Producción Zona Sur        |
+-- | Monforte Cid, Roldán        | Ventas Zona Sur            |
+-- | Topaz Illán, Carlos         | Ventas Zona Sur            |
+-- +-----------------------------+----------------------------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<p>Es conveniente, y realmente más cómodo, poner un alias a las tablas (normalmente la inicial del nombre de la tabla tras el propio nombre de la misma):</p>
+<pre><code>select NomEmp, NomDep
+    from empleado e JOIN departamento d
+    on e.CodDep=d.CodDep;
+</code></pre>
+<p>En versiones antiguas de SQL era más común indicar las <a href="https://mariadb.com/kb/en/comma-vs-join/">tablas separadas por coma</a> y realizar el <em>join</em> en el <code>WHERE</code>, uniendo la clave ajena con la clave primaria de la tabla a la que referencia. Aunque a nivel funcional el resultado es el mismo, es recomendable utilizar la sintaxis <code>JOIN ... ON</code> por legibilidad, y es probable, que el optimizador de consultas del SGBD funcione mejor:</p>
+<pre><code>--- SQL 86
+select NomEmp, NomDep
+from empleado e, departamento d
+where e.CodDep=d.CodDep;
+
+--- SQL 92
+select NomEmp, NomDep
+from empleado e JOIN departamento d
+    on e.CodDep=d.CodDep;
+</code></pre>
+<p>Cuando coincide el nombre de los atributos podemos emplear la cláusula <code>USING (listaDeColumnas)</code> para simplificar la consulta:</p>
+<pre><code>select NomEmp, NomDep
+from empleado e JOIN departamento d
+    USING (CodDep);
+</code></pre>
+<h4 id="natural-join">Natural join</h4>
+<p>Forma parte del estándar SQL desde SQL:1999, y se trata de una especialización de <code>INNER JOIN</code>, ya que simplifica la unión entre dos tablas al basarse automáticamente en las columnas con nombres coincidentes en ambas tablas.</p>
+<p>La tabla resultante contiene sólo una columna por cada par de columnas con el mismo nombre.</p>
+<pre><code>select NomEmp, NomDep
+from empleado NATURAL JOIN departamento;
+-- +-----------------------------+----------------------------+
+-- | NomEmp                      | NomDep                     |
+-- +-----------------------------+----------------------------+
+-- | Alada Veraz, Juana          | Administración Zona Sur    |
+-- | Saladino Mandamás, Augusto  | Dirección General          |
+-- | Manrique Bacterio, Luisa    | Investigación y Diseño     |
+-- | Gozque Altanero, Cándido    | Jefatura Fábrica Zona Sur  |
+-- | Forzado López, Galeote      | Producción Zona Sur        |
+-- | Mascullas Alto, Eloísa      | Producción Zona Sur        |
+-- | Mando Correa, Rosa          | Producción Zona Sur        |
+-- | Mosc Amuerta, Mario         | Producción Zona Sur        |
+-- | Monforte Cid, Roldán        | Ventas Zona Sur            |
+-- | Topaz Illán, Carlos         | Ventas Zona Sur            |
+-- +-----------------------------+----------------------------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<h4 id="consultas-sobre-varias-tablas">Consultas sobre varias tablas</h4>
+<p>Cuando necesitamos información que está en diferentes tablas, o necesitamos que los datos obtenidos dependan de las relaciones en las que participan, deberemos emparejar los campos que han de tener valores iguales (FKs con PKs)</p>
+<p>Algunos aspectos a tener en cuenta:</p>
+<ul>
+<li>Pueden combinarse tantas tablas como se desee.</li>
+<li>El criterio de combinación puede estar formado por más de una pareja de columnas.</li>
+<li>En la cláusula <code>SELECT</code> pueden citarse columnas de ambas tablas, coincidan o no con la combinación.</li>
+<li>Si hay columnas con el mismo nombre en las distintas tablas, deben identificarse especificando la tabla de procedencia o utilizando un alias de tabla.</li>
+</ul>
+<p>Veamos algunos ejemplos. Antes ya hemos visto cómo recuperar el nombre de los departamentos donde trabaja cada empleado. Si también queremos obtener el nombre del centro, necesitamos unir las tres tablas:</p>
+<pre><code>select NomEmp, NomDep, NomCen
+from empleado e JOIN departamento d ON e.CodDep = d.CodDep
+    JOIN centro c ON d.CodCen = c.CodCen;
+-- +-----------------------------+----------------------------+--------------------+
+-- | NomEmp                      | NomDep                     | NomCen             |
+-- +-----------------------------+----------------------------+--------------------+
+-- | Saladino Mandamás, Augusto  | Dirección General          | Dirección General  |
+-- | Manrique Bacterio, Luisa    | Investigación y Diseño     | Dirección General  |
+-- | Gozque Altanero, Cándido    | Jefatura Fábrica Zona Sur  | Fábrica Zona Sur   |
+-- | Forzado López, Galeote      | Producción Zona Sur        | Fábrica Zona Sur   |
+-- | Mascullas Alto, Eloísa      | Producción Zona Sur        | Fábrica Zona Sur   |
+-- | Mando Correa, Rosa          | Producción Zona Sur        | Fábrica Zona Sur   |
+-- | Mosc Amuerta, Mario         | Producción Zona Sur        | Fábrica Zona Sur   |
+-- | Alada Veraz, Juana          | Administración Zona Sur    | Oficinas Zona Sur  |
+-- | Monforte Cid, Roldán        | Ventas Zona Sur            | Oficinas Zona Sur  |
+-- | Topaz Illán, Carlos         | Ventas Zona Sur            | Oficinas Zona Sur  |
+-- +-----------------------------+----------------------------+--------------------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<p>Si además, queremos el director del centro, necesitamos volver a unir con empleado para obtener su nombre:</p>
+<pre><code>select e.NomEmp, NomDep, NomCen, e2.NomEmp as Director
+from empleado e JOIN departamento d ON e.CodDep = d.CodDep
+    JOIN centro c ON d.CodCen = c.CodCen
+    JOIN empleado e2 ON c.CodEmpDir = e2.CodEmp;
+-- +-----------------------------+----------------------------+--------------------+-----------------------------+
+-- | NomEmp                      | NomDep                     | NomCen             | Director                    |
+-- +-----------------------------+----------------------------+--------------------+-----------------------------+
+-- | Alada Veraz, Juana          | Administración Zona Sur    | Oficinas Zona Sur  | Alada Veraz, Juana          |
+-- | Saladino Mandamás, Augusto  | Dirección General          | Dirección General  | Saladino Mandamás, Augusto  |
+-- | Manrique Bacterio, Luisa    | Investigación y Diseño     | Dirección General  | Saladino Mandamás, Augusto  |
+-- | Gozque Altanero, Cándido    | Jefatura Fábrica Zona Sur  | Fábrica Zona Sur   | Gozque Altanero, Cándido    |
+-- | Forzado López, Galeote      | Producción Zona Sur        | Fábrica Zona Sur   | Gozque Altanero, Cándido    |
+-- | Mascullas Alto, Eloísa      | Producción Zona Sur        | Fábrica Zona Sur   | Gozque Altanero, Cándido    |
+-- | Mando Correa, Rosa          | Producción Zona Sur        | Fábrica Zona Sur   | Gozque Altanero, Cándido    |
+-- | Mosc Amuerta, Mario         | Producción Zona Sur        | Fábrica Zona Sur   | Gozque Altanero, Cándido    |
+-- | Monforte Cid, Roldán        | Ventas Zona Sur            | Oficinas Zona Sur  | Alada Veraz, Juana          |
+-- | Topaz Illán, Carlos         | Ventas Zona Sur            | Oficinas Zona Sur  | Alada Veraz, Juana          |
+-- +-----------------------------+----------------------------+--------------------+-----------------------------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<p>En todo momento, podemos añadir filtros sobre una composición. Por ejemplo, recuperaremos los nombres de los empleados, departamentos en los que trabaja y sus centros, de aquellos empleados y que tienen al menos un hijo y cuyo departamento tenga un presupuesto superior a 20000000:</p>
+<pre><code>select e.NomEmp, d.NomDep, c.NomCen
+from empleado e JOIN departamento d ON e.CodDep = d.CodDep
+    JOIN centro c ON d.CodCen = c.CodCen
+where e.NumHi &gt;= 1 and
+    d.PreAnu &gt; 20000000
+order by e.CodEmp;
+-- +-----------------------------+----------------------+--------------------+
+-- | NomEmp                      | NomDep               | NomCen             |
+-- +-----------------------------+----------------------+--------------------+
+-- | Saladino Mandamás, Augusto  | Dirección General    | Dirección General  |
+-- | Mascullas Alto, Eloísa      | Producción Zona Sur  | Fábrica Zona Sur   |
+-- | Mando Correa, Rosa          | Producción Zona Sur  | Fábrica Zona Sur   |
+-- +-----------------------------+----------------------+--------------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<h4 id="composicion-reflexiva">Composición reflexiva</h4>
+<p>Cuando tenemos una relación reflexiva de una tabla consigo misma, para obtener los datos, hemos de realizar una join de la tabla con otra instancia de sí misma.</p>
+<p>Por ejemplo, en la tabla <code>departamento</code>, la columna <code>CodDepDep</code> referenciar al departamento del que depende; aquellos que tenga como valor <code>NULL</code>, no dependen de ninguno y podríamos decir que son departamentos principales.</p>
+<pre><code>select CodDep, CodDepDep, NomDep from departamento;
+-- +--------+-----------+----------------------------+
+-- | CodDep | CodDepDep | NomDep                     |
+-- +--------+-----------+----------------------------+
+-- | ADMZS  | NULL      | Administración Zona Sur    |
+-- | DIRGE  | NULL      | Dirección General          |
+-- | IN&amp;DI  | DIRGE     | Investigación y Diseño     |
+-- | JEFZS  | NULL      | Jefatura Fábrica Zona Sur  |
+-- | PROZS  | JEFZS     | Producción Zona Sur        |
+-- | VENZS  | ADMZS     | Ventas Zona Sur            |
+-- +--------+-----------+----------------------------+
+-- 6 rows in set (0.000 sec)
+</code></pre>
+<p>Así pues, si queremos recuperar todos los departamentos secundarios, así como el código y nombre de su departamento principal necesitamos referencias a la tabla <code>departamento</code> mediante un <em>join</em> consigo misma. Para ello, es imperativo utilizar un alias descriptivo para identificar el rol de la tabla en cada caso (en nuestro caso, <code>sec</code> como departamento secundario y <code>prin</code> para los principales):</p>
+<pre><code>select sec.CodDep as CodDepSec, sec.NomDep as NomDepSec, prin.CodDep as CodDepPrin, prin.NomDep as NomDepPrin
+from departamento prin JOIN departamento sec ON prin.CodDep = sec.CodDepDep;
+-- +-----------+--------------------------+------------+----------------------------+
+-- | CodDepSec | NomDepSec                | CodDepPrin | NomDepPrin                 |
+-- +-----------+--------------------------+------------+----------------------------+
+-- | IN&amp;DI     | Investigación y Diseño   | DIRGE      | Dirección General          |
+-- | PROZS     | Producción Zona Sur      | JEFZS      | Jefatura Fábrica Zona Sur  |
+-- | VENZS     | Ventas Zona Sur          | ADMZS      | Administración Zona Sur    |
+-- +-----------+--------------------------+------------+----------------------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<h3 id="composicion-externa">Composición externa</h3>
+<p>Cuando efectuamos una combinación interna los registros que se quedan sin emparejar en la otra tabla no aparecen en el resultado.</p>
+<p>En ocasiones no queremos únicamente los registros que están conectados, sino que nos interesa recuperarlos todos (conectados y no conectados) y de los conectados, sus datos. En otras ocasiones, queremos recuperar todos los que no están conectados... Para ello, necesitamos hacer uso de las composiciones externas.</p>
+<p>Mediante una combinación externa, aparecerán los datos emparejados más los que no están relacionados, ya sea por la:</p>
+<ul>
+<li>Izquierda: <code>LEFT [OUTER] JOIN</code> – Todos los de la tabla de la izquierda, y de la derecha los relacionados.</li>
+<li>Derecha: <code>RIGHT [OUTER] JOIN</code> – Los de la izquierda los relacionados, y de la derecha todos los datos.</li>
+</ul>
+<p>Veamos con un ejemplo qué datos obtenemos. Primero realizamos un <em>join</em> entre empleados y sus habilidades para obtener los empleados que tienen habilidades (obtenemos 6 registros porque tenemos clientes que tienen más de una habilidad, pero no todos los clientes tienen habilidades):</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*
+from empleado e JOIN habemp he ON e.CodEmp = he.CodEmp;
+-- +--------+-----------------------------+--------+--------+--------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab |
+-- +--------+-----------------------------+--------+--------+--------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 |
+-- +--------+-----------------------------+--------+--------+--------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>Si en cambio queremos recuperar todos los empleados, y si tienen habilidades, su información, haríamos un <em>left join</em>. Ahora se muestran todos los empleados, y además, aquel que tenga habilidades, aparecerá tantas veces como habilidades tenga. En cambio, de los que no tienen habilidades aparecerá <code>NULL</code> en las columnas correspondientes:</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*
+from empleado e LEFT JOIN habemp he ON e.CodEmp = he.CodEmp;
+-- +--------+-----------------------------+--------+--------+--------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab |
+-- +--------+-----------------------------+--------+--------+--------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 |
+-- |      2 | Manrique Bacterio, Luisa    | NULL   |   NULL |   NULL |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 |
+-- |      4 | Topaz Illán, Carlos         | NULL   |   NULL |   NULL |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 |
+-- |      6 | Gozque Altanero, Cándido    | NULL   |   NULL |   NULL |
+-- |      7 | Forzado López, Galeote      | NULL   |   NULL |   NULL |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 |
+-- |      9 | Mando Correa, Rosa          | NULL   |   NULL |   NULL |
+-- |     10 | Mosc Amuerta, Mario         | NULL   |   NULL |   NULL |
+-- +--------+-----------------------------+--------+--------+--------+
+-- 12 rows in set (0.000 sec)
+</code></pre>
+<p>Si cambiamos la consulta y hacemos un <em>right</em> join, recuperaremos la misma información que con un <em>inner join</em> ya que en la tabla <code>habemp</code> no podemos tener registros que no referencien a empleados existentes, por la propia definición de integridad referencial.</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*
+from empleado e RIGHT JOIN habemp he ON e.CodEmp = he.CodEmp;
+-- +--------+-----------------------------+--------+--------+--------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab |
+-- +--------+-----------------------------+--------+--------+--------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 |
+-- +--------+-----------------------------+--------+--------+--------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>No obstante, si cambiamos el orden de las tablas en el <em>join</em>, sí que tiene sentido hacer un <em>right join</em>:</p>
+<pre><code>select he.*, e.CodEmp, e.NomEmp
+from habemp he RIGHT JOIN empleado e ON e.CodEmp = he.CodEmp;
+-- +--------+--------+--------+--------+-----------------------------+
+-- | CodHab | CodEmp | NivHab | CodEmp | NomEmp                      |
+-- +--------+--------+--------+--------+-----------------------------+
+-- | GEREN  |      1 |     10 |      1 | Saladino Mandamás, Augusto  |
+-- | RELPU  |      1 |      9 |      1 | Saladino Mandamás, Augusto  |
+-- | NULL   |   NULL |   NULL |      2 | Manrique Bacterio, Luisa    |
+-- | MARKE  |      3 |      9 |      3 | Monforte Cid, Roldán        |
+-- | NULL   |   NULL |   NULL |      4 | Topaz Illán, Carlos         |
+-- | GESCO  |      5 |      9 |      5 | Alada Veraz, Juana          |
+-- | RELPU  |      5 |      8 |      5 | Alada Veraz, Juana          |
+-- | NULL   |   NULL |   NULL |      6 | Gozque Altanero, Cándido    |
+-- | NULL   |   NULL |   NULL |      7 | Forzado López, Galeote      |
+-- | FONTA  |      8 |      7 |      8 | Mascullas Alto, Eloísa      |
+-- | NULL   |   NULL |   NULL |      9 | Mando Correa, Rosa          |
+-- | NULL   |   NULL |   NULL |     10 | Mosc Amuerta, Mario         |
+-- +--------+--------+--------+--------+-----------------------------+
+-- 12 rows in set (0.000 sec)
+</code></pre>
+<p>¿Y si tenemos tres tablas? Vamos a unir las habilidades de los empleados con todas las existentes (seguimos recuperando los mismos 6 registros, sólo que ahora tenemos acceso a los nombres de las habilidades):</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*, h.*
+from empleado e JOIN habemp he ON e.CodEmp = he.CodEmp
+    JOIN habilidad h ON he.CodHab = h.CodHab;
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab | CodHab | DesHab               |
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 | GEREN  | Gerencia             |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 | RELPU  | Relaciones Públicas  |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 | MARKE  | Marketing            |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 | GESCO  | Gestión Contable     |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 | RELPU  | Relaciones Públicas  |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 | FONTA  | Fontanería           |
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- 6 rows in set (0.000 sec)
+</code></pre>
+<p>Si quiero recuperar todos los empleados y el nombre de la habilidad si la tienen, tenemos que hacer un <em>left join</em>:</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*, h.*
+from empleado e LEFT JOIN habemp he ON e.CodEmp = he.CodEmp
+    JOIN habilidad h ON he.CodHab = h.CodHab;
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab | CodHab | DesHab               |
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 | GEREN  | Gerencia             |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 | RELPU  | Relaciones Públicas  |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 | MARKE  | Marketing            |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 | GESCO  | Gestión Contable     |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 | RELPU  | Relaciones Públicas  |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 | FONTA  | Fontanería           |
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>¿Qué ha pasado? ¿Por qué sólo 6 registros? Al realizar el segundo <em>join</em>, ha eliminado aquellos registros que tienen la habilidad nula.</p>
+<p>Pero ¿cómo lo solucionamos? Primero vamos a unir los códigos y habilidades, y luego hacemos el <em>join</em> por la derecha con todos los empleados:</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*, h.*
+from habemp he JOIN habilidad h ON he.CodHab = h.CodHab
+    RIGHT JOIN empleado e ON e.CodEmp = he.CodEmp;
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab | CodHab | DesHab               |
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 | GEREN  | Gerencia             |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 | RELPU  | Relaciones Públicas  |
+-- |      2 | Manrique Bacterio, Luisa    | NULL   |   NULL |   NULL | NULL   | NULL                 |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 | MARKE  | Marketing            |
+-- |      4 | Topaz Illán, Carlos         | NULL   |   NULL |   NULL | NULL   | NULL                 |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 | GESCO  | Gestión Contable     |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 | RELPU  | Relaciones Públicas  |
+-- |      6 | Gozque Altanero, Cándido    | NULL   |   NULL |   NULL | NULL   | NULL                 |
+-- |      7 | Forzado López, Galeote      | NULL   |   NULL |   NULL | NULL   | NULL                 |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 | FONTA  | Fontanería           |
+-- |      9 | Mando Correa, Rosa          | NULL   |   NULL |   NULL | NULL   | NULL                 |
+-- |     10 | Mosc Amuerta, Mario         | NULL   |   NULL |   NULL | NULL   | NULL                 |
+-- +--------+-----------------------------+--------+--------+--------+--------+----------------------+
+-- 12 rows in set (0.000 sec)
+</code></pre>
+<p>Veamos otro ejemplo. Ahora quiero recuperar todas las habilidades, y si lo hay, el empleado que la tiene. En este caso, pongo a la izquierda las habilidades y hago dos <em>left joins</em>:</p>
+<pre><code>select h.*, he.*, e.CodEmp, e.NomEmp
+from habilidad h LEFT JOIN habemp he ON he.CodHab = h.CodHab
+    LEFT JOIN empleado e ON e.CodEmp = he.CodEmp;
+-- +--------+----------------------+--------+--------+--------+--------+-----------------------------+
+-- | CodHab | DesHab               | CodHab | CodEmp | NivHab | CodEmp | NomEmp                      |
+-- +--------+----------------------+--------+--------+--------+--------+-----------------------------+
+-- | FONTA  | Fontanería           | FONTA  |      8 |      7 |      8 | Mascullas Alto, Eloísa      |
+-- | GEREN  | Gerencia             | GEREN  |      1 |     10 |      1 | Saladino Mandamás, Augusto  |
+-- | GESCO  | Gestión Contable     | GESCO  |      5 |      9 |      5 | Alada Veraz, Juana          |
+-- | INFOR  | INFORMATICA          | NULL   |   NULL |   NULL |   NULL | NULL                        |
+-- | MARKE  | Marketing            | MARKE  |      3 |      9 |      3 | Monforte Cid, Roldán        |
+-- | MECAN  | Mecanografía         | NULL   |   NULL |   NULL |   NULL | NULL                        |
+-- | RELPU  | Relaciones Públicas  | RELPU  |      1 |      9 |      1 | Saladino Mandamás, Augusto  |
+-- | RELPU  | Relaciones Públicas  | RELPU  |      5 |      8 |      5 | Alada Veraz, Juana          |
+-- | TELEF  | Telefonista          | NULL   |   NULL |   NULL |   NULL | NULL                        |
+-- +--------+----------------------+--------+--------+--------+--------+-----------------------------+
+-- 9 rows in set (0.000 sec)
+</code></pre>
+<p>La misma consulta con sólo una consulta externa sería:</p>
+<pre><code>select h.*, he.*, e.CodEmp, e.NomEmp
+from empleado e JOIN habemp he ON e.CodEmp = he.CodEmp
+    RIGHT JOIN habilidad h ON he.CodHab = h.CodHab;
+-- +--------+----------------------+--------+--------+--------+--------+-----------------------------+
+-- | CodHab | DesHab               | CodHab | CodEmp | NivHab | CodEmp | NomEmp                      |
+-- +--------+----------------------+--------+--------+--------+--------+-----------------------------+
+-- | FONTA  | Fontanería           | FONTA  |      8 |      7 |      8 | Mascullas Alto, Eloísa      |
+-- | GEREN  | Gerencia             | GEREN  |      1 |     10 |      1 | Saladino Mandamás, Augusto  |
+-- | GESCO  | Gestión Contable     | GESCO  |      5 |      9 |      5 | Alada Veraz, Juana          |
+-- | INFOR  | INFORMATICA          | NULL   |   NULL |   NULL |   NULL | NULL                        |
+-- | MARKE  | Marketing            | MARKE  |      3 |      9 |      3 | Monforte Cid, Roldán        |
+-- | MECAN  | Mecanografía         | NULL   |   NULL |   NULL |   NULL | NULL                        |
+-- | RELPU  | Relaciones Públicas  | RELPU  |      1 |      9 |      1 | Saladino Mandamás, Augusto  |
+-- | RELPU  | Relaciones Públicas  | RELPU  |      5 |      8 |      5 | Alada Veraz, Juana          |
+-- | TELEF  | Telefonista          | NULL   |   NULL |   NULL |   NULL | NULL                        |
+-- +--------+----------------------+--------+--------+--------+--------+-----------------------------+
+-- 9 rows in set (0.000 sec)
+</code></pre>
+<h4 id="antijoin">Antijoin</h4>
+<p>Se conoce como <em>antijoin</em> los registros obtenidos de una tabla que no se combinan con otra. Es decir, son los registros que no se seleccionan al realizar un <em>inner join</em>, y de ahí el prefijo <em>anti</em>.</p>
+<p>Para aprender su uso, vamos a recuperar los empleados que no tienen habilidades:</p>
+<p><img alt="" src="images/06antijoin.png" title="Antijoin entre empleados y habilidades" /></p>
+<p>Antijoin entre empleados y habilidades</p>
+<p>Pero antes, volvamos al ejemplo anterior donde obteníamos los empleados que tienen habilidades:</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*
+from empleado e JOIN habemp he ON e.CodEmp = he.CodEmp;
+-- +--------+-----------------------------+--------+--------+--------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab |
+-- +--------+-----------------------------+--------+--------+--------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 |
+-- +--------+-----------------------------+--------+--------+--------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>¿Y cómo hago para obtener los empleados que no tienen habilidades? Si realizamos un <em>join</em> por la izquierda, sí que aparecerán los empleados que no las tienen (además de los que las tienen):</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*
+from empleado e LEFT JOIN habemp he ON e.CodEmp = he.CodEmp;
+-- +--------+-----------------------------+--------+--------+--------+
+-- | CodEmp | NomEmp                      | CodHab | CodEmp | NivHab |
+-- +--------+-----------------------------+--------+--------+--------+
+-- |      1 | Saladino Mandamás, Augusto  | GEREN  |      1 |     10 |
+-- |      1 | Saladino Mandamás, Augusto  | RELPU  |      1 |      9 |
+-- |      2 | Manrique Bacterio, Luisa    | NULL   |   NULL |   NULL |
+-- |      3 | Monforte Cid, Roldán        | MARKE  |      3 |      9 |
+-- |      4 | Topaz Illán, Carlos         | NULL   |   NULL |   NULL |
+-- |      5 | Alada Veraz, Juana          | GESCO  |      5 |      9 |
+-- |      5 | Alada Veraz, Juana          | RELPU  |      5 |      8 |
+-- |      6 | Gozque Altanero, Cándido    | NULL   |   NULL |   NULL |
+-- |      7 | Forzado López, Galeote      | NULL   |   NULL |   NULL |
+-- |      8 | Mascullas Alto, Eloísa      | FONTA  |      8 |      7 |
+-- |      9 | Mando Correa, Rosa          | NULL   |   NULL |   NULL |
+-- |     10 | Mosc Amuerta, Mario         | NULL   |   NULL |   NULL |
+-- +--------+-----------------------------+--------+--------+--------+
+-- 12 rows in set (0.000 sec)
+</code></pre>
+<p>Así pues, si sobre el <em>left join</em>, nos quedamos con los que tienen la clave primaria referenciada nula, obtendremos justo los empleados que no tienen habilidades (operación que se conoce como <em>anti-join</em>):</p>
+<pre><code>select e.CodEmp, e.NomEmp, he.*
+from empleado e LEFT JOIN habemp he ON e.CodEmp = he.CodEmp
+where he.CodEmp is null;
+-- +--------+---------------------------+--------+--------+--------+
+-- | CodEmp | NomEmp                    | CodHab | CodEmp | NivHab |
+-- +--------+---------------------------+--------+--------+--------+
+-- |      2 | Manrique Bacterio, Luisa  | NULL   |   NULL |   NULL |
+-- |      4 | Topaz Illán, Carlos       | NULL   |   NULL |   NULL |
+-- |      6 | Gozque Altanero, Cándido  | NULL   |   NULL |   NULL |
+-- |      7 | Forzado López, Galeote    | NULL   |   NULL |   NULL |
+-- |      9 | Mando Correa, Rosa        | NULL   |   NULL |   NULL |
+-- |     10 | Mosc Amuerta, Mario       | NULL   |   NULL |   NULL |
+-- +--------+---------------------------+--------+--------+--------+
+-- 6 rows in set (0.003 sec)
+</code></pre>
+<h4 id="full-outer-join">Full Outer Join</h4>
+<p>Aunque no está soportado por <em>MariaDB</em>, conviene conocer la combinación externa completa, aunque su uso es muy limitado (por la propia restricción de integridad referencial). Su resultado presenta los resultados de la tabla de la izquierda y de la tabla de la derecha aunque no tengan correspondencia en la otra tabla.</p>
+<p>Es decir, la tabla combinada contendrá entonces todos los registros de ambas tablas y presentará valores nulos para registros sin pareja.</p>
+<p>Si necesitamos dicho resultado, podemos simularlo haciendo una unión entre un <em>left join</em> y un <em>right join</em>. De esta manera obtendríamos todos los registros de T1 y los valores de T2 relacionados o nulos en los que no, y en una segunda consulta, los valores de T1 relacionados o nulos en los que no, y todos los valores de T2:</p>
+<pre><code>select * from t1
+    LEFT JOIN t2 ON t1.id = t2.id
+UNION
+select * from t1
+    RIGHT JOIN t2 ON t1.id = t2.id
+</code></pre>
+<h2 id="operadores-de-conjuntos">Operadores de conjuntos</h2>
+<p>Los operadores de conjuntos no operan sobre tipos de datos simples, sino sobre los resultados de dos o más consultas, las cuales deben tener la misma estructura, es decir, que la cantidad y los tipos de datos deben ser los mismos.</p>
+<p>Los operadores de conjuntos son:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/union/"><code>UNION</code></a>: Devuelve el conjunto de filas resultante de la unión de las dos consultas, sin duplicados.</li>
+<li><code>UNION ALL</code>: Devuelve el conjunto de filas resultante de la unión de las dos consultas, incluyendo los duplicados.</li>
+<li><a href="https://mariadb.com/kb/en/intersect/"><code>INTERSECT</code></a>: Devuelve la intersección entre los dos conjuntos de filas.</li>
+<li><a href="https://mariadb.com/kb/en/except/"><code>EXCEPT</code></a>: Devuelve todas aquellas filas de la primera consulta que no estén en la segunda.</li>
+</ul>
+<p><img alt="" src="images/06union.png" title="Operadores de conjuntos" /></p>
+<p>Operadores de conjuntos - https://jsmshaktisingh.medium.com/set-theory-for-sql-joins-9739b6943eb3</p>
+<p>Veamos unos ejemplos sobre empleados y directivos:</p>
+<pre><code>-- directivos y empleados con hijos
+select CodEmpDir from departamento
+UNION
+select CodEmp from empleado where NumHi &gt; 0;
+-- +-----------+
+-- | CodEmpDir |
+-- +-----------+
+-- |         1 |
+-- |         2 |
+-- |         3 |
+-- |         5 |
+-- |         6 |
+-- |         9 |
+-- |         8 |
+-- +-----------+
+-- 7 rows in set (0.001 sec)
+
+-- directivos que tienen hijos
+select CodEmpDir from departamento
+INTERSECT
+select CodEmp from empleado where NumHi &gt; 0;
+-- +-----------+
+-- | CodEmpDir |
+-- +-----------+
+-- |         1 |
+-- |         3 |
+-- |         5 |
+-- |         6 |
+-- |         9 |
+-- +-----------+
+-- 5 rows in set (0.000 sec)
+
+-- directivos que no tienen hijos
+select CodEmpDir from departamento
+EXCEPT
+select CodEmp from empleado where NumHi &gt; 0;
+-- +-----------+
+-- | CodEmpDir |
+-- +-----------+
+-- |         2 |
+-- +-----------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Autoevaluación</p>
+<p>¿Qué puedes deducir de los empleados 4 y 7?</p>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Sintaxis SQL oficial de <a href="https://www.postgresql.org/docs/current/sql-commands.md">PostgreSQL</a> y <a href="https://mariadb.com/kb/en/sql-statements/">MariaDB</a>.</li>
+<li>
+<p><em>Cheatsheets</em> de <a href="https://learnsql.com/">https://learnsql.com/</a> sobre:</p>
+</li>
+<li>
+<p><a href="https://learnsql.com/blog/sql-basics-cheat-sheet/sql-basics-cheat-sheet-a4.pdf">SQL Básico</a></p>
+</li>
+<li><a href="https://learnsql.com/blog/standard-sql-functions-cheat-sheet/standard-sql-functions-cheat-sheet-a4.pdf">Funciones SQL</a></li>
+<li><a href="https://learnsql.com/blog/sql-join-cheat-sheet/joins-cheat-sheet-a4.pdf"><em>Joins</em> SQL</a></li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em>Consultes de selecció <a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u4/a1/continguts.md">simple</a> i <a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u4/a2/continguts.md">complexes</a> - Institut Obert de Catalunya</em>.</p>
+</li>
+<li>Consultas <a href="https://josejuansanchez.org/bd/unidad-05-teoria/index.md">sobre una tabla</a>, sobre <a href="https://josejuansanchez.org/bd/unidad-06-teoria/index.md">varias tablas con composición interna</a>, y con <a href="https://josejuansanchez.org/bd/unidad-07-teoria/index.md">varias tablas con composición externa</a> de <em>José Juan Sánchez</em>.</li>
+<li><a href="https://jorgesanchez.net/manuales/sql/intro-sql-sql2016.md">Introducción a SQL</a> y <a href="https://jorgesanchez.net/manuales/sql/select-join-sql2016.md">Consultas sobre varias tablas. Cláusula join</a> de <em>Jorge Sánchez</em>.</li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut4/recopila.md">Realización de consultas</a> de <em>Javier Gutiérrez</em>.</li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema4/index.md">Consulta de bases de datos</a> de gestionbasesdatos.readthedocs.io</li>
+<li><a href="https://www.cs.us.es/cursos/bd-2023/temas/BD-Tema-5.pdf">Introducción a SQL</a>, por <em>Luis Valencia</em> y <em>David Orellana</em>, de la <em>Universidad de Sevilla</em>.</li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<ul>
+<li>
+<p><strong>AC601</strong>. (RABD.3 // CE3a, CE3b // 3p) Una vez cargada la base de datos de <code>empresa</code> utilizada en los <a href="#consultas-sql">apuntes</a>, tras comprobar la estructura de las tablas <code>empleado</code> y <code>departamento</code>, se pide realizar las siguientes consultas:</p>
+</li>
+<li>
+<p>Lista el nombre de todos los departamentos que hay en la tabla <code>departamento</code>.</p>
+</li>
+<li>Lista los nombres y los presupuestos de todos los departamentos.</li>
+<li>Lista todas las columnas de la tabla <code>departamento</code>.</li>
+<li>Lista el nombre de los empleados junto con su salario.</li>
+<li>Recupera todas las posibilidades de número de hijos que tienen los empleados (debes recuperar 0, 1 y 2).</li>
+<li>Lista el nombre y el complemento familiar (= salario * nº hijos * 4 /100) de todos los empleados.</li>
+<li>Lista el nombre de los departamentos, el presupuesto en euros y también en dólares estadounidenses (USD).</li>
+<li>
+<p>A partir de la consulta anterior, utiliza los siguientes alias para las columnas: nombre de departamento, euros, dólares.</p>
+</li>
+<li>
+<p><strong>AC602</strong>. (RABD.3 // CE3a, CE3b // 3p) Sobre la base de datos <code>empresa</code>, y haciendo uso de funciones, realiza las siguientes consultas:</p>
+</li>
+<li>
+<p>Lista los nombres y sus presupuestos de todos los departamentos de la tabla <code>departamento</code>, convirtiendo los nombres a mayúscula.</p>
+</li>
+<li>Lista los nombres y los salarios de todos los empleados, convirtiendo los nombres a minúsculas.</li>
+<li>Lista el nombre de todos los empleados en una columna, y en otra columna recupera en mayúsculas los dos primeros caracteres del código del departamento.</li>
+<li>Lista el código del empleado y del departamento de todos los empleados, así como un código formado por los datos de estos campos unidos más la extensión telefónica (si no tienen teléfono, cambiar por <code>XXXX</code>).</li>
+<li>Lista el nombre de los empleados, así como un campo para su nombre y otro para sus apellidos (puedes utilizar las funciones <a href="https://mariadb.com/kb/en/locate/"><code>LOCATE(subcadena, cadena)</code></a> y <a href="https://mariadb.com/kb/en/substring/"><code>SUBSTRING(cadena, posición [,longitud])</code></a>)</li>
+<li>Lista los nombres, el salario y el salario incrementado un 12%, redondeando el salario incrementado.</li>
+<li>Lista los nombres, el salario y el salario incrementado un 12%, truncando el salario incrementado con un único decimal.</li>
+<li>
+<p>Muestra el nombre de los empleados, la cantidad de hijos que tiene, y el tipo de familia, mostrando <code>Sin familia</code> si no tiene hijos, <code>Ordinaria</code> si sólo tiene un hijo, <code>Semi-numerosa</code> si tiene 2 hijos y <code>Numerosa</code> si tiene 3 o más hijos.</p>
+</li>
+<li>
+<p><strong>AC603</strong>. (RABD.3 // CE3b // 3p) Sobre la base de datos <code>empresa</code>, realiza las siguientes consultas:</p>
+</li>
+<li>
+<p>Lista, para cada empleado, además de su nombre, en campos separados, el día, el mes y el año de cuando nació.</p>
+</li>
+<li>Listado de empleados, con su nombre, fecha de nacimiento y edad.</li>
+<li>Para cada empleado, necesitamos su nombre, fecha de incorporación y días de vacaciones extra (por cada 4 años en la empresa, tiene un día extra)</li>
+<li>Crea un listado con el nombre de los departamentos, así como un nuevo código formado por el código del departamento, un número aleatorio de dos cifras y el código del centro.</li>
+<li>Listado del tipo de director, código, nombre y presupuesto de los departamentos ordenado por tipo de director (orden alfabético) y dentro de este criterio por presupuesto anual en orden ascendente.</li>
+<li>Listado del nombre y salario de los empleados (con dos decimales y separadores de miles) ordenado por criterio descendente del salario.</li>
+<li>Lista los tres departamentos ordenados por presupuesto anual y por el código del centro con menor presupuesto.</li>
+<li>
+<p>Recupera el empleado que más cobra.</p>
+</li>
+<li>
+<p><strong>AR604</strong>. (RABD.3 // CE3b // 3p) Realiza las consultas de la 1 a la 19 del apartado 1.1.3 de <em>Consultas sobre una tabla</em> de la base de datos de <em>Tienda de informática</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>AP605</strong>. (RABD.3 // CE3b // 3p) Realiza las consultas de la 1 a la 20 del apartado 1.2.3 de <em>Consultas sobre una tabla</em> de la base de datos de <em>Gestión de empleados</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>AC606</strong>. (RABD.3 // CE3b // 3p) Sobre la base de datos <code>empresa</code>, realiza las siguientes consultas:</p>
+</li>
+<li>
+<p>Recupera el nombre del empleado, salario y número de hijos del empleado con código <code>1</code>.</p>
+</li>
+<li>Listar sin repeticiones el código de todos los departamentos que tengan trabajadores incorporados antes del <code>1/1/92</code>.</li>
+<li>Listar el nombre de los trabajadores que no tienen extensión telefónica.</li>
+<li>Listar el nombre y presupuesto de los departamentos no ubicados en los centros con código <code>DIGE</code> o <code>FAZS</code>.</li>
+<li>Listar el nombre y salario de los trabajadores que ganen menos de 2 o más de 5 millones de euros.</li>
+<li>Listar el código y nombre de los empleados cuyo código sea distinto de <code>1</code>, <code>4</code>, <code>6</code>, <code>8</code> y de <code>10</code>.</li>
+<li>Listar el nombre y fecha de nacimiento de los hijos de empleado que tengan como parte de su nombre o apellidos la secuencia de letras <code>León</code>.</li>
+<li>Listar el nombre y salario anual de los empleados que ganan menos de 4 millones pero que ingresaron en la empresa antes de 1985.</li>
+<li>
+<p>Listar el nombre y NIF de los empleados que tienen un NIF con la letra <code>D</code> o <code>V</code>, y que:</p>
+<p>a) Trabajan en los departamentos <code>IN&amp;DI</code> o <code>DIRGE</code> y ganan más de 5 millones; o<br />
+ b) Fueron contratados en 1994.</p>
+</li>
+<li>
+<p><strong>AC607</strong>. (RABD.3 // CE3b // 3p) Explica qué recuperan las siguientes consultas (en lenguaje natural, no leyendo la consulta):</p>
+</li>
+</ul>
+<p><code>SELECT CodEmp, ROUND(SalEmp, 2) FROM empleado WHERE SalEmp &gt; 2500000;
+  SELECT SUM(NumHij) FROM hijo;
+  SELECT CodHab, DesHab FROM habilidad WHERE LOWER(DesHab) LIKE '%gestión%';
+  SELECT AVG(SalEmp) FROM empleado WHERE NumHi &gt;= 1;
+  SELECT NomEmp, TIMESTAMPDIFF(YEAR, FecInEmp, CURDATE()) FROM empleado WHERE TIMESTAMPDIFF(YEAR, FecInEmp, CURDATE()) &gt; 25;
+  SELECT CodCen, NomCen FROM centro WHERE PobCen = "Badajoz" ORDER BY NomCen DESC;
+  SELECT COUNT(*) FROM departamento WHERE PreAnu &gt; 20000000;
+  SELECT CodEmp, NomEmp, COALESCE(ExTelEmp, NumHi, "0000") from empleado;
+  SELECT CodHab, DesHab, CHAR_LENGTH(DesHab) FROM habilidad WHERE CodHab LIKE 'A%';</code></p>
+<ul>
+<li>
+<p><strong>AR608</strong>. (RABD.3 // CE3b // 3p) Realiza las consultas de la 20 a la 36 del apartado 1.1.3 de <em>Consultas sobre una tabla</em> de la base de datos de <em>Tienda de informática</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>AP609</strong>. (RABD.3 // CE3b // 3p) Realiza las consultas de la 21 a la 36 del apartado 1.2.3 de <em>Consultas sobre una tabla</em> de la base de datos de <em>Gestión de empleados</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>AC610</strong>. (RABD.3 // CE3c // 3p) Sobre la base de datos <code>empresa</code>, y utilizando composiciones internas, realiza las siguientes consultas:</p>
+</li>
+<li>
+<p>Muestra para cada departamento, su nombre, presupuesto y el nombre del centro al que pertenece.</p>
+</li>
+<li>Muestra para cada departamento, su nombre, presupuesto y el nombre del empleado que lo dirige.</li>
+<li>Muestra para cada departamento, su nombre, presupuesto, el nombre del centro al que pertenece y el nombre del empleado que lo dirige.</li>
+<li>Muestra el nombre del departamento, el nombre del centro al que pertenece y el nombre del empleado que lo dirige, de aquel departamento que tenga el presupuesto más alto.</li>
+<li>Listar los empleados del centro <code>Fábrica Zona Sur</code>.</li>
+<li>Listar el nombre del empleado y el nombre y fecha de nacimiento de su hijo/hija para aquellos empleados con un único hijo. Ordenar por fecha de nacimiento de los hijos.</li>
+<li>
+<p>Usando los operadores de conjuntos, recupera:</p>
+<ol>
+<li>el código de departamento para aquellos departamentos que tienen empleados.</li>
+<li>el código de departamento para aquellos departamentos que no tienen empleados.</li>
+<li>los empleados que no son directivos de ningún departamento (no aparecen en <code>departamento.CodEmpDir</code>).</li>
+<li>los empleados que no son directivos de ningún departamento ni de ningún centro</li>
+<li>Recupera los empleados que trabajan en <code>Oficinas Zona Sur</code> y que tienen hijos.</li>
+<li>Recupera los departamentos que tienen empleados con la habilidad <code>Fontanería</code>.</li>
+<li>Recupera todos los departamentos que dependen de un departamento secundario.</li>
+</ol>
+</li>
+<li>
+<p><strong>AC611</strong>. (RABD.3 // CE3d // 3p) Sobre la base de datos <code>empresa</code>, y utilizando composiciones externas, realiza las siguientes consultas:</p>
+</li>
+<li>
+<p>Muestra un listado de todas las habilidades, y si tienen, el código del empleado y el nivel de su habilidad.</p>
+</li>
+<li>Muestra un listado de las habilidades que no tiene ningún empleado.</li>
+<li>Comprueba si los empleados que no tienen hijos (<code>empleado.NumHi</code>) coinciden con los empleados no tienen hijos relacionados (tabla <code>hijo</code>).</li>
+<li>Obtén el nombre del empleado y el nombre del hijo, si tuviese, para todos los empleados.</li>
+<li>Mostrar un listado con todos los departamentos junto con los nombres de los departamentos de los cuales dependen (propiedad <code>CodDepDep</code>) (en el caso que dependan de alguno).</li>
+<li>Devuelve un listado de los empleados que no son directivos (usando <em>joins</em>) de departamentos.</li>
+<li>Devuelve un listado de los empleados que no son directivos (usando <em>joins</em>) de ningún centro.</li>
+<li>Comprueba si tenemos centros que no tengan ningún departamento asignado.</li>
+<li>
+<p>Devuelve un listado de los empleados que no son directivos de ningún tipo.</p>
+</li>
+<li>
+<p><strong>AR612</strong>. (RABD.3 // CE3b, CE3c, CE3d // 3p) Realiza todas las consultas de los apartados 1.1.4 y 1.1.5 de <em>Consultas multitabla (interna y externa)</em> de la base de datos de <em>Tienda de informática</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>AP613</strong>. (RABD.3 // CE3b, CE3c, CE3d // 3p) Realiza todas las consultas de los apartados 1.2.4 y 1.2.5 de <em>Consultas multitabla (interna y externa)</em> de la base de datos de <em>Gestión de empleados</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>PR614</strong>. (RABD.3 // CE3b, CE3c, CE3d // 5p) A partir de la base de datos <a href="resources/06bd-retail.sql"><code>06bd-retail.sql</code></a>, tras importarla en <em>MariaDB</em>, se pide:</p>
+</li>
+<li>
+<p>Obtén el diagrama EER mediante <em>DBeaver</em> (si quieres, puedes probar a utilizar <em>MySQL Workbench</em>).</p>
+</li>
+<li>Define las claves ajenas en un script SQL y ejecútalo.</li>
+<li>Vuelve a cargar el diagrama EER y comprueba que aparecen las relaciones.</li>
+<li>
+<p>Realiza las siguientes consultas:</p>
+<ol>
+<li>¿Cuántas categorías hay en total?</li>
+<li>Recupera todos los posibles estados que puede tener un pedido (revisa la columna <code>orders.order_status</code>).</li>
+<li>Recupera el nombre y el primer apellido de los clientes que viven en <code>Caguas</code>.</li>
+<li>¿Cuál es el producto más caro? ¿Y el más barato?</li>
+<li>¿Cuántos pedidos han realizado clientes que viven en el <code>Bronx</code>?</li>
+<li>¿Cuántos productos han pedido clientes que viven en el <code>Bronx</code> y su nombre empieza por <code>M</code>?</li>
+<li>Recupera el nombre, email y ciudad de los clientes que tengan pedidos pendientes de pago.</li>
+<li>Recupera el nombre de los departamentos que tengan pedidos pendientes de pago.</li>
+<li>Recupera el nombre de los departamentos que han vendido algún producto a un cliente que vive en <code>Phoenix</code>.</li>
+<li>Recupera todos los productos cuya categoría contenga la palabra <code>Golf</code>.</li>
+<li>Para todos los elementos de pedido, comprueba si el valor del subtotal cuadra con el producto del precio por su cantidad.</li>
+<li>Recupera todos los clientes que no han realizado ningún pedido.</li>
+<li>Recupera todas las categorías que no tienen productos (usando combinaciones externas)</li>
+</ol>
+</li>
+<li>
+<p><strong>PY615</strong>. (RABD.3 // CE3a, CE3b, CE3c, CE3d // 3p) A partir del modelo físico creado en la actividad <a href="05ddl.html#PY518">PY518</a> del <a href="05ddl.html#reto-ii-creamos">Reto II - Creamos</a>, en esta actividad nos vamos a centrar en definir una serie de consultas para explotar nuestra base de datos.</p>
+</li>
+</ul>
+<p>Para ello, se pide un informe que detalle:</p>
+<ul>
+<li>Definición de 10 consultas que extraigan información, las cuales deben utilizar combinaciones de tablas (tanto internas como externas), filtrado, ordenación y cálculos sencillos.</li>
+<li>Resolución mediante SQL de cada una de las consultas.</li>
+<li>Resultados de su ejecución sobre el modelo físico.</li>
+</ul>
+<p>Se utilizará una rúbrica para su evaluación en base a la siguiente lista de cotejo:</p>
+<ul>
+<li>Limpieza y calidad de las consultas.</li>
+<li>Variedad de consultas, desde consultas sencilla a más complejas.</li>
+<li>Documentación de las consultas.</li>
+<li>El informe entregado no contiene faltas de ortografía.</li>
+<li>El informe entregado tiene un formato adecuado (portada, apartados, autores, etc...).</li>
+<li>
+<p>El informe debe indicar cómo se han repartido las tareas y qué ha realizado cada alumno/a.</p>
+</li>
+<li>
+<p><strong>AR616</strong>. (RABD.3 // CE3a, CE3b, CE3c, CE3d // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</p>
+</li>
+</ul>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="js/nav-collapse-anexos.js"></script>
+      
+    
+  </body>
+</html>

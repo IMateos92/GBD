@@ -1,0 +1,3086 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="07sql-group.html">
+      
+      
+        <link rel="next" href="09dcl-tcl.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/fa-database.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>8.- Subconsultas. Optimización. CTE. Índices - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#subconsultas-optimizacion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V288c0 44.2 100.3 80 224 80s224-35.8 224-80zm0-77.8V80c0-44.2-100.3-80-224-80S0 35.8 0 80v48c0 44.2 100.3 80 224 80s224-35.8 224-80m-49.5 261.8C351.6 406.5 289.9 416 224 416s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V432c0 44.2 100.3 80 224 80s224-35.8 224-80v-66.2c-14.8 9.8-31.8 17.7-49.5 24"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              8.- Subconsultas. Optimización. CTE. Índices
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="lime"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M448 205.8c-14.8 9.8-31.8 17.7-49.5 24-47 16.8-108.7 26.2-174.5 26.2s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V288c0 44.2 100.3 80 224 80s224-35.8 224-80zm0-77.8V80c0-44.2-100.3-80-224-80S0 35.8 0 80v48c0 44.2 100.3 80 224 80s224-35.8 224-80m-49.5 261.8C351.6 406.5 289.9 416 224 416s-127.6-9.5-174.5-26.2c-17.6-6.3-34.7-14.2-49.5-24V432c0 44.2 100.3 80 224 80s224-35.8 224-80v-66.2c-14.8 9.8-31.8 17.7-49.5 24"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="08sql-subquerys.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-13h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (13h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subconsultas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subconsultas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subconsultas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#escalares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escalares
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escalares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#correlacionadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlacionadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anidadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anidadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-fila" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De fila
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De fila">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANY
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ALL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EXISTS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-tabla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De tabla
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CTE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultas-y-ddldml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas y DDL/DML
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultas y DDL/DML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ddl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DDL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DML
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plan-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan de ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Índices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Índices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forzando-planes-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzando planes de ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de índices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas prácticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-13h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (13h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subconsultas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subconsultas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subconsultas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#escalares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escalares
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escalares">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#correlacionadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correlacionadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anidadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anidadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-fila" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De fila
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De fila">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#any" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANY
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ALL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EXISTS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-tabla" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De tabla
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CTE
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consultas-y-ddldml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas y DDL/DML
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultas y DDL/DML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ddl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DDL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DML
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plan-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plan de ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Índices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Índices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forzando-planes-de-ejecucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forzando planes de ejecución
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de índices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buenas-practicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Buenas prácticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:ra3">RA3</a>
+<a href="tags.html#tag:ra4">RA4</a>
+<a href="tags.html#tag:sql">SQL</a>
+<a href="tags.html#tag:sql---dml">SQL - DML</a></p>
+<h1 id="subconsultas-optimizacion">Subconsultas. Optimización.</h1>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta unidad finalizaremos el RA3 "<strong>Consulta la información almacenada en una base de datos empleando asistentes, herramientas gráficas y el lenguaje de manipulación de datos</strong>", centrándonos en el uso de subconsultas y los conceptos relacionados con el rendimiento de las consultas, incluyendo el uso de índices, y seguiremos con el RA4 "<strong>Modifica la información almacenada en la base de datos utilizando asistentes, herramientas gráficas y el lenguaje de manipulación de datos</strong>" para incluir en una tabla el resultado de una consulta.</p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<ul>
+<li><strong>CE3f</strong>: Se han realizado consultas con subconsultas.</li>
+<li><strong>CE3g</strong>: Se han realizado consultas que implican múltiples selecciones.</li>
+<li><strong>CE3h</strong>: Se han aplicado criterios de optimización de consultas.</li>
+<li><strong>CE4c</strong>: Se ha incluido en una tabla la información resultante de la ejecución de una consulta.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Realización de consultas:</p>
+<ul>
+<li>Subconsultas.</li>
+<li>Combinación de múltiples selecciones.</li>
+<li>Optimización de consultas.</li>
+</ul>
+<p>Tratamiento de datos:</p>
+<ul>
+<li>Inserción, borrado y modificación de registros.</li>
+<li>Subconsultas y composiciones en órdenes de edición.</li>
+</ul>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Para qué sirve una subconsulta?</li>
+<li>¿Qué tipos de subconsultas existen?</li>
+<li>¿Qué operadores podemos utilizar en una subconsulta?</li>
+<li>¿Es mejor hacer un <code>JOIN</code> o realizar una subconsulta?</li>
+<li>¿Qué diferencia una subconsulta anidada de una correlacionada?</li>
+<li>¿Puede ser una subconsulta anidada y correlacionada?</li>
+<li>¿Qué es una CTE?</li>
+<li>¿En qué se diferencia una CTE de una vista?</li>
+<li>¿Podemos emplear CTEs en operaciones DML?</li>
+<li>¿Para qué sirve la sentencia <code>CREATE TABLE ... AS SELECT</code>? ¿Qué usos tiene?</li>
+<li>¿Para qué sirve la sentencia <code>INSERT SELECT</code>? ¿Qué usos tiene?</li>
+<li>¿Puedo utilizar una subconsulta dentro de la cláusula <code>WHERE</code> en una operación de modificación o borrado? ¿Puedes proporcionar un ejemplo?</li>
+<li>¿Qué es un índice?</li>
+<li>¿Cuándo no es recomendable crear un índice? ¿En qué operaciones influye?</li>
+<li>¿Qué tipos de índices conoces?</li>
+<li>¿Cómo puedo saber si en una consulta determinada se está utilizando un índice o no?</li>
+</ol>
+<h3 id="programacion-de-aula-13h">Programación de Aula (13h)</h3>
+<p>Esta unidad es la octava, siendo la última del bloque de consultas, impartiéndose a mediados de la segunda evaluación, con una duración estimada de 13 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#subconsultas">Subconsultas</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Operador <a href="#in">IN</a></td>
+<td><a href="#AC801">AC801</a></td>
+<td>CE3f</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Operadores <a href="#all">ALL</a> / <a href="#any">ANY</a> / <a href="#exists">EXISTS</a></td>
+<td><a href="#AC802">AC802</a></td>
+<td>CE3f</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#de-tabla">Tablas derivadas</a>. <a href="#cte">CTE</a></td>
+<td><a href="#AC803">AC803</a></td>
+<td>CE3f, CE3g</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Supuesto subconsultas</td>
+<td><a href="#PR806">PR806</a></td>
+<td>CE3f, CE3g</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#consultas-y-ddldml">SELECT y DDL/DML</a></td>
+<td><a href="#AC807">AC807</a></td>
+<td>CE4c</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#optimizacion">Optimización de consultas</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Supuesto optimización</td>
+<td><a href="#AC809">AC809</a></td>
+<td>CE3h</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Simulacro examen</td>
+<td><a href="#PR812">PR812</a></td>
+<td>CE3a, CE3b, CE3c, CE3d, CE3e, CE3f, CE3g</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Exposición del Reto</td>
+<td><a href="#PY813">PY813</a></td>
+<td>CE3f, CE3g, CE3h</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Prueba escrita I</td>
+<td><a href="#PO814">PO814</a></td>
+<td>RABD.2, RABD.3, RABD.4</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Prueba escrita II</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Revisión prueba escrita</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="subconsultas">Subconsultas</h2>
+<p>Hasta ahora hemos creado consultas, ya sea empleando una o más tablas, pudiendo agrupar los resultados para realizar y filtrar los datos.</p>
+<p>Otra posibilidad que tenemos es crear subconsultas, esto es, una consulta dentro de otra (dentro de la cláusula <code>WHERE</code> o <code>HAVING</code>) que funcione a modo de expresión, ofreciendo más posibilidades semánticas a SQL. La sentencia externa puede ser una <code>SELECT</code>, <code>DELETE</code>, <code>INSERT</code> o <code>UPDATE</code>.</p>
+<p>El formato general más usado (al aplicarse sobre el filtrado en <code>WHERE</code>) es similar a:</p>
+<pre><code>SELECT ... FROM ...
+WHERE expresión operador (
+    SELECT columna FROM tabla
+    WHERE condición)
+[ORDER BY col-1 [,col-2]...];
+</code></pre>
+<p>Tenemos tres tipos de subconsultas:</p>
+<ul>
+<li>De fila: devuelven más de una columna pero una única fila.</li>
+<li>De tabla: devuelven una o varias columnas y cero o varias filas.</li>
+<li>Escalares: devuelven una columna y una fila.</li>
+</ul>
+<p>Todas las <a href="https://mariadb.com/kb/en/subqueries/">subconsultas</a> deben cumplir:</p>
+<ul>
+<li>La cláusula <code>ORDER BY</code> no puede ir en una subconsulta.</li>
+<li>A excepción del operador <code>EXISTS</code>, deben producir una sola columna de datos como resultado.</li>
+<li>Una subconsulta puede contener a otra subconsulta y ésta a otra y así N veces. El límite lo fija cada SGBD.</li>
+</ul>
+<h3 id="escalares">Escalares</h3>
+<p>Las <a href="https://mariadb.com/kb/en/subqueries-scalar-subqueries/">subconsultas escalares</a> son aquellas que devuelven un único valor (una sola fila y una única columna), lo que facilita su uso en aquellas ocasiones en las que comparamos con un valor.</p>
+<p>Así pues, un ejemplo muy sencillo sería obtener el empleado con el salario más alto:</p>
+<pre><code>--- Salario más alto
+select max(SalEmp) from empleado;
+--- Empleado con el salario más alto
+select NomEmp from empleado
+where SalEmp =
+    (select max(SalEmp) from empleado);
+</code></pre>
+<p>¿Empleado que más cobra?</p>
+<p>En el ejemplo anterior, hemos recuperado de la tabla <code>empleado</code> aquellos empleados cuyo salario sea igual al mayor salario. La pregunta es, ¿Cuántos empleados habrá recuperado? ¿Sería correcto decir que es el empleado que más cobra? ¿Qué pasaría si hubiera dos empleados con el mismo salario más alto? ¿Cómo podríamos recuperar ambos empleados?</p>
+<p>Si recuerdas, cuando aprendimos a ordenar y restringir la cantidad de resultados, vimos cómo podemos deshacer los empates haciendo uso de la cláusula <a href="https://mariadb.com/docs/server/reference/sql-statements/data-manipulation/selecting-data/select-offset-fetch"><code>FETCH FIRST n ROWS WITH TIES</code></a>:</p>
+<pre><code>select NomEmp, SalEmp from empleado
+ORDER BY SalEmp ASC
+FETCH FIRST 1 ROW WITH TIES;
+</code></pre>
+<p>O los empleados que tienen más hijos:</p>
+<pre><code>-- Cantidad de hijos máximo
+select max(NumHi) from empleado;
+-- Empleados con más hijos
+select NomEmp from empleado
+where NumHi =
+    (select max(NumHi) from empleado);
+</code></pre>
+<p>En las subconsultas escalares podemos emplear los operadores de relación: <code>=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;&gt;</code>, <code>&gt;=</code> y <code>&lt;=</code>. Así pues, por ejemplo, podemos recuperar los empleados con menos hijos que <code>Saladino Mandamás, Augusto</code>:</p>
+<pre><code>select NomEmp from empleado
+where NumHi &lt;
+    (select NumHi from empleado where NomEmp = &quot;Saladino Mandamás, Augusto&quot;);
+</code></pre>
+<p>Por supuesto, también podemos realizar la subconsulta dentro de la cláusula <code>HAVING</code>, obteniendo el nombre y el gasto en nómina de sus empleados de aquellos departamentos en los que el gasto en nóminas sea superior al del empleado que más cobra en toda la empresa:</p>
+<pre><code>select d.NomDep, sum(e.SalEmp)
+from departamento d join empleado e on d.CodDep = e.CodDep
+group by d.NomDep
+HAVING sum(e.SalEmp) &gt;
+    (SELECT max(SalEmp) from empleado);
+-- +----------------------+---------------+
+-- | NomDep               | sum(e.SalEmp) |
+-- +----------------------+---------------+
+-- | Producción Zona Sur  |    7600000.00 |
+-- | Ventas Zona Sur      |    8400000.00 |
+-- +----------------------+---------------+
+-- 2 rows in set (0.054 sec)
+</code></pre>
+<h4 id="correlacionadas">Correlacionadas</h4>
+<p>Una subconsulta <strong>correlacionada</strong> es una subconsulta que depende de una columna o valor de la consulta principal para ser evaluada. Esto significa que la subconsulta se ejecuta repetidamente, una vez para cada fila de la consulta principal, utilizando valores específicos de esa fila.</p>
+<p>Se utilizan para calcular valores relacionados de la subconsulta con la consulta externa. Veamos un ejemplo.</p>
+<p>Mediante la siguiente consulta, obtenemos el nombre y el salario de aquellos empleados que ganan más que la media de todos los empleados:</p>
+<pre><code>select NomEmp, SalEmp from empleado where SalEmp &gt;
+    (select avg(SalEmp) from empleado);
+</code></pre>
+<p>Pero ¿y si queremos restringirlo a aquellos que ganan más que sus compañeros del mismo departamento? En ese caso, relacionamos la subconsulta con la consulta externa, añadiendo una restricción en la cláusula <code>WHERE</code> uniéndolas por el campo que comparten:</p>
+<pre><code>select NomEmp, SalEmp from empleado e where SalEmp &gt;
+    (select avg(SalEmp) from empleado WHERE CodDep = e.CodDep);
+</code></pre>
+<p>La consulta principal selecciona los datos de la tabla <code>empleado</code>, y para cada fila, la subconsulta calcula el salario promedio de los empleado del mismo departamento (columna <code>CodDep</code>).</p>
+<h4 id="anidadas">Anidadas</h4>
+<p>Por supuesto, una consulta puede contener varias subconsultas.</p>
+<p>Por ejemplo, si quisiéramos ver si existe algún empleado que sea el que más cobra y tenga la mayor cantidad de hijos, podríamos hacer:</p>
+<pre><code>select NomEmp, SalEmp, NumHi from empleado where
+    SalEmp = (select max(SalEmp) from empleado) and
+    NumHi = (select max(NumHi) from empleado);
+-- No obtiene ningún resultado
+</code></pre>
+<p>Si queremos que se compare con los compañeros del mismo departamento, correlacionamos las subconsultas:</p>
+<pre><code>select NomEmp, SalEmp, NumHi from empleado e where
+    SalEmp = (select max(SalEmp) from empleado where CodDep = e.CodDep) and
+    NumHi = (select max(NumHi) from empleado where CodDep = e.CodDep);
+-- Recupera 6 empleados
+</code></pre>
+<p>También podemos <strong>anidar</strong> una subconsulta dentro de otra. Por ejemplo, si queremos recuperar el empleado que más cobra y que trabaja en el departamento con el presupuesto más alto, podríamos hacer:</p>
+<pre><code>select NomEmp, SalEmp, CodDep from empleado e where
+    SalEmp = (select max(SalEmp) from empleado where CodDep =
+                (select CodDep from departamento order by PreAnu desc limit 1));
+</code></pre>
+<h3 id="de-fila">De fila</h3>
+<p>Las <a href="https://mariadb.com/kb/en/subqueries-row-subqueries/">subconsultas de fila</a> son aquellas que devuelven una única columna de una o más filas.</p>
+<p>Para ello, emplea los operadores <code>IN</code>, <code>ANY</code>, <code>ALL</code> o <code>EXISTS</code>.</p>
+<h4 id="in"><code>IN</code></h4>
+<p>Si quisiéramos recuperar los departamentos que hay en Murcia podríamos hacer un <em>join</em> para recuperar la información. Si queremos utilizar una subconsulta, podríamos pensar que podríamos por un lado recuperar los códigos de centro de <code>Murcia</code>, y luego obtener los nombres de sus departamentos:</p>
+<pre><code>select NomDep from departamento where CodCen =
+    (select CodCen from centro where PobCen='Murcia');
+</code></pre>
+<p>El problema es que la subconsulta devuelve más de un valor, ya que podemos tener más de un centro en Murcia, y por ende, el resultado obtenido bien nos puede dar un error (dependiendo del SGBD) u obtener unos datos incorrectos.</p>
+<p>Cuando la subconsulta devuelve más de un posible valor, en vez de comparar mediante el operador igualdad, usaremos el operador <code>[NOT] IN</code>:</p>
+<pre><code>select NomDep from departamento where CodCen IN
+    (select CodCen from centro where PobCen='Murcia');
+-- +--------------------------+
+-- | NomDep                   |
+-- +--------------------------+
+-- | Dirección General        |
+-- | Investigación y Diseño   |
+-- +--------------------------+
+-- 2 rows in set (0.002 sec)
+</code></pre>
+<p>Autoevaluación</p>
+<p>¿Y si queremos obtener los departamentos que no están en Murcia? ¿Podemos realizarlo del mismo modo con <em>join</em> que mediante subconsultas?</p>
+<h4 id="any"><code>ANY</code></h4>
+<p>También podemos emplear el operador <code>ANY</code>, el cual devuelve verdadero si la comparación se cumple para alguno de los valores resultantes de la subconsulta.</p>
+<p>Podemos reescribir la consulta anterior mediante <code>ANY</code> (anteponiendo el operador relacional que necesitemos):</p>
+<pre><code>select NomDep from departamento where CodCen = ANY
+    (select CodCen from centro where PobCen='Murcia');
+-- +--------------------------+
+-- | NomDep                   |
+-- +--------------------------+
+-- | Dirección General        |
+-- | Investigación y Diseño   |
+-- +--------------------------+
+-- 2 rows in set (0.002 sec)
+</code></pre>
+<p>Otro ejemplo de su uso. La siguiente consulta recupera los nombres y departamentos de los empleados cuyo sueldo es superior a alguno de sus compañeros de departamento, haríamos:</p>
+<pre><code>select NomEmp, CodDep from empleado e
+where SalEmp &gt; ANY (
+    select SalEmp from empleado where CodDep=e.CodDep);
+-- +-------------------------+--------+
+-- | NomEmp                  | CodDep |
+-- +-------------------------+--------+
+-- | Monforte Cid, Roldán    | VENZS  |
+-- | Forzado López, Galeote  | PROZS  |
+-- | Mascullas Alto, Eloísa  | PROZS  |
+-- | Mando Correa, Rosa      | PROZS  |
+-- +-------------------------+--------+
+-- 4 rows in set (0.002 sec)
+</code></pre>
+<p>Cabe destacar que estamos enlazando la consulta interna (la subconsulta) con la consulta externa para que muestre los empleados que tienen el mismo departamento.</p>
+<p>Si comparamos el resultado con todos los empleados, podemos ver que únicamente ha seleccionado a aquellos empleados que tienen algún compañero que cobra menos que ellos, descartando aquellos departamentos que sólo tienen un empleado:</p>
+<pre><code>select NomEmp, CodDep, SalEmp from empleado;
+-- +-----------------------------+--------+------------+
+-- | NomEmp                      | CodDep | SalEmp     |
+-- +-----------------------------+--------+------------+
+-- | Saladino Mandamás, Augusto  | DIRGE  | 7200000.00 |
+-- | Manrique Bacterio, Luisa    | IN&amp;DI  | 4500000.00 |
+-- | Monforte Cid, Roldán        | VENZS  | 5200000.00 |
+-- | Topaz Illán, Carlos         | VENZS  | 3200000.00 |
+-- | Alada Veraz, Juana          | ADMZS  | 6200000.00 |
+-- | Gozque Altanero, Cándido    | JEFZS  | 5000000.00 |
+-- | Forzado López, Galeote      | PROZS  | 1600000.00 |
+-- | Mascullas Alto, Eloísa      | PROZS  | 1600000.00 |
+-- | Mando Correa, Rosa          | PROZS  | 3100000.00 |
+-- | Mosc Amuerta, Mario         | PROZS  | 1300000.00 |
+-- +-----------------------------+--------+------------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<p>Así pues, mediante <code>ANY</code> estamos obligando a que haya un registro que cumpla la condición de la subconsulta.</p>
+<h4 id="all"><code>ALL</code></h4>
+<p>Al principio de la unidad obtuvimos el empleado que tenía el salario más alto:</p>
+<pre><code>select NomEmp, SalEmp, CodDep from empleado
+where SalEmp =
+    (select max(SalEmp) from empleado);
+-- +-----------------------------+------------+--------+
+-- | NomEmp                      | SalEmp     | CodDep |
+-- +-----------------------------+------------+--------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 | DIRGE  |
+-- +-----------------------------+------------+--------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Si quisiéramos obtener los mismos datos, pero del empleado que más cobra de cada departamento, necesitamos conectar la subconsulta con la consulta externa:</p>
+<pre><code>select NomEmp, SalEmp, CodDep from empleado e
+where SalEmp = 
+    (select max(SalEmp) from empleado where CodDep=e.CodDep);
+-- +-----------------------------+------------+--------+
+-- | NomEmp                      | SalEmp     | CodDep |
+-- +-----------------------------+------------+--------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 | DIRGE  |
+-- | Manrique Bacterio, Luisa    | 4500000.00 | IN&amp;DI  |
+-- | Monforte Cid, Roldán        | 5200000.00 | VENZS  |
+-- | Alada Veraz, Juana          | 6200000.00 | ADMZS  |
+-- | Gozque Altanero, Cándido    | 5000000.00 | JEFZS  |
+-- | Mando Correa, Rosa          | 3100000.00 | PROZS  |
+-- +-----------------------------+------------+--------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>Esta misma consulta, podemos realizar utilizando el operador <code>ALL</code>, el cual devuelve verdadero si la comparación se cumple para todos los valores resultantes de la subconsulta, ya que recupera a aquellos empleados cuyo salario sea mayor o igual al resto de salarios de sus compañeros de departamento, lo que implica que sea el salario más alto:</p>
+<pre><code>select NomEmp,SalEmp,CodDep from empleado e
+where SalEmp &gt;= ALL
+    (select SalEmp from empleado where CodDep=e.CodDep);
+-- +-----------------------------+------------+--------+
+-- | NomEmp                      | SalEmp     | CodDep |
+-- +-----------------------------+------------+--------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 | DIRGE  |
+-- | Manrique Bacterio, Luisa    | 4500000.00 | IN&amp;DI  |
+-- | Monforte Cid, Roldán        | 5200000.00 | VENZS  |
+-- | Alada Veraz, Juana          | 6200000.00 | ADMZS  |
+-- | Gozque Altanero, Cándido    | 5000000.00 | JEFZS  |
+-- | Mando Correa, Rosa          | 3100000.00 | PROZS  |
+-- +-----------------------------+------------+--------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>Veamos otro ejemplo de uso. Si quisiéramos recuperar todos los departamentos que no pertenecen a un centro de <code>Murcia</code>, podemos hacer:</p>
+<pre><code>select CodDep, NomDep from departamento
+where CodCen NOT IN
+    (select CodCen from centro where PobCen='Murcia');
+-- +--------+----------------------------+
+-- | CodDep | NomDep                     |
+-- +--------+----------------------------+
+-- | ADMZS  | Administración Zona Sur    |
+-- | JEFZS  | Jefatura Fábrica Zona Sur  |
+-- | PROZS  | Producción Zona Sur        |
+-- | VENZS  | Ventas Zona Sur            |
+-- +--------+----------------------------+
+-- 4 rows in set (0.001 sec)
+</code></pre>
+<p>Otro uso de <code>ALL</code> puede ser cuando queremos usarlo de forma similar a <code>NOT IN</code> mediante <code>&lt;&gt; ALL</code>:</p>
+<pre><code>select CodDep, NomDep from departamento
+where CodCen &lt;&gt; ALL
+    (select CodCen from centro where PobCen='Murcia');
+-- +--------+----------------------------+
+-- | CodDep | NomDep                     |
+-- +--------+----------------------------+
+-- | ADMZS  | Administración Zona Sur    |
+-- | JEFZS  | Jefatura Fábrica Zona Sur  |
+-- | PROZS  | Producción Zona Sur        |
+-- | VENZS  | Ventas Zona Sur            |
+-- +--------+----------------------------+
+-- 4 rows in set (0.001 sec)
+</code></pre>
+<h4 id="exists"><code>EXISTS</code></h4>
+<p>Las subconsultas que utilizan <code>[NOT] EXISTS</code> devuelven verdadero si la subconsulta obtiene algún resultado (alguna fila).</p>
+<p>Así pues, este operador no evalúa ninguna comparación, con lo que las columnas que recupera no importan.</p>
+<p>Como regla general, las subconsultas con <code>EXISTS</code> siempre van a enlazar la consulta principal con la subconsulta, es decir, siempre se deben correlacionar.</p>
+<p>Por ejemplo, mediante la siguiente consulta obtenemos el nombre y departamento de los empleados para los que exista otro empleado que se haya incorporado a la empresa antes que ellos:</p>
+<pre><code>select NomEmp,CodDep from empleado e
+where EXISTS
+    (select * from empleado where FecInEmp &lt; e.FecInEmp);
+-- +---------------------------+--------+
+-- | NomEmp                    | CodDep |
+-- +---------------------------+--------+
+-- | Manrique Bacterio, Luisa  | IN&amp;DI  |
+-- | Monforte Cid, Roldán      | VENZS  |
+-- | Topaz Illán, Carlos       | VENZS  |
+-- | Alada Veraz, Juana        | ADMZS  |
+-- | Gozque Altanero, Cándido  | JEFZS  |
+-- | Forzado López, Galeote    | PROZS  |
+-- | Mascullas Alto, Eloísa    | PROZS  |
+-- | Mando Correa, Rosa        | PROZS  |
+-- | Mosc Amuerta, Mario       | PROZS  |
+-- +---------------------------+--------+
+-- 9 rows in set (0.000 sec)
+</code></pre>
+<p>Si hacemos la consulta negada, obtendremos el primer empleado, ya que no existe ningún otro que llegase a la empresa antes que él/ella:</p>
+<pre><code>select NomEmp,CodDep from empleado e
+where NOT EXISTS
+    (select * from empleado where FecInEmp &lt; e.FecInEmp);
+-- +-----------------------------+--------+
+-- | NomEmp                      | CodDep |
+-- +-----------------------------+--------+
+-- | Saladino Mandamás, Augusto  | DIRGE  |
+-- +-----------------------------+--------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<h3 id="de-tabla">De tabla</h3>
+<p>Las <strong>tablas derivadas</strong>, también conocidas como subconsultas de tabla, se localizan dentro de la cláusula <code>FROM</code> de la consulta externa.</p>
+<p>Si retomamos la consulta que recupera aquellos empleados que más ganan en cada departamento, la podemos definir mediante una subconsulta correlacionada:</p>
+<pre><code>select NomEmp, SalEmp, CodDep from empleado e
+where SalEmp = 
+    (select max(SalEmp) from empleado where CodDep=e.CodDep);
+-- +-----------------------------+------------+--------+
+-- | NomEmp                      | SalEmp     | CodDep |
+-- +-----------------------------+------------+--------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 | DIRGE  |
+-- | Manrique Bacterio, Luisa    | 4500000.00 | IN&amp;DI  |
+-- | Monforte Cid, Roldán        | 5200000.00 | VENZS  |
+-- | Alada Veraz, Juana          | 6200000.00 | ADMZS  |
+-- | Gozque Altanero, Cándido    | 5000000.00 | JEFZS  |
+-- | Mando Correa, Rosa          | 3100000.00 | PROZS  |
+-- +-----------------------------+------------+--------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>O con una tabla derivada, creando una nueva tabla cuyo resultado sea los salarios máximos para cada departamento:</p>
+<pre><code>select e.NomEmp, e.SalEmp, e.CodDep
+from empleado e join
+    (select CodDep, max(SalEmp) as MaxSalEmp
+        from empleado group by CodDep) empmax
+on e.CodDep=empmax.CodDep and e.SalEmp=empmax.MaxSalEmp;
+-- +-----------------------------+------------+--------+
+-- | NomEmp                      | SalEmp     | CodDep |
+-- +-----------------------------+------------+--------+
+-- | Saladino Mandamás, Augusto  | 7200000.00 | DIRGE  |
+-- | Manrique Bacterio, Luisa    | 4500000.00 | IN&amp;DI  |
+-- | Monforte Cid, Roldán        | 5200000.00 | VENZS  |
+-- | Alada Veraz, Juana          | 6200000.00 | ADMZS  |
+-- | Gozque Altanero, Cándido    | 5000000.00 | JEFZS  |
+-- | Mando Correa, Rosa          | 3100000.00 | PROZS  |
+-- +-----------------------------+------------+--------+
+</code></pre>
+<p>La tabla derivada debe ir entre paréntesis y tener un alias para poder referenciarla. En este caso, hemos nombrado a la tabla derivada como <code>empmax</code>.</p>
+<p>Veamos otro ejemplo. Supongamos que queremos recuperar el empleado que tiene más habilidades. Podemos hacer una subconsulta que recupere la cantidad de habilidades de cada empleado:</p>
+<pre><code>select CodEmp, COUNT(*) as CantHab
+from habemp he
+group by CodEmp
+</code></pre>
+<p>Y a continuación, utilizar una tabla derivada con ese resultado para quedarnos con el empleado que más tiene:</p>
+<pre><code>select e.CodEmp, e.NomEmp, c.CantHab 
+from (
+    select CodEmp, COUNT(*) as CantHab
+    from habemp he
+    group by CodEmp
+) as c join empleado e on c.CodEmp = e.CodEmp
+having c.CantHab = MAX(c.CantHab)
+</code></pre>
+<p>Si utilizas un SGBD antiguo, por ejemplo, anterior a <em>MySQL 8</em> (abril 2018), <em>MariaDB 10.2</em> (mayo 2017), <em>PostgreSQL 8.4</em> (julio 2009) o <em>SQL Server 2005</em> (noviembre 2005), puedes llegar a necesitar subconsultas de tabla. Si no, es mucho mejor emplear CTEs.</p>
+<h2 id="cte">CTE</h2>
+<p>Desde SQL:1999 (también conocido como SQL3), podemos emplear CTEs. Una CTE (<em>Common Table Expression</em>), o expresión de tabla común, es una construcción en SQL que permite definir una consulta temporal cuyo resultado puede ser referenciado en la consulta principal o en otras subconsultas. Se introdujo para mejorar la legibilidad y modularidad de las consultas, especialmente cuando son complejas.</p>
+<p>Conviene destacar que se define una vez al principio de la consulta mediante la cláusula <a href="https://mariadb.com/kb/en/with/"><code>WITH</code></a> y puede ser reutilizada posteriormente, incluso varias veces, lo que hace que las consultas sean más claras y fáciles de mantener.</p>
+<p>Su sintaxis es similar a:</p>
+<pre><code>WITH NombreCTE AS (
+    -- Consulta que define la CTE
+    select columna1, columna2, ...
+    from tabla
+    where condiciones
+)
+-- Consulta principal que usa la CTE
+select *
+from NombreCTE
+where otras_condiciones;
+</code></pre>
+<p>En cuanto a su duración, su vida útil está limitada a la consulta en la que se define; no persiste más allá de esa ejecución. Podríamos pensar que es como una vista que se crea para ejecutar la consulta y luego se elimina.</p>
+<p>Comencemos con un ejemplo muy sencillo. Vamos a recuperar los departamentos que tienen más de un empleado. Para ello, podríamos crear una CTE que cuente el número de empleados por departamento, y a continuación, recuperar únicamente aquellos departamentos que tengan más de un empleado (sí, podríamos haberlo hecho en una única consulta mediante <code>GROUP BY</code> y <code>HAVING</code>, pero lo hacemos con CTEs para mostrar su uso):</p>
+<pre><code>WITH cantidad_empleados_departamento AS (
+    select CodDep, COUNT(*) as total
+    from empleado
+    group by CodDep
+)
+
+select *
+from cantidad_empleados_departamento
+where total &gt; 1
+</code></pre>
+<p>Por poder, podríamos haber creado otro CTE para simplificar más la consulta:</p>
+<pre><code>WITH cantidad_empleados_departamento AS (
+    select CodDep, COUNT(*) as total
+    from empleado
+    group by CodDep
+),
+departamentos_grandes AS (
+    select *
+    from cantidad_empleados_departamento
+    where total &gt; 1
+)
+
+select * from departamentos_grandes;
+</code></pre>
+<p>Veamos otro ejemplo más complejo. Si queremos recuperar los empleados que tienen el salario más alto en cada departamento mediante CTEs, podríamos hacer:</p>
+<p>CTETabla derivada</p>
+<pre><code>WITH maxSalarios AS (
+    select CodDep, max(SalEmp) as MaxSalEmp
+    from empleado
+    group by CodDep
+)
+select e.NomEmp, e.SalEmp, e.CodDep
+from empleado e join maxSalarios ms on e.CodDep = ms.CodDep 
+where e.SalEmp = ms.MaxSalEmp;
+</code></pre>
+<pre><code>select e.NomEmp, e.SalEmp, e.CodDep
+from empleado e join
+    (select CodDep, max(SalEmp) as MaxSalEmp
+        from empleado group by CodDep) empmax
+    on e.CodDep=empmax.CodDep
+where e.SalEmp=empmax.MaxSalEmp;
+</code></pre>
+<p>Si nos centramos en el segundo caso del apartado anterior, donde recuperábamos el empleado que tiene más habilidades, podemos definir una CTE con la tabla derivada, y a continuación, realizar la agregación, de manera que se facilita la legibilidad de la consulta:</p>
+<p>CTETabla derivada</p>
+<pre><code>WITH cantHabEmp AS (
+    select CodEmp, COUNT(*) as CantHab
+    from habemp he
+    group by CodEmp
+)
+select e.CodEmp, e.NomEmp, c.CantHab 
+from cantHabEmp c join empleado e on c.CodEmp = e.CodEmp
+having c.CantHab = MAX(c.CantHab);
+</code></pre>
+<pre><code>select e.CodEmp, e.NomEmp, c.CantHab 
+from (
+    select CodEmp, COUNT(*) as CantHab
+    from habemp he
+    group by CodEmp
+) as c join empleado e on c.CodEmp = e.CodEmp
+having c.CantHab = MAX(c.CantHab);
+</code></pre>
+<p>Veamos un caso más complejo. Si queremos recuperar información sobre valores máximos y mínimos (que quieran recuperar el mayor, mejor, menor, peor, etc...) respecto a un campo que implique ordenar valores de un subconjunto de datos, podemos usar una función ventana en un CTE y luego recuperar únicamente los elementos que ocupan el primer elemento. Si por ejemplo, queremos recuperar el empleado que más cobra de cada departamento haremos:</p>
+<pre><code>WITH empSalRank AS (
+    SELECT e.NomEmp, e.SalEmp, d.CodDep,
+        RANK() OVER (PARTITION BY e.CodDep ORDER BY e.SalEmp DESC) AS rankingSalario
+    FROM empleado e JOIN departamento d ON e.CodDep = d.CodDep
+)
+select * from empSalRank where rankingSalario = 1;
+-- +-----------------------------+------------+--------+----------------+
+-- | NomEmp                      | SalEmp     | CodDep | rankingSalario |
+-- +-----------------------------+------------+--------+----------------+
+-- | Alada Veraz, Juana          | 6200000.00 | ADMZS  |              1 |
+-- | Saladino Mandamás, Augusto  | 7200000.00 | DIRGE  |              1 |
+-- | Manrique Bacterio, Luisa    | 4500000.00 | IN&amp;DI  |              1 |
+-- | Gozque Altanero, Cándido    | 5000000.00 | JEFZS  |              1 |
+-- | Mando Correa, Rosa          | 3100000.00 | PROZS  |              1 |
+-- | Monforte Cid, Roldán        | 5200000.00 | VENZS  |              1 |
+-- +-----------------------------+------------+--------+----------------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>CTE cíclicas</p>
+<p>Cuando tenemos datos jerárquicos es muy útil crear CTE cíclicas o recursivas mediante <code>WITH RECURSIVE</code>. Por ejemplo, si queremos calcular la jerarquía de los departamentos de la empresa podemos realizar:</p>
+<pre><code>WITH RECURSIVE jerarquiaDepartamento as (
+    -- Parte no recursiva: departamento raíz, que no depende de ningún otro
+    select CodDep, NomDep, CodDepDep, 1 as NivDep
+    from departamento
+    where CodDepDep is null
+
+    -- Combina la parte no recursiva y la recursiva
+    UNION ALL
+
+    -- Parte recursiva: selecciona los departamentos que dependen del anterior
+    select d.CodDep, d.NomDep, d.CodDepDep, jd.NivDep + 1 as NivDep
+    from departamento d join jerarquiaDepartamento jd ON d.CodDepDep = jd.CodDep
+)
+-- Selecciona todos los empleados con su nivel jerárquico
+select * from jerarquiaDepartamento;
+-- +--------+----------------------------+-----------+--------+
+-- | CodDep | NomDep                     | CodDepDep | NivDep |
+-- +--------+----------------------------+-----------+--------+
+-- | ADMZS  | Administración Zona Sur    | NULL      |      1 |
+-- | DIRGE  | Dirección General          | NULL      |      1 |
+-- | JEFZS  | Jefatura Fábrica Zona Sur  | NULL      |      1 |
+-- | IN&amp;DI  | Investigación y Diseño     | DIRGE     |      2 |
+-- | PROZS  | Producción Zona Sur        | JEFZS     |      2 |
+-- | VENZS  | Ventas Zona Sur            | ADMZS     |      2 |
+-- +--------+----------------------------+-----------+--------+
+-- 6 rows in set (0.002 sec)
+</code></pre>
+<h2 id="consultas-y-ddldml">Consultas y DDL/DML</h2>
+<p>Ahora que ya sabemos realizar consultas para obtener todo tipo de información, podemos emplearlas también para insertar, modificar o eliminar los datos que cumplen con los resultados obtenidos de una consulta.</p>
+<h3 id="ddl">DDL</h3>
+<p>Podemos crear tablas a partir del resultado de una consulta mediante <a href="https://mariadb.com/kb/en/create-table/#create-table-select"><code>CREATE TABLE .... AS SELECT</code></a>, almacenando en estático los datos obtenidos, con la misma estructura y tipos de datos de las tablas de origen.</p>
+<pre><code>CREATE [OR REPLACE] TABLE nombreTabla [AS] SELECT…
+</code></pre>
+<p>Por ejemplo, vamos a crear una tabla para almacenar los directivos de los departamentos (pero solo los de tipo <code>P</code>)</p>
+<pre><code>CREATE OR REPLACE TABLE directivo AS
+SELECT e.CodEmp, e.NomEmp, d.CodDep, d.NomDep, d.TiDir
+    from empleado e join departamento d on d.CodEmpDir = e.CodEmp
+    where d.TiDir = &quot;P&quot;;
+</code></pre>
+<p>Aunque a nivel funcional sea similar a una vista, de este modo los datos son una instantánea que se crea en tiempo de creación de la tabla. Mediante la vista, en cada consulta a la vista se ejecuta la consulta original, mientras que de este modo, sólo se realiza la consulta original cuando se crea la tabla.</p>
+<pre><code>select * from directivo;
+-- +--------+-----------------------------+--------+--------------------------+-------+
+-- | CodEmp | NomEmp                      | CodDep | NomDep                   | TiDir |
+-- +--------+-----------------------------+--------+--------------------------+-------+
+-- |      5 | Alada Veraz, Juana          | ADMZS  | Administración Zona Sur  | P     |
+-- |      1 | Saladino Mandamás, Augusto  | DIRGE  | Dirección General        | P     |
+-- |      2 | Manrique Bacterio, Luisa    | IN&amp;DI  | Investigación y Diseño   | P     |
+-- |      9 | Mando Correa, Rosa          | PROZS  | Producción Zona Sur      | P     |
+-- +--------+-----------------------------+--------+--------------------------+-------+
+-- 4 rows in set (0.001 sec)
+</code></pre>
+<p>Esta operación se utiliza mucho en analítica de datos y en consultas complejas, ya que persiste el resultado en una tabla, lo que mejora el futuro acceso a dichos datos (siempre y cuando sea factible que los datos no estén sincronizados). Por ejemplo, si necesitamos unir todas las tablas de nuestra base de datos <code>empresa</code> para obtener cuánto ganan los empleados que tienen determinadas habilidades, y la consulta tardase del orden de 10 segundos, podríamos crear una tabla con el resultado de la consulta. Cada vez que se modificara el salario de un empleado o que un empleado adquiriese una nueva habilidad, volveríamos a crear la tabla para que actualizase los datos, y que así fueran consistentes con los datos originales.</p>
+<p>Investiga</p>
+<p>¿Sabrías deducir que genera la siguiente operación DDL en <em>PostgreSQL</em>? ¿Qué realiza exactamente la función <a href="https://www.postgresql.org/docs/current/functions-srf.md"><code>generate_series</code></a>?</p>
+<pre><code>CREATE TABLE ventas AS
+    SELECT
+        id,
+        random(1,10) as cliente_id,
+        (array['€','$','&amp;'])[random(1,3)] as moneda,
+        random(1,20) as cantidad,
+        round(random(10.00, 20.00), 2) as precio,
+        now() as fecha
+    FROM generate_series(1,1000) AS id;
+</code></pre>
+<h3 id="dml">DML</h3>
+<p>Si queremos insertar datos a partir de una consulta usaremos la sentencia <a href="https://mariadb.com/kb/en/insert-select/"><code>INSERT tabla SELECT</code></a>.</p>
+<p>Por ejemplo, vamos a insertar en la tabla recién creada también los directivos de tipo <code>F</code>:</p>
+<pre><code>INSERT directivo
+SELECT e.CodEmp, e.NomEmp, d.CodDep, d.NomDep, d.TiDir
+    from empleado e join departamento d on d.CodEmpDir = e.CodEmp
+    where d.TiDir = &quot;F&quot;;
+</code></pre>
+<p>De manera que ahora ya los tenemos a todos:</p>
+<pre><code>select * from directivo;
+-- +--------+-----------------------------+--------+----------------------------+-------+
+-- | CodEmp | NomEmp                      | CodDep | NomDep                     | TiDir |
+-- +--------+-----------------------------+--------+----------------------------+-------+
+-- |      5 | Alada Veraz, Juana          | ADMZS  | Administración Zona Sur    | P     |
+-- |      1 | Saladino Mandamás, Augusto  | DIRGE  | Dirección General          | P     |
+-- |      2 | Manrique Bacterio, Luisa    | IN&amp;DI  | Investigación y Diseño     | P     |
+-- |      9 | Mando Correa, Rosa          | PROZS  | Producción Zona Sur        | P     |
+-- |      6 | Gozque Altanero, Cándido    | JEFZS  | Jefatura Fábrica Zona Sur  | F     |
+-- |      3 | Monforte Cid, Roldán        | VENZS  | Ventas Zona Sur            | F     |
+-- +--------+-----------------------------+--------+----------------------------+-------+
+-- 6 rows in set (0.001 sec)
+</code></pre>
+<p>De forma semejante, podemos modificar o borrar datos a partir de una consulta utilizando una subconsulta dentro de la cláusula <code>WHERE</code>. Por ejemplo, si queremos eliminar los directivos que no tienen hijos, podemos hacer:</p>
+<pre><code>DELETE from directivo
+WHERE CodEmp in
+    (select CodEmp from empleado where NumHi=0);
+-- Query OK, 5 rows affected (0.006 sec)
+</code></pre>
+<p>Es importante tener en cuenta que algunos SGBD no permiten modificar/eliminar los datos que se están leyendo en la subconsulta.</p>
+<p>CTE y modificaciones</p>
+<p>Cabe destacar que <em>MariaDB</em> todavía no soporta CTE para el DML, sólo para hacer <code>SELECT</code> tras el <code>WITH</code>.</p>
+<p>Si estuviéramos utilizando otro SGBD como <em>PostgreSQL</em> podríamos emplear CTEs para modificar o eliminar datos. Por ejemplo, podemos a cambiar el tipo de directivo de <code>F</code> a <code>P</code> en la tabla <code>directivo</code> a aquellos empleados que siendo <code>F</code> tengan hijos. Para ello, primero hacemos la consulta que recupera los directivos con hijos, y luego modificamos los departamento:</p>
+<pre><code>WITH directivosConHijos AS (
+    select e.CodEmp, e.NomEmp, d.CodDep, d.NomDep, d.TiDir
+    from empleado e join departamento d on d.CodEmpDir = e.CodEmp
+    where e.NumHi &gt; 0
+)
+UPDATE directivo SET TiDir = 'P' WHERE CodDep in
+    (select CodDep from directivosConHijos cte where cte.TiDir = 'F');
+</code></pre>
+<p>¿Y qué pasa con los datos de la tabla <code>directivo</code>? Claramente no se han actualizado y no serían consistente. Para ello, deberíamos eliminar la tabla y volver a crearla.</p>
+<h2 id="optimizacion">Optimización</h2>
+<p>La optimización de consultas es un aspecto clave en las bases de datos relacionales que permite mejorar el rendimiento de las operaciones y reducir los tiempos de ejecución.</p>
+<p>La optimización consiste en encontrar la forma más eficiente de ejecutar una consulta SQL, minimizando el tiempo y los recursos utilizados.</p>
+<ol>
+<li>
+<p>Proceso de optimización:</p>
+</li>
+<li>
+<p>Reescritura de la consulta: El sistema traduce la consulta en diferentes formas equivalentes y elige la más eficiente.</p>
+</li>
+<li>Generación del <strong>plan de ejecución</strong>: Se analizan posibles estrategias para ejecutar la consulta.</li>
+<li>Coste estimado: El SGBD calcula el coste de cada plan basándose en factores como el tamaño de las tablas, la selectividad de los índices y la cardinalidad de las columnas.</li>
+<li>
+<p>Factores que afectan a la optimización:</p>
+</li>
+<li>
+<p>Selección de <strong>índices</strong>: Un índice es una estructura asociada a una o varias columnas y facilitan la búsqueda de un determinado valor, acelerando el acceso a los datos, de forma similar al índice de un libro. Un uso adecuado de los índices puede acelerar enormemente las búsquedas y las combinaciones de tablas. Por defecto, los SGBD crean un índice por cada clave primaria de las tablas que definimos, así como para las claves ajenas, tanto para optimizar el acceso a un elemento concreto, como para optimizar el <em>join</em> de las tablas. Así pues, su comprensión es clave a la hora de optimizar las consultas que utilizamos en nuestras aplicación.</p>
+</li>
+<li>Orden de los <em>joins</em>: Elegir qué tabla unir primero puede reducir significativamente el número de filas procesadas.</li>
+<li>Filtrado anticipado: Aplicar condiciones <code>WHERE</code> lo antes posible evita procesar datos innecesarios.</li>
+</ol>
+<p>Y para saber si una consulta se está ejecutando de forma óptima, recurriremos al plan de ejecución.</p>
+<h3 id="plan-de-ejecucion">Plan de ejecución</h3>
+<p>El plan de ejecución es un mapa que muestra cómo el SGBD ejecutará una consulta. Incluye detalles como los operadores utilizados (escaneos, uniones, filtros) y su orden, así como cuando un índice se usa o no, si se usa correctamente, lo que permite averiguar si las consultas se ejecutan de forma óptima.</p>
+<p>Mediante <a href="https://mariadb.com/kb/en/explain/"><code>EXPLAIN consulta</code></a>, obtendremos el plan de ejecución de la consulta. Por ejemplo, si recuperamos para cada empleado, el nombre del departamento en el que trabaja:</p>
+<pre><code>EXPLAIN select NomEmp, NomDep
+    from empleado e JOIN departamento d
+    on e.CodDep=d.CodDep;
+-- +------+-------------+-------+-------+---------------+------------+---------+------------------+------+-------------+
+-- | id   | select_type | table | type  | possible_keys | key        | key_len | ref              | rows | Extra       |
+-- +------+-------------+-------+-------+---------------+------------+---------+------------------+------+-------------+
+-- |    1 | SIMPLE      | d     | index | PRIMARY       | NomDep     | 122     | NULL             | 6    | Using index |
+-- |    1 | SIMPLE      | e     | ref   | fk_emp_dep    | fk_emp_dep | 16      | empresa.d.CodDep | 1    |             |
+-- +------+-------------+-------+-------+---------------+------------+---------+------------------+------+-------------+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<p>Los campos más destacables son:</p>
+<ul>
+<li>Identificador de la consulta (<code>id</code>): si comparten valor, forman parte de la misma consulta.</li>
+<li>Tipo de consulta (<code>select_type</code>): el valor <code>SIMPLE</code> indica que es una consulta sencilla, sin subconsultas o uniones complicadas.</li>
+<li>
+<p>El tipo de acceso (<code>type</code>), cuyos valores pueden ser:</p>
+</li>
+<li>
+<p><code>ALL</code> (<em>full scan</em>): a evitar, lee todos los registros.</p>
+</li>
+<li><code>INDEX</code> <em>full index scan</em>: aunque es mejor que un escaneo completo, si es posible, debemos evitarlo, ya que se utilizan todos los accesos de un índice. Es decir, recorre un índice completo, no la tabla entera, lo cual es mejor pero no lo más eficiente.</li>
+<li><code>ref</code>: utiliza un índice con referencia a otra tabla para filtrar datos (específicamente útil en <em>joins</em>).</li>
+<li>Claves (<code>possible_keys</code>) y (<code>key</code>): muestra los índices o claves candidatas, y el índice efectivamente utilizado.</li>
+<li>Cantidad de filas a procesar (<code>rows</code>): en nuestro ejemplo, 10 filas en la tabla <code>e</code> (los empleados existentes) y 1 fila en la tabla <code>e</code> (una fila por cada empleado).</li>
+</ul>
+<p>Como en el plan nos han aparecido dos filas, el plan ejecuta dos etapas:</p>
+<ol>
+<li>Primera etapa: tabla d (<code>departamento</code>)</li>
+<li>Se accede a la tabla utilizando el índice <code>NomDep</code>, ya que en el DDL marcamos dicho campo como único, y <em>MariaDB</em> automáticamente creó un índice para dicha columna.</li>
+<li>No se recorren todas las filas de la tabla (<code>index</code>), sino que se leen únicamente los datos necesarios del índice.</li>
+<li>Solo se procesan <code>6</code> filas (los 6 departamentos existentes)</li>
+<li>Segunda etapa: tabla e (<code>empleado</code>)</li>
+<li>Se accede a la tabla e mediante un índice referenciado (<code>fk_emp_dep</code>) que conecta con la tabla <code>d</code> a través de la columna <code>CodDep</code>.</li>
+<li>Solo se estima una fila gracias al filtro que aplica la relación entre las dos tablas. El optimizador estima que hay ~1 empleado por departamento.</li>
+</ol>
+<p>Si quieres obtener un plan detallado con tiempos reales y cantidad de registros obtenidos, usaremos <code>EXPLAIN EXTENDED</code> o <code>EXPLAIN FORMAT=JSON</code>:</p>
+<pre><code>EXPLAIN FORMAT=JSON
+SELECT e.NomEmp, d.NomDep
+FROM empleado e
+JOIN departamento d USING(CodDep);
+--
+-- {  &quot;query_block&quot;: {
+--     &quot;select_id&quot;: 1,
+--     &quot;cost&quot;: 0.0222484,
+--     &quot;nested_loop&quot;: [
+--       {
+--         &quot;table&quot;: {
+--           &quot;table_name&quot;: &quot;e&quot;,
+--           &quot;access_type&quot;: &quot;ALL&quot;,
+--           &quot;possible_keys&quot;: [&quot;fk_emp_dep&quot;],
+--           &quot;loops&quot;: 1,
+--           &quot;rows&quot;: 10,
+--           &quot;cost&quot;: 0.0124848,
+--           &quot;filtered&quot;: 100,
+--           &quot;attached_condition&quot;: &quot;e.CodDep is not null&quot;
+--         }
+--       },
+--       {
+--         &quot;table&quot;: {
+--           &quot;table_name&quot;: &quot;d&quot;,
+--           &quot;access_type&quot;: &quot;eq_ref&quot;,
+--           &quot;possible_keys&quot;: [&quot;PRIMARY&quot;],
+--           &quot;key&quot;: &quot;PRIMARY&quot;,
+--           &quot;key_length&quot;: &quot;15&quot;,
+--           &quot;used_key_parts&quot;: [&quot;CodDep&quot;],
+--           &quot;ref&quot;: [&quot;empresa.e.CodDep&quot;],
+--           &quot;loops&quot;: 10,
+--           &quot;rows&quot;: 1,
+--           &quot;cost&quot;: 0.0097636,
+--           &quot;filtered&quot;: 100
+--         }
+--       }
+--     ]
+--   }
+-- } |
+</code></pre>
+<p>Mediante <a href="https://mariadb.com/docs/server/reference/sql-statements/administrative-sql-statements/analyze-and-explain-statements/analyze-statement"><code>ANALYZE consulta</code></a> se ejecutará la consulta y devolverá la información sobre el plan de ejecución, con información más cercana a la realidad.</p>
+<hr />
+<p>Veamos otro ejemplo. Supongamos que solo nos interesa los mismos datos pero del centro <code>DIGE</code>. Así pues, obtenemos su plan de ejecución:</p>
+<pre><code>EXPLAIN select NomEmp, NomDep
+    from empleado e JOIN departamento d
+    on e.CodDep=d.CodDep
+    where d.CodCen=&quot;DIGE&quot;;
+-- +------+-------------+-------+------+--------------------+------------+---------+------------------+------+-----------------------+
+-- | id   | select_type | table | type | possible_keys      | key        | key_len | ref              | rows | Extra                 |
+-- +------+-------------+-------+------+--------------------+------------+---------+------------------+------+-----------------------+
+-- |    1 | SIMPLE      | d     | ref  | PRIMARY,fk_dep_cen | fk_dep_cen | 13      | const            | 2    | Using index condition |
+-- |    1 | SIMPLE      | e     | ref  | fk_emp_dep         | fk_emp_dep | 16      | empresa.d.CodDep | 1    |                       |
+-- +------+-------------+-------+------+--------------------+------------+---------+------------------+------+-----------------------+
+-- 2 rows in set (0.057 sec)
+</code></pre>
+<p>Si comparamos los planes de ejecución, vemos que sobre la tabla de <code>departamento</code>, entre las claves primaria y la clave ajena a centro, utiliza esta última para restringir la cantidad de centros que recupera, quedándose con 2 registros. Es decir, está en todo momento obteniendo la cantidad mínima de registros.</p>
+<p>Por último, veamos qué sucede cuando filtramos por una columna que no tienen ninguna clave ni índice. Si recuperamos los datos de los empleados y sus departamentos de aquellos que tienen un directivo de tipo <code>P</code> tendremos:</p>
+<pre><code>EXPLAIN select NomEmp, NomDep
+    from empleado e JOIN departamento d
+    on e.CodDep=d.CodDep
+    where d.TiDir=&quot;P&quot;;
+
+-- +------+-------------+-------+--------+---------------+---------+---------+------------------+------+-------------+
+-- | id   | select_type | table | type   | possible_keys | key     | key_len | ref              | rows | Extra       |
+-- +------+-------------+-------+--------+---------------+---------+---------+------------------+------+-------------+
+-- |    1 | SIMPLE      | e     | ALL    | fk_emp_dep    | NULL    | NULL    | NULL             | 10   | Using where |
+-- |    1 | SIMPLE      | d     | eq_ref | PRIMARY       | PRIMARY | 15      | empresa.e.CodDep | 1    | Using where |
+-- +------+-------------+-------+--------+---------------+---------+---------+------------------+------+-------------+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<p>En este caso, vemos que ha tenido que realizar un escaneo completo (<code>ALL</code>) lo cual nos índica que no ha podido utilizar ninguna clave ni índice para el filtrado (de hecho aparece <code>NULL</code> en la columna <code>key</code>), y por tanto, le toca recorrer todo el resultado del <em>join</em> para buscar la condición del tipo de director.</p>
+<h3 id="indices">Índices</h3>
+<p>Antes hemos comentado que un índice en una base de datos es similar a un índice de un libro; permite saltar directamente a la parte del libro en vez de tener que pasar las páginas buscando el tema o la palabra que nos interesa. Esta estructura permite recorrer los datos y ordenarlos de manera muy rápida. Así pues, los índices se utilizan tanto al buscar un elemento como al ordenar los datos de una consulta.</p>
+<p>Al buscar un valor concreto en una columna de una tabla, si la columna no tiene un índice, hay que recorrer toda la tabla comparando fila a fila. Si la tabla tiene pocas filas no hay problema.</p>
+<p>Para mejorar el rendimiento, podemos crear un índice para cada columna que se utiliza en la cláusula <code>WHERE</code> o en <code>ORDER BY</code>.</p>
+<p>Cuando se crea un índice sobre una columna, el motor de la base de datos construye el índice escaneando toda la tabla y registrando los valores de la columna indexada junto con los punteros a las filas correspondientes. Mediante estos punteros sobre las filas de la tabla, el SGBD puede determinar rápidamente cuáles son las filas necesarias. Internamente, los índices se traducen en estructura de datos en forma de árbol (<a href="https://es.wikipedia.org/wiki/%C3%81rbol-B"><em>b-tree</em></a>) que facilitan la búsqueda.</p>
+<p><img alt="" src="images/08btree.png" title="Índice B-Tree - https://severalnines.com/blog/overview-mysql-database-indexing/" /></p>
+<p>Índice B-Tree - https://severalnines.com/blog/overview-mysql-database-indexing/</p>
+<p>No abusar de los índices</p>
+<p>No es conveniente crear un índice para cada una de las columnas de una tabla.</p>
+<p>El exceso de índices innecesarios puede provocar un incremento del espacio de almacenamiento y una penalización en el rendimiento ya que el SGBD debe decidir qué índices necesita utilizar.</p>
+<p>Además añaden una sobrecarga a las operaciones de inserción, actualización y borrado, porque cada índice tiene que ser actualizado después de realizar cada una de estas operaciones.</p>
+<h4 id="tipos">Tipos</h4>
+<p>Dependiendo del tipo de los campos, podemos crear diferentes índices sobre una o más columnas. En <em>MariaDB</em> existen los siguientes tipos de índices:</p>
+<ul>
+<li><code>PRIMARY KEY</code>: índice primario que no admite nulos ni valores repetidos. Sólo puede haber uno por tabla y se crea automáticamente al definir la clave primaria de una tabla.</li>
+<li><code>UNIQUE</code>: índice único que no permite valores repetidos pero sí nulos.</li>
+<li><code>INDEX</code>: indices normales que mejoran el rendimiento de las consultas (se pueden usar con columnas que admiten valores duplicados).</li>
+<li><code>FULLTEXT</code>: índices de texto completo, utilizados para optimizar las búsquedas de texto en columnas de tipo <code>TEXT</code> o <code>VARCHAR</code>.</li>
+</ul>
+<p>Índices FULLTEXT</p>
+<p>Los índices <a href="https://mariadb.com/kb/en/full-text-index-overview">FULLTEXT</a> mejoran la búsqueda de partes de texto en un campo (similar a las sentencias <code>LIKE</code>), pero utilizando el operador <a href="https://mariadb.com/kb/en/match-against/"><code>MATCH(campo) AGAINST (valorABuscar)</code></a>.</p>
+<p>Por ejemplo, si creamos un índice para el nombre de los empleados:</p>
+<p><code>CREATE FULLTEXT INDEX idx_emp_nombre ON empleado(NomEmp);</code></p>
+<p>Luego podemos hacer búsquedas más eficientes:</p>
+<p><code>select * from empleado
+  where MATCH(NomEmp) AGAINST ('Rosa');
+  -- +--------+--------+----------+------------+------------+-----------+--------------------+-------+------------+
+  -- | CodEmp | CodDep | ExTelEmp | FecInEmp   | FecNaEmp   | NifEmp    | NomEmp             | NumHi | SalEmp     |
+  -- +--------+--------+----------+------------+------------+-----------+--------------------+-------+------------+
+  -- |      9 | PROZS  | 12124    | 1982-06-10 | 1968-07-19 | 11312121D | Mando Correa, Rosa |     2 | 3100000.00 |
+  -- +--------+--------+----------+------------+------------+-----------+--------------------+-------+------------+
+  -- 1 row in set (0.001 sec)</code></p>
+<p>E incluso utilizar comodines:</p>
+<p><code>select * from empleado
+  where MATCH(NomEmp) AGAINST ('R*' IN BOOLEAN MODE);
+  -- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+  -- | CodEmp | CodDep | ExTelEmp | FecInEmp   | FecNaEmp   | NifEmp    | NomEmp                | NumHi | SalEmp     |
+  -- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+  -- |      3 | VENZS  | 2133     | 1984-06-08 | 1965-12-07 | 23823930D | Monforte Cid, Roldán  |     1 | 5200000.00 |
+  -- |      9 | PROZS  | 12124    | 1982-06-10 | 1968-07-19 | 11312121D | Mando Correa, Rosa    |     2 | 3100000.00 |
+  -- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+  -- 2 rows in set (0.001 sec)</code></p>
+<p>Existen otros tipos de índice (usan otros tipos de almacenamiento) como <code>SPATIAL</code> (para columnas de tipo geométrico) o <code>MEMORY</code> (que utiliza índices en <em>hash</em>).</p>
+<h4 id="operaciones">Operaciones</h4>
+<p>Sobre los índices, podemos realizar diversas operaciones, como:</p>
+<ul>
+<li>Crear un índice, mediante la sentencia <a href="https://mariadb.com/kb/en/create-index/"><code>CREATE INDEX</code></a>:</li>
+</ul>
+<p><code>CREATE INDEX nombreIndice ON tabla(columna);</code></p>
+<p>Por ejemplo, vamos a crear un índice sobre el tipo de directivo:</p>
+<p><code>CREATE INDEX idx_dep_tidir ON departamento(TiDir);</code></p>
+<p>Si volvemos a ejecutar la consulta anterior, vemos cómo ahora utiliza el índice recién creado, y sólo accede a 4 filas (antes accedía a las diez filas de los empleados):</p>
+<p><code>EXPLAIN select NomEmp, NomDep
+      from empleado e JOIN departamento d
+      on e.CodDep=d.CodDep
+      where d.TiDir="P";
+  -- +------+-------------+-------+------+-----------------------+---------------+---------+------------------+------+-----------------------+
+  -- | id   | select_type | table | type | possible_keys         | key           | key_len | ref              | rows | Extra                 |
+  -- +------+-------------+-------+------+-----------------------+---------------+---------+------------------+------+-----------------------+
+  -- |    1 | SIMPLE      | d     | ref  | PRIMARY,idx_dep_tidir | idx_dep_tidir | 2       | const            | 4    | Using index condition |
+  -- |    1 | SIMPLE      | e     | ref  | fk_emp_dep            | fk_emp_dep    | 16      | empresa.d.CodDep | 1    |                       |
+  -- +------+-------------+-------+------+-----------------------+---------------+---------+------------------+------+-----------------------+
+  -- 2 rows in set (0.017 sec)</code></p>
+<p>En este caso, empieza por el departamento utilizando el índice recién creado para filtrar por el tipo de director. Luego accede al empleado mediante el <em>join</em> para recuperar su nombre, estimando que hay un empleado por departamento.
+- Obtener los índices de una tabla, mediante <a href="https://mariadb.com/kb/en/show-index"><code>SHOW INDEX</code></a>:</p>
+<p><code>SHOW INDEX FROM nombreTabla;-</code></p>
+<p>Si queremos recuperar los índices de la tabla <code>departamento</code>, obtendremos:</p>
+<p><code>SHOW INDEX FROM departamento;
+  -- +--------------+------------+---------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+  -- | Table        | Non_unique | Key_name      | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Ignored |
+  -- +--------------+------------+---------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+  -- | departamento |          0 | PRIMARY       |            1 | CodDep      | A         |           6 |     NULL | NULL   |      | BTREE      |         |               | NO      |
+  -- | departamento |          0 | NomDep        |            1 | NomDep      | A         |           6 |     NULL | NULL   |      | BTREE      |         |               | NO      |
+  -- | departamento |          1 | fk_dep_cen    |            1 | CodCen      | A         |           3 |     NULL | NULL   | YES  | BTREE      |         |               | NO      |
+  -- | departamento |          1 | fk_dep_emp    |            1 | CodEmpDir   | A         |           6 |     NULL | NULL   | YES  | BTREE      |         |               | NO      |
+  -- | departamento |          1 | fk_dep_dep    |            1 | CodDepDep   | A         |           6 |     NULL | NULL   | YES  | BTREE      |         |               | NO      |
+  -- | departamento |          1 | idx_dep_tidir |            1 | TiDir       | A         |           2 |     NULL | NULL   | YES  | BTREE      |         |               | NO      |
+  -- +--------------+------------+---------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+
+  -- 6 rows in set (0.002 sec)</code></p>
+<p>¿Por qué aparecen tantos índices?</p>
+<p>Si nosotros solo hemos creado un índice de manera explícita, ¿por qué nos aparecen 6? ¿Sabes deducir por el nombre de las columnas y el contenido el tipo de cada uno de ellos?
+- Eliminar un índice concreto, mediante <a href="https://mariadb.com/kb/en/drop-index"><code>DROP INDEX</code></a>:</p>
+<p><code>DROP INDEX nombreIndice ON nombreTabla;</code></p>
+<p>Por lo tanto, si queremos eliminar el índice recién creado, haríamos:</p>
+<p><code>DROP INDEX idx_dep_tidir ON departamento;</code></p>
+<h4 id="forzando-planes-de-ejecucion">Forzando planes de ejecución</h4>
+<p>En ocasiones, si queremos <a href="https://mariadb.com/kb/en/index-hints-how-to-force-query-plans/">forzar</a> a que el SGBD se comporte de una determinada manera, podemos emplear</p>
+<ul>
+<li><code>STRAIGHT_JOIN</code>: fuerza el orden de unión de las tablas (la izquierda se lee antes que la derecha).</li>
+</ul>
+<p><code>select NomEmp, NomDep
+  from empleado e STRAIGHT_JOIN departamento d
+  on e.CodDep=d.CodDep;</code>
+- <a href="https://mariadb.com/kb/en/use-index/"><code>USE INDEX</code></a> / <a href="https://mariadb.com/kb/en/force-index/"><code>FORCE INDEX</code></a> : propone o fuerza que se utilice un índice determinado. Se pone después de la tabla que contiene el índice.</p>
+<p><code>select NomEmp, NomDep
+  from empleado e USE INDEX (PRIMARY) join departamento d
+  on e.CodDep=d.CodDep;</code>
+- <a href="https://mariadb.com/kb/en/ignore-index/"><code>IGNORE INDEX</code></a>: fuerza que <strong>no</strong> se utilice un índice.</p>
+<p><code>select NomEmp, NomDep
+  from empleado e IGNORE INDEX(PRIMARY) join departamento d
+  on e.CodDep=d.CodDep;</code></p>
+<h4 id="gestion-de-indices">Gestión de índices</h4>
+<p>Una vez creados los índices, aunque realmente es labor del DBA (<em>Database Administrator</em>), es conveniente vigilarlos y mantenerlos. Para ello, podemos:</p>
+<ul>
+<li>Analizar el almacenamiento de los índices de una tabla, mediante <a href="https://mariadb.com/kb/en/analyze-table/"><code>ANALYZE TABLE nombreTabla</code></a>:</li>
+</ul>
+<p><code>ANALYZE TABLE departamento;</code></p>
+<p>Se usa para determinar el orden que el servidor seguirá para combinar tablas en un JOIN y qué índices se usarán en una consulta.
+- Desfragmentar una tabla, mediante <a href="https://mariadb.com/kb/en/optimize-table/"><code>OPTIMIZE TABLE nombreTabla</code></a>:</p>
+<p><code>OPTIMIZE TABLE departamento;</code></p>
+<p>Además de reorganizar los datos, actualiza y reordenar los índices, pero sólo para algunos motores de ejecución (las versiones actuales de <em>InnoDB</em> realizan un ajuste automático del espacio minimizando la fragmentación, y por lo tanto, por defecto esta sentencia no realiza nada).</p>
+<h3 id="buenas-practicas">Buenas prácticas</h3>
+<p>Algunos consejos que debes tener en cuenta a la hora de hacer consultas son:</p>
+<ul>
+<li>Filtra antes con <code>WHERE</code>: Como la cláusula <code>WHERE</code> se ejecuta antes que <code>GROUP BY</code> y <code>JOIN</code>, aplicar los filtros antes reduce el número de filas procesadas por las cláusulas posteriores, lo que mejora el rendimiento de la consulta. Al filtrar los datos no agrupados lo antes posible, limitas los datos que hay que agrupar o unir, ahorrando tiempo de procesamiento.</li>
+<li>Preagregar datos antes de unirlos: Sabiendo que <code>FROM</code> y <code>JOIN</code> son las primeras cláusulas que se ejecutan, preagrupar los datos mediante subconsultas o expresiones comunes de tabla (<em>CTE</em>) te permite reducir el conjunto de datos antes del proceso de unión. Esto garantiza que se procesen menos filas durante la unión.</li>
+<li>Optimizar <code>ORDER BY</code> con índices: Puesto que la cláusula ORDER BY es uno de los últimos pasos ejecutados, asegurarse de que las columnas ordenadas están indexadas acelerará el rendimiento de la consulta al ayudar a la base de datos a gestionar las operaciones de ordenación con mayor eficacia.</li>
+<li>Evitar <code>SELECT *</code> en las consultas de producción: La cláusula <code>SELECT</code> se ejecuta después de filtrar, agrupar y agregar, por lo que especificar sólo las columnas necesarias minimiza la cantidad de datos recuperados, reduciendo la sobrecarga innecesaria.</li>
+</ul>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Sintaxis SQL oficial de <a href="https://www.postgresql.org/docs/current/sql-commands.md">PostgreSQL</a> y <a href="https://mariadb.com/kb/en/sql-statements/">MariaDB</a>.</li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-indexes-in-mysql"><em>How to use indexes in MySQL</em></a></li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em>Consultes de selecció <a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u4/a2/continguts.md">complexes</a> - Institut Obert de Catalunya</em>.</p>
+</li>
+<li><a href="https://josejuansanchez.org/bd/unidad-09-teoria/index.md">Subconsultas</a> y <a href="https://josejuansanchez.org/bd/unidad-10-teoria/index.md">Optimización de consultas</a> de <em>José Juan Sánchez</em>.</li>
+<li><a href="https://jorgesanchez.net/manuales/sql/select-subconsultas-sql2016.md">Subconsultas</a> e <a href="https://jorgesanchez.net/manuales/sql/ddl-otros-sql2016.md">Índices</a> de <em>Jorge Sánchez</em>.</li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut4/recopila.md">Realización de consultas</a> de <em>Javier Gutiérrez</em>.</li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema4/index.md">Consulta de bases de datos</a> de gestionbasesdatos.readthedocs.io</li>
+<li><a href="https://www.cs.us.es/cursos/bd-2023/temas/BD-Tema-5.pdf">Introducción a SQL</a>, por <em>Luis Valencia</em> y <em>David Orellana</em>, de la <em>Universidad de Sevilla</em>.</li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<p>Bases de datos empleadas</p>
+<p>Recuerda que estas actividades se basan en las siguientes bases de datos</p>
+<p>empresaretail</p>
+<ul>
+<li>DDL y DML: <a href="resources/06bd-empresa.sql"><code>bd-empresa.sql</code></a></li>
+</ul>
+<p><img alt="" src="images/06bd-empresa.png" title="Modelo físico de la BD empresa" /></p>
+<p>Modelo físico de la BD empresa</p>
+<ul>
+<li>DDL y DML: <a href="resources/06bd-retail.sql"><code>bd-retail.sql</code></a></li>
+<li>Claves ajenas: <a href="resources/06bd-retail-fk.sql"><code>bd-retail-fk.sql</code></a></li>
+</ul>
+<p><img alt="" src="images/06bd-retail.png" title="Modelo físico de la BD retail" /></p>
+<p>Modelo físico de la BD retail</p>
+<ul>
+<li>
+<p><strong>AC801</strong>. (RABD.3 // CE3f // 3p) Sobre la base de datos <code>empresa</code>, utilizando subconsultas, realiza las siguientes consultas:</p>
+</li>
+<li>
+<p>Recupera el nombre y el salario de aquellos empleados que cobran más que el salario medio de los empleados del departamento <code>PROZS</code>.</p>
+</li>
+<li>Recupera el nombre y el salario de aquellos empleados que cobran más que el salario medio de los empleados del departamento <code>Investigación y Diseño</code>.</li>
+<li>Recupera el nombre y el salario de aquellos empleados que cobran más que el salario medio de los empleados de su departamento.</li>
+<li>Recupera el nombre de los departamentos cuyo presupuesto anual sea superior al presupuesto medio de todos los departamentos.</li>
+<li>Recupera el nombre de los departamentos cuyo presupuesto anual sea superior al presupuesto medio de todos los centros (el presupuesto de un centro se obtiene a partir de la suma de los presupuestos de sus departamentos).</li>
+<li>Recupera las habilidades que no tienen empleados asignados (sin subconsultas).</li>
+<li>Recupera las habilidades que no tienen empleados asignados (con subconsultas).</li>
+<li>Recupera el nombre del empleado que menos cobra (sin subconsultas).</li>
+<li>
+<p>Recupera el nombre del empleado que menos cobra (con subconsultas).</p>
+</li>
+<li>
+<p><strong>AC802</strong>. (RABD.3 // CE3f // 3p) Sobre la base de datos <code>empresa</code>, utilizando todo tipo de subconsultas, recupera:</p>
+</li>
+<li>
+<p>Empleados que ganan más que algún empleado del departamento <code>JEFZS</code>.</p>
+</li>
+<li>Empleados que ganan más que todos los empleados del departamento <code>VENZS</code>.</li>
+<li>Centros que tienen al menos un departamento con presupuesto superior a 20.000.000 €.</li>
+<li>Departamentos que no tienen empleados, sin utilizar subconsultas.</li>
+<li>Departamentos que no tienen empleados, usando <code>NOT IN</code>.</li>
+<li>Departamentos que no tienen empleados, usando <code>NOT EXISTS</code>.</li>
+<li>Centros donde todos los departamentos tienen un presupuesto superior a 20.000.000 €</li>
+<li>Empleados que trabajan en el mismo departamento que algún empleado con salario mayor a 2.000.000 €.</li>
+<li>Último empleado incorporado a la empresa, usando <code>NOT EXISTS</code> (el resultado debe ser <code>Mascullas Alto, Eloísa</code>).</li>
+<li>Departamentos cuyo presupuesto es mayor que al menos el presupuesto de uno de los centros (recuerda que el presupuesto de un centro se obtiene a partir de la suma de los presupuestos de sus departamentos).</li>
+<li>Departamentos con más de un empleado cuyo presupuesto es superior al de algún centro.</li>
+<li>
+<p>Centros donde ningún departamento tiene un presupuesto inferior a 1.000.000 €.</p>
+</li>
+<li>
+<p><strong>AC803</strong>. (RABD.3 // CE3f, CE3g // 3p) Sobre la base de datos <code>empresa</code>, realiza las siguientes consultas utilizando tablas derivadas o CTE:</p>
+</li>
+<li>
+<p>Empleado que más gana en cada departamento.</p>
+</li>
+<li>Empleados cuyo salario es mayor al promedio de su departamento.</li>
+<li>Centros cuyo presupuesto total es superior al promedio global.</li>
+<li>Departamentos cuyo presupuesto supera el promedio del centro al que pertenecen.</li>
+<li>Empleado con mayor salario por centro.</li>
+<li>Recupera el nombre del empleado que tiene el salario más alto, perteneciendo al departamento que tiene más empleados.</li>
+<li>Recupera el código y el nombre del empleado que tiene el salario más alto, cuyo departamento pertenece al centro que tiene más empleados.</li>
+<li>
+<p>Recupera el nombre y la fecha de nacimiento del empleado más joven de entre aquellos que trabajan en el departamento que tiene mayor presupuesto anual.</p>
+</li>
+<li>
+<p><strong>AR804</strong>. (RABD.3 // CE3e // 3p) Realiza todas las consultas del apartado 1.1.7 y 1.1.9 de <em>Subconsultas</em> de la base de datos de <em>Tienda de informática</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>AP805</strong>. (RABD.3 // CE3e // 3p) Realiza todas las consultas del apartado 1.2.7 de <em>Subconsultas</em> de la base de datos de <em>Gestión de empleados</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>. Puedes comprobarlas en <a href="https://sql-playground.com/">https://sql-playground.com/</a>.</p>
+</li>
+<li>
+<p><strong>PR806</strong>. (RABD.3 // CE3f, CE3g // 10p) Sobre la base de datos <code>retail</code>, realiza las siguientes subconsultas:</p>
+</li>
+<li>
+<p>Listar los productos cuyo precio es superior al precio promedio de su categoría.</p>
+</li>
+<li>Obtener el total de productos no vendidos.</li>
+<li>Obtener el cliente con el mayor gasto total.</li>
+<li>Listar los departamentos que no tienen productos vendidos.</li>
+<li>Listar los departamentos que tienen más de 5 categorías.</li>
+<li>Obtener el promedio de gasto por cliente en cada estado.</li>
+<li>Obtener los 5 productos más vendidos en cada categoría.</li>
+<li>Obtener las categorías donde el producto más barato es más caro que el promedio general.</li>
+<li>Muestra las categorías donde cada producto ha sido vendido al menos una vez.</li>
+<li>Listar los productos con al menos 3 departamentos diferentes asociados a sus ventas.</li>
+<li>Listar el producto más vendido de cada categoría.</li>
+<li>
+<p>Mostrar los pedidos con ingresos mayores al promedio de los ingresos (campo <code>order_item_subtotal</code>).</p>
+</li>
+<li>
+<p><strong>AC807</strong>. (RABD.4 // CE4c // 3p) Sobre la base de datos <code>empresa</code>, realiza las siguientes operaciones DDL o DML:</p>
+</li>
+<li>
+<p>Crea la tabla <code>empleadosConHijos</code> (mediante una única instrucción) con aquellos empleados que tienen hijos, añadiendo un campo <code>TipEmp</code> para indicar el tipo de empleado. Todos estos empleados serán del tipo <code>Ordinario</code>.</p>
+</li>
+<li>Modifica el <code>TipEmp</code> de aquellos empleados de la tabla <code>empleadoConHijos</code> que sean directivos de un departamento con el valor <code>DirDept</code>.</li>
+<li>Modifica el <code>TipEmp</code> de aquellos empleados de la tabla <code>empleadoConHijos</code> que sean directivos de un centro con el valor <code>DirCen</code>.</li>
+<li>
+<p>Queremos guardar la información de los hijos de los empleados. Para ello, añade tantos registros a <code>empleadosConHijos</code> como registros haya en la tabla <code>hijo</code>, asignándoles el tipo <code>Becario</code>, teniendo en cuenta que:</p>
+<ul>
+<li>El nombre del hijo (<code>NomHi</code>) se usará como <code>NomEmp</code>.</li>
+<li>La fecha de nacimiento del hijo (<code>FecNaHi</code>) será su <code>FecNaEmp</code>.</li>
+<li>El departamento (<code>CodDep</code>) será el mismo que el de su padre/madre en la tabla empleado.</li>
+<li>La fecha de incorporación (FecInEmp) será <code>2025-01-01</code>.</li>
+<li>Tanto el salario (<code>SalEmp</code>) como el número de hijos (<code>NumHi</code>) será 0 (no tienen hijos propios).</li>
+<li>El resto de campos serán <code>NULL</code> (no tienen teléfono, ni NIF, ni código de empleado).</li>
+<li>Asigna al becario más mayor el mismo salario que el empleado que menos cobre.</li>
+<li>Elimina a todos los empleados en <code>empleadosConHijos</code> que sean del tipo <code>Ordinario</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>AP808</strong>. (RABD.3 // CE4c // 3p) Sobre la base de datos <code>retail</code>, a partir de la siguiente consulta que recupera la categoría y cantidad económica de los productos de pedidos pendientes de clientes que viven en el estado de California (<code>CA</code>):</p>
+</li>
+</ul>
+<p><code>select ca.category_name, sum(p.product_price)
+  from categories ca join products p on ca.category_department_id = p.product_category_id
+  join order_items oi on p.product_id = oi.order_item_product_id
+  join orders o on oi.order_item_order_id = o.order_id
+  join customers c on o.order_customer_id = c.customer_id
+  where o.order_status = "PENDING" and c.customer_state = "CA"
+  order by ca.category_name;</code></p>
+<ol>
+<li>Crea una vista llamada <code>vproductospcal</code> y una tabla llamada <code>tproductospcal</code> a partir de la consulta. Anota el tiempo aproximado necesario en su creación. ¿Cuál ha tardado más y por qué?</li>
+<li>A continuación, realiza una consulta sobre la nueva tabla y la nueva vista, anotando sus tiempos de ejecución ¿Cuál ha tardado más y por qué?</li>
+<li>Inserta un nuevo pedido en estado pendiente asociado a un cliente de California.</li>
+<li>
+<p>Analiza si el nuevo dato repercute en la vista y/o en la tabla ¿Por qué?</p>
+</li>
+<li>
+<p><strong>AC809</strong>. (RABD.3 // CE3h // 3p) Sobre la base de datos <code>retail</code>,</p>
+</li>
+<li>
+<p>Averigua qué índices existen en las diferentes tablas.</p>
+</li>
+<li>
+<p>Ejecuta las siguiente consultas analizando su plan de ejecución:</p>
+<ol>
+<li>Productos de pedidos completados:</li>
+</ol>
+<p><code>select p.product_name, p.product_price
+   from products p join order_items oi on p.product_id = oi.order_item_product_id
+   join orders o on oi.order_item_order_id = o.order_id
+   where o.order_status = "COMPLETE";</code></p>
+<p>Mediante el plan de ejecución, averigua si utilizan índices, cuáles son y cuántos documentos recorren.</p>
+<p>A continuación, crea un índice sobre la columna <code>order_status</code>. Vuelve a ejecutar la consulta y compara el resultado.
+2. Productos de pedidos cancelados de clientes que viven en <code>Caguas</code>:</p>
+<p><code>select p.product_name, p.product_price
+   from products p join order_items oi on p.product_id = oi.order_item_product_id
+   join orders o on oi.order_item_order_id = o.order_id
+   join customers c on o.order_customer_id = c.customer_id
+   where o.order_status = "CANCELED" and c.customer_city = "Caguas";</code></p>
+<p>Averigua si utilizan índices, cuáles son y cuantos documentos recorren.</p>
+<p>A continuación, crea un índice sobre la columna <code>customer_city</code>. Vuelve a ejecutar la consulta y compara el resultado.
+3. Categoría y cantidad económica de los productos de pedidos pendientes de clientes que viven en el estado de California (<code>CA</code>):</p>
+<p><code>select ca.category_name, sum(p.product_price)
+   from categories ca join products p on ca.category_department_id = p.product_category_id
+   join order_items oi on p.product_id = oi.order_item_product_id
+   join orders o on oi.order_item_order_id = o.order_id
+   join customers c on o.order_customer_id = c.customer_id
+   where o.order_status = "PENDING" and c.customer_state = "CA"
+   group by ca.category_name;</code></p>
+<p>Analiza el plan de ejecución y compáralo con la consulta anterior. A continuación, crea los índices que consideres oportunos para mejorar la consulta todo lo que se pueda. Vuelve a ejecutar la consulta y compara el resultado.</p>
+</li>
+<li>
+<p><strong>AR810</strong>. (RABD.3 // CE3e // 3p) Realiza todas las consultas del apartado 1.3.7 sobre la base de datos de <em>Gestión de ventas</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>.</p>
+</li>
+<li>
+<p><strong>AP811</strong>. (RABD.3 // CE3e // 3p) Realiza todas las consultas del apartado 1.4.8 sobre la base de datos de <em>Jardinería</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.md">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>.</p>
+</li>
+<li>
+<p><strong>PR812</strong>. (RABD.3 // CE3a, CE3b, CE3c, CE3d, CE3e, CE3f, CE3g // 10p) Realiza todas las consultas del apartado 1.5 sobre la base de datos de <em>Universidad A</em>, que podemos encontrar en las <a href="https://josejuansanchez.org/bd/ejercicios-consultas-sql/index.htmll">actividades propuestas</a> en los apuntes del docente <em>José Juan Sánchez</em>.</p>
+</li>
+<li>
+<p><strong>PY813</strong>. (RABD.3 // CE3f, CE3g, CE3h // 4p) Siguiendo el reto y la actividad de proyecto <a href="07sql-group.html#PY712">PY712</a>, en esta actividad nos vamos a centrar en añadir más consultas para explotar nuestra base de datos.</p>
+</li>
+</ol>
+<p>Para ello, se pide un informe que detalle:</p>
+<ul>
+<li>Definición de 5 consultas que utilicen subconsultas, tanto escalares, como fila y de tabla.</li>
+<li>Definición de 2 consultas que utilicen CTE.</li>
+<li>Creación de una tabla a partir del resultado de una consulta <em>compleja</em>.</li>
+<li>Definición de dos índices que mejoren el rendimiento de las consultas ya definidas.</li>
+<li>Planes de ejecución, antes y después de la creación de los índices, comprobando su uso.</li>
+<li>Resolución mediante SQL de cada una de las consultas.</li>
+<li>Resultados de su ejecución sobre el modelo físico.</li>
+</ul>
+<p>Se utilizará una rúbrica para su evaluación en base a la siguiente lista de cotejo:</p>
+<ul>
+<li>Limpieza y calidad de las consultas.</li>
+<li>Variedad de consultas, desde consultas sencilla a más complejas.</li>
+<li>Documentación de las consultas.</li>
+<li>El informe entregado no contiene faltas de ortografía.</li>
+<li>El informe entregado tiene un formato adecuado (portada, apartados, autores, etc...).</li>
+<li>
+<p>El informe debe indicar cómo se han repartido las tareas y qué ha realizado cada alumno/a.</p>
+</li>
+<li>
+<p><strong>PO814</strong>. (RABD.2, RABD.3, RABD.4 // CE2f, todos los CE del RA3, CE4c // 60p) La prueba objetiva agrupa todo el resultado de aprendizaje asociado a las consultas (RABD.3), es decir, todo lo trabajado desde la unidad 6 a la unidad 8, consistiendo en, sobre una base de datos ya cargada previamente con datos:</p>
+</li>
+<li>
+<p>Realizar consultas sencillas.</p>
+</li>
+<li>Realizar consultas con varias tablas.</li>
+<li>Realizar consultas agregadas.</li>
+<li>Realizar subconsultas.</li>
+<li>
+<p>Optimizar consultas.</p>
+</li>
+<li>
+<p><strong>AR815</strong>. (RABD.3 // CE6b, CE6c, CE6d, CE6e, CE6f, CE6g // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</p>
+</li>
+</ul>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="js/nav-collapse-anexos.js"></script>
+      
+    
+  </body>
+</html>
