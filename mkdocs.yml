@@ -4,9 +4,25 @@ site_dir: site
 use_directory_urls: false
 theme:
   name: material
+  favicon: assets/images/fa-database.svg
+  icon:
+    logo: fontawesome/solid/database
   features:
     - navigation.sections
     - navigation.expand
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo oscuro
+    - scheme: slate
+      primary: cyan
+      accent: lime
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo claro
 plugins:
 - search
 nav:
