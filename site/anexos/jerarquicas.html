@@ -1,0 +1,1631 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="geoespaciales.html">
+      
+      
+        <link rel="next" href="json.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Consultas jerárquicas - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#consultas-jerarquicas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Consultas jerárquicas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="jerarquicas.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#consultas-jerarquicas_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas jerárquicas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultas jerárquicas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cte-recursivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CTE recursivo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operaciones-jerarquicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones jerárquicas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#consultas-jerarquicas_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consultas jerárquicas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consultas jerárquicas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cte-recursivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CTE recursivo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operaciones-jerarquicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operaciones jerárquicas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="../tags.html#tag:ra3">RA3</a>
+<a href="../tags.html#tag:sql">SQL</a></p>
+<h1 id="consultas-jerarquicas">Consultas jerárquicas</h1>
+<h2 id="consultas-jerarquicas_1">Consultas jerárquicas</h2>
+<p>Las consultas jerárquicas permiten trabajar con datos que tienen una estructura de árbol o relaciones padre-hijo dentro de una misma tabla. En nuestro caso, la tabla <code>departamento</code> presenta una estructura jerárquica donde un departamento puede depender de otro a través de la columna <code>CodDepDep</code> que hace referencia a <code>CodDep</code>.</p>
+<p>Por ejemplo, para recuperar los departamentos que están en la parte más alta del árbol, podríamos obtenerlos a partir de aquellos donde la clave ajena reflexiva está vacía:</p>
+<pre><code>select d1.CodDep as depNivel1, d1.NomDep as nomNivel1
+from departamento d1
+where d1.CodDepDep is null;
+-- +-----------+----------------------------+
+-- | depNivel1 | nomNivel1                  |
+-- +-----------+----------------------------+
+-- | ADMZS     | Administración Zona Sur    |
+-- | DIRGE     | Dirección General          |
+-- | JEFZS     | Jefatura Fábrica Zona Sur  |
+-- +-----------+----------------------------+
+-- 3 rows in set (0.006 sec)
+</code></pre>
+<p>Si, en cambio, queremos además recuperar tanto los del primer nivel como sus descendientes directos, necesitamos hacer un <em>join</em> con otra instancia de la tabla, de manera que nombramos <code>d1</code> a los departamentos del primer nivel y <code>d2</code> a los del segundo:</p>
+<pre><code>select 
+    d1.CodDep as depNivel1, d1.NomDep as nomNivel1,
+    d2.CodDep as depNivel2, d2.NomDep as nomNivel2
+from departamento d1
+    left join departamento d2 on d2.CodDepDep = d1.CodDep
+where d1.CodDepDep is null;
+-- +-----------+----------------------------+-----------+--------------------------+
+-- | depNivel1 | nomNivel1                  | depNivel2 | nomNivel2                |
+-- +-----------+----------------------------+-----------+--------------------------+
+-- | ADMZS     | Administración Zona Sur    | VENZS     | Ventas Zona Sur          |
+-- | DIRGE     | Dirección General          | IN&amp;DI     | Investigación y Diseño   |
+-- | JEFZS     | Jefatura Fábrica Zona Sur  | PROZS     | Producción Zona Sur      |
+-- +-----------+----------------------------+-----------+--------------------------+
+-- 3 rows in set (0.001 sec)
+</code></pre>
+<p>De forma similar, para recuperar los departamentos "hoja", los que no tienen dependientes, y por lo tanto, aquellos departamentos que no tienen otros departamentos dependiendo de ellos, volvemos a realizar el <em>join</em> pero este caso un <em>antijoin</em>:</p>
+<pre><code>select d1.CodDep as CodDepHoja, d1.NomDep as NomDepHoja
+from departamento d1
+    left join departamento d2 on d1.CodDep = d2.CodDepDep
+where d2.CodDep is null;
+-- +------------+--------------------------+
+-- | CodDepHoja | NomDepHoja               |
+-- +------------+--------------------------+
+-- | IN&amp;DI      | Investigación y Diseño   |
+-- | PROZS      | Producción Zona Sur      |
+-- | VENZS      | Ventas Zona Sur          |
+-- +------------+--------------------------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Si en vez de dos niveles, necesitamos añadir el tercer nivel, tenemos que unir con una tercera instancia de la tabla:</p>
+<pre><code>select 
+    d1.CodDep as depNivel1, d1.NomDep as nomNivel1,
+    d2.CodDep as depNivel2, d2.NomDep as nomNivel2,
+    d3.CodDep as depNivel3, d3.NomDep as nomNivel3
+from departamento d1
+    left join departamento d2 on d2.CodDepDep = d1.CodDep
+    left join departamento d3 on d3.CodDepDep = d2.CodDep
+where d1.CodDepDep is null;
+-- +-----------+----------------------------+-----------+--------------------------+-----------+-----------+
+-- | depNivel1 | nomNivel1                  | depNivel2 | nomNivel2                | depNivel3 | nomNivel3 |
+-- +-----------+----------------------------+-----------+--------------------------+-----------+-----------+
+-- | ADMZS     | Administración Zona Sur    | VENZS     | Ventas Zona Sur          | NULL      | NULL      |
+-- | DIRGE     | Dirección General          | IN&amp;DI     | Investigación y Diseño   | NULL      | NULL      |
+-- | JEFZS     | Jefatura Fábrica Zona Sur  | PROZS     | Producción Zona Sur      | NULL      | NULL      |
+-- +-----------+----------------------------+-----------+--------------------------+-----------+-----------+
+-- 3 rows in set (0.001 sec)
+</code></pre>
+<p>Con los datos que tenemos cargados, como no tenemos departamentos de nivel 3, tenemos los datos en blanco.</p>
+<p>Preparando nuevos datos</p>
+<p>En la base de datos <code>empresa-plus</code>, que puedes crear a partir del script <a href="../resources/06bd-empresa-plus.sql">06bd-empresa-plus.sql</a>, hemos insertado nuevos departamentos para estudiar toda la casuística de las relaciones jerárquicas.</p>
+<pre><code>INSERT INTO departamento (CodDep, CodEmpDir, CodDepDep, CodCen, NomDep, PreAnu, TiDir) VALUES
+-- Nivel 2: Dependientes de Dirección General
+('FINZS', 10, 'DIRGE', 'DIGE', 'Finanzas Corporativas', 18500000, 'P'),
+('RHZZS', 11, 'DIRGE', 'DIGE', 'Recursos Humanos', 9500000, 'P'),
+('MKYCO', 12, 'DIRGE', 'DIGE', 'Marketing Corporativo', 15200000, 'F'),
+
+-- Nivel 3: Dependientes de Investigación y Diseño
+('INVSW', 13, 'IN&amp;DI', 'DIGE', 'Investigación Software', 12800000, 'P'),
+('INVHW', 14, 'IN&amp;DI', 'DIGE', 'Investigación Hardware', 14300000, 'F'),
+('DISPR', 15, 'IN&amp;DI', 'DIGE', 'Diseño de Producto', 10900000, 'P'),
+
+-- Nivel 4: Dependientes de departamentos de nivel 2
+('SWMOV', 16, 'INVSW', 'DIGE', 'Software Móvil', 7600000, 'P'),
+('SWWEB', 17, 'INVSW', 'DIGE', 'Software Web', 6200000, 'F'),
+('HWSEN', 18, 'INVHW', 'DIGE', 'Hardware Sensores', 8300000, 'P'),
+('DISER', 19, 'DISPR', 'DIGE', 'Diseño de Servicios', 5400000, 'F'),
+
+-- Nivel 5: Dependientes de departamentos de nivel 3
+('MOVUI', 20, 'SWMOV', 'DIGE', 'UI Móvil', 3800000, 'P'),
+('MOVBA', 21, 'SWMOV', 'DIGE', 'Backend Móvil', 4200000, 'F'),
+('WEBUI', 22, 'SWWEB', 'DIGE', 'UI Web', 3100000, 'P'),
+('SENIO', 23, 'HWSEN', 'DIGE', 'Sensores IoT', 4700000, 'F'),
+
+-- Nivel 6: Dependientes de departamentos de nivel 4
+('UIDSG', 24, 'MOVUI', 'DIGE', 'Diseño UI', 1900000, 'P'),
+('UIFNC', 25, 'MOVUI', 'DIGE', 'Funcionalidad UI', 2100000, 'F'),
+
+-- Estructura paralela: Dependientes de Producción Zona Sur
+('MANUF', 26, 'PROZS', 'FAZS', 'Manufactura', 65000000, 'P'),
+('CALDE', 27, 'PROZS', 'FAZS', 'Control de Calidad', 15800000, 'F'),
+('LOGUN', 28, 'PROZS', 'FAZS', 'Logística Unitaria', 27200000, 'P'),
+
+-- Nivel adicional bajo Manufactura
+('ASMZS', 29, 'MANUF', 'FAZS', 'Ensamblaje', 42000000, 'P'),
+('COMPZ', 30, 'MANUF', 'FAZS', 'Componentes', 23000000, 'F'),
+
+-- Nivel adicional bajo Ensamblaje
+('ELELC', 31, 'ASMZS', 'FAZS', 'Ensamblaje Electrónico', 28000000, 'P'),
+('MECAS', 32, 'ASMZS', 'FAZS', 'Ensamblaje Mecánico', 14000000, 'F');
+</code></pre>
+<p>Así pues, ahora disponemos de una jerarquía principal que suma 5 niveles de profundidad bajo la <code>Dirección General</code> y otra bajo <code>Producción Zona Sur</code>:</p>
+<pre><code>graph TD
+ADMZS
+DIRGE --&gt; IN&amp;DI
+DIRGE --&gt; FINZS
+DIRGE --&gt; RHZZS
+DIRGE --&gt; MKYCO
+IN&amp;DI --&gt; INVSW
+IN&amp;DI --&gt; INVHW
+IN&amp;DI --&gt; DISPR
+INVSW --&gt; SWMOV
+INVSW --&gt; SWWEB
+INVHW --&gt; HWSEN
+DISPR --&gt; DISER
+SWMOV --&gt; MOVUI
+SWMOV --&gt; MOVBA
+SWWEB --&gt; WEBUI
+HWSEN --&gt; SENIO
+MOVUI --&gt; UIDSG
+MOVUI --&gt; UIFNC
+JEFZS --&gt; PROZS
+PROZS --&gt; MANUF
+PROZS --&gt; CALDE
+PROZS --&gt; LOGUN
+MANUF --&gt; ASMZS
+MANUF --&gt; COMPZ
+ASMZS --&gt; ELELC
+ASMZS --&gt; MECAS
+</code></pre>
+<p>Si ahora repetimos la consulta, además de obtener datos de nivel 3, obtendremos más registros, ya que ahora tenemos varios departamentos que comparten padre:</p>
+<pre><code>select 
+    d1.CodDep as depNivel1, d1.NomDep as nomNivel1,
+    d2.CodDep as depNivel2, d2.NomDep as nomNivel2,
+    d3.CodDep as depNivel3, d3.NomDep as nomNivel3
+from departamento d1
+    left join departamento d2 on d2.CodDepDep = d1.CodDep
+    left join departamento d3 on d3.CodDepDep = d2.CodDep
+where d1.CodDepDep is null;
+-- +-----------+----------------------------+-----------+--------------------------+-----------+-------------------------+
+-- | depNivel1 | nomNivel1                  | depNivel2 | nomNivel2                | depNivel3 | nomNivel3               |
+-- +-----------+----------------------------+-----------+--------------------------+-----------+-------------------------+
+-- | ADMZS     | Administración Zona Sur    | VENZS     | Ventas Zona Sur          | NULL      | NULL                    |
+-- | DIRGE     | Dirección General          | FINZS     | Finanzas Corporativas    | NULL      | NULL                    |
+-- | DIRGE     | Dirección General          | IN&amp;DI     | Investigación y Diseño   | DISPR     | Diseño de Producto      |
+-- | DIRGE     | Dirección General          | IN&amp;DI     | Investigación y Diseño   | INVHW     | Investigación Hardware  |
+-- | DIRGE     | Dirección General          | IN&amp;DI     | Investigación y Diseño   | INVSW     | Investigación Software  |
+-- | DIRGE     | Dirección General          | MKYCO     | Marketing Corporativo    | NULL      | NULL                    |
+-- | DIRGE     | Dirección General          | RHZZS     | Recursos Humanos         | NULL      | NULL                    |
+-- | JEFZS     | Jefatura Fábrica Zona Sur  | PROZS     | Producción Zona Sur      | CALDE     | Control de Calidad      |
+-- | JEFZS     | Jefatura Fábrica Zona Sur  | PROZS     | Producción Zona Sur      | LOGUN     | Logística Unitaria      |
+-- | JEFZS     | Jefatura Fábrica Zona Sur  | PROZS     | Producción Zona Sur      | MANUF     | Manufactura             |
+-- +-----------+----------------------------+-----------+--------------------------+-----------+-------------------------+
+-- 10 rows in set (0.001 sec)
+</code></pre>
+<p>De esta manera, cada nivel supone añadir nuevos atributos y unir con otra tabla, debiendo hacer una consulta específica. Pero, ¿y si de antemano no sabemos cuantos niveles tenemos de dependencia, o nos interesa saber cuantos son?</p>
+<p>Hasta la llegada de los CTE, la única solución factible era crear un procedimiento almacenado haciendo uso de bucles y cursores. Un tipo de CTE que nos va a permitir navegar por las reflexiones reflexivas son los CTE cíclicos, o también conocidos como CTE recursivo.</p>
+<h3 id="cte-recursivo">CTE recursivo</h3>
+<p>Para utilizar un <a href="https://mariadb.com/kb/en/recursive-common-table-expressions-overview/">CTE recursivo</a>, definiremos un CTE con el prefijo <code>RECURSIVE</code>, donde definiremos una consulta base (que definirá el punto de partida) y una consulta recursiva (que definirá cómo avanzar en la jerarquía), de la misma manera que hemos estudiado la recursividad en el módulo profesional de <em>Programación</em>. Ambas consultas las debemos unir mediante <code>UNION ALL</code> para añadir todos los registros obtenidos. Así pues, la sintaxis de un CTE recursivo es similar a:</p>
+<pre><code>WITH RECURSIVE nombreCTE AS (
+    -- Consulta base
+    SELECT columnas FROM tabla WHERE condicion
+
+    UNION ALL
+
+    -- Consulta recursiva
+    SELECT t.columnas 
+    FROM tabla t
+    JOIN nombreCTE cte ON t.columna_hijo = cte.columna_padre
+)
+SELECT * FROM nombreCTE;
+</code></pre>
+<p>Si creamos una consulta para obtener todos los descendiente con su nivel de profundidad del departamento <code>JEFZS</code> haríamos:</p>
+<pre><code>WITH RECURSIVE jerarquiaDepartamento as (
+    select CodDep, NomDep, CodDepDep, 1 as NivDep
+    from departamento
+    where CodDep = 'JEFZS'
+
+    UNION ALL
+
+    select d.CodDep, d.NomDep, d.CodDepDep, jd.NivDep + 1 as NivDep
+    from departamento d join jerarquiaDepartamento jd ON d.CodDepDep = jd.CodDep
+)
+
+select * from jerarquiaDepartamento;
+-- +--------+----------------------------+-----------+--------+
+-- | CodDep | NomDep                     | CodDepDep | NivDep |
+-- +--------+----------------------------+-----------+--------+
+-- | JEFZS  | Jefatura Fábrica Zona Sur  | NULL      |      1 |
+-- | PROZS  | Producción Zona Sur        | JEFZS     |      2 |
+-- | CALDE  | Control de Calidad         | PROZS     |      3 |
+-- | LOGUN  | Logística Unitaria         | PROZS     |      3 |
+-- | MANUF  | Manufactura                | PROZS     |      3 |
+-- | ASMZS  | Ensamblaje                 | MANUF     |      4 |
+-- | COMPZ  | Componentes                | MANUF     |      4 |
+-- | ELELC  | Ensamblaje Electrónico     | ASMZS     |      5 |
+-- | MECAS  | Ensamblaje Mecánico        | ASMZS     |      5 |
+-- +--------+----------------------------+-----------+--------+
+-- 9 rows in set (0.000 sec)
+</code></pre>
+<p>Con el mismo planteamiento, si queremos partir de todos los departamentos principales, y recuperar todo el árbol de dependencias, haríamos:</p>
+<pre><code>WITH RECURSIVE jerarquiaDepartamento as (
+    select CodDep, NomDep, CodDepDep, 1 as NivDep
+    from departamento
+    where CodDepDep is null
+
+    UNION ALL
+
+    select d.CodDep, d.NomDep, d.CodDepDep, jd.NivDep + 1 as NivDep
+    from departamento d join jerarquiaDepartamento jd ON d.CodDepDep = jd.CodDep
+)
+
+select * from jerarquiaDepartamento;
+-- +--------+----------------------------+-----------+--------+
+-- | CodDep | NomDep                     | CodDepDep | NivDep |
+-- +--------+----------------------------+-----------+--------+
+-- | ADMZS  | Administración Zona Sur    | NULL      |      1 |
+-- | DIRGE  | Dirección General          | NULL      |      1 |
+-- | JEFZS  | Jefatura Fábrica Zona Sur  | NULL      |      1 |
+-- | VENZS  | Ventas Zona Sur            | ADMZS     |      2 |
+-- | FINZS  | Finanzas Corporativas      | DIRGE     |      2 |
+-- | IN&amp;DI  | Investigación y Diseño     | DIRGE     |      2 |
+-- | MKYCO  | Marketing Corporativo      | DIRGE     |      2 |
+-- | RHZZS  | Recursos Humanos           | DIRGE     |      2 |
+-- | PROZS  | Producción Zona Sur        | JEFZS     |      2 |
+-- | DISPR  | Diseño de Producto         | IN&amp;DI     |      3 |
+-- | INVHW  | Investigación Hardware     | IN&amp;DI     |      3 |
+-- | INVSW  | Investigación Software     | IN&amp;DI     |      3 |
+-- ...
+-- | UIDSG  | Diseño UI                  | MOVUI     |      6 |
+-- | UIFNC  | Funcionalidad UI           | MOVUI     |      6 |
+-- +--------+----------------------------+-----------+--------+
+-- 29 rows in set (0.001 sec)
+</code></pre>
+<p>Si queremos recuperar la ruta del árbol, lo cual suele ser una operación necesaria, en el caso base nos quedamos con el nombre del departamento, y en el recursivo, le concatenamos al contenido el nombre de sus descendientes. Cabe destacar un patrón de uso en este tipo de consultas donde queremos obtener la ruta, donde en el caso base hacemos un <code>CAST</code> por si el tipo no fuera de tipo texto, y en el recursivo, mediante <code>CONCAT</code> le añadimos, además de un separador (en nuestro caso <code>&gt;</code>), el código del nuevo elemento:</p>
+<pre><code>WITH RECURSIVE jerarquiaDepartamento as (
+    select CodDep, NomDep, CodDepDep, 1 as NivDep,
+        CAST(NomDep AS CHAR(255)) AS ruta
+    from departamento
+    where CodDep = 'JEFZS'
+
+    UNION ALL
+
+    select d.CodDep, d.NomDep, d.CodDepDep, jd.NivDep + 1 as NivDep,
+        CONCAT(jd.ruta, ' &gt; ', CAST(d.NomDep AS CHAR(255))) AS ruta
+    from departamento d join jerarquiaDepartamento jd ON d.CodDepDep = jd.CodDep
+)
+
+select * from jerarquiaDepartamento;
+-- +--------+----------------------------+-----------+--------+--------------------------------------------------------------------------------------------------------+
+-- | CodDep | NomDep                     | CodDepDep | NivDep | ruta                                                                                                   |
+-- +--------+----------------------------+-----------+--------+--------------------------------------------------------------------------------------------------------+
+-- | JEFZS  | Jefatura Fábrica Zona Sur  | NULL      |      1 | Jefatura Fábrica Zona Sur                                                                              |
+-- | PROZS  | Producción Zona Sur        | JEFZS     |      2 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur                                                        |
+-- | CALDE  | Control de Calidad         | PROZS     |      3 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Control de Calidad                                   |
+-- | LOGUN  | Logística Unitaria         | PROZS     |      3 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Logística Unitaria                                   |
+-- | MANUF  | Manufactura                | PROZS     |      3 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Manufactura                                          |
+-- | ASMZS  | Ensamblaje                 | MANUF     |      4 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Manufactura &gt; Ensamblaje                             |
+-- | COMPZ  | Componentes                | MANUF     |      4 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Manufactura &gt; Componentes                            |
+-- | ELELC  | Ensamblaje Electrónico     | ASMZS     |      5 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Manufactura &gt; Ensamblaje &gt; Ensamblaje Electrónico    |
+-- | MECAS  | Ensamblaje Mecánico        | ASMZS     |      5 | Jefatura Fábrica Zona Sur &gt; Producción Zona Sur &gt; Manufactura &gt; Ensamblaje &gt; Ensamblaje Mecánico       |
+-- +--------+----------------------------+-----------+--------+--------------------------------------------------------------------------------------------------------+
+</code></pre>
+<p>Si en vez de los nombres, queremos crear la ruta con los códigos, haríamos:</p>
+<pre><code>WITH RECURSIVE jerarquiaDepartamento as (
+    select CodDep, NomDep, CodDepDep, 1 as NivDep,
+        CAST(CodDep AS CHAR(255)) AS ruta
+    from departamento
+    where CodDep = 'JEFZS'
+
+    UNION ALL
+
+    select d.CodDep, d.NomDep, d.CodDepDep, jd.NivDep + 1 as NivDep,
+        CONCAT(jd.ruta, ' &gt; ', CAST(d.CodDep AS CHAR(255))) AS ruta
+    from departamento d join jerarquiaDepartamento jd ON d.CodDepDep = jd.CodDep
+)
+
+select * from jerarquiaDepartamento;
+-- +--------+----------------------------+-----------+--------+---------------------------------------+
+-- | CodDep | NomDep                     | CodDepDep | NivDep | ruta                                  |
+-- +--------+----------------------------+-----------+--------+---------------------------------------+
+-- | JEFZS  | Jefatura Fábrica Zona Sur  | NULL      |      1 | JEFZS                                 |
+-- | PROZS  | Producción Zona Sur        | JEFZS     |      2 | JEFZS &gt; PROZS                         |
+-- | CALDE  | Control de Calidad         | PROZS     |      3 | JEFZS &gt; PROZS &gt; CALDE                 |
+-- | LOGUN  | Logística Unitaria         | PROZS     |      3 | JEFZS &gt; PROZS &gt; LOGUN                 |
+-- | MANUF  | Manufactura                | PROZS     |      3 | JEFZS &gt; PROZS &gt; MANUF                 |
+-- | ASMZS  | Ensamblaje                 | MANUF     |      4 | JEFZS &gt; PROZS &gt; MANUF &gt; ASMZS         |
+-- | COMPZ  | Componentes                | MANUF     |      4 | JEFZS &gt; PROZS &gt; MANUF &gt; COMPZ         |
+-- | ELELC  | Ensamblaje Electrónico     | ASMZS     |      5 | JEFZS &gt; PROZS &gt; MANUF &gt; ASMZS &gt; ELELC |
+-- | MECAS  | Ensamblaje Mecánico        | ASMZS     |      5 | JEFZS &gt; PROZS &gt; MANUF &gt; ASMZS &gt; MECAS |
+-- +--------+----------------------------+-----------+--------+---------------------------------------+
+-- 9 rows in set (0.001 sec)
+</code></pre>
+<h3 id="operaciones-jerarquicas">Operaciones jerárquicas</h3>
+<p>Aunque en los ejemplos anteriores ya hemos realizado algunas, como recuperar los hijos directos de un nodo o toda la ruta de un determinado elemento, otras operaciones que se suelen realizar con las relaciones jerárquicas son:</p>
+<ul>
+<li>Calcular la profundidad máxima del árbol jerárquico: una vez realizado el CTE recursivo, podemos determinar cuántos niveles de profundidad tiene la jerarquía de departamentos.</li>
+</ul>
+<p><code>SELECT MAX(NivDep) AS profundidadMaxima
+  FROM jerarquiaDepartamento;
+  -- +-------------------+
+  -- | profundidadMaxima |
+  -- +-------------------+
+  -- |                 4 |
+  -- +-------------------+
+  -- 1 row in set (0.001 sec)</code>
+- Calcular el presupuesto total y subtotales por rama jerárquica: Al CTE, le añadimos una columna que obtenga el presupuesto de cada departamento, y posteriormente, agrupamos para realizar el cálculo agregado:</p>
+<p>```
+  WITH RECURSIVE jerarquiaDepartamento as (
+      select CodDep, NomDep, CodDepDep, 1 as NivDep, CAST(NomDep AS CHAR(255)) AS ruta,
+          PreAnu AS PrePropio
+      from departamento
+      where CodDep = 'JEFZS'</p>
+<pre><code>  UNION ALL
+
+  select d.CodDep, d.NomDep, d.CodDepDep, jd.NivDep + 1 as NivDep, CONCAT(jd.ruta, ' &gt; ', d.NomDep) AS ruta,
+      d.PreAnu AS PrePropio
+  from departamento d join jerarquiaDepartamento jd ON d.CodDepDep = jd.CodDep
+</code></pre>
+<p>)</p>
+<p>SELECT 
+      j1.CodDep,
+      j1.NomDep,
+      j1.NivDep,
+      j1.PrePropio,
+      SUM(j2.PrePropio) AS PreRama
+  FROM jerarquiaDepartamento j1 JOIN jerarquiaDepartamento j2
+      ON j2.ruta LIKE CONCAT(j1.ruta, '%')
+  GROUP BY j1.CodDep, j1.NomDep, j1.NivDep, j1.PrePropio, j1.ruta
+  ORDER BY j1.ruta;
+  -- +--------+----------------------------+--------+--------------+--------------+
+  -- | CodDep | NomDep                     | NivDep | PrePropio    | PreRama      |
+  -- +--------+----------------------------+--------+--------------+--------------+
+  -- | JEFZS  | Jefatura Fábrica Zona Sur  |      1 |   6200000.00 | 329200000.00 |
+  -- | PROZS  | Producción Zona Sur        |      2 | 108000000.00 | 323000000.00 |
+  -- | CALDE  | Control de Calidad         |      3 |  15800000.00 |  15800000.00 |
+  -- | LOGUN  | Logística Unitaria         |      3 |  27200000.00 |  27200000.00 |
+  -- | MANUF  | Manufactura                |      3 |  65000000.00 | 172000000.00 |
+  -- | COMPZ  | Componentes                |      4 |  23000000.00 |  23000000.00 |
+  -- | ASMZS  | Ensamblaje                 |      4 |  42000000.00 |  84000000.00 |
+  -- | ELELC  | Ensamblaje Electrónico     |      5 |  28000000.00 |  28000000.00 |
+  -- | MECAS  | Ensamblaje Mecánico        |      5 |  14000000.00 |  14000000.00 |
+  -- +--------+----------------------------+--------+--------------+--------------+
+  -- 9 rows in set (0.002 sec)
+  ```</p>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

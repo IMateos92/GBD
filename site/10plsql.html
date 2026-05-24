@@ -1,0 +1,2851 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="09dcl-tcl.html">
+      
+      
+        <link rel="next" href="11triggers.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>10.- Programación SQL. Procedimientos y funciones - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#programacion-en-bases-de-datos" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              10.- Programación SQL. Procedimientos y funciones
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="10plsql.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-10h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (10h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatizacion-de-tareas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatización de tareas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Automatización de tareas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#guiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guiones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lenguajes-de-programacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lenguajes de programación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedimientos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedimientos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procedimientos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definiendo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definiendo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invocando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invocando
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uso de variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-consultas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables en consultas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consideraciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructuras-de-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estructuras de control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estructuras de control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#condicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Condicionales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gestionando-funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestionando funciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-10h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (10h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automatizacion-de-tareas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatización de tareas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Automatización de tareas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#guiones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guiones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lenguajes-de-programacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lenguajes de programación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedimientos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedimientos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Procedimientos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definiendo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definiendo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invocando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invocando
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uso de variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variables-en-consultas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables en consultas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consideraciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estructuras-de-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estructuras de control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estructuras de control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#condicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Condicionales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gestionando-funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestionando funciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:plsql">PL/SQL</a>
+<a href="tags.html#tag:ra5">RA5</a>
+<a href="tags.html#tag:sql">SQL</a>
+<a href="tags.html#tag:sql---tcl">SQL - TCL</a></p>
+<h1 id="programacion-en-bases-de-datos">Programación en bases de datos</h1>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta UT comenzaremos a trabajar el RA5: <strong>Desarrolla procedimientos almacenados evaluando y utilizando las sentencias del lenguaje incorporado en el sistema gestor de bases de datos.</strong></p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<ul>
+<li><strong>CE5a</strong>: Se han identificado las diversas formas de automatizar tareas.</li>
+<li><strong>CE5b</strong>: Se han reconocido los métodos de ejecución de guiones.</li>
+<li><strong>CE5c</strong>: Se han identificado las herramientas disponibles para editar guiones.</li>
+<li><strong>CE5d</strong>: Se han definido y utilizado guiones para automatizar tareas.</li>
+<li><strong>CE5e</strong>: Se ha hecho uso de las funciones proporcionadas por el sistema gestor.</li>
+<li><strong>CE5f</strong>: Se han definido procedimientos y funciones de usuario.</li>
+<li><strong>CE5g</strong>: Se han utilizado estructuras de control de flujo.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Programación de bases de datos:</p>
+<ul>
+<li>Introducción. Lenguaje de programación.</li>
+<li>Variables del sistema y variables de usuario.</li>
+<li>Funciones.</li>
+<li>Estructuras de control de flujo.</li>
+<li>Procedimientos almacenados. Funciones de usuario.</li>
+</ul>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Qué técnicas conoces para automatizar tareas en bases de datos relacionales?</li>
+<li>¿Qué tipo de instrucciones puede contener un guion (<em>script</em>)?</li>
+<li>¿Cómo puedo ejecutar un <em>script</em> en MariaDB?</li>
+<li>¿En qué consiste PL/SQL?</li>
+<li>¿Qué es un procedimiento almacenado? ¿En qué se diferencia de una función?</li>
+<li>En <em>MariaDB</em>, ¿para qué utilizamos el comando <code>DELIMITER</code>?</li>
+<li>¿Qué tipos de parámetros puede tener un procedimiento?</li>
+<li>¿Cuál es la estructura de un procedimiento almacenado?</li>
+<li>¿Qué sucede si no le pasamos ningún argumento a un procedimiento que espera algún parámetro?</li>
+<li>¿Un procedimiento puede invocar a otro procedimiento?</li>
+<li>¿Cómo se define una variable dentro de un procedimiento?</li>
+<li>¿Qué instrucciones condicionales existen en PL/SQL?</li>
+<li>¿Qué instrucciones para realizar bucles existen en PL/SQL?</li>
+<li>Si el cuerpo del bucle se debe ejecutar al menos una vez, ¿qué bucle sería más apropiado?</li>
+<li>¿Una función puede devolver más de un valor?</li>
+<li>¿Cómo puedo averiguar las funciones existentes?</li>
+</ol>
+<h3 id="programacion-de-aula-10h">Programación de Aula (10h)</h3>
+<p>Esta unidad es la décima, impartiéndose a principios de la tercera evaluación, entre finales de febrero y principios de marzo, con una duración estimada de 10 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#automatizacion-de-tareas">Automatización</a> de tareas</td>
+<td><a href="#AC1001">AC1001</a></td>
+<td>CE5a, CE5b, CE5c, CE5d, CE5e</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#lenguajes-de-programacion">Lenguajes de programación</a> en bases de datos</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#procedimientos">Procedimientos</a></td>
+<td><a href="#AC1002">AC1002</a></td>
+<td>CE5f</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#tipos-de-parametros">Tipos de parámetros</a> y <a href="#variables-en-consultas">variables</a></td>
+<td><a href="#AC1003">AC1003</a></td>
+<td>CE5f</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Estructuras de control: <a href="#condicionales">condicionales</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Supuesto condicionales</td>
+<td><a href="#AC1005">AC1005</a></td>
+<td>CE5f, CE5g</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Estructuras de control: <a href="#bucles">bucles</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Supuesto bucles</td>
+<td><a href="#AC1006">AC1006</a></td>
+<td>CE5f, CE5g</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#funciones">Funciones</a></td>
+<td><a href="#AC1009">AC1009</a></td>
+<td>CE5f, CE5g</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Supuesto funciones</td>
+<td><a href="#AC1010">AC1010</a></td>
+<td>CE5f, CE5g</td>
+</tr>
+</tbody>
+</table>
+<h2 id="automatizacion-de-tareas">Automatización de tareas</h2>
+<p>La automatización de tareas en bases de datos relacionales es un aspecto fundamental para optimizar la gestión de la información, reducir errores humanos y mejorar el rendimiento del sistema. Existen diversas estrategias para automatizar procesos, desde mecanismos integrados en los sistemas gestores de bases de datos (SGBD) hasta herramientas externas que permiten programar y ejecutar acciones de manera periódica o en respuesta a eventos específicos.</p>
+<p>Entre las principales técnicas se encuentran el uso de <strong><em>triggers</em></strong>, que permiten ejecutar acciones automáticamente ante eventos como inserciones, modificaciones o eliminaciones de datos; los <strong>procedimientos almacenados</strong>, que encapsulan conjuntos de instrucciones SQL reutilizables; y los <em>event schedulers</em> o <strong><em>jobs</em></strong>, que permiten programar tareas como copias de seguridad, optimización de índices o limpieza de registros antiguos.</p>
+<p>Además de las funcionalidades propias de los SGBD, la automatización puede lograrse mediante <em>scripts</em> externos escritos en lenguajes como <em>Bash</em>, <em>Python</em> o <em>PowerShell</em>, los cuales interactúan con la base de datos a través de conectores específicos.</p>
+<p>Bases de datos y Programación</p>
+<p>Aunque en el módulo de <em>Programación</em> trabajaréis el acceso a las bases de datos desde un lenguaje de programación como Java, existen diversas formas de acceder a los datos almacenados, tales como herramientas ETL como <a href="https://pentaho.com/products/pentaho-data-integration/">Pentaho</a> o <a href="https://aws.amazon.com/es/glue/">AWS Glue</a>, o herramientas de visualización como <a href="https://grafana.com/">Grafana</a> o <a href="https://www.microsoft.com/es-es/power-platform/products/power-bi">PowerBI</a>, que permiten realizar operaciones sobre los datos sin necesidad de, bien saber SQL, o tener la necesidad de programar un conjunto de acciones.</p>
+<p>La elección del método de automatización dependerá de factores como la frecuencia de ejecución, la complejidad de la tarea y la infraestructura tecnológica disponible, garantizando así una administración eficiente y segura de los datos.</p>
+<h3 id="guiones">Guiones</h3>
+<p>En el contexto de bases de datos, un <strong>guion</strong> (o <strong><em>script</em></strong>) es un conjunto de instrucciones escritas en un lenguaje específico, como SQL, que se ejecutan de manera secuencial para realizar una tarea determinada. Estos guiones pueden contener comandos para <strong>crear, modificar o consultar datos</strong> (tanto sentencias DDL, DML, DCL como TCL), así como instrucciones de control de flujo que permiten automatizar procesos dentro del SGBD.</p>
+<p>Podemos ejecutar un guion de diversas formas:</p>
+<ul>
+<li><strong>manualmente</strong>, desde una consola o interfaz gráfica,</li>
+<li>o <strong>automáticamente</strong>, mediante herramientas de programación de tareas como <em>cron jobs</em> o herramientas de orquestación de procesos como <a href="https://airflow.apache.org/"><em>Airflow</em></a>. Su uso es esencial en la administración de bases de datos, ya que permite reproducir procesos de manera consistente, reducir errores humanos y optimizar el tiempo de ejecución de tareas repetitivas.</li>
+</ul>
+<p>Uno de los métodos más comunes es la ejecución directa desde <a href="https://mariadb.com/kb/en/mariadb-command-line-client/">líneas de comandos</a>, tal como vimos en el apartado <a href="05ddl.html#ejecutando-un-script"><em>Ejecutando un script</em></a>:</p>
+<pre><code>mariadb -u usuario -p nombre_de_base_de_datos &lt; archivo.sql
+</code></pre>
+<p>O desde dentro del propio gestor mediante <code>source</code>:</p>
+<pre><code>source archivo.sql
+</code></pre>
+<p>Además de preparar <em>scripts</em> con un conjunto de instrucciones, para poder crear bloques de instrucciones que encapsulen un conjunto de operaciones, necesitamos de un lenguaje de programación que permita la creación de estos módulos, así como del soporte para la programación estructurada, mediante instrucciones condicionales y de repetición.</p>
+<h2 id="lenguajes-de-programacion">Lenguajes de programación</h2>
+<p>Los lenguajes de programación de bases de datos son <strong>extensiones procedimentales de SQL</strong> que incorporan variables, estructuras de control, manejo de errores y la posibilidad de encapsular código en procedimientos y funciones. Permiten ir más allá de la consulta declarativa y construir lógica ejecutable dentro del propio SGBD.</p>
+<p>Coloquialmente, es muy común referirse a todos estos lenguajes como <strong>PL/SQL</strong> (<em>Procedural Language/SQL</em>), aunque conviene matizar que este término es, estrictamente, el nombre del dialecto de <em>Oracle</em>. Cada SGBD tiene su propia variante, con sintaxis y capacidades ligeramente distintas:</p>
+<table>
+<thead>
+<tr>
+<th>SGBD</th>
+<th>Dialecto</th>
+<th>Estándar de referencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Oracle</em></td>
+<td>PL/SQL</td>
+<td>Propio</td>
+</tr>
+<tr>
+<td><em>PostgreSQL</em></td>
+<td>PL/pgSQL</td>
+<td>Propio (inspirado en PL/SQL)</td>
+</tr>
+<tr>
+<td><em>SQL Server</em></td>
+<td>Transact-SQL (T-SQL)</td>
+<td>Propio</td>
+</tr>
+<tr>
+<td><em>MariaDB</em> / <em>MySQL</em></td>
+<td>SQL/PSM</td>
+<td>ISO/IEC 9075-4</td>
+</tr>
+<tr>
+<td><em>DB2</em></td>
+<td>SQL PL</td>
+<td>SQL/PSM</td>
+</tr>
+</tbody>
+</table>
+<p>SQL/PSM: el estándar</p>
+<p><strong>SQL/PSM</strong> (<em>Persistent Stored Modules</em>) es la parte del estándar SQL que define cómo deben ser los módulos procedimentales almacenados: declaración de variables, control de flujo, manejo de condiciones, cursores, etc. <em>MariaDB</em> y <em>MySQL</em> implementan este estándar con algunas extensiones propias.</p>
+<p>Por eso, aunque a lo largo de esta unidad hablemos de "PL/SQL" de forma genérica por ser el término más extendido, lo que realmente vamos a escribir sigue la sintaxis <em>SQL/PSM</em> de <em>MariaDB</em>. Si en el futuro trabajas con <em>Oracle</em>, verás que el esqueleto es muy parecido, pero con diferencias importantes (uso de <code>:=</code> para asignación, <code>DBMS_OUTPUT.PUT_LINE</code> para imprimir, bloques anónimos, <code>%TYPE</code> y <code>%ROWTYPE</code>, paquetes, etc.).</p>
+<p>Sus características principales incluyen:</p>
+<ul>
+<li>Simplificación de tareas administrativas (copias de seguridad, gestión de usuarios, etc.).</li>
+<li>Validación y verificación de datos antes de su inserción o actualización.</li>
+<li>Realización de consultas avanzadas encapsuladas.</li>
+<li>Centralización de la lógica de negocio y del acceso a datos.</li>
+<li>Mayor seguridad, al poder restringir la modificación de datos exclusivamente a través de procedimientos almacenados.</li>
+</ul>
+<p>Todo bloque procedimental se va a englobar dentro de un bloque <a href="https://mariadb.com/kb/en/begin-end/"><code>BEGIN</code> - <code>END</code></a>, pudiendo anteponer una declaración de elementos y variables, así como una gestión de excepciones dentro del bloque de código:</p>
+<pre><code>[ DECLARE -- declaraciones ]
+BEGIN
+-- sentencias ejecutables
+[ EXCEPTION -- tratamiento de excepciones ]
+END;
+</code></pre>
+<p>A lo largo de esta unidad aprenderemos a utilizar SQL/PSM en <em>MariaDB</em> para crear procedimientos almacenados, funciones de usuario, así como a utilizar estructuras de control de flujo para dotar de lógica a nuestros procedimientos y funciones. En la siguiente unidad, veremos el uso de excepciones para gestionar los errores que puedan surgir durante la ejecución de nuestros procedimientos y funciones.</p>
+<h2 id="procedimientos">Procedimientos</h2>
+<p>Un procedimiento almacenado (<em>Stored Procedure</em>) es un fragmento de código que vamos a poder reutilizar. Es como si a un bloque de código le pusiéramos un nombre para poder invocarlo conforme necesitemos.</p>
+<p>Aunque veremos las funciones más adelante, su principal diferencia es que un procedimiento no devuelve datos, mientras que una función sí. Dicho esto, podemos pasarle parámetros de salida que van a permitir al procedimiento devolver información. Y esta es una de las principales ventajas de los procedimientos almacenados respecto a, por ejemplo, una vista, y es el hecho de poder recibir parámetros para darle comportamiento específico a partir de uno o más datos de entrada.</p>
+<h3 id="definiendo">Definiendo</h3>
+<p>Para definir un procedimiento realizaremos un <a href="https://mariadb.com/kb/en/create-procedure/"><code>CREATE PROCEDURE</code></a> con la siguiente sintaxis:</p>
+<pre><code>CREATE [OR REPLACE] PROCEDURE nombre (parámetros)
+BEGIN
+    -- cuerpo
+END
+
+parámetros:
+   [ IN | OUT | INOUT ] nombreParametro tipo
+</code></pre>
+<p>Y sustituyendo <code>parámetros</code> por un listado de parámetros, indicando si son de entrada, salida o entrada/salida, así como su nombre y tipo mediante <code>[ IN | OUT | INOUT ] nombreParametro tipo</code>.</p>
+<p>Los <a href="https://mariadb.com/kb/en/data-types/">tipos</a> de los parámetros y las variables declaradas en los bloques son los mismos empleados en el DDL, por ejemplo, <code>INT</code>, <code>VARCHAR</code>, etc...</p>
+<p>Cambiando el delimitador</p>
+<p>Antes de crear nuestro primer procedimiento, necesitamos indicarle al cliente de <em>MariaDB</em> que no interprete los punto y coma como separador de instrucciones, ya que como nuestro bloque va a contener varias instrucciones, si no lo cambiamos, sólo ejecutaría la primera y finalizaría el procedimiento.</p>
+<p>Para ello, antes y después de la declaración, hay que indicar el delimitador mediante <a href="https://mariadb.com/kb/en/delimiters/">DELIMITER</a>.</p>
+<p>Como convención vamos a utilizar la doble barra (<code>//</code>), y por lo tanto, tras el <code>END</code>, pondremos siempre el nuevo delimitador. A continuación, volveremos a dejar el delimitador como estaba inicialmente para poder realizar otras operaciones, como invocar al propio procedimiento.</p>
+<pre><code>DELIMITER //
+CREATE PROCEDURE cantidadEmpleados()
+BEGIN
+    SELECT count(*) FROM empleado;
+END
+//
+DELIMITER ;
+</code></pre>
+<p>Una buena práctica es comentar el objetivo del procedimiento, mediante la sentencia <code>COMMENT</code>:</p>
+<pre><code>DELIMITER //
+CREATE PROCEDURE cantidadDepartamentos()
+    COMMENT &quot;Recupera la cantidad de departamentos&quot;
+BEGIN
+    SELECT count(*) FROM departamentos;
+END
+//
+DELIMITER ;
+</code></pre>
+<h3 id="invocando">Invocando</h3>
+<p>Una vez hemos declarado un procedimiento, lo invocaremos mediante <a href="https://mariadb.com/kb/en/call/"><code>CALL</code></a> mediante la sintaxis <code>CALL nombreProcedimiento(parámetros)</code>. La sentencia <code>CALL</code> es específica de <em>MariaDB</em>, <em>MySQL</em> y <em>PostgreSQL</em>, ya que tanto <em>SQL Server</em> como <em>Oracle</em> utilizan <code>EXEC</code>.</p>
+<p>Así pues, para invocar al procedimiento anterior usaremos:</p>
+<pre><code>CALL cantidadEmpleados();
+-- +----------+
+-- | count(*) |
+-- +----------+
+-- |       10 |
+-- +----------+
+-- 1 row in set (0.003 sec)
+</code></pre>
+<p>Si queremos consultar los procedimientos existentes y obtener tanto su nombre, creador, fecha de creación, ... podemos emplear el comando <a href="https://mariadb.com/kb/en/show-procedure-status/"><code>SHOW PROCEDURE STATUS</code></a></p>
+<p>Si queremos restringir a una base de datos en concreto, filtraremos mediante <code>db</code>:</p>
+<pre><code>SHOW PROCEDURE STATUS where db='empresa';
+-- +---------+-----------------------+-----------+---------------+---------------------+---------------------+---------------+---------------------------------------+- ... -+
+-- | Db      | Name                  | Type      | Definer       | Modified            | Created             | Security_type | Comment                               |  ...  |
+-- +---------+-----------------------+-----------+---------------+---------------------+---------------------+---------------+---------------------------------------+- ... -+
+-- | empresa | cantidadDepartamentos | PROCEDURE | s8a@localhost | 2025-02-14 11:00:59 | 2025-02-14 11:00:59 | DEFINER       | Recupera la cantidad de departamentos |  ...  |
+-- | empresa | cantidadEmpleados     | PROCEDURE | s8a@localhost | 2025-02-14 10:55:11 | 2025-02-14 10:55:11 | DEFINER       |                                       |  ...  |
+-- +---------+-----------------------+-----------+---------------+---------------------+---------------------+---------------+---------------------------------------+- ... -+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<p>Gestión de procedimientos</p>
+<p>Los procedimientos <strong>no se pueden modificar</strong>.</p>
+<p>Pese a que existe una instrucción <a href="https://mariadb.com/kb/en/alter-procedure/"><code>ALTER PROCEDURE</code></a> que permite cambiar sus características (temas de seguridad, comentarios, etc...), no permite cambiar ni la cantidad ni el tipo de los parámetros, ni el propio cuerpo del procedimiento. Para ello, primero deberemos eliminarlo mediante <a href="https://mariadb.com/kb/en/drop-procedure/"><code>DROP PROCEDURE</code></a>:</p>
+<pre><code>DROP PROCEDURE cantidadEmpleados;
+</code></pre>
+<p>A posteriori, volver a crearlo. Durante el desarrollo, es muy común la sentencia <code>CREATE OR REPLACE PROCEDURE</code> para evitar tener que borrarlo antes de volver a crearlo.</p>
+<p>Finalmente, si queremos comprobar el código fuente de un procedimiento ya creado, podemos emplear <a href="https://mariadb.com/kb/en/show-create-procedure/"><code>SHOW CREATE PROCEDURE</code></a></p>
+<h3 id="tipos-de-parametros">Tipos de parámetros</h3>
+<p>Tal como hemos comentado antes, los procedimientos pueden tener diferentes tipos de parámetros:</p>
+<ul>
+<li>Parámetros de <strong>entrada</strong> (<code>IN</code>): son los parámetros por defecto, de manera que si, no indicamos el tipo, siempre serán de entrada.</li>
+</ul>
+<p><code>CREATE PROCEDURE entrada(p1 INT) …
+  CALL entrada(5);</code></p>
+<p>Por ejemplo, en el siguiente caso realizamos una consulta a partir de un parámetro de entrada:</p>
+<p><code>DELIMITER //
+  CREATE PROCEDURE saluda(nombre VARCHAR(128))
+  BEGIN
+      SELECT concat("Hola ", nombre);
+  END;
+  //
+  DELIMITER ;
+  call saluda("Aitor");</code>
+- Parámetros de <strong>salida</strong> (<code>OUT</code>)</p>
+<p><code>CREATE PROCEDURE salida(IN cantidad INT, OUT total INT) …</code></p>
+<p>Para pasar un parámetro de salida, se antepone una @ al nombre de la variable:</p>
+<p><code>CALL salida(7, @resultado);</code></p>
+<p>En este caso, creamos un procedimiento que recibe un parámetro de entrada, y a partir de él, cambia el contenido del parámetro de salida, empleando la instrucción <a href="https://mariadb.com/kb/en/set-variable/"><code>SET variable = valor</code></a>:</p>
+<p><code>DELIMITER //
+  CREATE PROCEDURE saludaOut(nombre VARCHAR(128), OUT saludo VARCHAR(128))
+  BEGIN
+      SET saludo = concat("Hola ", nombre);
+  END;
+  //
+  DELIMITER ;</code>
+- Parámetros de <strong>entrada/salida</strong> (<code>INOUT</code>): Se lee como dato de entrada, y desde el procedimiento se le asigna un resultado como salida. No todos los SGBD soportan este tipo de parámetros, así que si no usas <em>MariaDB</em>/<em>MySQL</em> es mejor consultar la documentación oficial antes de utilizarlo.</p>
+<p><code>CREATE PROCEDURE contar(INOUT cuenta INT(4), IN incremento INT(4)) …
+  CALL contar(@cantidad, 5);</code></p>
+<p>Por ejemplo, sobre la base de datos <code>empresa</code>, podemos recuperar los empleados de un determinado departamento:</p>
+<pre><code>delimiter //
+create procedure empleadosDepartamento(IN codigoDepartamento CHAR(5))
+    comment &quot;Recupera los empleados de un determinado departamento&quot;
+begin
+    select * from empleado where CodDep = codigoDepartamento;
+end;
+//
+
+delimiter ;
+call empleadosDepartamento(&quot;VENZS&quot;);
+-- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+-- | CodEmp | CodDep | ExTelEmp | FecInEmp   | FecNaEmp   | NifEmp    | NomEmp                | NumHi | SalEmp     |
+-- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+-- |      3 | VENZS  | 2133     | 1984-06-08 | 1965-12-07 | 23823930D | Monforte Cid, Roldán  |     1 | 5200000.00 |
+-- |      4 | VENZS  | 3838     | 1990-08-09 | 1975-02-21 | 38293923L | Topaz Illán, Carlos   |     0 | 3200000.00 |
+-- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<p>¿Qué sucede si no le pasamos ningún parámetro al procedimiento? Qué obtendremos un error de que el número de argumentos no es correcto, ya que esperaba un parámetro y no le hemos pasado ninguno.</p>
+<pre><code>call empleadosDepartamento();
+-- ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE empresa.empleadosDepartamento; expected 1, got 0
+</code></pre>
+<p>¿Y si le pasamos <code>NULL</code>? En este caso, el procedimiento se ejecuta, pero no devuelve ningún valor, ya que al hacer el <code>WHERE</code>, no se cumple la condición:</p>
+<pre><code>call empleadosDepartamento(NULL);
+-- Empty set (0.000 sec)
+-- Query OK, 0 rows affected (0.000 sec)
+</code></pre>
+<p>Si modificamos nuestro procedimiento para que gestione los nulos haciendo uso de <a href="https://mariadb.com/kb/en/coalesce/"><code>COALESCE</code></a>, podemos hacer que si recibe un parámetro filtre por dicho valor, y en cambio, si recibe <code>NULL</code> muestre todos los datos:</p>
+<pre><code>delimiter //
+create or replace procedure empleadosDepartamento(IN codigoDepartamento CHAR(5))
+    comment &quot;Recupera los empleados de un determinado departamento&quot;
+begin
+    select * from empleado where CodDep = COALESCE(codigoDepartamento, CodDep);
+end;
+//
+
+delimiter ;
+call empleadosDepartamento(&quot;VENZS&quot;);
+-- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+-- | CodEmp | CodDep | ExTelEmp | FecInEmp   | FecNaEmp   | NifEmp    | NomEmp                | NumHi | SalEmp     |
+-- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+-- |      3 | VENZS  | 2133     | 1984-06-08 | 1965-12-07 | 23823930D | Monforte Cid, Roldán  |     1 | 5200000.00 |
+-- |      4 | VENZS  | 3838     | 1990-08-09 | 1975-02-21 | 38293923L | Topaz Illán, Carlos   |     0 | 3200000.00 |
+-- +--------+--------+----------+------------+------------+-----------+-----------------------+-------+------------+
+-- 2 rows in set (0.001 sec)
+
+call empleadosDepartamento(NULL);
+-- +--------+--------+----------+------------+------------+-----------+-----------------------------+-------+------------+
+-- | CodEmp | CodDep | ExTelEmp | FecInEmp   | FecNaEmp   | NifEmp    | NomEmp                      | NumHi | SalEmp     |
+-- +--------+--------+----------+------------+------------+-----------+-----------------------------+-------+------------+
+-- |      1 | DIRGE  | 1111     | 1972-07-01 | 1961-08-07 | 21451451V | Saladino Mandamás, Augusto  |     1 | 7200000.00 |
+-- |      2 | IN&amp;DI  | 2233     | 1991-06-14 | 1970-06-08 | 21231347K | Manrique Bacterio, Luisa    |     0 | 4500000.00 |
+-- |      3 | VENZS  | 2133     | 1984-06-08 | 1965-12-07 | 23823930D | Monforte Cid, Roldán        |     1 | 5200000.00 |
+-- |      4 | VENZS  | 3838     | 1990-08-09 | 1975-02-21 | 38293923L | Topaz Illán, Carlos         |     0 | 3200000.00 |
+-- |      5 | ADMZS  | 1239     | 1976-08-07 | 1958-03-08 | 38223923T | Alada Veraz, Juana          |     1 | 6200000.00 |
+-- |      6 | JEFZS  | 23838    | 1991-08-01 | 1969-06-03 | 26454122D | Gozque Altanero, Cándido    |     1 | 5000000.00 |
+-- |      7 | PROZS  | NULL     | 1994-06-30 | 1975-08-07 | 47123132D | Forzado López, Galeote      |     0 | 1600000.00 |
+-- |      8 | PROZS  | NULL     | 1994-08-15 | 1976-06-15 | 32132154H | Mascullas Alto, Eloísa      |     1 | 1600000.00 |
+-- |      9 | PROZS  | 12124    | 1982-06-10 | 1968-07-19 | 11312121D | Mando Correa, Rosa          |     2 | 3100000.00 |
+-- |     10 | PROZS  | NULL     | 1993-11-02 | 1975-01-07 | 32939393D | Mosc Amuerta, Mario         |     0 | 1300000.00 |
+-- +--------+--------+----------+------------+------------+-----------+-----------------------------+-------+------------+
+-- 10 rows in set (0.000 sec)
+</code></pre>
+<h3 id="uso-de-variables">Uso de variables</h3>
+<p>Dentro de nuestros bloques de código, podemos declarar y utilizar variables, las cuales se consideran locales al bloque. Éstas se declaran tras abrir un bloque mediante <a href="https://mariadb.com/kb/en/declare-variable/"><code>DECLARE variable tipo</code></a>.</p>
+<p>Para asignar un valor a una variable o parámetros usaremos <a href="https://mariadb.com/kb/en/set-variable/"><code>SET variable = valor</code></a>.</p>
+<p>Si retomamos el ejemplo anterior, ahora definimos una variable de entrada/salida, además de otra de entrada y una tercera de salida, y utilizaremos una variable para almacenar una operación intermedia:</p>
+<pre><code>delimiter //
+create procedure saludaInOut(INOUT nombre VARCHAR(128),
+                             IN apellido VARCHAR(128),
+                             OUT saludo VARCHAR(128))
+begin
+    DECLARE nombreCompleto varchar(256); -- variable local
+
+    SET nombreCompleto = concat(nombre, &quot; &quot;, apellido);
+    SET nombre = nombreCompleto;
+    SET saludo = concat(&quot;hola &quot;, nombreCompleto);
+end;
+//
+delimiter ;
+</code></pre>
+<p>A la hora de declarar una variable, también podemos asignar un valor por defecto mediante <code>DEFAULT</code>:</p>
+<pre><code>DECLARE saldo int DEFAULT 0;
+</code></pre>
+<p>Si queremos utilizar <a href="https://mariadb.com/kb/en/user-defined-variables/">variables de usuario</a> que existen durante la sesión del mismo usuario, y las cuales se pueden compartir entre varias consultas y procedimientos almacenados, le antepondremos la arroba, por ejemplo <code>@variableUsuario</code>.</p>
+<p>Así pues, para invocar al procedimiento, primero le asignamos un valor a la variable de usuario <code>@nombre</code>, la cual se utilizará como parámetro de entrada y salida y, además, al invocar a <code>saludaInOut</code>, le pasamos otra variable de usuario para almacenar el resultado del parámetro de salida <code>out</code>:</p>
+<pre><code>set @nombre = &quot;Aitor&quot;;
+call saludaInOut(@nombre, &quot;Medrano&quot;, @saludo);
+select @nombre, @saludo;
+</code></pre>
+<p>Si volvemos a nuestra base de datos de <code>empresa</code> podemos contar cuantos empleados tiene un departamento, pero devolviendo el resultado en un parámetro de salida:</p>
+<pre><code>delimiter //
+create procedure cantidadEmpleadosDepartamento(IN codigoDepartamento CHAR(5),
+                                               OUT total INT)
+    comment &quot;Recupera los empleados de un determinado departamento&quot;
+begin
+    SET total = (select count(*) from empleado where CodDep = codigoDepartamento);
+end;
+//
+
+delimiter ;
+call cantidadEmpleadosDepartamento(&quot;VENZS&quot;, @cantidad);
+select @cantidad;
+-- +-----------+
+-- | @cantidad |
+-- +-----------+
+-- |         2 |
+-- +-----------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<h4 id="variables-en-consultas">Variables en consultas</h4>
+<p>Si queremos almacenar el resultado de una consulta en variables, es mejor hacer uso de la sentencia <a href="https://mariadb.com/kb/en/selectinto/">SELECT INTO</a>.</p>
+<p>Si reescribimos la consulta anterior, tendríamos:</p>
+<pre><code>delimiter //
+create procedure cantidadEmpleadosDepartamentoSI(IN codigoDepartamento CHAR(5),
+                                                 OUT total INT)
+    comment &quot;Recupera los empleados de un determinado departamento&quot;
+begin
+    SELECT count(*) INTO total from empleado where CodDep = codigoDepartamento;
+end;
+//
+
+delimiter ;
+call cantidadEmpleadosDepartamentoSI(&quot;VENZS&quot;, @cantidad);
+select @cantidad;
+-- +-----------+
+-- | @cantidad |
+-- +-----------+
+-- |         2 |
+-- +-----------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Por supuesto, podemos utilizarla dentro de un procedimiento con variables locales, o fuera con variables de usuario:</p>
+<pre><code>select max(SalEmp), min(SalEmp) into @mayor, @menor
+from empleado;
+</code></pre>
+<p>¿Qué sucede si la consulta devuelve más de un valor?</p>
+<p>Si la consulta devuelve más de un valor, se producirá un error, ya que <code>SELECT INTO</code> espera que la consulta devuelva exactamente un único valor. Por ejemplo, si intentamos almacenar el nombre de los empleados en una variable, obtendremos el error <code>1172</code>:</p>
+<pre><code>select NomEmp into @nombre from empleado;
+-- ERROR 1172 (42000): Result consisted of more than one row
+</code></pre>
+<h3 id="consideraciones">Consideraciones</h3>
+<p>A la hora de diseñar y programar procedimientos almacenados, debes tener en cuenta una serie de consideraciones:</p>
+<ul>
+<li>Un procedimiento almacenado puede invocar a otros procedimientos, incluso pasando variables de uno a otro en ambos sentidos. El problema viene de abusar de esta posibilidad, lo que lleva a un mantenimiento a nivel de código bastante costoso.</li>
+<li>Es recomendable seguir algún tipo de convención de código a la hora de nombrar tanto los procedimientos como las funciones, así como los parámetros (algunos autores anteponen <code>_</code> delante de los parámetros para diferenciarlos de las variables).</li>
+<li>Si nuestros procedimientos utilizan parámetros, hemos de asegurarnos que los tipos de datos de los parámetros coincidan con los tipos de las columnas con las que se van a comparar.</li>
+<li>Igualmente, si definimos variables, sus tipos deben ser semejantes a los parámetros y a los campos que van a evaluar.</li>
+<li>Como los procedimientos, normalmente, van a contener diversas consultas y el código de puede complicar, es muy recomendable incluir comentarios claros y descriptivos que faciliten su comprensión y mantenimiento.</li>
+</ul>
+<p>Variables locales vs variables de usuario</p>
+<p>A modo de resumen, si comparamos las variables locales con las variables de usuario, podemos observar las siguientes diferencias:</p>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Variable local</th>
+<th>Variable de usuario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sintaxis</td>
+<td><code>DECLARE nombre tipo [DEFAULT valor];</code></td>
+<td><code>@nombre</code></td>
+</tr>
+<tr>
+<td>Declaración</td>
+<td>Obligatoria con <code>DECLARE</code> dentro de un bloque <code>BEGIN-END</code></td>
+<td>No requiere declaración previa; se crea al asignarla</td>
+</tr>
+<tr>
+<td>Asignación</td>
+<td><code>SET nombre = valor;</code> o <code>SELECT ... INTO nombre</code></td>
+<td><code>SET @nombre = valor;</code> o <code>SELECT ... INTO @nombre</code></td>
+</tr>
+<tr>
+<td>Prefijo <code>@</code></td>
+<td>No lleva</td>
+<td>Siempre lleva <code>@</code></td>
+</tr>
+<tr>
+<td>Ámbito</td>
+<td>El bloque <code>BEGIN-END</code> donde se declara</td>
+<td>Toda la sesión del usuario</td>
+</tr>
+<tr>
+<td>Visibilidad entre procedimientos</td>
+<td>No visible fuera de su bloque</td>
+<td>Visible desde cualquier procedimiento, función o consulta de la misma sesión</td>
+</tr>
+<tr>
+<td>Ciclo de vida</td>
+<td>Se destruye al finalizar el bloque</td>
+<td>Persiste hasta que se cierra la conexión</td>
+</tr>
+<tr>
+<td>Tipo de dato</td>
+<td>Explícito, definido en <code>DECLARE</code></td>
+<td>Implícito, determinado por el valor asignado</td>
+</tr>
+<tr>
+<td>Valor por defecto</td>
+<td><code>NULL</code> (o el indicado con <code>DEFAULT</code>)</td>
+<td><code>NULL</code> hasta que se le asigne un valor</td>
+</tr>
+<tr>
+<td>Uso en consultas fuera de un bloque</td>
+<td>No se puede usar</td>
+<td>Sí, por ejemplo <code>SELECT @nombre;</code></td>
+</tr>
+<tr>
+<td>Ejemplo</td>
+<td><code>DECLARE total INT DEFAULT 0;</code></td>
+<td><code>SET @total = 0;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Entonces, ¿cuándo debo usar cada tipo?</p>
+<ul>
+<li><strong>Variable local</strong>: cuando el dato sólo tiene sentido dentro de un procedimiento o función concreto. Es la opción preferida porque limita el ámbito y evita efectos secundarios.</li>
+<li><strong>Variable de usuario</strong>: cuando necesitas pasar información entre procedimientos sin usar parámetros, almacenar el resultado de un <code>CALL</code> con parámetro <code>OUT</code>, o conservar un valor para usarlo en consultas posteriores dentro de la misma sesión.</li>
+</ul>
+<p>Debes tener mucha precaución al usar variables de usuario, ya que su valor persiste durante toda la sesión y puede ser modificado por cualquier procedimiento o consulta, lo que puede llevar a resultados inesperados si no se gestionan adecuadamente, por ejemplo, sobreescribiendo inadvertidamente el valor asignado desde otro lugar. Por ello, es recomendable utilizar variables locales siempre que sea posible para evitar conflictos y mejorar la claridad del código.</p>
+<h2 id="estructuras-de-control">Estructuras de control</h2>
+<p>Para cambiar el flujo de un procedimiento y añadir lógica, haremos uso de instrucciones condicionales.</p>
+<h3 id="condicionales">Condicionales</h3>
+<p>ELSEIF</p>
+<p>Mientras que en <em>SQL Server</em> la palabra clave <code>ELSEIF</code> se representa de forma separada con <code>ELSE IF</code>, en <em>Oracle</em> y <em>PostgreSQL</em> se hace con <code>ELSIF</code>.</p>
+<p>La instrucción más básica es <a href="https://mariadb.com/kb/en/if/"><code>IF-THEN-ELSE</code></a>, la cual podemos anidar en diferentes niveles.</p>
+<pre><code>IF condicion THEN sentencia
+    [ELSEIF condicion THEN sentencia] ...
+    [ELSE sentencia]
+END IF
+</code></pre>
+<p>Por ejemplo, podemos crear un procedimiento que categorice a las personas en diferentes rangos de edad:</p>
+<pre><code>delimiter //
+create procedure categoriaEdad (edad integer)
+begin
+    declare resultado varchar(128);
+    IF edad &lt; 18 THEN
+        set resultado = &quot;junior&quot;;
+    ELSEIF edad &lt; 45 THEN
+        set resultado = &quot;senior&quot;;
+    ELSE
+        set resultado = &quot;veterano&quot;;
+    END IF;
+    select resultado;
+end;
+//
+delimiter ;
+call categoriaEdad(33);
+</code></pre>
+<p>Otra posibilidad es utilizar la instrucción <a href="https://mariadb.com/kb/en/case-statement/"><code>CASE</code></a> que permite tanto comparar valores como expresiones:</p>
+<ul>
+<li>Comparando valores:</li>
+</ul>
+<p><code>CASE condicionQueTomaValor
+      WHEN valor THEN sentencia
+      [WHEN valor THEN sentencia] ...
+      [ELSE sentencia]
+  END CASE</code>
+- Comparando expresiones</p>
+<p><code>CASE
+      WHEN condicionEvaluada THEN sentencia
+      [WHEN condicionEvaluada THEN sentencia] ...
+      [ELSE sentencia]
+  END CASE</code></p>
+<p>Veamos como podemos resolver el ejemplo anterior haciendo uso de las dos posibilidades que ofrece <code>CASE</code>:</p>
+<ul>
+<li>Comparando valores</li>
+</ul>
+<p>```
+  DELIMITER //
+  CREATE PROCEDURE categoriaEdadCaseValor(edad integer)
+  BEGIN
+      declare resultado varchar(128);
+      CASE edad
+          WHEN 17 THEN
+              set resultado = "junior";
+          WHEN 18 THEN
+              set resultado = "junior";
+          WHEN 19 THEN
+              set resultado = "senior";
+          ELSE
+              set resultado = "desconocido";
+      END CASE;
+      SELECT resultado;
+  END; //
+  DELIMITER ;</p>
+<p>call categoriaEdadCaseValor(33);
+  ```
+- Comparando condiciones</p>
+<p>```
+  DELIMITER //
+  CREATE PROCEDURE categoriaEdadCase(edad integer)
+  BEGIN
+      declare resultado varchar(128);
+      CASE
+          WHEN edad &lt; 18 THEN
+              set resultado = "junior";
+          WHEN edad &lt; 45 THEN
+              set resultado = "senior";
+          ELSE
+              set resultado = "veterano";
+      END CASE;
+      SELECT resultado;
+  END; //
+  DELIMITER ;</p>
+<p>call categoriaEdadCase(33);
+  ```</p>
+<h3 id="bucles">Bucles</h3>
+<p>Además de sentencias condicionales, podemos utilizar instrucciones repetitivas (bucles)</p>
+<p>Mediante <a href="https://mariadb.com/kb/en/while/"><code>WHILE</code></a> ejecutaremos un fragmento mientras se cumpla una determinada condición:</p>
+<pre><code>WHILE condicion DO
+    sentencias
+END WHILE
+</code></pre>
+<p>Por ejemplo, si queremos sumar los números desde el número 1 hasta un tope, podríamos hacer:</p>
+<pre><code>DELIMITER //
+DROP PROCEDURE IF EXISTS bucleWhile //
+
+CREATE PROCEDURE bucleWhile(IN tope INT, OUT suma INT)
+BEGIN
+    DECLARE contador INT;
+    SET contador = 1;
+    SET suma = 0;
+    WHILE contador &lt;= tope DO
+        SET suma = suma + contador;
+        SET contador = contador + 1;
+    END WHILE;
+END
+//
+DELIMITER ;
+
+CALL bucleWhile(10, @resultado);
+SELECT @resultado;
+</code></pre>
+<p>Autoevaluación</p>
+<p>Dado el siguiente procedimiento:</p>
+<pre><code>CREATE TABLE t (s1 INT, PRIMARY KEY (s1));
+
+DELIMITER //
+CREATE PROCEDURE test(IN a INT, OUT b INT)
+BEGIN
+    SET b = 0;
+    WHILE a &gt; b DO
+        SET b = b + 1;
+        IF b != 2 THEN
+            INSERT INTO t VALUES (b);
+        END IF;
+    END WHILE;
+END;
+//
+
+DELIMITER ;
+CALL test(-10, @value);
+SELECT @value;
+
+CALL test(10, @value);
+SELECT @value;
+</code></pre>
+<p>¿Qué valores tendría la tabla <code>t</code> y qué valor devuelve la sentencia <code>SELECT value</code> de las líneas 18 y 21? Justifica la respuesta.</p>
+<p>Mediante <a href="https://mariadb.com/kb/en/repeat-loop/"><code>REPEAT</code></a> se utiliza de forma similar a un <code>do-while</code> de <em>Java</em>, mediante la siguiente sintaxis:</p>
+<pre><code>REPEAT
+    sentencias
+UNTIL condicion
+END REPEAT
+</code></pre>
+<p>Y si refactorizamos el ejemplo anterior:</p>
+<pre><code>DELIMITER //
+DROP PROCEDURE IF EXISTS ejemploRepeat //
+
+CREATE PROCEDURE ejemploRepeat(IN tope INT, OUT suma INT)
+BEGIN
+    DECLARE contador INT;
+    SET contador = 1;
+    SET suma = 0;
+    REPEAT
+        SET suma = suma + contador;
+        SET contador = contador + 1;
+    UNTIL contador &gt; tope
+    END REPEAT;
+END
+//
+DELIMITER ;
+
+CALL ejemploRepeat(10, @resultado);
+SELECT @resultado;
+</code></pre>
+<p>Autoevaluación</p>
+<p>A partir del siguiente fragmento:</p>
+<pre><code>DELIMITER //
+CREATE OR REPLACE PROCEDURE incrementor (OUT i INT)
+BEGIN
+    REPEAT
+        SET i = i + 1;
+        UNTIL i &gt; 9
+    END REPEAT;
+END;
+
+CREATE OR REPLACE PROCEDURE test()
+BEGIN
+    DECLARE value INT default 0;
+    CALL incrementor(value);
+    SELECT value;
+END;
+//
+
+DELIMITER ;
+CALL test();
+</code></pre>
+<ol>
+<li>
+<p>¿Qué valor devuelve la sentencia <code>SELECT value</code> de la línea 14? ¿Por qué?</p>
+</li>
+<li>
+<p><code>0</code></p>
+</li>
+<li><code>9</code></li>
+<li><code>10</code></li>
+<li><code>NULL</code></li>
+<li>El código entra en un bucle infinito y nunca alcanza la sentencia <code>SELECT value</code></li>
+<li>¿Y si el parámetro de <code>incrementor</code> es de entrada?</li>
+<li>¿Y si es de entrada/salida?</li>
+</ol>
+<p>Por último, podemos hacer un bucle mediante la combinación de las instrucciones <a href="https://mariadb.com/kb/en/loop/"><code>LOOP</code></a> y <a href="https://mariadb.com/kb/en/leave/"><code>LEAVE</code></a>, de manera que <code>LOOP</code> crea un bucle infinito, el cual hay que romper con <code>LEAVE</code>. Para ello, definiremos una etiqueta previa a la definición del bloque mediante la siguiente sintaxis:</p>
+<pre><code>etiqueta: LOOP
+    sentencias;
+    IF condicion THEN
+        LEAVE etiqueta;
+    END IF;
+END LOOP
+</code></pre>
+<p>Y el ejemplo anterior ahora mediante <code>LOOP</code> y <code>LEAVE</code>:</p>
+<pre><code>DELIMITER //
+DROP PROCEDURE IF EXISTS ejemploLoop //
+
+CREATE PROCEDURE ejemploLoop(IN tope INT, OUT suma INT)
+BEGIN
+    DECLARE contador INT;
+    SET contador = 1;
+    SET suma = 0;
+    bucle: LOOP
+        IF contador &gt; tope THEN
+            LEAVE bucle;
+        END IF;
+        SET suma = suma + contador;
+        SET contador = contador + 1;
+    END LOOP;
+END
+//
+DELIMITER ;
+
+CALL ejemploLoop(10, @resultado);
+SELECT @resultado;
+</code></pre>
+<p>Por último, mediante la etiqueta <a href="https://mariadb.com/docs/server/reference/sql-statements/programmatic-compound-statements/iterate"><code>ITERATE</code></a> podemos saltar a la siguiente iteración del bucle, sin salir del mismo:</p>
+<pre><code>etiqueta: LOOP
+    sentencias;
+    IF condicion THEN
+        ITERATE etiqueta;
+    END IF;
+END LOOP
+</code></pre>
+<p>A diferencia de <code>LEAVE</code>, <code>ITERATE</code> no rompe el bucle, sino que salta a la siguiente iteración, lo que puede ser útil para evitar ejecutar ciertas sentencias dentro del bucle bajo determinadas condiciones. En otros lenguajes, esta funcionalidad se suele representar con la palabra clave <code>CONTINUE</code>, mientras que <code>LEAVE</code> se suele representar con <code>BREAK</code>.</p>
+<p>Si refactorizamos el ejemplo anterior para que, en lugar de sumar todos los números, sólo sume los pares, podríamos hacer:</p>
+<pre><code>DELIMITER //
+DROP PROCEDURE IF EXISTS ejemploIterate //
+CREATE PROCEDURE ejemploIterate(IN tope INT, OUT suma INT)
+BEGIN
+    DECLARE contador INT;
+    SET contador = 0;
+    SET suma = 0;
+    bucle: LOOP
+        SET contador = contador + 1;
+        IF contador &gt; tope THEN
+            LEAVE bucle;
+        END IF;
+        IF contador % 2 != 0 THEN
+            ITERATE bucle;
+        END IF;
+        SET suma = suma + contador;
+    END LOOP;
+END
+//
+DELIMITER ;
+CALL ejemploIterate(10, @resultado);
+SELECT @resultado;
+</code></pre>
+<h2 id="funciones">Funciones</h2>
+<p>Las funciones son similares a un procedimiento, pero devuelven un único valor mediante la sentencia <code>RETURN</code>, y se pueden usar dentro de consultas <code>SELECT</code>. Normalmente se utilizan para realizar cálculos o funciones auxiliares.</p>
+<p>Para crear una función lo haremos mediante <a href="https://mariadb.com/kb/en/create-function/">CREATE FUNCTION</a>, donde en la declaración definiremos el tipo del dato a devolver, y más adelante, en el cuerpo, haremos el <code>RETURN</code> de dicho valor.</p>
+<p>La sintaxis completa es:</p>
+<pre><code>CREATE FUNCTION nombre (parámetros) RETURNS tipo
+BEGIN
+    bloque con RETURN
+END;
+</code></pre>
+<p>Es obligatorio que el bloque de instrucciones debe contener alguna instrucción <code>RETURN</code> que devuelva el tipo esperado, así como sustituyendo <code>parámetros</code> por un listado de parámetros de entrada (las funciones no admiten parámetros de salida ni de entrada/salida).</p>
+<p>Por ejemplo, podemos crear una función para que, a partir de una cantidad económica, nos la devuelva con el IVA ajustado:</p>
+<pre><code>delimiter //
+
+CREATE OR REPLACE FUNCTION precioConIVA(precio decimal(10,2)) RETURNS decimal(10,2)
+begin
+    declare pIVA decimal(10,2);
+
+    set pIVA = precio * 1.21;
+    RETURN pIVA;
+end;
+//
+
+delimiter ;
+
+select total, precioConIVA(total) from pago;
+select precioConIVA(1234);
+</code></pre>
+<p>Por supuesto, en aquello casos donde un procedimiento devolvía un único valor mediante un parámetro de salida, podemos reescribirlo mediante una función. Veamos un caso concreto donde utilizábamos un procedimiento para recuperar la cantidad de empleados de un departamento:</p>
+<pre><code>delimiter //
+create procedure pCantidadEmpleados(IN codigoDepartamento CHAR(5),
+                                    OUT total INT)
+    comment &quot;Recupera los empleados de un determinado departamento&quot;
+begin
+    SELECT count(*) INTO total from empleado where CodDep = codigoDepartamento;
+end;
+//
+</code></pre>
+<p>Pasaría a:</p>
+<pre><code>delimiter //
+create function fCantidadEmpleados(codigoDepartamento CHAR(5)) RETURNS INT
+    comment &quot;Recupera los empleados de un determinado departamento&quot;
+begin
+    declare resultado int;
+
+    SELECT count(*) INTO resultado from empleado where CodDep = codigoDepartamento;
+
+    return resultado;
+end;
+//
+</code></pre>
+<p>Obteniendo el mismo resultado:</p>
+<pre><code>delimiter ;
+
+call cantidadEmpleadosDepartamentoSI(&quot;VENZS&quot;, @cantidad);
+select @cantidad;
+-- +-----------+
+-- | @cantidad |
+-- +-----------+
+-- |         2 |
+-- +-----------+
+-- 1 row in set (0.000 sec)
+
+select fCantidadEmpleados(&quot;VENZS&quot;);
+-- +-----------------------------+
+-- | fCantidadEmpleados(&quot;VENZS&quot;) |
+-- +-----------------------------+
+-- |                           2 |
+-- +-----------------------------+
+-- 1 row in set (0.001 sec)
+</code></pre>
+<h3 id="gestionando-funciones">Gestionando funciones</h3>
+<p>Además de crear funciones mediante <code>CREATE FUNCTION</code>, otros comandos que podemos emplear son:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/show-create-function/"><code>SHOW CREATE FUNCTION</code></a>: permite recuperar el código fuente de la función</li>
+</ul>
+<p><code>``
+  show create function fCantidadEmpleados;
+  +--------------------+-------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+  | Function           | sql_mode                                                                                  | Create Function                                                                                                                                                                                                                                                                                                                    | character_set_client | collation_connection | Database Collation |
+  +--------------------+-------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+  | fCantidadEmpleados | STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION | CREATE DEFINER=</code>s8a<code>@</code>localhost<code>FUNCTION</code>fCantidadEmpleados`(IN codigoDepartamento CHAR(5)) RETURNS int(11)
+      COMMENT 'Recupera los empleados de un determinado departamento'
+  begin
+      declare resultado int;</p>
+<pre><code>  SELECT count(*) INTO resultado from empleado where CodDep = codigoDepartamento;
+
+  return resultado;
+</code></pre>
+<p>end | utf8mb3              | utf8mb3_general_ci   | utf8mb3_general_ci |
+  +--------------------+-------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+  <code>``
+- [</code>SHOW FUNCTION STATUS`](https://mariadb.com/kb/en/show-function-status/): información general sobre la función, como su estado, fecha de creación, juego de caracteres y colación, etc...</p>
+<p><code>SHOW FUNCTION STATUS like "fCantidad%";
+  +---------+--------------------+----------+---------------+---------------------+---------------------+---------------+-------------------------------------------------------+----------------------+----------------------+--------------------+
+  | Db      | Name               | Type     | Definer       | Modified            | Created             | Security_type | Comment                                               | character_set_client | collation_connection | Database Collation |
+  +---------+--------------------+----------+---------------+---------------------+---------------------+---------------+-------------------------------------------------------+----------------------+----------------------+--------------------+
+  | empresa | fCantidadEmpleados | FUNCTION | s8a@localhost | 2025-02-20 09:26:59 | 2025-02-20 09:26:59 | DEFINER       | Recupera los empleados de un determinado departamento | utf8mb3              | utf8mb3_general_ci   | utf8mb3_general_ci |
+  +---------+--------------------+----------+---------------+---------------------+---------------------+---------------+-------------------------------------------------------+----------------------+----------------------+--------------------+
+  1 row in set (0.001 sec)</code>
+- <a href="https://mariadb.com/kb/en/drop-function/"><code>DROP FUNCTION</code></a>: elimina una función</p>
+<p><code>DROP FUNCTION fCantidadEmpleados;</code></p>
+<p>PL/SQL en Oracle</p>
+<p>En <em>MariaDB</em>, a partir de la versión 10.3, se introdujo la <a href="https://mariadb.com/kb/en/sql_modeoracle/">compatibilidad con PL/SQL de <em>Oracle</em></a>, permitiendo a los desarrolladores escribir procedimientos almacenados y funciones con una sintaxis similar a la de <em>Oracle PL/SQL</em>.</p>
+<p>Sin embargo, existen diferencias clave. Por ejemplo, en <em>Oracle</em>, la salida de mensajes de depuración se realiza con <code>DBMS_OUTPUT.PUT_LINE</code>, mientras que en <em>MariaDB</em> no existe esta funcionalidad de forma nativa y se deben emplear alternativas como <code>SELECT</code>, <code>SIGNAL</code> o el uso de tablas temporales para almacenar mensajes de depuración.</p>
+<p>Otra diferencia importante es el uso del atributo <code>%TYPE</code>, que en <em>Oracle</em> permite definir variables basadas en el tipo de una columna de tabla.</p>
+<p>Para escribir PL/SQL en <em>MariaDB</em> con sintaxis de <em>Oracle</em>, se debe habilitar el modo de compatibilidad con <strong><code>sql_mode=ORACLE</code></strong>, lo que permite una mayor interoperabilidad, aunque algunas funciones y paquetes no estén totalmente soportados.</p>
+<p>Por ejemplo, ambos procedimientos son <em>compatibles</em>:</p>
+<p>MariaDBModo Oracle</p>
+<pre><code>CREATE TABLE empleados (id INT PRIMARY KEY, nombre VARCHAR(100));
+
+CREATE TABLE debug_log (mensaje VARCHAR(255));
+
+DELIMITER //
+CREATE PROCEDURE ejemploMariaDB()
+BEGIN
+    DECLARE v_nombre VARCHAR(100);  -- No podemos usar %TYPE en MariaDB puro
+    SET v_nombre = 'Nacho Mateos';
+
+    INSERT INTO debug_log (mensaje) VALUES (CONCAT('Empleado: ', v_nombre));
+END;
+//
+DELIMITER ;
+
+CALL ejemploMariaDB();
+
+SELECT * FROM debug_log;  -- Ver el mensaje
+</code></pre>
+<pre><code>SET GLOBAL sql_mode='ORACLE';
+
+CREATE TABLE empleados (id INT PRIMARY KEY, nombre VARCHAR(100));
+
+DELIMITER //
+CREATE OR REPLACE PROCEDURE ejemploOracle IS
+    v_nombre empleados.nombre%TYPE;  -- Usa el tipo de la columna &quot;nombre&quot;
+BEGIN
+    v_nombre := 'Nacho Mateos';
+    dbms_output.put_line('Empleado: ' || v_nombre);
+END;
+//
+DELIMITER ;
+
+CALL ejemploOracle();
+</code></pre>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Sintaxis SQL oficial de <a href="https://www.postgresql.org/docs/current/sql-commands.md">PostgreSQL</a> y <a href="https://mariadb.com/kb/en/sql-statements/">MariaDB</a>.</li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em><a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u7/introduccio.md">Programació de base de dades</a></em> - <em>Institut Obert de Catalunya</em>.</p>
+</li>
+<li><a href="https://josejuansanchez.org/bd/unidad-12-teoria/index.md">Triggers, procedimientos y funciones en MySQL</a> de <em>José Juan Sánchez</em>.</li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut6/recopila.md">Programación de bases de datos</a> de <em>Javier Gutiérrez</em>.</li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema5/index.md">Introducción a PL/SQL</a> de gestionbasesdatos.readthedocs.io</li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<p>Bases de datos empleadas</p>
+<p>Recuerda que estas actividades se basan en las siguientes bases de datos</p>
+<p>empresaretail</p>
+<ul>
+<li>DDL y DML: <a href="resources/06bd-empresa.sql"><code>bd-empresa.sql</code></a></li>
+</ul>
+<p><img alt="" src="images/06bd-empresa.png" title="Modelo físico de la BD empresa" /></p>
+<p>Modelo físico de la BD empresa</p>
+<ul>
+<li>DDL y DML: <a href="resources/06bd-retail.sql"><code>bd-retail.sql</code></a></li>
+<li>Claves ajenas: <a href="resources/06bd-retail-fk.sql"><code>bd-retail-fk.sql</code></a></li>
+</ul>
+<p><img alt="" src="images/06bd-retail.png" title="Modelo físico de la BD retail" /></p>
+<p>Modelo físico de la BD retail</p>
+<ul>
+<li>
+<p><strong>AC1001</strong>. (RABD.5 // CE5a, CE5b, CE5c, CE5d, CE5e // 3p) Utilizando la base de datos <code>empresa</code> y en un archivo nombrado como <code>ac1001empleados.sql</code>, se pide:</p>
+</li>
+<li>
+<p>Crea una tabla <code>dashboard_dpto</code> que muestre para cada departamento, además de su código y nombre y presupuesto anual, cuantos empleados y su gasto en salarios.</p>
+</li>
+<li>Crea una tabla <code>dashboard_centro</code> que muestre para cada centro, además de su código y nombre, cuantos departamentos contiene y el presupuesto anual (entendido como la suma de los presupuestos de sus departamentos).</li>
+<li>Lanza el <em>script</em> <code>ac1001empleados.sql</code> para que ejecute ambas operaciones (cada vez que lo hagas, debe borrar las tablas y volver a crearlas)</li>
+<li>
+<p>Averigua cómo puedes automatizar la ejecución del script mediante <code>crontab</code> para que se ejecute cada 5 minutos.</p>
+</li>
+<li>
+<p><strong>AC1002</strong>. (RABD.5 // CE5f // 3p) En la base de datos <code>empresa</code>, crea:</p>
+</li>
+<li>
+<p>El procedimiento <code>ac1002listEmpleadosConHijos</code> que muestre los empleados que tienen hijos.</p>
+</li>
+<li>El procedimiento <code>ac1002contarEmpleados</code> que muestre la cantidad de empleados.</li>
+<li>El procedimiento <code>ac1002updSalarioEmpleados</code> que incremente el salario de los empleados un 10%.</li>
+<li>Recupera los procedimientos existentes.</li>
+<li>Elimina el procedimiento <code>ac1002updSalarioEmpleados</code>.</li>
+</ul>
+<p>Debes adjuntar, para cada apartado, tanto las sentencias necesarias para su creación como para su prueba y una captura de pantalla con su ejecución.</p>
+<ul>
+<li>
+<p><strong>AC1003</strong>. (RABD.5 // CE5f // 3p) En la base de datos <code>empresa</code>, crea:</p>
+</li>
+<li>
+<p>El procedimiento <code>ac1003listDepartamentos</code> que liste los departamentos de un determinado centro.</p>
+</li>
+<li>El procedimiento <code>ac1003listDepartamentosPlus</code> que liste los departamentos de un centro, y en el caso de recibir como argumento un valor nulo, devuelva todos los departamentos.</li>
+<li>El procedimiento <code>ac1003updSalarioEmpleadosParam</code> que incremente el salario de los empleados una determinada cantidad a partir de un parámetro de entrada.</li>
+<li>El procedimiento <code>ac1003contarEmpleados</code> que devuelva la cantidad de empleados en un parámetro de salida.</li>
+<li>El procedimiento <code>ac1003contarEmpleadosDpto</code> que devuelva la cantidad de empleados de un determinado departamento (introducido vía un parámetro de entrada) en un parámetro de salida.</li>
+<li>El procedimiento <code>ac1003sueldosSet</code> que devuelva el sueldo menor, el mayor y el promedio de todos los empleados (usando <code>SET</code>).</li>
+<li>El procedimiento <code>ac1003sueldosSelectInto</code> que devuelva el sueldo menor, el mayor y el promedio de todos los empleados (usando una única sentencia <code>SELECT INTO</code>).</li>
+</ul>
+<p>Debes adjuntar, para cada apartado, tanto las sentencias necesarias para su creación como para su prueba y una captura de pantalla con su ejecución.</p>
+<ul>
+<li>
+<p><strong>AR1004</strong>. (RABD.5 // CE5f // 3p) Realiza las actividades 1, 2 y 3 del <a href="https://josejuansanchez.org/bd/unidad-12-teoria/index.md#procedimientos-con-sentencias-sql">apartado 1.8.2</a> sobre <em>Procedimientos con sentencias SQL</em> de los apuntes del docente <em>José Juan Sánchez</em>, adjuntando capturas de las operaciones y contestando a las preguntas que plantea.</p>
+</li>
+<li>
+<p><strong>AC1005</strong>. (RABD.5 // CE5f, CE5g // 3p) En la base de datos <code>empresa</code>, crea:</p>
+</li>
+<li>
+<p>El procedimiento <code>ac1005semanaIf</code> que reciba como entrada un entero que represente un día de la semana y que devuelva una cadena con el nombre del día de la semana correspondiente (utilizando <code>IF</code>). Por ejemplo, para la entrada <code>1</code> debería devolver <code>Lunes</code>.</p>
+</li>
+<li>El procedimiento <code>ac1005semanaCase</code> que reciba como entrada un entero que represente un día de la semana y que devuelva una cadena con el nombre del día de la semana correspondiente (utilizando <code>CASE</code>)</li>
+<li>El procedimiento <code>ac1005semanaCasVal</code> que reciba como entrada un entero que represente un día de la semana y una cadena con el idioma (los posibles valores son <code>CAS</code> o <code>VAL</code>) y que devuelva una cadena con el nombre del día de la semana correspondiente en el idioma indicado (puedes utilizar las sentencias condicionales que consideres). Por ejemplo, para <code>1</code> y <code>CAS</code>, devolverá <code>Lunes</code>, pero si es <code>VAL</code> devolverá <code>Dilluns</code>.</li>
+</ul>
+<p>Debes pensar y argumentar qué sucede si cualquiera de los parámetros recibidos como entrada no contienen alguno de los valores esperados.</p>
+<p>A continuación, sobre la tabla <code>habilidad</code>, crea:</p>
+<ol>
+<li>El procedimiento <code>ac1005insertaHabilidad</code> que reciba como entrada un código de habilidad y su descripción, y que sólo la inserte si el código de la habilidad tiene un tamaño de 5 caracteres.</li>
+<li>El procedimiento <code>ac1005upsertHabilidad</code> que reciba como entrada un código de habilidad y su descripción, y que sólo la inserte si el código de la habilidad tiene un tamaño de 5 caracteres. Si el código ya existe, debe modificar la habilidad con la nueva descripción, y si no, la insertará.</li>
+<li>El procedimiento <code>ac1005upsertHabilidadPlus</code> que además de todo lo anterior, informe al usuario de la operación realizada. En el caso de que los datos de entrada sean incorrectos o incompletos, deberá también informar de ello.</li>
+</ol>
+<p>Además, no olvides adjuntar, para cada apartado, tanto las sentencias necesarias para su creación como para su prueba y una captura de pantalla con su ejecución.</p>
+<ul>
+<li>
+<p><strong>AC1006</strong>. (RABD.5 // CE5f, CE5g // 3p) En la base de datos <code>empresa</code>, crea:</p>
+</li>
+<li>
+<p>El procedimiento <code>ac1006habilidad</code> que reciba como entrada un código de habilidad y una descripción, y la inserte en la tabla <code>habilidad</code>.</p>
+</li>
+<li>
+<p>El procedimiento <code>ac1006habilidades</code> que reciba como entrada un entero con una cantidad, e inserte tantas habilidades como el parámetro recibido, asignando como código <code>BD-NNN</code> y descripción <code>Habilidad NNN</code>, sustituyendo <code>NNN</code> por un número entero secuencial.</p>
+<p>Por ejemplo, si el parámetro es <code>3</code>, insertará las habilidades <code>BD-1</code>, <code>BD-2</code> y <code>BD-3</code> y las descripciones <code>Habilidad 1</code>, <code>Habilidad 2</code> y <code>Habilidad 3</code>.
+  3. El procedimiento <code>ac1006habilidadesInicioFin</code> que reciba como entrada un entero que indique el número de <code>inicio</code> y otro con el tope (o <code>fin</code>), e inserte habilidades cuyos valores vayan desde <code>inicio</code> hasta <code>fin</code>, con la misma nomenclatura que el apartado anterior.</p>
+</li>
+</ul>
+<p>Debes pensar y argumentar qué sucede si cualquiera de los parámetros recibidos como entrada no contienen alguno de los valores esperados.</p>
+<p>Además, no olvides adjuntar, para cada apartado, tanto las sentencias necesarias para su creación como para su prueba y una captura de pantalla con su ejecución.</p>
+<ul>
+<li>
+<p><strong>AR1007</strong>. (RABD.5 // CE5f, CE5g // 3p) Realiza las actividades 4, 5 y 6 del <a href="https://josejuansanchez.org/bd/unidad-12-teoria/index.md#procedimientos-con-sentencias-sql">apartado 1.8.2</a> sobre <em>Procedimientos con sentencias SQL</em> de los apuntes del docente <em>José Juan Sánchez</em>, adjuntando capturas de las operaciones y contestando a las preguntas que plantea.</p>
+</li>
+<li>
+<p><strong>AP1008</strong>.(RABD.5 // CE5f, CE5g // 3p) Realiza las actividades 10, 11 y 12 del <a href="https://josejuansanchez.org/bd/unidad-12-teoria/index.md#procedimientos-con-sentencias-sql">apartado 1.8.2</a> sobre <em>Procedimientos con sentencias SQL</em> de los apuntes del docente <em>José Juan Sánchez</em>, adjuntando capturas de las operaciones y contestando a las preguntas que plantea.</p>
+</li>
+<li>
+<p><strong>AC1009</strong>. (RABD.5 // CE5f, CE5g // 3p) En la base de datos <code>empresa</code>, crea:</p>
+</li>
+<li>
+<p>Las funciones <code>ac1009contarEmpleados</code> y <code>ac1009contarEmpleadosDpto</code> reescribiendo los procedimientos <code>ac1003contarEmpleados</code> y <code>ac1003contarEmpleadosDpto</code> de la actividad <a href="#AC1003">AC1003</a>.</p>
+</li>
+<li>La función <code>ac1009presupuestoCentro</code> que, a partir del código de un centro, devuelva su presupuesto (calculado como la suma de los presupuestos de sus departamentos).</li>
+<li>La función <code>ac1009totalHabilidadesEmpleado</code> que, a partir de un código de un empleado, devuelva cuantas habilidades tiene.</li>
+<li>La función <code>ac1009totalEmpleadosHabilidad</code> que, a partir de un código de una habilidad, devuelva cuantos empleados la tienen.</li>
+<li>La función <code>ac1009directorCentro</code> que, a partir del código de un centro, devuelva el nombre de su director.</li>
+<li>La función <code>ac1009emailEmpleado</code> que, a partir de un código de empleado, devuelva su email con la siguiente nomenclatura: <code>CodEmp@CodDep.CodCen.com</code></li>
+<li>La función <code>ac1009validaHijosEmpleados</code> que a partir de un código de un empleado, compruebe si la cantidad de hijos de la tabla <code>empleado</code> coinciden con los de la tabla <code>hijo</code>.</li>
+<li>
+<p>Comprueba las funciones existentes en la base de datos <code>empresa</code>.</p>
+</li>
+<li>
+<p><strong>AC1010</strong>. (RABD.5 // CE5f, CE5g // 3p) En la base de datos <code>pruebas</code>, crea la tabla <code>alumnado</code> con las siguientes columnas:</p>
+</li>
+<li>
+<p><code>id</code>: entero sin signo (clave primaria).</p>
+</li>
+<li><code>nombre</code>: cadena de 50 caracteres.</li>
+<li><code>apellidos</code>: cadena de 50 caracteres.</li>
+<li><code>curso</code>: cadena de 50 caracteres;</li>
+</ul>
+<p>E inserta 5 registros con datos inventados.</p>
+<ol>
+<li>
+<p>Crea una función (<code>crearEmail</code>) que a partir de un nombre, apellidos y curso, genere una dirección de email y la devuelva como salida. El formato del email de salida es el siguiente:</p>
+<ul>
+<li>El primer carácter del parámetro nombre (en minúsculas).</li>
+<li>Los cinco primeros caracteres del parámetro apellidos (en minúsculas).</li>
+<li>Un número con la longitud de los apellidos.</li>
+<li>El carácter <code>@</code>.</li>
+<li>El curso pasado como parámetro (en minúsculas).</li>
+<li>y finalizar con <code>.s8a.es</code>.</li>
+</ul>
+<p>Por ejemplo, si invocamos a la función con <code>crearEmail('Aitor', 'Medrano', 'BD')</code> devolvería <code>amedra7@bd.s8a.es</code>.
+  2. Añade una columna <code>email</code> a la tabla <code>alumnado</code>. A continuación, crea un procedimiento (<code>ac1010actualizarColumnaEmail</code>) que permita crear un email para todo el alumnado que ya existe en la tabla <code>alumnado</code>, utilizando la función <code>crearEmail</code>.</p>
+</li>
+</ol>
+<p>Además, no olvides adjuntar, para cada apartado, tanto las sentencias necesarias para su creación como para su prueba y una captura de pantalla con su ejecución.</p>
+<ul>
+<li>
+<p><strong>PR1011</strong>. (RABD.5 // CE5a, CE5b, CE5c, CE5d, CE5e, CE5f, CE5g // 3p) En la base de datos <code>empresa</code>, se pide crear un conjunto de procedimientos que colaboren entre sí para generar un informe salarial por centro de trabajo. Para ello:</p>
+</li>
+<li>
+<p>Crea el procedimiento <code>pr1011mediaSalarial</code> que, a partir de un código de departamento (parámetro de entrada), devuelva en un parámetro de salida el salario medio de los empleados de dicho departamento.</p>
+</li>
+<li>
+<p>Crea la función <code>pr1011categoriaDepartamento</code> que, a partir de un código de departamento (parámetro de entrada), devuelva la categoría según el salario medio de sus empleados:</p>
+<ul>
+<li><code>bajo</code> si el salario medio es inferior a 2.000.000</li>
+<li><code>medio</code> si está entre 2.000.000 y 5.000.000</li>
+<li><code>alto</code> si es superior a 5.000.000</li>
+</ul>
+<p>Esta función debe invocar a <code>pr1011mediaSalarial</code> para obtener la media.
+  3. Crea la tabla <code>informe_salarial</code> con la siguiente estructura:</p>
+<p><code>CodDep CHAR(5)
+ NomDep VARCHAR(40)
+ NumEmpleados INT
+ SalarioMedio DECIMAL(12,2)
+ Categoria VARCHAR(10)</code>
+  4. Crea el procedimiento <code>pr1011actualizaInforme</code> que, a partir de un código de departamento (parámetro de entrada), actualice la fila correspondiente en <code>informe_salarial</code> con la cantidad de empleados, el salario medio y la categoría salarial. Este procedimiento debe invocar a <code>pr1011mediaSalarial</code> y a <code>pr1011categoriaDepartamento</code>.</p>
+<p>Comprueba su funcionamiento insertando manualmente una fila en <code>informe_salarial</code> para el departamento <code>PROZS</code> (solo con <code>CodDep</code> y <code>NomDep</code>), invocando al procedimiento y verificando que se han rellenado el resto de columnas.
+  5. Crea el procedimiento <code>pr1011informeCentro</code> que, a partir de un código de centro (parámetro de entrada), genere el informe completo: primero insertará en <code>informe_salarial</code> los datos base de todos los departamentos del centro (código y nombre), y después recorrerá cada fila mediante un bucle (usando cursores) invocando a <code>pr1011actualizaInforme</code> para completar los datos.</p>
+<p>Comprueba el funcionamiento invocando a <code>pr1011informeCentro</code> con el centro <code>FAZS</code> y mostrando el contenido de la tabla <code>informe_salarial</code>.</p>
+</li>
+</ul>
+<p>Debes adjuntar, para cada apartado, tanto las sentencias necesarias para su creación como para su prueba y una captura de pantalla con su ejecución.</p>
+<ul>
+<li>
+<p><strong>AR1012</strong>. (RABD.5 // CE5f, CE5g // 3p) Realiza las actividades del <a href="https://josejuansanchez.org/bd/unidad-12-teoria/index.md#funciones-con-sentencias-sql">apartado 1.8.4</a> sobre <em>Funciones con sentencias SQL</em> de los apuntes del docente <em>José Juan Sánchez</em>, adjuntando capturas de las operaciones y contestando a las preguntas que plantea.</p>
+</li>
+<li>
+<p><strong>AR1013</strong>. (RABD.5 // CE5a, CE5b, CE5c, CE5d, CE5e, CE5f, CE5g // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</p>
+</li>
+</ul>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.expand"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

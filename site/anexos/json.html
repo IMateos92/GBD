@@ -1,0 +1,3119 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="jerarquicas.html">
+      
+      
+        <link rel="next" href="restricciones-relaciones.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>El tipo de datos JSON en SQL - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#el-tipo-de-datos-json-en-sql" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              El tipo de datos JSON en SQL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="json.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#json-en-el-estandar-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON en el estándar SQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-tipo-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El tipo JSON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El tipo JSON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#en-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabla-de-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla de ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-creacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de creación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de creación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_object-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_OBJECT() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_array-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_ARRAY() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extraccion-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracción de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extracción de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_extract-y-los-operadores-y-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_EXTRACT() y los operadores -&gt; y -&gt;&gt; MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_value-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_VALUE() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_query-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_QUERY() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-informacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de información
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de información">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_exists-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_EXISTS() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_type-mariadb-json_typeof-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_TYPE() MariaDB / json_typeof() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_valid-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_VALID() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_length-mariadb-jsonb_array_length-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_LENGTH() MariaDB / jsonb_array_length() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_depth-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_DEPTH() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_keys-mariadb-json_object_keys-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_KEYS() MariaDB / json_object_keys() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de búsqueda
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de búsqueda">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_contains-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_CONTAINS() MariaDB / operador @&gt; PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_contains_path-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_CONTAINS_PATH() MariaDB / operador ? PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_search-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_SEARCH() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-modificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de modificación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de modificación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_set-mariadb-jsonb_set-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_SET() MariaDB / jsonb_set() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_insert-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_INSERT() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_replace-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_REPLACE() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_remove-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_REMOVE() MariaDB / operador - PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_array_append-mariadb-jsonb_insert-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_ARRAY_APPEND() MariaDB / jsonb_insert() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_merge_patch-y-json_merge_preserve-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_MERGE_PATCH() y JSON_MERGE_PRESERVE() MariaDB / operador || PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-agregacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de agregación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de agregación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_arrayagg-estandar-sql2016-json_agg-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_ARRAYAGG() Estándar SQL:2016 / json_agg() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_objectagg-estandar-sql2016-json_object_agg-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_OBJECTAGG() Estándar SQL:2016 / json_object_agg() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json_table-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_TABLE() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#columnas-generadas-e-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Columnas generadas e índices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json_pretty-mariadb-jsonb_pretty-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_PRETTY() MariaDB / jsonb_pretty() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabla-comparativa-completa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla comparativa completa
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#json-en-el-estandar-sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON en el estándar SQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-tipo-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El tipo JSON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="El tipo JSON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#en-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#en-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        En PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabla-de-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla de ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-creacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de creación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de creación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_object-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_OBJECT() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_array-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_ARRAY() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extraccion-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracción de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extracción de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_extract-y-los-operadores-y-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_EXTRACT() y los operadores -&gt; y -&gt;&gt; MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_value-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_VALUE() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_query-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_QUERY() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-informacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de información
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de información">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_exists-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_EXISTS() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_type-mariadb-json_typeof-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_TYPE() MariaDB / json_typeof() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_valid-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_VALID() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_length-mariadb-jsonb_array_length-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_LENGTH() MariaDB / jsonb_array_length() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_depth-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_DEPTH() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_keys-mariadb-json_object_keys-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_KEYS() MariaDB / json_object_keys() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-busqueda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de búsqueda
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de búsqueda">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_contains-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_CONTAINS() MariaDB / operador @&gt; PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_contains_path-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_CONTAINS_PATH() MariaDB / operador ? PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_search-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_SEARCH() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-modificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de modificación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de modificación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_set-mariadb-jsonb_set-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_SET() MariaDB / jsonb_set() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_insert-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_INSERT() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_replace-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_REPLACE() MariaDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_remove-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_REMOVE() MariaDB / operador - PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_array_append-mariadb-jsonb_insert-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_ARRAY_APPEND() MariaDB / jsonb_insert() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_merge_patch-y-json_merge_preserve-mariadb-operador-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_MERGE_PATCH() y JSON_MERGE_PRESERVE() MariaDB / operador || PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-agregacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Funciones de agregación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de agregación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json_arrayagg-estandar-sql2016-json_agg-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_ARRAYAGG() Estándar SQL:2016 / json_agg() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json_objectagg-estandar-sql2016-json_object_agg-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_OBJECTAGG() Estándar SQL:2016 / json_object_agg() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json_table-estandar-sql2016" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_TABLE() Estándar SQL:2016
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#columnas-generadas-e-indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Columnas generadas e índices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json_pretty-mariadb-jsonb_pretty-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON_PRETTY() MariaDB / jsonb_pretty() PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabla-comparativa-completa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabla comparativa completa
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="../tags.html#tag:ra2">RA2</a>
+<a href="../tags.html#tag:ra3">RA3</a>
+<a href="../tags.html#tag:ra4">RA4</a>
+<a href="../tags.html#tag:sql">SQL</a>
+<a href="../tags.html#tag:sql---ddl">SQL - DDL</a>
+<a href="../tags.html#tag:sql---dml">SQL - DML</a></p>
+<h1 id="el-tipo-de-datos-json-en-sql">El tipo de datos JSON en SQL</h1>
+<p>JSON (<em>JavaScript Object Notation</em>) es un formato de intercambio de datos ligero, legible por humanos y fácilmente procesable por máquinas. Aunque nació en el entorno JavaScript, su popularidad ha crecido exponencialmente hasta convertirse en el estándar <em>de facto</em> para el intercambio de datos en servicios web y aplicaciones modernas.</p>
+<p>Los SGBD relacionales han incorporado soporte nativo para JSON con el objetivo de combinar las ventajas del modelo relacional (consistencia, transacciones, integridad referencial) con la flexibilidad de los documentos semiestructurados, sin necesidad de recurrir a bases de datos NoSQL.</p>
+<h2 id="json-en-el-estandar-sql">JSON en el estándar SQL</h2>
+<p>El soporte para JSON se incorporó al estándar ISO/IEC SQL en dos grandes hitos:</p>
+<ul>
+<li><strong>SQL:2016</strong> introdujo el modelo SQL/JSON: el tipo de dato <code>JSON</code> como alias de texto con validación, el lenguaje de rutas (<em>path language</em>) que comienza con <code>$</code>, y las funciones <code>JSON_OBJECT()</code>, <code>JSON_ARRAY()</code>, <code>JSON_ARRAYAGG()</code>, <code>JSON_OBJECTAGG()</code>, <code>JSON_VALUE()</code>, <code>JSON_QUERY()</code>, <code>JSON_EXISTS()</code> y <code>JSON_TABLE()</code>.</li>
+<li><strong>SQL:2023</strong> añadió un tipo <code>JSON</code> nativo (no basado en texto), la comparación y ordenación de valores JSON, y nuevos métodos de conversión en el lenguaje de rutas.</li>
+</ul>
+<p>Estándar vs. extensiones</p>
+<p>A lo largo del documento identificaremos cada función con una de estas etiquetas:</p>
+<ul>
+<li><strong>Estándar SQL</strong> — definida en SQL:2016 o SQL:2023.</li>
+<li><strong>MariaDB</strong> — propia de MariaDB/MySQL, no recogida en el estándar.</li>
+<li><strong>PostgreSQL</strong> — propia de PostgreSQL, no recogida en el estándar.</li>
+</ul>
+<p>Versiones de referencia</p>
+<table>
+<thead>
+<tr>
+<th>Motor</th>
+<th>Versión</th>
+<th>Novedades JSON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MariaDB</td>
+<td>10.2</td>
+<td>Soporte básico: tipo <code>JSON</code>, funciones <code>JSON_*</code></td>
+</tr>
+<tr>
+<td>MariaDB</td>
+<td>10.6</td>
+<td><code>JSON_TABLE()</code>, <code>JSON_VALUE()</code> con <code>RETURNING</code></td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>9.2</td>
+<td>Tipo <code>JSON</code> nativo</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>9.4</td>
+<td>Tipo <code>JSONB</code> (binario, indexable)</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>16</td>
+<td><code>JSON_OBJECT()</code>, <code>JSON_ARRAY()</code>, <code>JSON_VALUE()</code>, <code>JSON_QUERY()</code> estándar</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>17</td>
+<td><code>JSON_TABLE()</code>, <code>JSON_EXISTS()</code> estándar</td>
+</tr>
+</tbody>
+</table>
+<h2 id="el-tipo-json">El tipo <code>JSON</code></h2>
+<h3 id="en-mariadb">En MariaDB</h3>
+<p>En MariaDB, <code>JSON</code> es internamente un alias de <code>LONGTEXT</code>, pero con <strong>validación automática del formato</strong>: si se intenta insertar un valor que no sea JSON válido, el servidor lanza un error, garantizando la integridad del documento almacenado.</p>
+<h3 id="en-postgresql">En PostgreSQL</h3>
+<p>PostgreSQL ofrece <strong>dos tipos distintos</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Almacenamiento</th>
+<th>Indexable (GIN)</th>
+<th>Velocidad escritura</th>
+<th>Velocidad lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>JSON</code></td>
+<td>Texto, conserva formato original</td>
+<td>No</td>
+<td>Más rápida</td>
+<td>Más lenta</td>
+</tr>
+<tr>
+<td><code>JSONB</code></td>
+<td>Binario descompuesto</td>
+<td><strong>Sí</strong></td>
+<td>Más lenta</td>
+<td><strong>Más rápida</strong></td>
+</tr>
+</tbody>
+</table>
+<p>En la práctica, <strong><code>JSONB</code> es el tipo recomendado</strong> en PostgreSQL para la mayoría de casos, ya que permite crear índices GIN altamente eficientes directamente sobre el documento, sin necesidad de columnas generadas.</p>
+<pre><code>-- PostgreSQL: tabla equivalente con JSONB
+CREATE TABLE producto (
+    id        SERIAL PRIMARY KEY,
+    nombre    VARCHAR(100)  NOT NULL,
+    categoria VARCHAR(50)   NOT NULL,
+    precio    NUMERIC(10,2),
+    specs     JSONB                    -- tipo binario, indexable
+);
+
+-- Índice GIN sobre todo el documento (búsquedas de contenido)
+CREATE INDEX idx_producto_specs ON producto USING GIN (specs);
+</code></pre>
+<hr />
+<h2 id="tabla-de-ejemplo">Tabla de ejemplo</h2>
+<p>Usaremos la siguiente tabla a lo largo del documento. Los ejemplos en MariaDB y PostgreSQL comparten el mismo esquema:</p>
+<pre><code>-- MariaDB
+CREATE TABLE producto (
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    nombre    VARCHAR(100)  NOT NULL,
+    categoria VARCHAR(50)   NOT NULL,
+    precio    DECIMAL(10,2),
+    specs     JSON
+);
+
+INSERT INTO producto (nombre, categoria, precio, specs) VALUES
+    ('Portátil UltraBook 15', 'informatica', 899.99,
+     '{&quot;marca&quot;: &quot;Acer&quot;, &quot;pantalla&quot;: 15.6, &quot;ram_gb&quot;: 16,
+       &quot;almacenamiento&quot;: {&quot;tipo&quot;: &quot;SSD&quot;, &quot;gb&quot;: 512},
+       &quot;colores&quot;: [&quot;plata&quot;, &quot;negro&quot;]}'),
+    ('Smartphone Galaxy S23', 'telefonia', 749.99,
+     '{&quot;marca&quot;: &quot;Samsung&quot;, &quot;pantalla&quot;: 6.1, &quot;ram_gb&quot;: 8,
+       &quot;almacenamiento&quot;: {&quot;tipo&quot;: &quot;UFS&quot;, &quot;gb&quot;: 128},
+       &quot;colores&quot;: [&quot;negro&quot;, &quot;crema&quot;, &quot;verde&quot;]}'),
+    ('Auriculares BT Pro', 'audio', 129.99,
+     '{&quot;marca&quot;: &quot;Sony&quot;, &quot;tipo&quot;: &quot;over-ear&quot;, &quot;autonomia_h&quot;: 30,
+       &quot;activo&quot;: true, &quot;colores&quot;: [&quot;negro&quot;]}'),
+    ('Teclado Mecánico RGB', 'perifericos', 79.99,
+     '{&quot;marca&quot;: &quot;Corsair&quot;, &quot;switch&quot;: &quot;Cherry MX Red&quot;,
+       &quot;retroiluminado&quot;: true, &quot;conexion&quot;: [&quot;USB&quot;, &quot;Bluetooth&quot;]}'),
+    ('Monitor 4K 27&quot;', 'monitores', 349.99,
+     '{&quot;marca&quot;: &quot;LG&quot;, &quot;pantalla&quot;: 27, &quot;resolucion&quot;: &quot;3840x2160&quot;,
+       &quot;frecuencia_hz&quot;: 60, &quot;puertos&quot;: [&quot;HDMI&quot;, &quot;DisplayPort&quot;, &quot;USB-C&quot;]}');
+</code></pre>
+<hr />
+<h2 id="funciones-de-creacion">Funciones de creación</h2>
+<h3 id="json_object-estandar-sql2016"><code>JSON_OBJECT()</code> Estándar SQL:2016</h3>
+<p>Construye un objeto JSON a partir de pares clave/valor.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT JSON_OBJECT(
+    'nombre', 'Ratón Inalámbrico',
+    'marca',  'Logitech',
+    'dpi',    1600
+) AS especificaciones;
+-- {&quot;dpi&quot;: 1600, &quot;marca&quot;: &quot;Logitech&quot;, &quot;nombre&quot;: &quot;Ratón Inalámbrico&quot;}
+</code></pre>
+<pre><code>-- Sintaxis estándar (PostgreSQL ≥ 16)
+SELECT JSON_OBJECT('nombre' VALUE 'Ratón Inalámbrico',
+                   'marca'  VALUE 'Logitech',
+                   'dpi'    VALUE 1600) AS especificaciones;
+
+-- Alternativa propietaria (todas las versiones)
+SELECT json_build_object('nombre', 'Ratón Inalámbrico',
+                         'marca',  'Logitech',
+                         'dpi',    1600) AS especificaciones;
+</code></pre>
+<p>Diferencias</p>
+<p>La sintaxis del estándar SQL usa la palabra clave <code>VALUE</code> como separador (<code>'clave' VALUE valor</code>), mientras que MariaDB acepta la coma (<code>,</code>) al estilo MySQL. PostgreSQL 16+ admite ambas formas.</p>
+<h3 id="json_array-estandar-sql2016"><code>JSON_ARRAY()</code> Estándar SQL:2016</h3>
+<p>Construye un array JSON a partir de una lista de valores.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT JSON_ARRAY('HDMI', 'DisplayPort', 'USB-C') AS puertos;
+-- [&quot;HDMI&quot;, &quot;DisplayPort&quot;, &quot;USB-C&quot;]
+</code></pre>
+<pre><code>-- Sintaxis estándar (PostgreSQL ≥ 16)
+SELECT JSON_ARRAY('HDMI', 'DisplayPort', 'USB-C') AS puertos;
+
+-- Alternativa propietaria
+SELECT json_build_array('HDMI', 'DisplayPort', 'USB-C') AS puertos;
+</code></pre>
+<hr />
+<h2 id="extraccion-de-datos">Extracción de datos</h2>
+<h3 id="json_extract-y-los-operadores-y-mariadb"><code>JSON_EXTRACT()</code> y los operadores <code>-&gt;</code> y <code>-&gt;&gt;</code> MariaDB</h3>
+<p>La función <code>JSON_EXTRACT(json, ruta)</code> extrae un valor de un documento JSON según la ruta indicada. La ruta siempre comienza con <code>$</code>, que representa la raíz del documento:</p>
+<table>
+<thead>
+<tr>
+<th>Expresión de ruta</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$</code></td>
+<td>El documento completo</td>
+</tr>
+<tr>
+<td><code>$.marca</code></td>
+<td>El campo <code>marca</code> del objeto raíz</td>
+</tr>
+<tr>
+<td><code>$.almacenamiento.tipo</code></td>
+<td>El campo <code>tipo</code> dentro del objeto <code>almacenamiento</code></td>
+</tr>
+<tr>
+<td><code>$.colores[0]</code></td>
+<td>El primer elemento del array <code>colores</code></td>
+</tr>
+<tr>
+<td><code>$.colores[*]</code></td>
+<td>Todos los elementos del array <code>colores</code></td>
+</tr>
+<tr>
+<td><code>$**.marca</code></td>
+<td>Cualquier campo <code>marca</code> en cualquier nivel de profundidad</td>
+</tr>
+</tbody>
+</table>
+<p>El operador <code>-&gt;</code> es un atajo de <code>JSON_EXTRACT()</code>. El resultado incluye las comillas del valor JSON. Para eliminarlas se usa <code>JSON_UNQUOTE()</code> o el operador <code>-&gt;&gt;</code>：</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- Con comillas (JSON_EXTRACT / -&gt;)
+SELECT nombre, specs-&gt;'$.marca' AS marca FROM producto;
+
+-- Sin comillas (JSON_UNQUOTE + JSON_EXTRACT / -&gt;&gt;)
+SELECT nombre, specs-&gt;&gt;'$.marca' AS marca FROM producto;
+-- +-----------------------+---------+
+-- | nombre                | marca   |
+-- +-----------------------+---------+
+-- | Portátil UltraBook 15 | Acer    |
+-- | Smartphone Galaxy S23 | Samsung |
+-- | Auriculares BT Pro    | Sony    |
+-- | Teclado Mecánico RGB  | Corsair |
+-- | Monitor 4K 27&quot;        | LG      |
+-- +-----------------------+---------+
+</code></pre>
+<pre><code>-- Operador -&gt; devuelve JSONB (con comillas si es string)
+SELECT nombre, specs-&gt;'marca' AS marca FROM producto;
+
+-- Operador -&gt;&gt; devuelve TEXT (sin comillas)
+SELECT nombre, specs-&gt;&gt;'marca' AS marca FROM producto;
+
+-- Para rutas anidadas: #&gt; (JSONB) y #&gt;&gt; (TEXT)
+SELECT nombre, specs#&gt;&gt;'{almacenamiento,tipo}' AS tipo_storage
+FROM producto;
+</code></pre>
+<p>Sintaxis de ruta diferente</p>
+<p>MariaDB usa el lenguaje de rutas SQL/JSON estándar (<code>$.campo</code>, <code>$.array[0]</code>).
+PostgreSQL usa operadores propietarios: <code>-&gt;</code> acepta la clave directamente como texto o índice entero, y <code>#&gt;</code> acepta un array de texto con la ruta (<code>'{a,b,c}'</code>).
+PostgreSQL 16+ también soporta <code>JSON_VALUE()</code> con rutas SQL/JSON estándar.</p>
+<h3 id="json_value-estandar-sql2016"><code>JSON_VALUE()</code> Estándar SQL:2016</h3>
+<p>Extrae un valor escalar con conversión de tipo mediante la cláusula <code>RETURNING</code>.</p>
+<p>MariaDB (≥ 10.6)PostgreSQL (≥ 16)</p>
+<pre><code>SELECT nombre,
+       JSON_VALUE(specs, '$.ram_gb' RETURNING UNSIGNED) AS ram_gb
+FROM producto
+WHERE categoria = 'informatica';
+-- +-----------------------+--------+
+-- | nombre                | ram_gb |
+-- +-----------------------+--------+
+-- | Portátil UltraBook 15 |     16 |
+-- +-----------------------+--------+
+</code></pre>
+<pre><code>SELECT nombre,
+       JSON_VALUE(specs, '$.ram_gb' RETURNING INTEGER) AS ram_gb
+FROM producto
+WHERE categoria = 'informatica';
+</code></pre>
+<h3 id="json_query-estandar-sql2016"><code>JSON_QUERY()</code> Estándar SQL:2016</h3>
+<p>Extrae objetos o arrays (no escalares) de un documento JSON.</p>
+<p>MariaDBPostgreSQL (≥ 16)</p>
+<pre><code>-- MariaDB no implementa JSON_QUERY(); se usa JSON_EXTRACT() para arrays y objetos
+SELECT nombre, JSON_EXTRACT(specs, '$.almacenamiento') AS storage
+FROM producto
+WHERE categoria = 'informatica';
+-- +-----------------------+--------------------------+
+-- | nombre                | storage                  |
+-- +-----------------------+--------------------------+
+-- | Portátil UltraBook 15 | {&quot;gb&quot;: 512, &quot;tipo&quot;: &quot;SSD&quot;} |
+-- +-----------------------+--------------------------+
+</code></pre>
+<pre><code>SELECT nombre,
+       JSON_QUERY(specs, '$.almacenamiento') AS storage
+FROM producto
+WHERE categoria = 'informatica';
+</code></pre>
+<p><code>JSON_VALUE()</code> devuelve <strong>escalares</strong> (strings, números, booleanos). <code>JSON_QUERY()</code> devuelve <strong>objetos y arrays</strong>. MariaDB cubre ambos casos con <code>JSON_EXTRACT()</code>, que funciona para cualquier tipo de valor.</p>
+<hr />
+<h2 id="funciones-de-informacion">Funciones de información</h2>
+<h3 id="json_exists-estandar-sql2016"><code>JSON_EXISTS()</code> Estándar SQL:2016</h3>
+<p>Comprueba si una ruta existe en el documento JSON.</p>
+<p>MariaDBPostgreSQL (≥ 17)</p>
+<pre><code>-- MariaDB no implementa JSON_EXISTS(); se usa JSON_CONTAINS_PATH()
+SELECT nombre
+FROM producto
+WHERE JSON_CONTAINS_PATH(specs, 'one', '$.ram_gb') = 1;
+</code></pre>
+<pre><code>-- Sintaxis estándar
+SELECT nombre
+FROM producto
+WHERE JSON_EXISTS(specs, '$.ram_gb');
+
+-- Alternativa propietaria con el operador ?
+SELECT nombre FROM producto WHERE specs ? 'ram_gb';
+</code></pre>
+<h3 id="json_type-mariadb-json_typeof-postgresql"><code>JSON_TYPE()</code> MariaDB / <code>json_typeof()</code> PostgreSQL</h3>
+<p>Devuelve el tipo JSON de un valor: <code>OBJECT</code>, <code>ARRAY</code>, <code>STRING</code>, <code>INTEGER</code>, <code>DOUBLE</code>, <code>BOOLEAN</code> o <code>NULL</code>:</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT JSON_TYPE(specs)             AS tipo_raiz,
+       JSON_TYPE(specs-&gt;'$.colores') AS tipo_colores,
+       JSON_TYPE(specs-&gt;'$.activo')  AS tipo_activo
+FROM producto
+WHERE nombre = 'Auriculares BT Pro';
+-- +-----------+--------------+-------------+
+-- | tipo_raiz | tipo_colores | tipo_activo |
+-- +-----------+--------------+-------------+
+-- | OBJECT    | ARRAY        | BOOLEAN     |
+-- +-----------+--------------+-------------+
+</code></pre>
+<pre><code>SELECT json_typeof(specs)               AS tipo_raiz,
+       json_typeof(specs-&gt;'colores')     AS tipo_colores,
+       json_typeof(specs-&gt;'activo')      AS tipo_activo
+FROM producto
+WHERE nombre = 'Auriculares BT Pro';
+-- +-----------+--------------+-------------+
+-- | tipo_raiz | tipo_colores | tipo_activo |
+-- +-----------+--------------+-------------+
+-- | object    | array        | boolean     |
+-- +-----------+--------------+-------------+
+</code></pre>
+<h3 id="json_valid-mariadb"><code>JSON_VALID()</code> MariaDB</h3>
+<p>Comprueba si una cadena es JSON válido. Devuelve <code>1</code> o <code>0</code>. PostgreSQL no necesita esta función porque <strong>lanza un error en el propio <code>INSERT</code></strong> si el valor no es válido — la validación se hace en el tipo, no en la función.</p>
+<pre><code>-- MariaDB
+SELECT JSON_VALID('{&quot;clave&quot;: &quot;valor&quot;}') AS valido;  -- 1
+SELECT JSON_VALID('{mal formado}')       AS valido;  -- 0
+
+-- Detectar filas con JSON no válido (útil al migrar datos de columnas TEXT)
+SELECT id, nombre FROM producto WHERE JSON_VALID(specs) = 0;
+</code></pre>
+<h3 id="json_length-mariadb-jsonb_array_length-postgresql"><code>JSON_LENGTH()</code> MariaDB / <code>jsonb_array_length()</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- Número de campos en el objeto raíz de cada producto
+SELECT nombre, JSON_LENGTH(specs) AS num_campos
+FROM producto;
+-- +-----------------------+------------+
+-- | nombre                | num_campos |
+-- +-----------------------+------------+
+-- | Portátil UltraBook 15 |          5 |
+-- | Smartphone Galaxy S23 |          5 |
+-- | Auriculares BT Pro    |          5 |
+-- | Teclado Mecánico RGB  |          4 |
+-- | Monitor 4K 27&quot;        |          5 |
+-- +-----------------------+------------+
+
+-- Número de colores
+SELECT nombre, JSON_LENGTH(specs, '$.colores') AS num_colores
+FROM producto
+WHERE JSON_CONTAINS_PATH(specs, 'one', '$.colores') = 1;
+</code></pre>
+<pre><code>-- Para arrays: jsonb_array_length()
+SELECT nombre, jsonb_array_length(specs-&gt;'colores') AS num_colores
+FROM producto
+WHERE specs ? 'colores';
+
+-- Para contar claves de un objeto: json_object_keys() + COUNT
+SELECT nombre, COUNT(*) AS num_campos
+FROM producto, json_object_keys(specs::json) AS k
+GROUP BY nombre;
+</code></pre>
+<h3 id="json_depth-mariadb"><code>JSON_DEPTH()</code> MariaDB</h3>
+<p>Devuelve la profundidad máxima de un documento JSON. No tiene equivalente directo en PostgreSQL.</p>
+<pre><code>SELECT nombre, JSON_DEPTH(specs) AS profundidad
+FROM producto;
+-- +-----------------------+-------------+
+-- | nombre                | profundidad |
+-- +-----------------------+-------------+
+-- | Portátil UltraBook 15 |           3 |
+-- | Auriculares BT Pro    |           2 |
+-- +-----------------------+-------------+
+</code></pre>
+<h3 id="json_keys-mariadb-json_object_keys-postgresql"><code>JSON_KEYS()</code> MariaDB / <code>json_object_keys()</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT nombre, JSON_KEYS(specs) AS claves
+FROM producto
+WHERE nombre = 'Portátil UltraBook 15';
+-- +-------------------------------------------------------------------+
+-- | claves                                                            |
+-- +-------------------------------------------------------------------+
+-- | [&quot;marca&quot;, &quot;pantalla&quot;, &quot;ram_gb&quot;, &quot;almacenamiento&quot;, &quot;colores&quot;]     |
+-- +-------------------------------------------------------------------+
+</code></pre>
+<pre><code>-- Devuelve una fila por clave (expansión en filas, no array)
+SELECT json_object_keys(specs::json) AS clave
+FROM producto
+WHERE nombre = 'Portátil UltraBook 15';
+-- +----------------+
+-- | clave          |
+-- +----------------+
+-- | marca          |
+-- | pantalla       |
+-- | ram_gb         |
+-- | almacenamiento |
+-- | colores        |
+-- +----------------+
+</code></pre>
+<hr />
+<h2 id="funciones-de-busqueda">Funciones de búsqueda</h2>
+<h3 id="json_contains-mariadb-operador-postgresql"><code>JSON_CONTAINS()</code> MariaDB / operador <code>@&gt;</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- Productos disponibles en color negro
+SELECT nombre
+FROM producto
+WHERE JSON_CONTAINS(specs-&gt;'$.colores', '&quot;negro&quot;');
+
+-- Productos cuyo almacenamiento sea SSD
+SELECT nombre
+FROM producto
+WHERE JSON_CONTAINS(specs-&gt;'$.almacenamiento', '{&quot;tipo&quot;: &quot;SSD&quot;}');
+</code></pre>
+<pre><code>-- El operador @&gt; comprueba si el lado izquierdo contiene al derecho
+-- Productos en color negro
+SELECT nombre
+FROM producto
+WHERE specs-&gt;'colores' @&gt; '&quot;negro&quot;';
+
+-- Productos con almacenamiento SSD
+SELECT nombre
+FROM producto
+WHERE specs-&gt;'almacenamiento' @&gt; '{&quot;tipo&quot;: &quot;SSD&quot;}';
+
+-- El operador inverso &lt;@ (el derecho contiene al izquierdo)
+SELECT nombre
+FROM producto
+WHERE '{&quot;tipo&quot;: &quot;SSD&quot;}' &lt;@ (specs-&gt;'almacenamiento');
+</code></pre>
+<p>Ventaja de PostgreSQL con JSONB</p>
+<p>El operador <code>@&gt;</code> sobre columnas <code>JSONB</code> puede aprovechar un <strong>índice GIN</strong>, lo que hace las búsquedas de contenido extremadamente rápidas sin necesidad de columnas generadas.</p>
+<h3 id="json_contains_path-mariadb-operador-postgresql"><code>JSON_CONTAINS_PATH()</code> MariaDB / operador <code>?</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- Productos que tienen el campo 'ram_gb'
+SELECT nombre
+FROM producto
+WHERE JSON_CONTAINS_PATH(specs, 'one', '$.ram_gb') = 1;
+
+-- Productos con 'ram_gb' Y 'almacenamiento'
+SELECT nombre
+FROM producto
+WHERE JSON_CONTAINS_PATH(specs, 'all', '$.ram_gb', '$.almacenamiento') = 1;
+</code></pre>
+<pre><code>-- Clave existe: operador ?
+SELECT nombre FROM producto WHERE specs ? 'ram_gb';
+
+-- Cualquiera de varias claves existe: operador ?|
+SELECT nombre FROM producto WHERE specs ?| ARRAY['ram_gb', 'autonomia_h'];
+
+-- Todas las claves existen: operador ?&amp;
+SELECT nombre FROM producto WHERE specs ?&amp; ARRAY['ram_gb', 'almacenamiento'];
+</code></pre>
+<h3 id="json_search-mariadb"><code>JSON_SEARCH()</code> MariaDB</h3>
+<p>Busca una cadena dentro del documento y devuelve la ruta. PostgreSQL usa el operador <code>@@</code> con el tipo <code>jsonpath</code> para búsquedas más expresivas, pero no tiene un equivalente directo de <code>JSON_SEARCH()</code>.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- ¿En qué ruta se encuentra el color 'negro'?
+SELECT nombre, JSON_SEARCH(specs, 'one', 'negro') AS ruta
+FROM producto
+WHERE JSON_SEARCH(specs, 'one', 'negro') IS NOT NULL;
+-- +-----------------------+----------------+
+-- | nombre                | ruta           |
+-- +-----------------------+----------------+
+-- | Portátil UltraBook 15 | &quot;$.colores[1]&quot; |
+-- | Smartphone Galaxy S23 | &quot;$.colores[0]&quot; |
+-- +-----------------------+----------------+
+
+-- Búsqueda con comodín (% como en LIKE)
+SELECT nombre FROM producto
+WHERE JSON_SEARCH(specs, 'one', 'USB%') IS NOT NULL;
+</code></pre>
+<pre><code>-- Usando el operador @@ con jsonpath (búsqueda más potente)
+-- Productos cuyo array 'colores' contenga el string 'negro'
+SELECT nombre
+FROM producto
+WHERE specs @@ '$.colores[*] == &quot;negro&quot;';
+
+-- Productos con algún puerto que empiece por 'USB'
+SELECT nombre
+FROM producto
+WHERE specs @@ '$.puertos[*] starts with &quot;USB&quot;';
+</code></pre>
+<hr />
+<h2 id="funciones-de-modificacion">Funciones de modificación</h2>
+<p>Las funciones de modificación <strong>devuelven una copia</strong> del documento con los cambios aplicados. Para persistirlos hay que usarlas con <code>UPDATE</code>.</p>
+<h3 id="json_set-mariadb-jsonb_set-postgresql"><code>JSON_SET()</code> MariaDB / <code>jsonb_set()</code> PostgreSQL</h3>
+<p>Establece el valor de una o más claves. Si la clave <strong>no existe, la crea</strong>; si <strong>existe, la actualiza</strong>:</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>UPDATE producto
+SET specs = JSON_SET(specs,
+    '$.garantia_anos', 2,
+    '$.stock', 45)
+WHERE nombre = 'Portátil UltraBook 15';
+</code></pre>
+<pre><code>-- jsonb_set(target, path, new_value, create_missing := true)
+UPDATE producto
+SET specs = jsonb_set(
+    jsonb_set(specs, '{garantia_anos}', '2'),
+    '{stock}', '45'
+)
+WHERE nombre = 'Portátil UltraBook 15';
+</code></pre>
+<p>En PostgreSQL, <code>jsonb_set()</code> solo modifica un campo por llamada; para varios campos hay que anidar las llamadas o usar <code>||</code> (operador de concatenación/merge).</p>
+<h3 id="json_insert-mariadb"><code>JSON_INSERT()</code> MariaDB</h3>
+<p>Solo inserta valores nuevos: si la clave ya existe, no la modifica. PostgreSQL usa <code>jsonb_insert()</code> o el operador <code>||</code> con lógica condicional.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>UPDATE producto
+SET specs = JSON_INSERT(specs, '$.stock', 100)
+WHERE categoria = 'telefonia';
+</code></pre>
+<pre><code>-- jsonb_insert(target, path, new_value, insert_after := false)
+-- Inserta en un array o añade una clave nueva (si no existe, create_missing)
+UPDATE producto
+SET specs = specs || '{&quot;stock&quot;: 100}'::jsonb
+WHERE categoria = 'telefonia'
+  AND NOT (specs ? 'stock');   -- solo si no existe
+</code></pre>
+<h3 id="json_replace-mariadb"><code>JSON_REPLACE()</code> MariaDB</h3>
+<p>Solo actualiza valores existentes: si la clave no existe, no hace nada.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>UPDATE producto
+SET specs = JSON_REPLACE(specs, '$.ram_gb', 32)
+WHERE nombre = 'Portátil UltraBook 15';
+</code></pre>
+<pre><code>-- jsonb_set con create_missing = false solo actualiza si existe
+UPDATE producto
+SET specs = jsonb_set(specs, '{ram_gb}', '32', false)
+WHERE nombre = 'Portátil UltraBook 15';
+</code></pre>
+<p>Regla mnemotécnica</p>
+<ul>
+<li><code>JSON_SET()</code> = inserta <strong>o</strong> actualiza (comportamiento más habitual).</li>
+<li><code>JSON_INSERT()</code> = solo inserta si <strong>no existe</strong>.</li>
+<li><code>JSON_REPLACE()</code> = solo actualiza si <strong>ya existe</strong>.</li>
+</ul>
+<h3 id="json_remove-mariadb-operador-postgresql"><code>JSON_REMOVE()</code> MariaDB / operador <code>-</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- Eliminar el campo 'stock'
+UPDATE producto SET specs = JSON_REMOVE(specs, '$.stock');
+
+-- Eliminar el primer elemento del array de colores
+UPDATE producto
+SET specs = JSON_REMOVE(specs, '$.colores[0]')
+WHERE nombre = 'Smartphone Galaxy S23';
+</code></pre>
+<pre><code>-- Eliminar una clave con el operador -
+UPDATE producto SET specs = specs - 'stock';
+
+-- Eliminar por ruta anidada con el operador #-
+UPDATE producto
+SET specs = specs #- '{colores, 0}'
+WHERE nombre = 'Smartphone Galaxy S23';
+</code></pre>
+<h3 id="json_array_append-mariadb-jsonb_insert-postgresql"><code>JSON_ARRAY_APPEND()</code> MariaDB / <code>jsonb_insert()</code> PostgreSQL</h3>
+<p>Añade valores al final de un array en la ruta indicada.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>UPDATE producto
+SET specs = JSON_ARRAY_APPEND(specs, '$.puertos', 'Thunderbolt')
+WHERE nombre = 'Monitor 4K 27&quot;';
+</code></pre>
+<pre><code>-- jsonb_insert(target, path, new_value, insert_after := true)
+-- El índice -1 apunta al final del array
+UPDATE producto
+SET specs = jsonb_insert(specs, '{puertos, -1}', '&quot;Thunderbolt&quot;', true)
+WHERE nombre = 'Monitor 4K 27&quot;';
+</code></pre>
+<h3 id="json_merge_patch-y-json_merge_preserve-mariadb-operador-postgresql"><code>JSON_MERGE_PATCH()</code> y <code>JSON_MERGE_PRESERVE()</code> MariaDB / operador <code>||</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>-- JSON_MERGE_PATCH: las claves duplicadas del segundo sobrescriben al primero
+SELECT JSON_MERGE_PATCH('{&quot;a&quot;: 1, &quot;b&quot;: 2}', '{&quot;b&quot;: 99, &quot;c&quot;: 3}');
+-- {&quot;a&quot;: 1, &quot;b&quot;: 99, &quot;c&quot;: 3}
+
+-- JSON_MERGE_PRESERVE: las claves duplicadas se combinan en un array
+SELECT JSON_MERGE_PRESERVE('{&quot;a&quot;: 1, &quot;b&quot;: 2}', '{&quot;b&quot;: 99, &quot;c&quot;: 3}');
+-- {&quot;a&quot;: 1, &quot;b&quot;: [2, 99], &quot;c&quot;: 3}
+</code></pre>
+<pre><code>-- El operador || fusiona objetos JSONB (equivale a JSON_MERGE_PATCH)
+SELECT '{&quot;a&quot;: 1, &quot;b&quot;: 2}'::jsonb || '{&quot;b&quot;: 99, &quot;c&quot;: 3}'::jsonb;
+-- {&quot;a&quot;: 1, &quot;b&quot;: 99, &quot;c&quot;: 3}
+</code></pre>
+<hr />
+<h2 id="funciones-de-agregacion">Funciones de agregación</h2>
+<h3 id="json_arrayagg-estandar-sql2016-json_agg-postgresql"><code>JSON_ARRAYAGG()</code> Estándar SQL:2016 / <code>json_agg()</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT categoria, JSON_ARRAYAGG(nombre) AS productos
+FROM producto
+GROUP BY categoria;
+-- +-------------+---------------------------------------------------+
+-- | categoria   | productos                                         |
+-- +-------------+---------------------------------------------------+
+-- | audio       | [&quot;Auriculares BT Pro&quot;]                            |
+-- | informatica | [&quot;Portátil UltraBook 15&quot;]                         |
+-- | monitores   | [&quot;Monitor 4K 27\&quot;&quot;]                               |
+-- | perifericos | [&quot;Teclado Mecánico RGB&quot;]                          |
+-- | telefonia   | [&quot;Smartphone Galaxy S23&quot;]                         |
+-- +-------------+---------------------------------------------------+
+</code></pre>
+<pre><code>-- Función propietaria (todas las versiones)
+SELECT categoria, json_agg(nombre) AS productos
+FROM producto
+GROUP BY categoria;
+
+-- Sintaxis estándar (PostgreSQL ≥ 16)
+SELECT categoria, JSON_ARRAYAGG(nombre) AS productos
+FROM producto
+GROUP BY categoria;
+</code></pre>
+<h3 id="json_objectagg-estandar-sql2016-json_object_agg-postgresql"><code>JSON_OBJECTAGG()</code> Estándar SQL:2016 / <code>json_object_agg()</code> PostgreSQL</h3>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT categoria, JSON_OBJECTAGG(nombre, precio) AS precios
+FROM producto
+GROUP BY categoria;
+</code></pre>
+<pre><code>-- Función propietaria (todas las versiones)
+SELECT categoria, json_object_agg(nombre, precio) AS precios
+FROM producto
+GROUP BY categoria;
+
+-- Sintaxis estándar (PostgreSQL ≥ 16)
+SELECT categoria, JSON_OBJECTAGG(nombre VALUE precio) AS precios
+FROM producto
+GROUP BY categoria;
+</code></pre>
+<hr />
+<h2 id="json_table-estandar-sql2016"><code>JSON_TABLE()</code> Estándar SQL:2016</h2>
+<p>Transforma datos JSON en filas y columnas relacionales. Es la función más potente para combinar JSON con el modelo relacional.</p>
+<p>MariaDB (≥ 10.6)PostgreSQL (≥ 17)</p>
+<pre><code>-- Extraer cada puerto del monitor como una fila independiente
+SELECT p.nombre, jt.puerto
+FROM producto p,
+     JSON_TABLE(
+         specs,
+         '$.puertos[*]'
+         COLUMNS (
+             puerto VARCHAR(30) PATH '$'
+         )
+     ) AS jt
+WHERE p.nombre = 'Monitor 4K 27&quot;';
+-- +-----------------+-------------+
+-- | nombre          | puerto      |
+-- +-----------------+-------------+
+-- | Monitor 4K 27&quot;  | HDMI        |
+-- | Monitor 4K 27&quot;  | DisplayPort |
+-- | Monitor 4K 27&quot;  | USB-C       |
+-- +-----------------+-------------+
+</code></pre>
+<pre><code>-- Sintaxis estándar disponible desde PostgreSQL 17
+SELECT p.nombre, jt.puerto
+FROM producto p,
+     JSON_TABLE(
+         specs,
+         '$.puertos[*]'
+         COLUMNS (
+             puerto text PATH '$'
+         )
+     ) AS jt
+WHERE p.nombre = 'Monitor 4K 27&quot;';
+
+-- Alternativa propietaria con jsonb_array_elements() (todas las versiones)
+SELECT p.nombre, puerto
+FROM producto p,
+     jsonb_array_elements_text(p.specs-&gt;'puertos') AS puerto
+WHERE p.nombre = 'Monitor 4K 27&quot;';
+</code></pre>
+<hr />
+<h2 id="columnas-generadas-e-indices">Columnas generadas e índices</h2>
+<p>El mayor inconveniente de las columnas JSON en MariaDB es que <strong>no se pueden indexar directamente</strong>. La solución es crear <strong>columnas generadas</strong> que extraigan un valor concreto del JSON.</p>
+<p>En PostgreSQL, gracias al tipo <code>JSONB</code>, se pueden crear índices GIN sobre el documento completo sin columnas intermedias.</p>
+<p>MariaDB — columnas generadasPostgreSQL — índice GIN directo</p>
+<pre><code>-- Columna virtual (no ocupa espacio en disco)
+ALTER TABLE producto
+    ADD COLUMN marca VARCHAR(50)
+        GENERATED ALWAYS AS (specs-&gt;&gt;'$.marca') VIRTUAL;
+
+-- Columna almacenada (se persiste, admite índice B-tree)
+ALTER TABLE producto
+    ADD COLUMN ram_gb INT UNSIGNED
+        GENERATED ALWAYS AS (
+            JSON_VALUE(specs, '$.ram_gb' RETURNING UNSIGNED)
+        ) STORED;
+
+CREATE INDEX idx_producto_marca  ON producto (marca);
+CREATE INDEX idx_producto_ram_gb ON producto (ram_gb);
+</code></pre>
+<pre><code>-- Índice GIN sobre todo el documento JSONB
+CREATE INDEX idx_producto_specs ON producto USING GIN (specs);
+
+-- Estas consultas aprovechan automáticamente el índice GIN:
+SELECT nombre FROM producto WHERE specs @&gt; '{&quot;marca&quot;: &quot;Samsung&quot;}';
+SELECT nombre FROM producto WHERE specs ? 'ram_gb';
+SELECT nombre FROM producto WHERE specs-&gt;'colores' @&gt; '&quot;negro&quot;';
+
+-- También se puede crear un índice B-tree sobre una expresión JSON
+CREATE INDEX idx_producto_marca
+    ON producto ((specs-&gt;&gt;'marca'));
+</code></pre>
+<p>¿Cuándo usar <code>VIRTUAL</code> vs <code>STORED</code> en MariaDB?</p>
+<ul>
+<li>Usa <code>VIRTUAL</code> cuando la columna se consulte con poca frecuencia o el documento JSON cambie a menudo.</li>
+<li>Usa <code>STORED</code> cuando necesites crear un índice sobre el campo o la expresión sea costosa de calcular.</li>
+</ul>
+<hr />
+<h2 id="json_pretty-mariadb-jsonb_pretty-postgresql"><code>JSON_PRETTY()</code> MariaDB / <code>jsonb_pretty()</code> PostgreSQL</h2>
+<p>Formatea un documento JSON con sangría para facilitar su lectura.</p>
+<p>MariaDBPostgreSQL</p>
+<pre><code>SELECT JSON_PRETTY(specs) AS especificaciones
+FROM producto WHERE nombre = 'Portátil UltraBook 15'\G
+-- {
+--   &quot;marca&quot;: &quot;Acer&quot;,
+--   &quot;pantalla&quot;: 15.6,
+--   &quot;ram_gb&quot;: 16,
+--   &quot;almacenamiento&quot;: {
+--     &quot;gb&quot;: 512,
+--     &quot;tipo&quot;: &quot;SSD&quot;
+--   },
+--   &quot;colores&quot;: [&quot;plata&quot;, &quot;negro&quot;]
+-- }
+</code></pre>
+<pre><code>SELECT jsonb_pretty(specs) AS especificaciones
+FROM producto WHERE nombre = 'Portátil UltraBook 15';
+</code></pre>
+<hr />
+<h2 id="tabla-comparativa-completa">Tabla comparativa completa</h2>
+<table>
+<thead>
+<tr>
+<th>Función / Operación</th>
+<th>Estándar SQL</th>
+<th>MariaDB</th>
+<th>PostgreSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tipo JSON</td>
+<td>SQL:2023 (T801)</td>
+<td><code>JSON</code> (alias de LONGTEXT)</td>
+<td><code>JSON</code> / <code>JSONB</code></td>
+</tr>
+<tr>
+<td>Crear objeto</td>
+<td>SQL:2016</td>
+<td><code>JSON_OBJECT(k, v)</code></td>
+<td><code>JSON_OBJECT('k' VALUE v)</code> / <code>json_build_object()</code></td>
+</tr>
+<tr>
+<td>Crear array</td>
+<td>SQL:2016</td>
+<td><code>JSON_ARRAY(v, ...)</code></td>
+<td><code>JSON_ARRAY(v, ...)</code> / <code>json_build_array()</code></td>
+</tr>
+<tr>
+<td>Extraer valor (escalar)</td>
+<td>SQL:2016 <code>JSON_VALUE</code></td>
+<td><code>JSON_EXTRACT()</code> / <code>-&gt;&gt;</code></td>
+<td><code>JSON_VALUE()</code> / <code>-&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>Extraer objeto/array</td>
+<td>SQL:2016 <code>JSON_QUERY</code></td>
+<td><code>JSON_EXTRACT()</code> / <code>-&gt;</code></td>
+<td><code>JSON_QUERY()</code> / <code>-&gt;</code> / <code>#&gt;</code></td>
+</tr>
+<tr>
+<td>Comprobar si ruta existe</td>
+<td>SQL:2016 <code>JSON_EXISTS</code></td>
+<td><code>JSON_CONTAINS_PATH()</code></td>
+<td><code>JSON_EXISTS()</code> / <code>?</code></td>
+</tr>
+<tr>
+<td>Buscar texto</td>
+<td>—</td>
+<td><code>JSON_SEARCH()</code></td>
+<td>Operador <code>@@</code> con <code>jsonpath</code></td>
+</tr>
+<tr>
+<td>Tipo del valor</td>
+<td>—</td>
+<td><code>JSON_TYPE()</code></td>
+<td><code>json_typeof()</code></td>
+</tr>
+<tr>
+<td>Validar JSON</td>
+<td>—</td>
+<td><code>JSON_VALID()</code></td>
+<td>(validación en INSERT)</td>
+</tr>
+<tr>
+<td>Nº de elementos</td>
+<td>—</td>
+<td><code>JSON_LENGTH()</code></td>
+<td><code>jsonb_array_length()</code></td>
+</tr>
+<tr>
+<td>Profundidad</td>
+<td>—</td>
+<td><code>JSON_DEPTH()</code></td>
+<td>Sin equivalente directo</td>
+</tr>
+<tr>
+<td>Claves del objeto</td>
+<td>—</td>
+<td><code>JSON_KEYS()</code></td>
+<td><code>json_object_keys()</code></td>
+</tr>
+<tr>
+<td>Comprobar contenido</td>
+<td>—</td>
+<td><code>JSON_CONTAINS()</code></td>
+<td>Operador <code>@&gt;</code></td>
+</tr>
+<tr>
+<td>Insertar o actualizar</td>
+<td>—</td>
+<td><code>JSON_SET()</code></td>
+<td><code>jsonb_set()</code></td>
+</tr>
+<tr>
+<td>Solo insertar</td>
+<td>—</td>
+<td><code>JSON_INSERT()</code></td>
+<td><code>\|\|</code> + condición / <code>jsonb_insert()</code></td>
+</tr>
+<tr>
+<td>Solo actualizar</td>
+<td>—</td>
+<td><code>JSON_REPLACE()</code></td>
+<td><code>jsonb_set(..., false)</code></td>
+</tr>
+<tr>
+<td>Eliminar campo</td>
+<td>—</td>
+<td><code>JSON_REMOVE()</code></td>
+<td>Operador <code>-</code> / <code>#-</code></td>
+</tr>
+<tr>
+<td>Añadir a array</td>
+<td>—</td>
+<td><code>JSON_ARRAY_APPEND()</code></td>
+<td><code>jsonb_insert()</code></td>
+</tr>
+<tr>
+<td>Fusionar (patch)</td>
+<td>—</td>
+<td><code>JSON_MERGE_PATCH()</code></td>
+<td>Operador <code>\|\|</code></td>
+</tr>
+<tr>
+<td>Agregar en array JSON</td>
+<td>SQL:2016</td>
+<td><code>JSON_ARRAYAGG()</code></td>
+<td><code>JSON_ARRAYAGG()</code> / <code>json_agg()</code></td>
+</tr>
+<tr>
+<td>Agregar en objeto JSON</td>
+<td>SQL:2016</td>
+<td><code>JSON_OBJECTAGG()</code></td>
+<td><code>JSON_OBJECTAGG()</code> / <code>json_object_agg()</code></td>
+</tr>
+<tr>
+<td>JSON → tabla relacional</td>
+<td>SQL:2016</td>
+<td><code>JSON_TABLE()</code> (≥ 10.6)</td>
+<td><code>JSON_TABLE()</code> (≥ 17) / <code>jsonb_array_elements()</code></td>
+</tr>
+<tr>
+<td>Formato legible</td>
+<td>—</td>
+<td><code>JSON_PRETTY()</code></td>
+<td><code>jsonb_pretty()</code></td>
+</tr>
+<tr>
+<td>Índice sobre JSON</td>
+<td>—</td>
+<td>Columnas generadas + B-tree</td>
+<td>GIN sobre <code>JSONB</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li><a href="https://modern-sql.com/">Modern SQL</a></li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<ul>
+<li><strong>ACJSON01</strong>. (RABD.2 // CE2a, CE2b, CE2c // 3p) Crea la base de datos <code>biblioteca_json</code> con la siguiente tabla:</li>
+</ul>
+<p><code>CREATE TABLE libro (
+      id      INT AUTO_INCREMENT PRIMARY KEY,  -- o SERIAL en PostgreSQL
+      titulo  VARCHAR(200) NOT NULL,
+      metadata JSON                             -- o JSONB en PostgreSQL
+  );</code></p>
+<p>El campo <code>metadata</code> debe contener, al menos: <code>autor</code> (string), <code>anyo_publicacion</code> (número entero), <code>editorial</code> (string), <code>generos</code> (array de strings) y <code>edicion</code> (objeto con los campos <code>numero</code> e <code>idioma</code>).</p>
+<ol>
+<li>Inserta al menos 5 libros con datos realistas.</li>
+<li>Muestra todos los libros con su título, autor (extraído del JSON, sin comillas) y año de publicación, ordenados por año de forma descendente.</li>
+<li>Filtra los libros publicados después de 2000 usando <code>JSON_EXTRACT()</code> (MariaDB) o el operador <code>-&gt;&gt;</code> (PostgreSQL) en el <code>WHERE</code>.</li>
+<li>Muestra el título y el número de géneros de cada libro usando <code>JSON_LENGTH()</code> (MariaDB) o <code>jsonb_array_length()</code> (PostgreSQL).</li>
+<li>
+<p>Lista los libros que pertenecen al género <code>'Ciencia ficción'</code> usando <code>JSON_CONTAINS()</code> (MariaDB) o el operador <code>@&gt;</code> (PostgreSQL).</p>
+</li>
+<li>
+<p><strong>ACJSON02</strong>. (RABD.3 // CE3b // 3p) Usando la tabla <code>producto</code> de los apuntes:</p>
+</li>
+<li>
+<p>Lista el nombre y el tamaño de pantalla (en pulgadas) de todos los productos que tengan el campo <code>pantalla</code> en sus especificaciones.</p>
+</li>
+<li>Muestra los productos disponibles en más de un color.</li>
+<li>Busca todos los productos de la marca <code>Sony</code> o <code>LG</code>.</li>
+<li>Lista los productos que admitan conexión <code>Bluetooth</code>.</li>
+<li>
+<p>Para cada producto, muestra su nombre, precio y el tipo de almacenamiento (si lo tienen). Los que no tengan ese campo deben aparecer con <code>NULL</code>.</p>
+</li>
+<li>
+<p><strong>ACJSON03</strong>. (RABD.4 // CE4b // 3p) Usando la tabla <code>producto</code>, realiza las siguientes modificaciones y comprueba el resultado con una consulta <code>SELECT</code> tras cada operación:</p>
+</li>
+<li>
+<p>Añade el campo <code>garantia_anos</code> con valor <code>2</code> a todos los productos de la categoría <code>informatica</code> con <code>JSON_SET()</code> (MariaDB) o <code>jsonb_set()</code> (PostgreSQL).</p>
+</li>
+<li>Cambia el valor del campo <code>marca</code> de <code>Corsair</code> a <code>Corsair Gaming</code>.</li>
+<li>Elimina el campo <code>activo</code> del producto <code>Auriculares BT Pro</code>.</li>
+<li>Añade el puerto <code>'Thunderbolt'</code> al array <code>puertos</code> del monitor.</li>
+<li>
+<p>Usa <code>JSON_INSERT()</code> (MariaDB) o el operador <code>||</code> con condición (PostgreSQL) para intentar añadir el campo <code>marca</code> con el valor <code>'Desconocida'</code> a todos los productos. Explica por qué algunos no se ven afectados.</p>
+</li>
+<li>
+<p><strong>ARJSON01</strong>. (RABD.2 // CE2a // 2p) Investiga y responde, con al menos dos líneas para cada cuestión:</p>
+</li>
+<li>
+<p>¿Qué diferencia hay entre <code>JSON_SET()</code>, <code>JSON_INSERT()</code> y <code>JSON_REPLACE()</code>? ¿En qué situación usarías cada una?</p>
+</li>
+<li>¿Por qué MariaDB no puede indexar directamente una columna <code>JSON</code>? ¿Cómo lo soluciona? ¿Por qué PostgreSQL sí puede indexar <code>JSONB</code>?</li>
+<li>¿Qué diferencia hay entre <code>JSON</code> y <code>JSONB</code> en PostgreSQL? ¿Cuándo conviene usar cada uno?</li>
+<li>¿Qué funciones de la tabla comparativa son parte del estándar SQL:2016? ¿Cuáles son extensiones de MariaDB o PostgreSQL?</li>
+<li>
+<p>¿Cuándo tiene sentido utilizar JSON en una base de datos relacional en lugar de añadir nuevas columnas a la tabla? ¿Y cuándo sería un error de diseño?</p>
+</li>
+<li>
+<p><strong>ARJSON02</strong>. (RABD.3 // CE3b // 3p) Crea una tabla <code>pedido</code> con las columnas <code>id</code> (PK), <code>cliente</code> (VARCHAR) y <code>lineas</code> (JSON / JSONB). El campo <code>lineas</code> debe almacenar un array de objetos, donde cada objeto represente una línea de pedido con los campos <code>producto_id</code>, <code>cantidad</code> y <code>precio_unitario</code>.</p>
+</li>
+<li>
+<p>Inserta 3 pedidos de ejemplo, con al menos 2 líneas cada uno.</p>
+</li>
+<li>Recupera el primer producto (<code>producto_id</code>) de cada pedido.</li>
+<li>Muestra cuántas líneas tiene cada pedido.</li>
+<li>
+<p>Calcula el importe total de cada pedido sumando <code>cantidad × precio_unitario</code> para cada línea. (Pista: usa <code>JSON_TABLE()</code> en MariaDB o <code>jsonb_array_elements()</code> en PostgreSQL para expandir el array en filas y luego agregar.)</p>
+</li>
+<li>
+<p><strong>APJSON01</strong>. (RABD.2, RABD.3 // CE2b, CE2c, CE3b // 4p) Diseña e implementa una base de datos <code>tienda_json</code> con las tablas <code>categoria</code> y <code>producto</code> (con columna <code>atributos</code> de tipo JSON / JSONB). Los atributos deben variar según la categoría:</p>
+</li>
+<li>
+<p><em>Smartphones</em>: <code>marca</code>, <code>pantalla_pulgadas</code>, <code>bateria_mah</code>, <code>camara_mp</code>, <code>conectividad</code> (array).</p>
+</li>
+<li><em>Portátiles</em>: <code>marca</code>, <code>procesador</code>, <code>ram_gb</code>, <code>almacenamiento</code> (objeto con <code>tipo</code> y <code>gb</code>), <code>peso_kg</code>.</li>
+<li><em>Televisores</em>: <code>marca</code>, <code>pulgadas</code>, <code>resolucion</code>, <code>smart_tv</code> (booleano), <code>tecnologia</code>.</li>
+</ol>
+<p>A continuación:</p>
+<ol>
+<li>Inserta al menos 3 productos de cada categoría con datos realistas.</li>
+<li>En MariaDB, crea columnas generadas e índices B-tree; en PostgreSQL, crea un índice GIN sobre <code>atributos</code>. Explica la diferencia de enfoque.</li>
+<li>Escribe 5 consultas que crucen la tabla <code>categoria</code> con los <code>atributos</code> JSON, usando <code>JOIN</code> y filtros.</li>
+<li>
+<p>Genera un informe por categoría con <code>JSON_ARRAYAGG()</code> y <code>JSON_OBJECTAGG()</code>.</p>
+</li>
+<li>
+<p><strong>APJSON02</strong>. (RABD.3 // CE3b // 4p) Investiga la función <code>JSON_TABLE()</code> (MariaDB ≥ 10.6, PostgreSQL ≥ 17) y su alternativa propietaria <code>jsonb_array_elements()</code> en PostgreSQL.</p>
+</li>
+</ol>
+<p>A partir de la tabla <code>producto</code>:</p>
+<ol>
+<li>Usa <code>JSON_TABLE()</code> para extraer cada color como una fila independiente, mostrando nombre del producto y color.</li>
+<li>Agrupa los resultados anteriores para obtener, por color, cuántos productos lo incluyen.</li>
+<li>Implementa la misma consulta en PostgreSQL usando <code>jsonb_array_elements_text()</code>.</li>
+<li>Compara ambas aproximaciones en cuanto a legibilidad, portabilidad y rendimiento. ¿Cuál es más cercana al estándar SQL?</li>
+</ol>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

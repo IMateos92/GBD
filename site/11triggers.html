@@ -1,0 +1,3601 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="10plsql.html">
+      
+      
+        <link rel="next" href="12nosql.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>11.- PL/SQL Avanzado. Eventos, disparadores y cursores - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#disparadores-y-cursores" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="11triggers.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-14h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (14h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eventos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Eventos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creacion-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creación de eventos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creación de eventos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evento-sencillo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evento sencillo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evento-recurrente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evento recurrente
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creacion-de-disparadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creación de disparadores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-disparadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de disparadores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consideraciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de Errores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestión de Errores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mejorando-la-legibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mejorando la legibilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-senales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de señales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores de errores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manejadores de errores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-en-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores en Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-en-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores en Triggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-y-senales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores y Señales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transacciones-en-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transacciones en PL/SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recomendaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recomendaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cursores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declaración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probando-los-cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probando los cursores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cursores-con-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursores con FOR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-14h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (14h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eventos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Eventos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creacion-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creación de eventos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creación de eventos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evento-sencillo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evento sencillo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evento-recurrente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evento recurrente
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creacion-de-disparadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creación de disparadores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gestion-de-disparadores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de disparadores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consideraciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestión de Errores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gestión de Errores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mejorando-la-legibilidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mejorando la legibilidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-senales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de señales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-de-errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores de errores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manejadores de errores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-en-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores en Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-en-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores en Triggers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejadores-y-senales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manejadores y Señales
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transacciones-en-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transacciones en PL/SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recomendaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recomendaciones
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursores
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cursores">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declaración
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probando-los-cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probando los cursores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uso-de-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uso de parámetros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cursores-con-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursores con FOR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:plsql">PL/SQL</a>
+<a href="tags.html#tag:ra5">RA5</a>
+<a href="tags.html#tag:sql">SQL</a>
+<a href="tags.html#tag:sql---tcl">SQL - TCL</a></p>
+<h1 id="disparadores-y-cursores">Disparadores y Cursores</h1>
+<p>Recordatorio: PL/SQL vs SQL/PSM</p>
+<p>Tal como vimos en la <a href="10plsql.html#lenguajes-de-programacion">unidad anterior</a>, a lo largo de estos apuntes empleamos el término <em>PL/SQL</em> de forma coloquial, pero lo que realmente escribimos sigue la sintaxis <strong>SQL/PSM</strong> de <em>MariaDB</em>.</p>
+<p>Esta distinción cobra especial relevancia en esta unidad, ya que <strong>los triggers, la gestión de errores y los cursores son las áreas donde más difieren los dialectos entre SGBD</strong>. Por ejemplo:</p>
+<ul>
+<li>En <em>Oracle</em>, los triggers pueden ser <code>FOR EACH STATEMENT</code> además de <code>FOR EACH ROW</code>; en <em>MariaDB</em> solo existe este último.</li>
+<li>El manejo de excepciones en <em>Oracle</em> usa un bloque <code>EXCEPTION ... WHEN</code> al final del bloque; en <em>MariaDB</em> se usa <code>DECLARE ... HANDLER</code> al principio.</li>
+<li>Los cursores en <em>Oracle</em> admiten cursores implícitos y parámetros; en <em>MariaDB</em> son más limitados.</li>
+</ul>
+<p>Si en el futuro trabajas con otro SGBD, ten presente que los conceptos (disparador, manejador, cursor) son los mismos, pero la sintaxis cambiará.</p>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta UT terminaremos de trabajar el RA5: <strong>Desarrolla procedimientos almacenados evaluando y utilizando las sentencias del lenguaje incorporado en el sistema gestor de bases de datos.</strong></p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<ul>
+<li><strong>CE5h</strong>: Se han definido eventos y disparadores.</li>
+<li><strong>CE5i</strong>: Se han utilizado cursores.</li>
+<li><strong>CE5j</strong>: Se han utilizado excepciones.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Programación de bases de datos:</p>
+<ul>
+<li>Eventos y disparadores.</li>
+<li>Excepciones.</li>
+<li>Cursores.</li>
+</ul>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Qué es un evento?</li>
+<li>¿Qué es el programador de eventos? ¿Está siempre activo? ¿Cómo puedo comprobarlo?</li>
+<li>¿Cómo creo un evento para se ejecute dentro de 5 minutos?</li>
+<li>¿Cómo creo un evento que debe comenzar el lunes a las 8:00 y finalizar el viernes a las 17:00 y que se ejecute cada hora?</li>
+<li>¿Cómo podemos ver todos los eventos programados actualmente en la base de datos?</li>
+<li>¿Qué es un disparador/<em>trigger</em>?</li>
+<li>¿A qué posibles eventos responde un <em>trigger</em>?</li>
+<li>¿Puedo lanzar un <em>trigger</em> después de otro? ¿Cómo?</li>
+<li>¿Cuál es la sintaxis básica para crear un disparador en <em>MariaDB</em>?</li>
+<li>¿Qué es la gestión de errores en PL/SQL y por qué es importante?</li>
+<li>¿Qué palabra clave se utiliza en PL/SQL para manejar excepciones?</li>
+<li>Hablando de gestión de errores, ¿Para qué sirven las señales?</li>
+<li>¿En qué casos es útil relanzar una señal?</li>
+<li>¿Cómo se gestionan las transacciones dentro de un PL/SQL?</li>
+<li>¿Qué son los cursores en PL/SQL y para qué se utilizan?</li>
+<li>¿Cómo se declara un cursor en PL/SQL?</li>
+<li>¿Cuáles son los pasos a la hora de utilizar un cursor?</li>
+</ol>
+<h3 id="programacion-de-aula-14h">Programación de Aula (14h)</h3>
+<p>Esta unidad es la undécima, impartiéndose a mediados de la tercera evaluación, a mitad de marzo, con una duración estimada de 14 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#eventos">Eventos</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Supuesto eventos</td>
+<td><a href="#AC1101">AC1101</a></td>
+<td>CE5h</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#triggers">Disparadores</a></td>
+<td><a href="#AC1103">AC1103</a></td>
+<td>CE5h</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Supuesto disparadores</td>
+<td><a href="#AC1104">AC1104</a></td>
+<td>CE5h</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#gestion-de-errores">Gestión de errores</a></td>
+<td><a href="#AC1106">AC1106</a></td>
+<td>CE5j</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Supuesto errores</td>
+<td><a href="#AC1107">AC1107</a></td>
+<td>CE5j</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#uso-de-senales">Señales</a></td>
+<td><a href="#AC1108">AC1108</a></td>
+<td>CE5j</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#transacciones-en-plsql">Transacciones</a> en PL/SQL</td>
+<td><a href="#AC1109">AC1109</a></td>
+<td>CE5j</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#cursores">Cursores</a></td>
+<td><a href="#AC1111">AC1111</a></td>
+<td>CE5i</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Supuesto cursores</td>
+<td><a href="#AC1112">AC1112</a></td>
+<td>CE5i</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Supuesto examen</td>
+<td><a href="#AC1113">AC1113</a></td>
+<td>RABD.5</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Reto PL/SQL</td>
+<td><a href="#PY1114">PY1114</a></td>
+<td>RABD.5</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Prueba escrita I</td>
+<td><a href="#PO1115">PO1115</a></td>
+<td>RABD.5</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Prueba escrita II</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="eventos">Eventos</h2>
+<p>Un <strong>evento</strong> en <em>MariaDB</em> es una tarea programada que se ejecuta de forma automática en momentos específicos o de manera periódica. Funciona de forma similar a un <em>cron job</em> en sistemas Linux, permitiendo definir instrucciones SQL que se ejecutarán sin intervención manual, dentro del propio motor de base de datos.</p>
+<p>Se utilizan para realizar acciones planificadas, como la actualización de datos, la eliminación de registros obsoletos o la generación de informes en momentos predeterminados. Además, facilitan la automatización del mantenimiento y la administración de la base de datos, ya que centralizan tareas repetitivas en un único punto. Pueden configurarse para ejecutarse una sola vez o en intervalos regulares, brindando flexibilidad para adaptarse a las necesidades específicas del sistema y asegurando que las operaciones críticas se realicen de forma oportuna y consistente.</p>
+<p>Para su funcionamiento, es obligatorio que el <strong>programador de eventos esté habilitado</strong>, y si no, hacerlo:</p>
+<pre><code>-- Verificar estado actual
+SHOW VARIABLES LIKE 'event_scheduler';
+
+-- Habilitar el programador de eventos (método 1 - sesión actual)
+SET GLOBAL event_scheduler = ON;
+
+-- Habilitar el programador de eventos (método 2 - permanente en my.cnf)
+-- Agregar en archivo de configuración:
+-- event_scheduler=ON
+</code></pre>
+<p>Para comprobar los procesos en ejecución, ejecutaremos <a href="https://mariadb.com/kb/en/show-processlist/"><code>SHOW PROCESSLIST</code></a>:</p>
+<pre><code>SHOW PROCESSLIST;
+-- +----+-----------------+-----------+---------+---------+------+------------------------+------------------+----------+
+-- | Id | User            | Host      | db      | Command | Time | State                  | Info             | Progress |
+-- +----+-----------------+-----------+---------+---------+------+------------------------+------------------+----------+
+-- |  3 | s8a             | localhost | pruebas | Query   |    0 | starting               | show processlist |    0.000 |
+-- |  4 | event_scheduler | localhost | NULL    | Daemon  |   51 | Waiting on empty queue | NULL             |    0.000 |
+-- +----+-----------------+-----------+---------+---------+------+------------------------+------------------+----------+
+-- 2 rows in set (0.001 sec)
+</code></pre>
+<h3 id="creacion-de-eventos">Creación de eventos</h3>
+<p>Para crear un evento usaremos la sentencia <a href="https://mariadb.com/kb/en/create-event/"><code>CREATE EVENT</code></a>, con la siguiente sintaxis:</p>
+<pre><code>CREATE EVENT nombre_evento
+ON SCHEDULE horario
+    [ON COMPLETION [NOT] PRESERVE]
+    [ENABLE | DISABLE | DISABLE ON SLAVE]
+    [COMMENT 'comentario']
+DO
+  sentencias_sql;
+
+horario:
+    AT timestamp [+ INTERVAL intervalo] ... | EVERY intervalo 
+    [STARTS timestamp [+ INTERVAL intervalo] ...] 
+    [ENDS timestamp [+ INTERVAL intervalo] ...]
+
+intervalo:
+    cantidad {YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE |
+        WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |
+        DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}
+</code></pre>
+<p>donde:</p>
+<ul>
+<li><code>horario</code>: Define cuándo y con qué frecuencia se ejecuta, pudiendo ser en una fecha concreta (<code>AT</code>) o de forma repetida (<code>EVERY</code>), definiendo un inicio (<code>STARTS</code>) y/o un fin (<code>ENDS</code>), incluso detallando el instante temporal desde años a minutos.</li>
+<li><code>ON COMPLETION</code>: Determina si el evento se conserva después de su ejecución</li>
+<li><code>ENABLE/DISABLE</code>: Estado inicial del evento</li>
+<li><code>DO</code>: indica el bloque de código SQL a ejecutar</li>
+</ul>
+<p>Preparando</p>
+<p>Para probar los eventos, vamos a crear una tabla histórico que admita una fecha y una cadena:</p>
+<pre><code>CREATE TABLE historico (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME NOT NULL,
+    descripcion VARCHAR(255) NOT NULL
+);
+</code></pre>
+<h4 id="evento-sencillo">Evento sencillo</h4>
+<p>Podemos crear eventos que se ejecutan una sola vez, configurando un horario concreto, ya sea un <em>timestamp</em> determinado con <code>AT TIMESTAMP</code>, o un instante temporal calculado (<code>CURRENT_TIMESTAMP + INTERVAL ...</code>).</p>
+<p>Evento únicoEvento único calculado</p>
+<pre><code>CREATE EVENT evento_unico
+ON SCHEDULE AT TIMESTAMP '2025-02-27 06:55:00'
+DO
+    INSERT INTO historico(fecha, descripcion) VALUES (NOW(), 'Evento único ejecutado');
+</code></pre>
+<pre><code>CREATE EVENT evento_5min
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 5 MINUTE
+DO
+    INSERT INTO historico(fecha, descripcion) VALUES (NOW(), 'Evento ejecutado dentro de 5 minutos');
+</code></pre>
+<h4 id="evento-recurrente">Evento recurrente</h4>
+<p>Pero la potencia de los eventos es que se ejecuten de forma periódica. Para ello, en el horario usaremos la cláusula <code>EVERY</code> para indicar el intervalo de la repetición:</p>
+<pre><code>CREATE EVENT evento_recurrente
+ON SCHEDULE EVERY 1 DAY
+    STARTS '2025-03-01 00:00:00' ENDS '2025-03-31 23:59:59'
+DO
+    DELETE FROM historico WHERE fecha &lt; DATE_SUB(NOW(), INTERVAL 30 DAY);
+</code></pre>
+<p>Además del intervalo de repetición, también podemos indicar una fecha de inicio para comenzar el evento periódico mediante <code>STARTS</code>, una fecha de finalización para que termine mediante <code>ENDS</code> o utilizar ambos para indicar un periodo determinado:</p>
+<p>Recurrente con inicioRecurrente con finalizaciónRecurrente con inicio/fin</p>
+<pre><code>CREATE EVENT evento_recurrente_con_inicio
+ON SCHEDULE EVERY 12 HOUR STARTS '2025-03-01 00:00:00'
+DO
+    CALL actualizar_inventario();
+</code></pre>
+<pre><code>CREATE EVENT evento_recurrente_con_fin
+ON SCHEDULE EVERY 1 WEEK ENDS '2025-12-31 23:59:59'
+DO
+    CALL actualizar_inventario();
+</code></pre>
+<pre><code>CREATE EVENT evento_recurrente_con_inicio_fin
+ON SCHEDULE EVERY 36 HOUR STARTS '2025-03-01 00:00:00' ENDS '2025-12-31 23:59:59'
+DO
+    CALL actualizar_inventario();
+</code></pre>
+<p>Eventos y procedimientos</p>
+<p>Una buena práctica es encapsular la lógica de los eventos dentro de procedimientos almacenados, para poder probarlos sin necesidad de provocar que se dispare el evento, además de poder reutilizar la lógica entre eventos con periodicidades distintas.</p>
+<hr />
+<p>Una vez creados los eventos, cuando llegue el momento adecuado, se ejecutarán. En el fichero de log de <em>MariaDB</em> (por ejemplo, desde la consola de <em>Docker Desktop</em> o en <code>/var/log/mysql/</code>) podremos comprobar su ejecución:</p>
+<pre><code>2025-02-27 17:50:30 2025-02-27 16:50:30 4 [Note] Event Scheduler: scheduler thread started with id 4
+2025-02-27 17:55:00 2025-02-27 16:55:00 4 [Note] Event Scheduler: Last execution of pruebas.evento_unico. Dropping.
+2025-02-27 17:55:00 2025-02-27 16:55:00 5 [Note] Event Scheduler: Dropping pruebas.evento_unico
+2025-02-27 17:57:22 2025-02-27 16:57:22 4 [Note] Event Scheduler: Last execution of pruebas.evento_5min. Dropping.
+2025-02-27 17:57:22 2025-02-27 16:57:22 6 [Note] Event Scheduler: Dropping pruebas.evento_5min
+</code></pre>
+<h3 id="gestion-de-eventos">Gestión de eventos</h3>
+<p>Para listar los eventos existentes, usaremos <a href="https://mariadb.com/kb/en/show-events/"><code>SHOW EVENTS</code></a>, donde veremos los eventos que están pendiente de ejecutar:</p>
+<pre><code>SHOW EVENTS;
+-- +---------+-------------------+---------------+-----------+-----------+------------+----------------+----------------+---------------------+---------------------+---------+------------+----------------------+----------------------+-----------------------+
+-- | Db      | Name              | Definer       | Time zone | Type      | Execute at | Interval value | Interval field | Starts              | Ends                | Status  | Originator | character_set_client | collation_connection | Database Collation    |
+-- +---------+-------------------+---------------+-----------+-----------+------------+----------------+----------------+---------------------+---------------------+---------+------------+----------------------+----------------------+-----------------------+
+-- | pruebas | evento_recurrente | s8a@localhost | SYSTEM    | RECURRING | NULL       | 1              | DAY            | 2025-03-01 00:00:00 | 2025-03-31 23:59:59 | ENABLED |          1 | utf8mb3              | utf8mb3_general_ci   | utf8mb4_uca1400_ai_ci |
+-- +---------+-------------------+---------------+-----------+-----------+------------+----------------+----------------+---------------------+---------------------+---------+------------+----------------------+----------------------+-----------------------+
+-- 1 row in set (0.002 sec)
+</code></pre>
+<p>En el caso de querer obtener únicamente los eventos de una base de datos concreta, necesitamos filtrar mediante <code>SHOW EVENTS FROM nombre_base_datos;</code>.</p>
+<p>Si queremos modificar un evento, ya sea su periodicidad o su código, así como habilitarlos o deshabilitarlos, usaremos la sentencia <a href="https://mariadb.com/kb/en/alter-event/"><code>ALTER EVENT</code></a>:</p>
+<pre><code>-- Modificar la programación o el código
+ALTER EVENT nombre_evento
+ON SCHEDULE EVERY 2 DAY
+DO
+  /* Nuevo código */;
+
+-- Habilitar o deshabilitar un evento
+ALTER EVENT nombre_evento ENABLE;
+ALTER EVENT nombre_evento DISABLE;
+</code></pre>
+<p>Destacar que en ocasiones nos interesará deshabilitar un determinado evento (con la idea de volver a habilitarlo en el futuro), pero en otros eliminarlo completamente. Para ello, usaremos <a href="https://mariadb.com/kb/en/drop-event/"><code>DROP EVENT</code></a>:</p>
+<pre><code>DROP EVENT nombre_evento;
+</code></pre>
+<p>Consideraciones</p>
+<p>Cuando un desarrollador se adentra en el mundo de los eventos en <em>MariaDB</em>, debe tener en cuenta varias consideraciones importantes para asegurar que estos procesos automatizados funcionen de manera óptima. Ante todo, es fundamental verificar que el <em>Event Scheduler</em> esté activado en el sistema. Si se reinicia el servidor, dependiendo de la configuración, puede ser que el programador de eventos esté deshabilitado.</p>
+<p>Otro aspecto crucial es el manejo de los errores (lo estudiaremos más adelante en esta unidad) capturando excepciones y registrando la información relevante en tablas de <em>logs</em>, ofreciendo mecanismos para monitorizar los eventos en ejecución y cuál ha sido su estado de ejecución, mediante alguna tabla específica que registre información detallada sobre la ejecución de cada evento (incluyendo tiempos, resultados y cualquier anomalía), lo que nos proporcionará una ayuda de un valor incalculable cuando surjan los problemas (que tarde o temprano, sucederán).</p>
+<p>Finalmente, siempre deberemos controlar los tiempos de ejecución, para evitar operaciones muy largas, así como evitar solapamientos entre diferentes eventos que sobrescriban la misma información.</p>
+<h2 id="triggers">Triggers</h2>
+<p>Directamente relacionados con los eventos, tenemos los <strong>disparadores</strong> (<strong><em>triggers</em></strong>) que son fragmentos de código que se activan automáticamente en respuesta a operaciones específicas sobre las tablas, tales como inserciones, actualizaciones o eliminaciones.</p>
+<p>Estos mecanismos permiten inyectar lógica personalizada que se ejecuta antes (<em>before</em>) o después (<em>after</em>) de que se realice la orden SQL que provoca su ejecución, lo que es fundamental para garantizar la integridad de los datos, validar condiciones de negocio y llevar a cabo auditorías automáticas. Por ejemplo, un disparador puede registrar cada cambio en una tabla de auditoría o prevenir modificaciones que no cumplan con ciertos criterios, asegurando así la consistencia y confiabilidad de la información almacenada.</p>
+<p>Los posibles eventos que podemos asociar a un disparador son:</p>
+<ul>
+<li><code>INSERT</code>: El <em>trigger</em> se activa cuando se inserta una nueva fila sobre la tabla asociada.</li>
+<li><code>UPDATE</code>: Se activa cuando se actualiza una fila.</li>
+<li><code>DELETE</code>: Se activa cuando se elimina una fila.</li>
+</ul>
+<p><img alt="" src="images/11mariadb-triggers.png" title="Trigger en MariaDB" /></p>
+<p>Triggers</p>
+<p>Si la operación SQL que va a provocar la ejecución del <em>trigger</em> afecta a múltiples filas (por ejemplo un borrado de varios registros), el <em>trigger</em> se ejecutará una vez por cada fila afectada.</p>
+<h3 id="creacion-de-disparadores">Creación de disparadores</h3>
+<p>A la hora de crear un disparador, necesitamos definir:</p>
+<ul>
+<li>Sobre qué tabla se va a aplicar</li>
+<li>Sobre qué operación se va a realizar (<code>INSERT</code>, <code>DELETE</code>, <code>UPDATE</code>)</li>
+<li>Y cuando queremos que se ejecute, antes (<code>BEFORE</code>) o después (<code>AFTER</code>) de la operación sobre la tabla.</li>
+</ul>
+<p>Para ello, usaremos la sentencia <a href="https://mariadb.com/kb/en/create-trigger/"><code>CREATE TRIGGER</code></a> con la siguiente sintaxis:</p>
+<pre><code>CREATE [OR REPLACE] TRIGGER nombreTrigger cuandoTrigger eventoTrigger
+    ON nombreTabla FOR EACH ROW
+    [ordenTrigger]
+    cuerpo
+
+cuandoTrigger: { BEFORE | AFTER }
+eventoTrigger: { INSERT | UPDATE | DELETE }
+ordenTrigger: { FOLLOWS | PRECEDES } otroNombreTrigger
+</code></pre>
+<p>Dentro del cuerpo del disparador, vamos a poder acceder a los valores del registro de la tabla anterior y posterior a la orden SQL. Para ello, el alias <code>NEW</code> referencia al nuevo registro, y <code>OLD</code> al antiguo. Dependiendo de la operación, podremos emplear uno u otro, o los dos:</p>
+<table>
+<thead>
+<tr>
+<th>Operación</th>
+<th><code>NEW</code></th>
+<th><code>OLD</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UPDATE</code></td>
+<td>Valores nuevos</td>
+<td>Valores antiguos</td>
+</tr>
+<tr>
+<td><code>INSERT</code></td>
+<td>Valores nuevos</td>
+<td>No existe</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>No existe</td>
+<td>Valores antiguos</td>
+</tr>
+</tbody>
+</table>
+<p>Cabe destacar que los <em>triggers</em> de tipo <code>AFTER DELETE</code> se activan solo cuando realmente se eliminan filas. Si el <code>DELETE</code> no afecta a ninguna fila (por ejemplo, porque la condición <code>WHERE</code> no coincide con ninguna fila), entonces el trigger no se dispara.</p>
+<p>Veamos un ejemplo donde almacenamos las notas de los estudiantes de un curso, y queremos comprobar si al insertar los valores son correctos, y si no lo son, ajustarlos:</p>
+<pre><code>create or replace table estudiantes (
+    id int unsigned auto_increment primary key,
+    nombre varchar(50) not null,
+    apellidos varchar(50) not null,
+    nota float
+);
+
+DELIMITER //
+CREATE OR REPLACE TRIGGER triggerCheckNotaBeforeInsert
+  BEFORE INSERT ON estudiantes FOR EACH ROW
+begin
+    if NEW.nota &lt; 0 then -- NEW referencia al nuevo registro
+        set NEW.nota = 0;
+    elseif NEW.nota &gt; 10 then
+        set NEW.nota = 10;
+    end if;
+end
+//
+
+DELIMITER ;
+
+insert into estudiantes values (1, 'Andreu', 'Medrano', -1);
+insert into estudiantes values (2, 'José Manuel', 'Pérez', 12);
+insert into estudiantes values (3, 'Pedro', 'Casas', 8.5);
+
+select * from estudiantes;
+-- +----+--------------+-----------+------+
+-- | id | nombre       | apellidos | nota |
+-- +----+--------------+-----------+------+
+-- |  1 | Andreu       | Medrano   |    0 |
+-- |  2 | José Manuel  | Pérez     |   10 |
+-- |  3 | Pedro        | Casas     |  8.5 |
+-- +----+--------------+-----------+------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Podemos comprobar como dentro del cuerpo del disparador hemos usado <code>NEW</code> para referenciar el registro que vamos a insertar. Además, hemos configurado el disparador para que se ejecute antes de la inserción.</p>
+<p>Nomenclatura</p>
+<p>En <em>MariaDB</em>, no hay una nomenclatura obligatoria para nombrar los <em>triggers</em>, pero se recomienda seguir una convención clara y estructurada para facilitar su identificación y mantenimiento.</p>
+<p>Algunas recomendaciones:</p>
+<ol>
+<li>Usar un prefijo indicativo, como por ejemplo <code>trg_</code> o <code>trigger_</code>, ya sea usando como separador <code>_</code> o una notación <em>camelCase</em>.</li>
+<li>Incluir el nombre de la tabla afectada</li>
+<li>Especificar el evento que lo dispara, ya sea <code>BEFORE</code> o <code>AFTER</code> y la operación <code>INSERT</code>, <code>UPDATE</code> o <code>DELETE</code></li>
+</ol>
+<p>Algunos ejemplos podrían ser:</p>
+<table>
+<thead>
+<tr>
+<th>Nombre del Trigger</th>
+<th>Explicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trg_usuarios_before_insert</code></td>
+<td>Se ejecuta antes de una inserción en <code>usuarios</code>.</td>
+</tr>
+<tr>
+<td><code>triggerPedidosAfterUpdate</code></td>
+<td>Se activa después de actualizar <code>pedidos</code>, posiblemente para registrar cambios.</td>
+</tr>
+<tr>
+<td><code>trgProductosBeforeDeleteCascade</code></td>
+<td>Antes de eliminar en <code>productos</code>, quizás para eliminar dependencias.</td>
+</tr>
+</tbody>
+</table>
+<p>De la misma manera, podemos crear un disparador para las operaciones de modificación:</p>
+<pre><code>DELIMITER //
+
+CREATE OR REPLACE TRIGGER triggerCheckNotaBeforeUpdate
+  BEFORE UPDATE ON estudiantes FOR EACH ROW
+BEGIN
+    if NEW.nota &lt; 0 then -- NEW referencia al nuevo registro
+        set NEW.nota = 0;
+    elseif NEW.nota &gt; 10 then
+        set NEW.nota = 10;
+    end if;
+end
+//
+
+DELIMITER ;
+
+update estudiantes set nota = -4 where id = 1;
+update estudiantes set nota = 14 where id = 2;
+update estudiantes set nota = 9.5 where id = 3;
+
+select * from estudiantes;
+-- +----+--------------+-----------+------+
+-- | id | nombre       | apellidos | nota |
+-- +----+--------------+-----------+------+
+-- |  1 | Andreu       | Medrano   |    0 |
+-- |  2 | José Manuel  | Pérez     |   10 |
+-- |  3 | Pedro        | Casas     |  9.5 |
+-- +----+--------------+-----------+------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Triggers encadenados</p>
+<p>Es posible tener más de un <em>trigger</em> sobre la misma tabla y con el mismo evento. En estos casos, la ejecución se hará uno después de otro en el orden en que fueron creados.</p>
+<p>Si queremos modificar dicho orden, a la hora de crear el trigger tendremos que utilizar la opción <code>ordenTrigger: { FOLLOWS | PRECEDES } otroNombreTrigger</code>. De tal forma que el trigger que se está creando se ejecute antes (<code>PRECEDES</code>) o después (<code>FOLLOWS</code>) que el trigger que ya existe (<code>otroNombreTrigger</code>).</p>
+<p>Es importante destacar que solo puedes encadenar triggers del mismo evento (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) y tiempo (<code>BEFORE</code>, <code>AFTER</code>).</p>
+<p>Supongamos el siguiente ejemplo donde definimos tres disparadores que actúan sobre la misma tabla de <code>ventas</code>: el primero que inserta en el log, el segundo que modifica el inventario y por último, el tercero que inserta en la tabla de estadísticas, y que queremos que se realice antes de insertar en el log:</p>
+<pre><code>-- Primer trigger
+CREATE TRIGGER after_insert_ventas_1
+AFTER INSERT ON ventas
+FOR EACH ROW
+BEGIN
+    INSERT INTO log_ventas (venta_id, accion) VALUES (NEW.id, 'Nueva venta registrada');
+END;
+
+-- Segundo trigger que debe ejecutarse DESPUÉS del primero
+CREATE TRIGGER after_insert_ventas_2
+AFTER INSERT ON ventas
+FOR EACH ROW
+    FOLLOWS after_insert_ventas_1
+BEGIN
+    UPDATE inventario SET cantidad = cantidad - NEW.cantidad WHERE producto_id = NEW.producto_id;
+END;
+
+-- Tercer trigger que debe ejecutarse ANTES del primero
+CREATE TRIGGER after_insert_ventas_3
+AFTER INSERT ON ventas
+FOR EACH ROW
+    PRECEDES after_insert_ventas_1
+BEGIN
+    INSERT INTO estadisticas_ventas (fecha, monto) VALUES (CURRENT_DATE(), NEW.monto);
+END;
+</code></pre>
+<p>Si comprobamos bien las cláusulas <code>PRECEDES</code> y <code>FOLLOWS</code>, tenemos que el orden de ejecución sería:</p>
+<ol>
+<li><code>after_insert_ventas_3</code> (porque <code>PRECEDES</code> <code>after_insert_ventas_1</code>)</li>
+<li><code>after_insert_ventas_1</code></li>
+<li><code>after_insert_ventas_2</code> (porque <code>FOLLOWS</code> <code>after_insert_ventas_1</code>)</li>
+</ol>
+<h3 id="gestion-de-disparadores">Gestión de disparadores</h3>
+<p>Los comandos que podemos utilizar para gestionar los disparadores son:</p>
+<ul>
+<li><a href="https://mariadb.com/kb/en/drop-trigger/">DROP TRIGGER nombreTrigger</a>: permite eliminar un disparador</li>
+<li><a href="https://mariadb.com/kb/en/show-triggers/">SHOW TRIGGERS</a>: muestra los disparadores existentes</li>
+</ul>
+<p><code>SHOW TRIGGERS;
+  -- +------------------------------+--------+-------------+------------------------------------------------------------------------------------------------------------------------+--------+------------------------+-------------------------------------------------------------------------------------------+---------------+----------------------+----------------------+-----------------------+
+  -- | Trigger                      | Event  | Table       | Statement                                                                                                              | Timing | Created                | sql_mode                                                                                  | Definer       | character_set_client | collation_connection | Database Collation    |
+  -- +------------------------------+--------+-------------+------------------------------------------------------------------------------------------------------------------------+--------+------------------------+-------------------------------------------------------------------------------------------+---------------+----------------------+----------------------+-----------------------+
+  -- | triggerCheckNotaBeforeInsert | INSERT | estudiantes | BEGIN
+  -- IF NEW.nota &lt; 0 THEN
+  --     set NEW.nota = 0;
+  -- ELSEIF NEW.nota &gt; 10 THEN
+  --     set NEW.nota = 10;
+  -- END IF;
+  -- END | BEFORE | 2025-02-23 18:32:28.15 | STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION | s8a@localhost | utf8mb3              | utf8mb3_general_ci   | utf8mb4_uca1400_ai_ci |
+  -- | triggerCheckNotaBeforeUpdate | UPDATE | estudiantes | BEGIN
+  -- IF NEW.nota &lt; 0 THEN
+  --     set NEW.nota = 0;
+  -- ELSEIF NEW.nota &gt; 10 THEN
+  --     set NEW.nota = 10;
+  -- END IF;
+  -- END    | BEFORE | 2025-02-23 18:36:51.74 | STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION | s8a@localhost | utf8mb3              | utf8mb3_general_ci   | utf8mb4_uca1400_ai_ci |
+  -- +------------------------------+--------+-------------+------------------------------------------------------------------------------------------------------------------------+--------+------------------------+-------------------------------------------------------------------------------------------+---------------+----------------------+----------------------+-----------------------+
+  -- 2 rows in set (0.003 sec)</code></p>
+<hr />
+<p>Además de <code>SHOW TRIGGERS</code>, podemos consultar la tabla del catálogo <a href="https://mariadb.com/kb/en/information-schema-triggers-table/"><code>information_schema.TRIGGERS</code></a> para obtener información más detallada o filtrada:</p>
+<p>```
+  -- Triggers de la tabla estudiantes
+  SELECT TRIGGER_NAME, EVENT_MANIPULATION, ACTION_TIMING
+  FROM information_schema.TRIGGERS
+  WHERE TRIGGER_SCHEMA = 'pruebas'
+  AND EVENT_OBJECT_TABLE = 'estudiantes';
+  -- +------------------------------+--------------------+---------------+
+  -- | TRIGGER_NAME                 | EVENT_MANIPULATION | ACTION_TIMING |
+  -- +------------------------------+--------------------+---------------+
+  -- | triggerCheckNotaBeforeInsert | INSERT             | BEFORE        |
+  -- | triggerCheckNotaBeforeUpdate | UPDATE             | BEFORE        |
+  -- +------------------------------+--------------------+---------------+</p>
+<p>-- Todos los triggers BEFORE de la base de datos actual
+  SELECT TRIGGER_NAME, EVENT_OBJECT_TABLE, EVENT_MANIPULATION
+  FROM information_schema.TRIGGERS
+  WHERE TRIGGER_SCHEMA = DATABASE()
+  AND ACTION_TIMING = 'BEFORE';
+  ```</p>
+<p>Esta tabla resulta especialmente útil cuando necesitamos comprobar la existencia de un <em>trigger</em> desde un procedimiento almacenado o generar documentación automática del esquema.
+- <a href="https://mariadb.com/kb/en/show-create-trigger/">SHOW CREATE TRIGGER nombreTrigger</a>: muestra el código fuente de un determinado disparador</p>
+<p><code>SHOW CREATE TRIGGER triggerCheckNotaBeforeUpdate;
+  -- +------------------------------+-------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+-----------------------+------------------------+
+  -- | Trigger                      | sql_mode                                                                                  | SQL Original Statement                                                                                                                                                                                                             | character_set_client | collation_connection | Database Collation    | Created                |
+  -- +------------------------------+-------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+-----------------------+------------------------+
+  -- | triggerCheckNotaBeforeUpdate | STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION | CREATE DEFINER=`s8a`@`localhost` TRIGGER triggerCheckNotaBeforeUpdate
+  -- BEFORE UPDATE ON estudiantes FOR EACH ROW
+  -- BEGIN
+  -- IF NEW.nota &lt; 0 THEN
+  --     set NEW.nota = 0;
+  -- ELSEIF NEW.nota &gt; 10 THEN
+  --     set NEW.nota = 10;
+  -- END IF;
+  -- END | utf8mb3              | utf8mb3_general_ci   | utf8mb4_uca1400_ai_ci | 2025-02-23 18:36:51.74 |
+  -- +------------------------------+-------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+-----------------------+------------------------+</code></p>
+<p>Si queremos obtener el código de todos los disparadores, podríamos usar un <code>SHOW CREATE TRIGGER</code> para cada uno de ellos, o bien, como alternativa más potente a <code>SHOW TRIGGERS</code>, también podemos realizar una consulta a <code>INFORMATION_SCHEMA.TRIGGERS</code>.</p>
+<p>De estas operaciones podemos deducir que los disparadores no se pueden modificar; es necesario borrarlos y volverlos a crear.</p>
+<h3 id="consideraciones">Consideraciones</h3>
+<p>Al igual que con los eventos, a la hora de programar disparadores, es fundamental tener en cuenta una serie de consideraciones.</p>
+<p>Respecto a la <strong>gestión de errores</strong>, debemos distinguir entre dos situaciones: los errores que queremos que detengan la operación (por ejemplo, un <code>SIGNAL</code> que impide una inserción que no cumple una regla de negocio) y los errores inesperados que conviene registrar sin enmascarar. Para el segundo caso, es recomendable utilizar manejadores que registren la información relevante en una tabla de <em>logs</em>.</p>
+<p>Además, debemos tener en cuenta las siguientes <strong>limitaciones</strong>:</p>
+<ul>
+<li>Dentro de un <em>trigger</em> no se pueden usar transacciones, es decir, ni <code>COMMIT</code>, <code>ROLLBACK</code> ni <code>START TRANSACTION</code>. Tampoco se puede invocar a procedimientos que contengan transacciones. Si un <em>trigger</em> falla, <em>MariaDB</em> deshace automáticamente la operación que lo activó.</li>
+<li>Un <em>trigger</em> no puede modificar la misma tabla que lo disparó, ya que esto provocaría una llamada recursiva. Si necesitamos modificar datos de la propia tabla, debemos hacerlo a través de los alias <code>NEW</code> y <code>OLD</code> dentro del propio cuerpo del disparador (solo en <em>triggers</em> <code>BEFORE</code>).</li>
+<li>Si dentro de un <em>trigger</em> se ejecutan sentencias DML sobre <strong>otras</strong> tablas, los disparadores asociados a esas tablas sí se activarán (<em>triggers</em> en cascada). Hay que tener precaución con las cadenas largas de disparadores, ya que dificultan la depuración y pueden afectar al rendimiento.</li>
+<li><code>TRUNCATE</code> no dispara <em>triggers</em>: la sentencia <code>TRUNCATE TABLE</code> es una operación DDL, no DML, por lo que no activa los disparadores asociados a <code>DELETE</code>.</li>
+<li>No se puede devolver un resultado al cliente: no se permite ejecutar un <code>SELECT</code> que devuelva filas. Si necesitamos consultar datos, debemos usar <code>SELECT ... INTO</code> para almacenarlos en variables.</li>
+<li>Los procedimientos invocados desde un <em>trigger</em> heredan sus restricciones: si un <em>trigger</em> llama a un procedimiento mediante <code>CALL</code>, dicho procedimiento tampoco podrá usar transacciones ni devolver resultados al cliente.</li>
+</ul>
+<p>```
+  -- Esto NO funciona dentro de un trigger:
+  CREATE TRIGGER trg_ejemplo BEFORE INSERT ON estudiantes FOR EACH ROW
+  BEGIN
+      -- ✗ Error: no se puede devolver un resultado al cliente
+      SELECT * FROM estudiantes WHERE nota &gt; 5;</p>
+<pre><code>  -- ✗ Error: tabla mutante
+  UPDATE estudiantes SET nota = 0 WHERE id = 1;
+
+  -- ✗ Error: no se permiten transacciones
+  START TRANSACTION;
+</code></pre>
+<p>END;
+  ```</p>
+<p>Buenas prácticas con triggers</p>
+<p>Al igual que con los eventos, conviene tener en cuenta algunas consideraciones a la hora de diseñar y utilizar <em>triggers</em>:</p>
+<ul>
+<li>Mantener la lógica breve: un <em>trigger</em> se ejecuta <strong>por cada fila afectada</strong>. Si una sentencia <code>UPDATE</code> modifica 10.000 filas, el <em>trigger</em> se ejecutará 10.000 veces. Un <em>trigger</em> pesado (con múltiples consultas o inserciones) puede degradar seriamente el rendimiento.</li>
+<li>Evitar <em>triggers</em> en cascada: un <em>trigger</em> que modifica otra tabla puede disparar a su vez otro <em>trigger</em>, y así sucesivamente. Estas cadenas son difíciles de depurar y pueden provocar comportamientos inesperados. Si la lógica es compleja, es preferible encapsularla en un procedimiento almacenado.</li>
+<li>Documentar su existencia: los <em>triggers</em> son "invisibles" para quien ejecuta un simple <code>INSERT</code> o <code>UPDATE</code>. Un desarrollador que desconoce su existencia puede perder mucho tiempo depurando un comportamiento inesperado. Es recomendable documentar en el propio DDL o en un fichero aparte qué <em>triggers</em> existen y qué hacen.</li>
+<li>No sustituir restricciones por <em>triggers</em>: si una validación puede expresarse como un <code>CHECK</code>, <code>NOT NULL</code>, <code>UNIQUE</code> o clave ajena, es preferible usar la restricción declarativa. Los <em>triggers</em> deben reservarse para validaciones que no se pueden expresar de forma declarativa (reglas de negocio complejas, auditoría, cálculos derivados...).</li>
+<li>Probar con operaciones masivas: muchos <em>triggers</em> funcionan correctamente con inserciones individuales pero revelan problemas de rendimiento o lógica cuando se prueban con <code>INSERT ... SELECT</code> o <code>UPDATE</code> sin <code>WHERE</code> restrictivo.</li>
+</ul>
+<h2 id="gestion-de-errores">Gestión de Errores</h2>
+<p>Hasta ahora hemos supuesto que nuestros fragmentos de código nunca fallan. Pero ¿qué sucede cuando un procedimiento o un evento tienen un error? Ya sea porque no encuentra una tabla, accedemos erróneamente a un campo que no existe, etc..</p>
+<p>Una gestión de errores efectiva en <em>MariaDB</em> mejora significativamente la robustez y mantenibilidad de las aplicaciones. Para ello, <em>MariaDB</em> ofrece varios mecanismos para la gestión de errores, que incluyen señales, manejadores, códigos de error y excepciones, que permiten:</p>
+<ul>
+<li>Controlar el flujo de ejecución ante situaciones excepcionales.</li>
+<li>Proporcionar retroalimentación clara a los usuarios y desarrolladores.</li>
+<li>Mantener la integridad de los datos mediante transacciones.</li>
+<li>Implementar reglas de negocio complejas.</li>
+</ul>
+<p>A la hora de programar desde el punto de vista del gestor, por medio de procedimientos/funciones, podemos realizar dos aproximaciones diferentes a la gestión de errores (incluso una combinación de las dos):</p>
+<ul>
+<li>Capturar las excepciones que se puedan dar y mandar un mensaje al programa cliente (por medio de un parámetro de salida o un valor concreto devuelto con un <code>SELECT</code>). En este caso, el tratamiento del error lo gestionaremos dentro del procedimiento/función del gestor y programaremos la consecuencia que provoca dicho error.</li>
+<li>No capturar excepciones y que sea el programa cliente el que gestione las mismas. En este caso, incluso, podemos ser nosotros mismos los que provoquemos una excepción dentro del código del procedimiento/función (por ejemplo, el cliente envía un NIF de un artista que no existe).</li>
+</ul>
+<p>Cuando trabajamos con errores y excepciones, podemos capturar:</p>
+<ul>
+<li>Error y excepciones definidas por el SGBD (por ejemplo, <code>DUPLICATE ENTRY FOR KEY</code>, que se produce cuando intentamos añadir dos filas con la misma clave primaria).</li>
+<li>Excepciones creadas por el usuario. Por ejemplo, puedo lanzar una excepción cuando intente añadir una persona con una altura negativa.</li>
+</ul>
+<p>En cualquiera de los dos casos, cada excepción va a estar asociada a un número ya predefinido por el sistema gestor.</p>
+<p>Códigos de error</p>
+<p>Cuando sucede algún tipo de fallo, <em>MariaDB</em> devolverá un <a href="https://mariadb.com/kb/en/mariadb-error-codes/">error con un código</a>. Cada código tiene un mensaje asociado y un estado <code>SQLSTATE</code> correspondiente (los códigos son números enteros, mientras que los estados SQL con cadenas y por tanto irán entre comilla). Algunos códigos son:</p>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Mensaje</th>
+<th><code>SQLSTATE</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1007</td>
+<td>No se puede crear la base de datos</td>
+<td>42S01</td>
+</tr>
+<tr>
+<td>1045</td>
+<td>Acceso denegado para el usuario</td>
+<td>28000</td>
+</tr>
+<tr>
+<td>1050</td>
+<td>La tabla ya existe</td>
+<td>42S01</td>
+</tr>
+<tr>
+<td>1062</td>
+<td>Entrada duplicada</td>
+<td>23000</td>
+</tr>
+<tr>
+<td>1064</td>
+<td>Error de sintaxis SQL</td>
+<td>42000</td>
+</tr>
+<tr>
+<td>1146</td>
+<td>La tabla no existe</td>
+<td>42S02</td>
+</tr>
+</tbody>
+</table>
+<p>Como puedes observar diferentes códigos de error pueden compartir el mismo <code>SQLSTATE</code>.</p>
+<p>Por ejemplo, si intento hacer una consulta sobre una tabla que no existe recibo un mensaje de error con su código:</p>
+<pre><code>select * from tablamala;
+-- ERROR 1146 (42S02): Table 'empresa.tablamala' doesn't exist
+</code></pre>
+<p>Tras ejecutar una consulta que ha devuelto un error, puedo recuperar el error mediante <code>SHOW ERRORS</code>:</p>
+<pre><code>SHOW ERRORS;
+-- +-------+------+-----------------------------------------+
+-- | Level | Code | Message                                 |
+-- +-------+------+-----------------------------------------+
+-- | Error | 1146 | Table 'pruebas.tablamala' doesn't exist |
+-- +-------+------+-----------------------------------------+
+-- 1 row in set (0.000 sec)
+</code></pre>
+<p>Los códigos de error del 1900 hacía arriba son específicos de <em>MariaDB</em>, mientras que los comprendidos entre 1000 y 1800 son los mismos que <em>MySQL</em>.</p>
+<p>Alias de error</p>
+<p>Algunos errores son tan comunes que existen unos alias para referenciar tanto a un código concreto como a un conjunto de ellos. Son tres:</p>
+<ul>
+<li><code>SQLWARNING</code>: valores de <code>SQLSTATE</code> que empiezan por <code>01</code>. Asociados a advertencias.</li>
+<li><code>NOT FOUND</code>: valores de <code>SQLSTATE</code> que empiezan por <code>02</code>. Se utiliza con cursores cuando se ha llegado al final de los datos, lo que provoca una condición <code>NO DATA</code> con <code>SQLSTATE</code> igual a <code>02000</code>.</li>
+<li><code>SQLEXCEPTION</code>: valores de <code>SQLSTATE</code> que empiezan por valores distintos a <code>00</code>, <code>01</code> o <code>02</code>, asociados a errores reales.</li>
+</ul>
+<h3 id="mejorando-la-legibilidad">Mejorando la legibilidad</h3>
+<p>Dentro de un procedimiento voy a poder capturar los errores, pero si no quiero hacerlo por su código (<code>1146</code>), estado (<code>42S01</code>) o alias genérico (<code>SQLEXCEPTION</code>), puedo hacerlo por un nombre más específico que mejore la legibilidad del código, mediante <a href="https://mariadb.com/kb/en/declare-condition/"><code>DECLARE CONDITION</code></a>:</p>
+<pre><code>DECLARE no_existe_tabla CONDITION FOR 1146;
+</code></pre>
+<p>De esta manera, después podremos controlar la captura por el nombre asignado y no por el número asociado.</p>
+<p>Ya hemos visto que en la <a href="https://mariadb.com/kb/en/mariadb-error-code-reference/">lista de mensajes de error</a> aparecen dos tipos de errores asociados a cada mensaje:</p>
+<ul>
+<li><em>Error Code</em>: Son números específicos de <em>MariaDB</em>/<em>MySQL</em> que no valen para otros gestores.</li>
+<li><em>SQLState Code</em>: Cadena de 5 dígitos basado en ANSI SQL y ODBC y por lo tanto sus códigos están <em>estandarizados</em> entre todos los SGBD.</li>
+</ul>
+<p>Emplear uno u otro va a depender de nuestro programa cliente. Si este va a ser empleado en sistemas gestores diferentes (por ejemplo, <em>Oracle</em> o <em>SQL Server</em>) podría ser mejor emplear los códigos de estado SQL. En caso contrario, es recomendable utilizar mejor los específicos de cada gestor.</p>
+<p>En el caso de querer dar un nombre a la excepción empleando el <em>SQLState</em> la sintaxis cambia:</p>
+<pre><code>DECLARE no_existe_tabla CONDITION FOR SQLSTATE '42S02';
+</code></pre>
+<h3 id="uso-de-senales">Uso de señales</h3>
+<p>La instrucción <a href="https://mariadb.com/kb/en/signal/"><code>SIGNAL</code></a> permite generar errores personalizados, lo que es útil para validaciones de negocio, es decir, operaciones que tienen sentido para nuestra base de datos, por ejemplo, una regla podría ser que "<em>todo empleado debe tener al menos dos habilidades</em>".</p>
+<p>Su sintaxis es :</p>
+<pre><code>SIGNAL SQLSTATE 'valor_sqlstate'
+    SET MESSAGE_TEXT = 'mensaje_de_error' [,MYSQL_ERRNO = codigo_error];
+</code></pre>
+<p>Si retomamos el mismo ejemplo, podríamos hacer:</p>
+<pre><code>DELIMITER //
+
+CREATE PROCEDURE verificarEmpleado(IN codigoEmpleado INT)
+BEGIN
+    DECLARE cantHab INT;
+
+    SELECT COUNT(CodHab) into cantHab from habemp where CodEmp = codigoEmpleado;
+
+    IF cantHab &lt; 2 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Todo empleado debe tener mínimo 2 habilidades';
+    ELSE
+        SELECT 'Usuario verificado correctamente' AS mensaje;
+    END IF;
+END //
+
+DELIMITER ;
+</code></pre>
+<p>Se recomienda que los códigos de <code>SQLSTATE</code> asociados a reglas de negocio vayan desde <code>45000</code> a <code>45999</code>.</p>
+<h3 id="manejadores-de-errores">Manejadores de errores</h3>
+<p>Para añadirle un comportamiento a la gestión de errores, necesitamos declarar un manejador de errores en nuestro código, mediante <a href="https://mariadb.com/kb/en/declare-handler/"><code>DECLARE HANDLER</code></a>, sentencia que tiene la siguiente sintaxis:</p>
+<pre><code>DECLARE accionManejador HANDLER FOR valorCondicion [, valorCondicion] ...
+sentencia
+accionManejador:
+    CONTINUE | EXIT
+valorCondicion:
+    codigoErrorMariaDB
+    | SQLSTATE [VALUE] valorDeSQLState
+    | nombreCondicion
+    | SQLWARNING
+    | NOT FOUND
+    | SQLEXCEPTION
+</code></pre>
+<p>A tener en cuenta:</p>
+<ul>
+<li>El manejador se lanzará para una o más condiciones.</li>
+<li>Las acciones pueden ser <code>CONTINUE</code> para continuar con la ejecución normal, o <code>EXIT</code> que lanza el manejador y finaliza el bloque <code>BEGIN-END</code> actual.</li>
+<li>Al lanzarse, se puede ejecutar una única instrucción (por ejemplo <code>set x=5;</code>) o un bloque de instrucciones (entre <code>BEGIN</code> y <code>END</code>).</li>
+<li>Los manejadores se deben declarar después de las variables locales.</li>
+<li>Dentro del cuerpo de un manejador no se pueden declarar variables locales con <code>DECLARE</code>. En cambio, sí que podemos usar variables de usuario (recuerda que comienzan por <code>@</code>), o utilizar las variables declaradas antes de los manejadores.</li>
+</ul>
+<p>Los manejadores se asocian mediante <code>FOR</code> a códigos de error, estados de SQL (los cuales son cadenas y por tanto van entre comillas) o a las condiciones predefinidas a cualquier condición que hayamos creado anteriormente.</p>
+<p>Por ejemplo, podemos definir un par que manejadores del siguiente modo:</p>
+<pre><code>DECLARE CONTINUE HANDLER FOR 1051
+BEGIN
+-- cuerpo del manejador
+END;
+
+-- Intenta acceder a una tabla que no existe
+DECLARE CONTINUE HANDLER FOR SQLSTATE '42S02'
+BEGIN
+-- cuerpo del manejador
+END;
+-- Intenta acceder a una tabla que no existe
+</code></pre>
+<p>Por ejemplo, si queremos realizar una inserción en la tabla <code>habilidad</code> con gestión de errores, podríamos hacer:</p>
+<pre><code>DELIMITER //
+
+CREATE PROCEDURE insertarHabilidad(IN codigo VARCHAR(50), IN descripcion VARCHAR(50))
+BEGIN
+    DECLARE EXIT HANDLER FOR 1062 
+        SELECT 'Error: Valor duplicado' AS mensaje;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        SELECT 'Error SQL general' AS mensaje;
+
+    INSERT INTO habilidad (CodHab, NomHab) VALUES (codigo, descripcion);
+    SELECT 'Inserción exitosa' AS mensaje;
+END //
+
+DELIMITER ;
+</code></pre>
+<p>Autoevaluación</p>
+<p>A partir del siguiente fragmento de código:</p>
+<pre><code>CREATE OR REPLACE TABLE t11 (s1 INT, PRIMARY KEY (s1));
+
+DELIMITER //
+CREATE PROCEDURE ejemploManejadores(out resultado int)
+BEGIN
+    -- El código 23000 se lanza al violar la restricción de integridad
+    DECLARE EXIT HANDLER FOR SQLSTATE '23000' SET resultado = 1;
+    SET resultado = 1;
+    INSERT INTO t11 VALUES (1);
+    SET resultado = 2;
+    INSERT INTO t11 VALUES (1);
+    SET resultado = 3;
+END
+//
+DELIMITER ;
+
+call ejemploManejadores(@salida);
+select @salida;
+</code></pre>
+<ul>
+<li>¿Cuánto valdrá <code>@salida</code> en la línea 18? (1)</li>
+<li>
+<p>Si cambiamos el manejador de <code>EXIT</code> a <code>CONTINUE</code>, ¿Cuánto valdría <code>resultado</code>? (2)</p>
+</li>
+<li>
+<p>Al insertar el segundo valor, en la línea 11, salta el manejador y pone el valor de <code>resultado = 1</code> y termina el procedimiento, por lo que <code>@salida = 1</code></p>
+</li>
+<li>continuaría con <code>SET resultado = 3</code>, por lo que <code>@salida = 3</code></li>
+</ul>
+<h4 id="manejadores-en-eventos">Manejadores en Eventos</h4>
+<p>Anteriormente estudiamos como podíamos crear <a href="#eventos">eventos</a> para ejecutar ciertas acciones en un instante determinado o bien de forma recurrente. Pero ¿Qué sucede cuando se produce un error dentro de un evento? Una práctica muy común es utilizar una tabla de <em>log</em> donde almacenamos el error producido, y así poder monitorizarlos.</p>
+<p>Así pues, necesitamos declarar un manejador que inserte en dicha tabla:</p>
+<pre><code>CREATE EVENT evento_con_manejo_errores
+    ON SCHEDULE EVERY 12 HOUR
+DO
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        INSERT INTO errores (nombre, fecha, mensaje) 
+        VALUES ('evento_con_manejo_errores', NOW(), 'Error durante la ejecución');
+    END;
+
+    UPDATE inventario SET stock = stock - reservas WHERE reservas &gt; 0;
+    INSERT INTO registro_eventos (nombre, fecha, estado) 
+        VALUES ('evento_con_manejo_errores', NOW(), 'Completado');
+END;
+</code></pre>
+<h4 id="manejadores-en-triggers">Manejadores en Triggers</h4>
+<p>Del mismo modo, cuando trabajamos con disparadores, también podemos definir un manejador de errores para que, en el caso de error, inserte un registro en nuestra tabla de log:</p>
+<pre><code>CREATE TRIGGER triggerUpdateInventario
+AFTER INSERT ON pedidos
+FOR EACH ROW
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        INSERT INTO errores (nombre, fecha, mensaje) 
+        VALUES ('triggerUpdateInventario', NOW(), CONCAT('Error durante la actualización del inventario del pedido ', NEW.idProducto));
+    END;
+
+    UPDATE inventario SET stock = stock - NEW.cantidad WHERE idProducto=NEW.idProducto;
+END;
+</code></pre>
+<p>Dicho esto, <em>MariaDB</em> maneja automáticamente las transacciones para los <em>triggers</em>. Es decir, si un <em>trigger</em> falla, la operación que lo activó (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) se deshace completamente. Si un <em>trigger</em> encuentra un error y no lo maneja internamente, el error se propaga a la consulta que activó el trigger.</p>
+<p>Recuperando información del error</p>
+<p>Cuando se produce un error y lo capturamos con un manejador, a menudo necesitamos conocer los detalles de lo que ha ocurrido: el código de error, el mensaje asociado o el estado SQL. Para ello, <em>MariaDB</em> proporciona la sentencia <a href="https://mariadb.com/kb/en/get-diagnostics/"><code>GET DIAGNOSTICS</code></a>, que permite recuperar la información de la última condición de error dentro del cuerpo de un manejador.
+Su sintaxis básica es:</p>
+<pre><code>GET DIAGNOSTICS CONDITION numCond
+    variable = propCond [, variable = propCond] ...;
+</code></pre>
+<p>donde:</p>
+<ul>
+<li><code>numCond</code>: indica qué condición queremos consultar. En la mayoría de los casos usaremos 1, ya que nos interesa la primera (y normalmente única) condición generada.</li>
+<li>
+<p><code>propCond</code> puede ser, entre otros:</p>
+</li>
+<li>
+<p><code>MESSAGE_TEXT</code>: el mensaje descriptivo del error.</p>
+</li>
+<li><code>MYSQL_ERRNO</code>: el código de error numérico de <em>MariaDB</em>.</li>
+<li><code>RETURNED_SQLSTATE</code>: el código <code>SQLSTATE</code> de 5 caracteres.</li>
+</ul>
+<p>Por ejemplo, dentro de un manejador podemos recuperar tanto el código como el mensaje del error y almacenarlos en variables de usuario:</p>
+<pre><code>DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+    GET DIAGNOSTICS CONDITION 1
+        @error_code = MYSQL_ERRNO,
+        @error_msg = MESSAGE_TEXT;
+
+    SELECT @error_code AS codigo, @error_msg AS mensaje;
+END;
+</code></pre>
+<p>Cabe destacar que <code>GET DIAGNOSTICS</code> solo tiene sentido dentro de un manejador, ya que es ahí donde existe una condición de error activa que consultar. Fuera de un manejador, la información diagnóstica puede estar vacía o corresponder a una operación anterior, lo que llevaría a resultados impredecibles.</p>
+<h4 id="manejadores-y-senales">Manejadores y Señales</h4>
+<p>Ahora que ya sabemos definir manejadores, condiciones y señales, vamos a ver cómo podemos utilizarlos de manera conjunta para hacer nuestro código más robusto.</p>
+<p>Por ejemplo, podemos lanzar una señal con un mensaje más específico asociado a una regla de negocio:</p>
+<pre><code>DELIMITER //
+
+CREATE OR REPLACE PROCEDURE validaFondos(codOp INT, fondos INT)
+BEGIN
+    DECLARE mensaje VARCHAR(255);
+
+    IF fondos &lt; 0 THEN
+        SET mensaje = CONCAT('Fondos insuficientes (', fondos, ') para la operación ', codOp);
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = mensaje;
+    END IF;
+END
+
+//
+</code></pre>
+<p>Y a continuación, en otro procedimiento, capturar dicha señal y mostrar el mensaje recibido. Para ello, usaremos <a href="https://mariadb.com/kb/en/get-diagnostics/"><code>GET DIAGNOSTICS</code></a> indicando que queremos recuperar la primera condición, y de ella, su mensaje de error:</p>
+<pre><code>DELIMITER //
+
+CREATE OR REPLACE PROCEDURE gestionaFondos()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLSTATE '45000'
+    BEGIN
+        -- Recuperamos el mensaje del error
+        GET DIAGNOSTICS CONDITION 1 @error_msg = MESSAGE_TEXT;
+        -- Lo mostramos por pantalla con un mensaje personalizado 
+        SELECT 'Error en la gestión de Fondos' as  mensaje_padre, @error_msg  AS mensaje_senyal;
+    END;
+
+    call validaFondos(1, 100);
+    call validaFondos(2, -100);
+    -- +--------------------------------+--------------------------------------------------+
+    -- | mensaje_padre                  | mensaje_senyal                                   |
+    -- +--------------------------------+--------------------------------------------------+
+    -- | Error en la gestión de Fondos  | Fondos insuficientes (-100) para la operación 2  |
+    -- +--------------------------------+--------------------------------------------------+
+    -- 1 row in set (0.001 sec)
+    call validaFondos(3, 200);
+END
+
+//
+
+DELIMITER ;
+call gestionaFondos();
+</code></pre>
+<p>Si queremos mejorar la legibilidad, recuerda que podemos definir una condición para poner un nombre a un código de error o estado SQL:</p>
+<pre><code>CREATE PROCEDURE gestionaFondos()
+BEGIN
+    DECLARE errorFondosInsuficientes CONDITION FOR SQLSTATE '45000';
+
+    DECLARE EXIT HANDLER FOR errorFondosInsuficientes
+        SELECT 'No hay fondos suficientes para la operación' AS mensaje;
+
+    call validaFondos(1, 100);
+    call validaFondos(2, -100);
+    call validaFondos(3, 200);
+END
+</code></pre>
+<p>Propagando señales</p>
+<p>Mediante <a href="https://mariadb.com/kb/en/resignal/"><code>RESIGNAL</code></a> podemos modificar o propagar un error capturado por un manejador. Debemos tener en cuenta que sólo podemos propagar una señal dentro de un manejador:</p>
+<pre><code>DELIMITER //
+
+CREATE OR REPLACE PROCEDURE procesarDatos(IN _CodEmp INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Recuperamos el mensaje de texto de la excepción capturada
+        GET DIAGNOSTICS CONDITION 1
+            @error_msg = MESSAGE_TEXT;
+
+        -- Personalizar el mensaje de error antes de re-lanzarlo
+        SET @nuevoMensaje = CONCAT('Error al procesar empleado ', _CodEmp, ': ', @error_msg);
+
+        RESIGNAL SET MESSAGE_TEXT = @nuevoMensaje;
+    END;
+
+    UPDATE empleado SET CodDep = &quot;NOEXISTE&quot; WHERE CodEmp = _CodEmp;
+END //
+
+DELIMITER ;
+
+call procesarDatos(5);
+-- ERROR 1406 (22001): Error al procesar empleado 5: Data too long for column 'CodDep' at row 1
+</code></pre>
+<p>También podemos usar <code>RESIGNAL</code> sin modificar el mensaje de error para simplemente propagar la señal al nivel superior, lo que es útil para delegar la gestión del error a un bloque de código externo o al programa cliente. Para ello, únicamente escribiremos <code>RESIGNAL;</code> dentro del manejador.</p>
+<p>Nos plantearemos propagar una señal cuando:</p>
+<ul>
+<li>queramos capturar un error, realizar alguna acción (como registrar en logs) y luego volver a lanzarlo.</li>
+<li>modificar el mensaje de error antes de propagarlo.</li>
+<li>necesitamos controlar errores en un nivel superior, por ejemplo, si un procedimiento llama a otro y queremos gestionar la excepción en el procedimiento principal.</li>
+</ul>
+<h3 id="transacciones-en-plsql">Transacciones en PL/SQL</h3>
+<p>Cuando trabajamos con transacciones, necesitamos poder controlar cuando sucede un error para deshacer las operaciones. Para ello, se utiliza un manejador de tipo <code>EXIT</code> para hacer <code>ROLLBACK</code> y deshacer la transacción. Si no se produce ningún error, se realizará el <code>COMMIT</code>.</p>
+<p>A nivel de código, se traduce en el siguiente esquema de código:</p>
+<pre><code>CREATE PROCEDURE transaccionEnMariaDB()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+        -- ERROR, WARNING
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+    -- Sentencias SQL
+    COMMIT;
+END
+</code></pre>
+<p>Por ejemplo, a partir de este esqueleto, definimos un ejemplo concreto, donde declaramos un manejador para gestionar un error y deshacer la transacción, o realizar un <code>COMMIT</code> si llega al final de la operación:</p>
+<pre><code>CREATE PROCEDURE procesoTransaccional(IN id_pedido INT)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SELECT 'Error en la transacción. Se ha revertido.' AS resultado;
+    END;
+
+    START TRANSACTION;
+
+    -- Operaciones que podrían fallar
+    UPDATE pedidos SET estado = 'procesado' WHERE id = id_pedido;
+    UPDATE inventario SET stock = stock - (SELECT cantidad FROM pedidos WHERE id = id_pedido);
+
+    COMMIT;
+
+    SELECT 'Transacción completada con éxito' AS resultado;
+END
+</code></pre>
+<p>Veamos un ejemplo sobre nuestra base de datos de <code>empresa</code>. Supongamos que queremos dar de alta a la vez a un empleado y a su hijo. Al insertar un empleado, se le generará automáticamente un código de empleado, el cual recuperaremos y lo usaremos a la hora de crear su primer hijo. Para recuperar el valor de un campo autoincrementable usaremos la función <a href="https://mariadb.com/kb/en/last_insert_id/"><code>LAST_INSERT_ID()</code></a>:</p>
+<pre><code>CREATE PROCEDURE insertEmpleadoHijo(_NomEmp VARCHAR(40), _FecNaEmp DATE, _NifEmp VARCHAR(9),
+    _SalEmp DECIMAL(12,2), _CodDep CHAR(5), _NomHi VARCHAR(40), _FecNaHi DATE)
+BEGIN
+    DECLARE newCodEmp INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO empleado (CodDep, FecInEmp, FecNaEmp, NifEmp, NomEmp, NumHi, SalEmp)
+        VALUES (_CodDep, now(), _FecNaEmp, _NifEmp, _NomEmp, 1, _SalEmp);
+    SET newCodEmp = LAST_INSERT_ID(); -- Recuperamos el código generado
+    INSERT INTO hijo (CodEmp, NumHij, FecNaHi, NomHi)
+        VALUES (newCodEmp, 1, _FecNaHi, _NomHi);
+
+    COMMIT;
+
+END;
+</code></pre>
+<p>El siguiente paso es ver un ejemplo completo del uso de manejador con transacciones y señales, simulando una transferencia entre dos cuentas bancarias:</p>
+<pre><code>DELIMITER //
+
+CREATE PROCEDURE transferir_fondos(
+    IN cuenta_origen INT,
+    IN cuenta_destino INT,
+    IN monto DECIMAL(10,2)
+)
+BEGIN
+    DECLARE saldo_actual DECIMAL(10,2);
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SELECT 'Transacción cancelada por error' AS resultado;
+    END;
+
+    START TRANSACTION;
+
+    SELECT saldo INTO saldo_actual FROM cuentas WHERE id = cuenta_origen;
+
+    -- Verificamos si hay fondos suficientes
+    IF saldo_actual &lt; monto THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Fondos insuficientes para realizar la transferencia';
+    END IF;
+
+    UPDATE cuentas SET saldo = saldo - monto WHERE id = cuenta_origen;
+    UPDATE cuentas SET saldo = saldo + monto WHERE id = cuenta_destino;
+
+    COMMIT;
+    SELECT 'Transferencia realizada con éxito' AS resultado;
+END //
+
+DELIMITER ;
+</code></pre>
+<h3 id="recomendaciones">Recomendaciones</h3>
+<p>Algunas consideraciones y consejos que debemos tener en mente a la hora de diseñar procedimientos y gestionar los errores son:</p>
+<ul>
+<li>Categorizar errores: Establece diferentes manejadores según la categoría del error, ya sean errores de datos (duplicados, restricciones), errores de sintaxis o permisos o errores de lógica de negocio.</li>
+<li>Registrar los errores en un sistema de <em>logging</em> para registrar los errores importantes:</li>
+</ul>
+<p>```
+  CREATE TABLE error_log (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      procedimiento VARCHAR(100),
+      codigo_error INT,
+      mensaje TEXT
+  );</p>
+<p>DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+      GET DIAGNOSTICS CONDITION 1
+          @errno = MYSQL_ERRNO,
+          @text = MESSAGE_TEXT;</p>
+<pre><code>  INSERT INTO error_log (procedimiento, codigo_error, mensaje) VALUES ('nombre_procedimiento', @errno, @text);
+
+  SELECT 'Ha ocurrido un error. Contacte al administrador.' AS mensaje;
+</code></pre>
+<p>END;
+  ```
+- Cuando definimos varios gestores de error, primero declararemos los manejadores para errores específicos y luego los generales.</p>
+<p>```
+  -- Manejador específico
+  DECLARE CONTINUE HANDLER FOR 1062 
+      SELECT 'Error: Entrada duplicada' AS mensaje;</p>
+<p>-- Manejador general (se ejecutará para otros errores)
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+      SELECT 'Error SQL general' AS mensaje;
+  ```
+- Proporcionar mensajes de error claros e informativos que ayuden a diagnosticar el problema.
+- Utilizar condiciones con nombres significativos para mejora la legibilidad del código.
+- Realizar validaciones preventivas, es decir, antes de realizar operaciones críticas para evitar errores.
+- Documentar los posibles errores que puede generar cada procedimiento y cómo manejarlos.</p>
+<h2 id="cursores">Cursores</h2>
+<p>Los <a href="https://mariadb.com/kb/en/cursor-overview/">cursores</a> nos permiten evaluar un conjunto de datos fila a fila. Dicho con otras palabras, un cursor almacena un conjunto de filas de una tabla en una estructura de datos que podemos ir recorriendo de forma secuencial.</p>
+<p>Al utilizarse sobre un conjunto de datos, sólo se pueden utilizar con sentencias <code>SELECT</code>.</p>
+<p>Propiedades:</p>
+<ul>
+<li>Sólo lectura: No permiten actualizar los datos.</li>
+<li><em>Nonscrollable</em>: sólo pueden ser recorridos en una dirección y no podemos saltarnos filas.</li>
+</ul>
+<p>Cursores en otros lenguajes</p>
+<p>En el módulo de <em>Programación</em> accederás a una base de datos desde Java, en principio, utilizando JDBC. Al realizar una consulta, recuperarás un <em>ResultSet</em> que no es más que un cursor al resultado de la sentencia SQL ejecutada. De ahí que el concepto que vamos a trabajar en este apartado sea extrapolable a otros módulos profesionales.</p>
+<h3 id="declaracion">Declaración</h3>
+<p>El primer paso es declarar el cursor mediante <a href="https://mariadb.com/kb/en/declare-cursor/"><code>DECLARE CURSOR</code></a>, del mismo modo que antes declarábamos una variable, crearemos nuestro cursor mediante una consulta <code>SELECT</code> con la siguiente sintaxis:</p>
+<pre><code>DECLARE nombreCursor [(parámetros)] CURSOR
+    FOR consultaSQL
+
+parámetros:
+   nombreParametro tipo
+</code></pre>
+<p>Por ejemplo:</p>
+<pre><code>DECLARE curClientes CURSOR FOR
+  select codigo_cliente, nombre_cliente from cliente
+</code></pre>
+<p>Una vez declarado, el cursor se abre y se recorre fila a fila hasta llegar al final. Para ello, realizaremos los siguientes pasos:</p>
+<ol>
+<li>Abriremos el cursor mediante <a href="https://mariadb.com/kb/en/open/"><code>OPEN nombreCursor</code></a>, momento en el que reserva memoria y ejecuta la consulta, colocando el puntero en la primera fila. Es importante recalcar que la definición del cursor no ejecuta la consulta, ya que la consulta realmente se realiza en este paso, al abrirlo. Una vez realizada, obtendrá los resultados y los mantendrá en memoria del SGBD mientras utilizamos el cursor.</li>
+<li>A continuación, se recorre con <a href="https://mariadb.com/kb/en/fetch/"><code>FETCH nombreCursor INTO listaVariables</code></a>, almacenando el contenido de la fila a la que apunta el puntero. De esta manera, <code>FETCH</code> recupera las filas una a una. Esta es la parte principal del cursor, donde rellenamos variables, modificamos datos y hacemos cualquier otra cosa que queramos hacer con ellos. Trabajamos con esa única fila hasta que volvamos a hacer <code>FETCH</code> de otra fila mientras recorremos el conjunto de resultados, y pararemos cuando lleguemos al final del conjunto de datos.</li>
+<li>Para comprobar el final dentro de un bloque utilizaremos <a href="https://mariadb.com/kb/en/declare-handler/"><code>DECLARE HANDLER FOR NOT FOUND</code></a>, donde bien gestionaremos el final del bucle o cerraremos el cursor mediante <a href="https://mariadb.com/kb/en/close/"><code>CLOSE nombreCursor</code></a>, el cual libera el contenido del cursor de la memoria del servidor. Este manejador se lanzará cuando <code>FETCH</code> no encuentre más filas.</li>
+</ol>
+<pre><code>---
+config:
+  look: handDrawn
+---
+flowchart TD
+  A([DECLARE nombreCursor CURSOR FOR sql]) --&gt; B[OPEN nombreCursor]
+  B --&gt; C{WHILE}
+  C -- Siguiente registro     --&gt; D[FETCH nombreCursor INTO variables]
+  D --&gt; E{{Operaciones con los datos}}
+  E --&gt; C
+  C -- No quedan registros ----&gt; F[CLOSE]
+</code></pre>
+<h3 id="probando-los-cursores">Probando los cursores</h3>
+<p>Comencemos con un ejemplo muy sencillo donde únicamente vamos a copiar el código y el nombre de un empleado en una nueva tabla. Para ello, creamos la tabla <code>empleado_copia</code> mediante:</p>
+<pre><code>CREATE TABLE empleado_copia (
+    CodEmp INT PRIMARY KEY,
+    NomEmp VARCHAR(40)
+);
+</code></pre>
+<p>A continuación, vamos a recorrer la tabla <code>empleado</code> para recuperar cada empleado y copiar únicamente el código y el nombre e insertarlos en la tabla copia que acabamos de crear (este ejemplo no tienen ninguna utilidad más allá de demostrar cómo se emplean los cursores, ya que esta misma operación se podría realizar mediante un <code>INSERT ... SELECT</code>):</p>
+<pre><code>DELIMITER //
+CREATE OR REPLACE PROCEDURE ejemploCursorEmpleado()
+BEGIN
+  DECLARE fin INT DEFAULT FALSE; -- (1)!
+  DECLARE cod INT;
+  DECLARE nom VARCHAR(40);
+  DECLARE cur CURSOR FOR SELECT CodEmp, NomEmp FROM empleado;  -- (2)!
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;  -- (3)!
+
+  OPEN cur; -- (4)!
+
+  WHILE fin = FALSE DO -- (5)!
+        FETCH cur INTO cod, nom; -- (6)!
+
+        IF fin = FALSE THEN
+            INSERT INTO empleado_copia VALUES (cod, nom);
+        END IF;
+  END WHILE;
+
+  CLOSE cur; -- (7)!
+END;
+//
+
+DELIMITER ;
+</code></pre>
+<ol>
+<li>Declaramos una variable <code>fin</code> a modo de <em>flag</em> para controlar el final del cursor</li>
+<li>Declaramos un cursor para recorrer la tabla empleado</li>
+<li>Declaramos el manejador de errores</li>
+<li>Abrimos el cursor</li>
+<li>Creamos el bucle para recorrer el cursor</li>
+<li>Recuperamos las columnas del registro al que apunta el cursor</li>
+<li>Cerramos el cursor</li>
+</ol>
+<p>Cabe destacar la necesidad de comprobar el valor de la variable <em>flag</em> dentro del bucle, ya que el gestor de errores se ejecutará tras la operación <code>FETCH</code>, y por lo tanto, necesitamos en la línea 15 comprobar el valor de la variable <code>fin</code> antes de realizar nuestra operación de negocio.</p>
+<p>Sigamos con un caso más completo. Supongamos que tenemos dos tablas con la misma cantidad de registros, y queremos rellenar una tercera a partir de los datos de estas dos:</p>
+<pre><code>DROP DATABASE IF EXISTS pruebas;
+CREATE DATABASE pruebas;
+USE pruebas;
+
+CREATE TABLE t1 (
+  id INT UNSIGNED PRIMARY KEY,
+  datos VARCHAR(16)
+);
+
+CREATE TABLE t2 (
+  id INT UNSIGNED
+);
+
+CREATE TABLE t3 (
+  datos VARCHAR(16),
+  id INT UNSIGNED
+);
+
+INSERT INTO t1 VALUES (1, 'A');
+INSERT INTO t1 VALUES (2, 'B');
+INSERT INTO t1 VALUES (30, 'C');
+
+INSERT INTO t2 VALUES (10);
+INSERT INTO t2 VALUES (20);
+INSERT INTO t2 VALUES (3);
+</code></pre>
+<p>En este caso, vamos a rellenar la tercera tabla con el menor identificador, y los datos de la primera:</p>
+<pre><code>DELIMITER //
+CREATE OR REPLACE PROCEDURE ejemploDosCursores()
+BEGIN
+  DECLARE fin INT DEFAULT FALSE; -- (1)!
+  DECLARE a VARCHAR(16);
+  DECLARE b, c INT;
+  DECLARE cur1 CURSOR FOR SELECT id, datos FROM pruebas.t1; -- (2)!
+  DECLARE cur2 CURSOR FOR SELECT id FROM pruebas.t2;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE; -- (3)!
+
+  OPEN cur1; -- (4)!
+  OPEN cur2;
+
+  WHILE fin = FALSE DO -- (5)!
+        FETCH cur1 INTO b, a; -- (6)!
+        FETCH cur2 INTO c;
+
+        IF fin = FALSE THEN
+            IF b &lt; c THEN
+                INSERT INTO pruebas.t3 VALUES (a,b);
+            ELSE
+                INSERT INTO pruebas.t3 VALUES (a,c);
+            END IF;
+        END IF;
+  END WHILE;
+
+  CLOSE cur1; -- (7)!
+  CLOSE cur2;
+END;
+//
+</code></pre>
+<ol>
+<li>Declaramos una variable <code>fin</code> a modo de <em>flag</em> para controlar el final del cursor</li>
+<li>Declaramos dos cursores, uno por cada tabla a recorrer</li>
+<li>Declaramos el manejador de errores</li>
+<li>Abrimos los cursores</li>
+<li>Creamos el bucle para recorrer el cursor</li>
+<li>Recuperamos los registros</li>
+<li>Cerramos los cursores</li>
+</ol>
+<p>Si invocamos al procedimiento, obtendremos:</p>
+<pre><code>DELIMITER ;
+CALL ejemploDosCursores();
+SELECT * FROM t3;
+-- +-------+------+
+-- | datos | id   |
+-- +-------+------+
+-- | A     |    1 |
+-- | B     |    2 |
+-- | C     |    3 |
+-- +-------+------+
+-- 3 rows in set (0.000 sec)
+</code></pre>
+<p>Pensando en conjuntos</p>
+<p>Desde el principio del bloque de consultas, hemos aprendido a trabajar con datos pensando en conjuntos de datos completos, ya que le decimos al SGBD lo que queremos recuperar o evaluar, y el motor de consultas averigua la mejor manera de completar la consulta.</p>
+<p>Cuando en la unidad anterior empezamos a utilizar las estructuras de control dentro de los procedimientos almacenados, empleamos un enfoque imperativo, al indicarle al SGBD cómo realizar las operaciones.</p>
+<p>El motivo por el que los cursores se siguen utilizando es que en ocasiones es necesario indicarle al SGBD los pasos que queremos realizar. Dicho esto, este enfoque imperativo normalmente supone un peor rendimiento al realizar un bloqueo excesivo y hacer un mayor consumo de los recursos del motor de base de datos que si hiciéramos un enfoque basado en conjuntos.</p>
+<p>Dicho esto, siempre que sea posible, tendrá mejor rendimiento una o más consultas que el uso de cursores, aunque en contadas ocasiones necesitarás evaluar cada fila de un conjunto de forma individual y necesitarás el uso de cursores.</p>
+<p>Una vez que ya sabemos cómo se crean, veamos un ejemplo sobre nuestra base de datos <code>empresa</code>. La empresa se está planteando ampliar la cantidad de departamentos para fomentar la conciliación familiar. De esta manera, aquellos departamentos que tengan más de 2 trabajadores con hijos se dividirán en dos, y sus empleados se repartirán entre ellos. Para ello, en una nueva tabla <code>departamentoFamiliar</code> almacenaremos una copia de los departamentos, junto a las nuevas versiones familiares. Para crear una tabla con la misma estructura, haciendo uso de <a href="https://mariadb.com/kb/en/create-table/#create-table-like"><code>CREATE TABLE ... LIKE</code></a> podemos crear una tabla que copia la estructura de otra:</p>
+<p>ROW TYPE OF</p>
+<p>Cuando queremos recuperar todos los campos de un registro, en vez de definir una variable por cada campo, podemos declarar una variable cuyo tipo será una fila de una tabla. Para ello, declararemos una variable mediante <a href="https://mariadb.com/kb/en/declare-variable/#type-of-row-type-of"><code>DECLARE ... ROW TYPE OF</code></a>:</p>
+<pre><code>DECLARE rowDep ROW TYPE OF departamento;
+</code></pre>
+<p>Y posteriormente accederemos a los campos mediante la notación <code>.</code>:</p>
+<pre><code>SET newPreAnu = rowDep.PreAnu / 2;
+</code></pre>
+<pre><code>USE empresa;
+
+CREATE OR REPLACE TABLE departamentoFamiliar LIKE departamento;
+
+DELIMITER //
+CREATE OR REPLACE PROCEDURE dividirDepartamentos()
+BEGIN
+  DECLARE rowDep ROW TYPE OF departamento; -- colocamos toda la fila en una variable
+  DECLARE newCodDep CHAR(5);
+  DECLARE newNomDep VARCHAR(40);
+  DECLARE newPreAnu DECIMAL(12,2);
+  DECLARE fin INT DEFAULT FALSE;
+  DECLARE cur CURSOR FOR select d.* from departamento d join empleado e on d.CodDep = e.CodDep
+                         where e.NumHi&gt;0 group by d.CodDep having (count(e.CodEmp)&gt;1);
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+
+  OPEN cur;
+
+  WHILE fin = FALSE DO
+    FETCH cur INTO rowDep;
+
+    IF fin = FALSE THEN
+        SET newPreAnu = rowDep.PreAnu / 2; -- dividimos el presupuesto entre 2
+
+        INSERT INTO departamentoFamiliar select * from departamento where CodDep = rowDep.CodDep;
+        UPDATE departamentoFamiliar set PreAnu = newPreAnu where CodDep = rowDep.CodDep;
+
+        SET newNomDep = CONCAT( rowDep.NomDep, &quot; Familiar&quot; ); -- añadimos Familiar al nombre segundo departamento
+        SET newCodDep = CONCAT( SUBSTRING(rowDep.CodDep, 1, 4), &quot;2&quot;); -- cambiamos el código del nuevo departamento
+
+        INSERT INTO departamentoFamiliar VALUES (newCodDep, rowDep.CodEmpDir, rowDep.CodDep, rowDep.CodCen, newNomDep, newPreAnu, rowDep.TiDir);
+    END IF;
+  END WHILE;
+
+  CLOSE cur;
+END;
+// 
+
+DELIMITER ;
+CALL dividirDepartamentos();
+SELECT * FROM departamentoFamiliar;
+-- +--------+-----------+-----------+--------+-------------------------------+-------------+-------+
+-- | CodDep | CodEmpDir | CodDepDep | CodCen | NomDep                        | PreAnu      | TiDir |
+-- +--------+-----------+-----------+--------+-------------------------------+-------------+-------+
+-- | PROZ2  |         9 | PROZS     | FAZS   | Producción Zona Sur Familiar  | 54000000.00 | P     |
+-- | PROZS  |         9 | JEFZS     | FAZS   | Producción Zona Sur           | 54000000.00 | P     |
+-- +--------+-----------+-----------+--------+-------------------------------+-------------+-------+
+-- 2 rows in set (0.000 sec)
+</code></pre>
+<h3 id="uso-de-parametros">Uso de parámetros</h3>
+<p>Los cursores pueden utilizarse junto con parámetros de entrada y salida en procedimientos almacenados.</p>
+<p>Para ello, al declarar el cursor indicaremos los parámetros, que usaremos en la sentencia del cursor. Posteriormente, cuando abrimos el cursor, le pasaremos los argumentos al cursor que sustituirán a los parámetros.</p>
+<p>Por ejemplo, supongamos que tenemos la tabla <code>t1</code> con valores diversos, y queremos seleccionar los que estén comprendidos entre un determinado rango (el cual definimos mediante parámetros), y asignarles a todos ellos el valor <code>s8a</code> a un columna determinada:</p>
+<pre><code>CREATE OR REPLACE TABLE t1 (a INT PRIMARY KEY, b VARCHAR (32));
+
+INSERT INTO t1(a) VALUES (1),(2),(3),(4),(5),(6),(7);
+
+DELIMITER //
+CREATE OR REPLACE PROCEDURE procCursorConParametros(min INT, max INT)
+BEGIN
+    DECLARE fin INT DEFAULT FALSE;
+    DECLARE va INT;
+    DECLARE cur CURSOR(pmin INT, pmax INT) FOR
+        SELECT a FROM t1 WHERE a BETWEEN pmin AND pmax;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+
+    OPEN cur(min, max);
+    FETCH cur INTO va;
+
+    WHILE NOT fin DO
+        UPDATE t1 SET b=&quot;s8a&quot; WHERE a=va;
+        FETCH cur INTO va;
+    END WHILE;
+
+    CLOSE cur; 
+END;
+
+//
+DELIMITER ;
+call procCursorConParametros(3,5);
+
+select * from t1;
+-- +---+------+
+-- | a | b    |
+-- +---+------+
+-- | 1 | NULL |
+-- | 2 | NULL |
+-- | 3 | s8a  |
+-- | 4 | s8a  |
+-- | 5 | s8a  |
+-- | 6 | NULL |
+-- | 7 | NULL |
+-- +---+------+
+-- 7 rows in set (0.001 sec)
+</code></pre>
+<h3 id="cursores-con-for">Cursores con FOR</h3>
+<p>A partir de la versión 10.3, <em>MariaDB</em> soporta una sintaxis simplificada para recorrer cursores mediante <a href="https://mariadb.com/docs/server/reference/sql-statements/programmatic-compound-statements/for"><code>FOR</code></a>, que elimina la necesidad de declarar variables auxiliares, manejadores <code>NOT FOUND</code> y la lógica de <code>OPEN</code> / <code>FETCH</code> / <code>CLOSE</code>:</p>
+<p>Si retomamos el ejemplo anterior donde copiábamos empleados:</p>
+<pre><code>DELIMITER //
+CREATE OR REPLACE PROCEDURE ejemploCursorEmpleado()
+BEGIN
+  DECLARE fin INT DEFAULT FALSE;
+  DECLARE cod INT;
+  DECLARE nom VARCHAR(40);
+  DECLARE cur CURSOR FOR SELECT CodEmp, NomEmp FROM empleado;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET fin = TRUE;
+
+  OPEN cur;
+
+  WHILE fin = FALSE DO
+        FETCH cur INTO cod, nom;
+
+        IF fin = FALSE THEN
+            INSERT INTO empleado_copia VALUES (cod, nom);
+        END IF;
+  END WHILE;
+
+  CLOSE cur;
+END;
+//
+DELIMITER ;
+</code></pre>
+<p>Con la nueva sintaxis, desaparecen la variable <em>flag</em>, el <code>DECLARE HANDLER</code>, el <code>OPEN</code>, el <code>FETCH</code>, el <code>WHILE</code> con su
+comprobación interna, y el <code>CLOSE</code>. ,</p>
+<pre><code>DELIMITER //
+CREATE OR REPLACE PROCEDURE ejemploCursorEmpleadoFor()
+BEGIN
+  FOR rec IN (SELECT CodEmp, NomEmp FROM empleado)  -- (1)!
+  DO
+    INSERT INTO empleado_copia VALUES (rec.CodEmp, rec.NomEmp);  -- (2)!
+  END FOR;
+END;
+//
+DELIMITER ;
+</code></pre>
+<ol>
+<li>La variable <code>rec</code> se crea implícitamente y contiene los campos de cada fila</li>
+<li>Los campos del registro son accesibles mediante la notación punto (<code>rec.CodEmp</code>, <code>rec.NomEmp</code>).</li>
+</ol>
+<p>Cursor declarado vs. consulta en línea</p>
+<p>El ejemplo anterior utiliza una consulta directamente dentro del <code>FOR</code>. También es posible usar un cursor previamente declarado:</p>
+<pre><code>DECLARE cur CURSOR FOR SELECT CodEmp, NomEmp FROM empleado;
+
+FOR rec IN cur
+DO
+    INSERT INTO empleado_copia VALUES (rec.CodEmp, rec.NomEmp);
+END FOR;
+</code></pre>
+<p>En ambos casos, <em>MariaDB</em> se encarga de abrir y cerrar el cursor automáticamente.</p>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Sintaxis SQL oficial de <a href="https://www.postgresql.org/docs/current/sql-commands.md">PostgreSQL</a> y <a href="https://mariadb.com/kb/en/sql-statements/">MariaDB</a>.</li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em><a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u7/introduccio.md">Programació de base de dades</a></em> - <em>Institut Obert de Catalunya</em>.</p>
+</li>
+<li><a href="https://josejuansanchez.org/bd/unidad-12-teoria/index.md">Triggers, procedimientos y funciones en MySQL</a> de <em>José Juan Sánchez</em>.</li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut6/recopila.md">Programación de bases de datos</a> de <em>Javier Gutiérrez</em>.</li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema5/index.md">Introducción a PL/SQL</a> de gestionbasesdatos.readthedocs.io</li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<p>Bases de datos empleadas</p>
+<p>Recuerda que estas actividades se basan en las siguientes bases de datos</p>
+<p>empresaretail</p>
+<ul>
+<li>DDL y DML: <a href="resources/06bd-empresa.sql"><code>bd-empresa.sql</code></a></li>
+</ul>
+<p><img alt="" src="images/06bd-empresa.png" title="Modelo físico de la BD empresa" /></p>
+<p>Modelo físico de la BD empresa</p>
+<ul>
+<li>DDL y DML: <a href="resources/06bd-retail.sql"><code>bd-retail.sql</code></a></li>
+<li>Claves ajenas: <a href="resources/06bd-retail-fk.sql"><code>bd-retail-fk.sql</code></a></li>
+</ul>
+<p><img alt="" src="images/06bd-retail.png" title="Modelo físico de la BD retail" /></p>
+<p>Modelo físico de la BD retail</p>
+<ul>
+<li>
+<p><strong>AC1101</strong>. (RABD.5 // CE5h // 3p) En la base de datos <code>empresa</code>, crea las siguientes tablas:</p>
+</li>
+<li>
+<p><code>estadisticas</code>: tabla con estadísticas acumuladas</p>
+<ul>
+<li><code>id</code>: entero autoincrementable (clave primaria).</li>
+<li><code>fecha</code>: <em>timestamp</em> con la fecha actual.</li>
+<li><code>totalEmpleados</code>: entero que almacena el total de empleado en la empresa</li>
+<li><code>ultimoMesEmpleados</code>: entero que almacena los empleados dados de alta en el último mes;</li>
+<li><code>totalHabilidadEmp</code>: entero que almacena el total de habilidades de los empleados en la empresa;</li>
+</ul>
+</li>
+<li><code>contador</code>: tabla que contendrá sólo una fila<ul>
+<li><code>id</code>: entero autoincrementable (clave primaria).</li>
+<li><code>fecha</code>: <em>timestamp</em> con la fecha actual.</li>
+<li><code>total</code>: entero inicializado a 0, almacenará el total de ejecución de los eventos,</li>
+<li><code>mensual</code>: entero inicializado a 0, almacenará el total de ejecución de los eventos durante el último mes.</li>
+</ul>
+</li>
+</ul>
+<p>Sobre estas tablas, se pide:</p>
+<ol>
+<li>Crea un evento (<code>ac1101evento3min</code>) que se ejecute dentro de tres minutos y que inserte en <code>contador</code> un registro con todos los valores a 0.</li>
+<li>Crea un evento (<code>ac1101evento5min</code>) que se ejecute cada 5 minutos y que, haciendo uso de un procedimiento almacenado, inserte en <code>estadisticas</code> un registro con los datos actualizados. Además, modificará la tabla <code>contador</code> incrementando en uno los valores de <code>total</code> y <code>mensual</code>. Para comprobar su funcionamiento, inserta un nuevo empleado y verifica que se han modificado los valores de la tabla <code>estadisticas</code>.</li>
+<li>Crea un evento (<code>ac1101eventoDiarioLunes</code>) que se ejecute de forma diaria, comenzando su ejecución el lunes a las 8:00, y que, haciendo uso de un procedimiento almacenado, inserte un nuevo registro en <code>estadisticas</code>. Además, modificará la tabla <code>contador</code> incrementando en uno los valores de los campos <code>total</code> y <code>mensual</code>.</li>
+<li>Crea un evento (<code>ac1101eventoMensual</code>) que se ejecute cada mes a partir del momento de su lanzamiento y que, haciendo uso de un procedimiento almacenado, elimine las estadísticas que tienen más de un año y ponga el valor del contador mensual a 0.</li>
+<li>Deshabilita el evento <code>ac1101eventoDiarioLunes</code>.</li>
+</ol>
+<p>Además del código fuente de las sentencias, tras haberlos creado y lanzado, se pide comprobar qué eventos están pendientes de ejecutar. ¡No olvides habilitar el programador de eventos!</p>
+<ul>
+<li>
+<p><strong>AR1102</strong>. (RABD.5 // CE5h // 3p) Sobre la base de datos <code>empresa</code>, haciendo uso de eventos, se pide:</p>
+</li>
+<li>
+<p>Haz que el día 1 de Mayo del 2025 a las 23:15 se guarde una copia de los datos de la tabla <code>departamento</code> en una nueva tabla llamada <code>dept_copia_temp</code>.</p>
+</li>
+<li>Modifica el evento para que se ejecute desde hoy hasta dentro de un año y que lo haga cada mes.</li>
+<li>Ejecuta la orden que muestre el momento en que se va a ejecutar.</li>
+<li>
+<p>Haz que el día 1 de enero de cada año se incrementan los salarios de los directivos de cada departamento un 5%. Esta actualización se debe producir durante 5 años a partir del actual.</p>
+</li>
+<li>
+<p><strong>AC1103</strong>. (RABD.5 // CE5h // 3p) Utilizando la tabla <code>alumnado</code> y las funciones y procedimientos creados en la actividad <a href="10plsql.html#AC1010">AC1010</a> de la unidad anterior, se pide:</p>
+</li>
+<li>
+<p>Crea un <em>trigger</em> (<code>ac1103triggerCrearEmailBeforeInsert</code>) sobre la tabla <code>alumnado</code>, para que si el email a insertar es nulo, le asigne uno automáticamente. Debes utilizar la función <code>crearEmail</code>.</p>
+</li>
+<li>
+<p>Crea un <em>trigger</em> (<code>ac1103triggerGuardarEmailAfterUpdate</code>) sobre la tabla <code>alumnado</code>, para que cada vez que se modifica el email (sólo si el email realmente ha cambiado), inserte un nuevo registro en la tabla <code>logCambiosEmail</code>, cuyos campos son:</p>
+<ul>
+<li><code>id</code>: clave primaria (entero autonumérico)</li>
+<li><code>idAlumno</code>: id del alumno (entero)</li>
+<li><code>fechaHora</code>: marca de tiempo con el instante del cambio (fecha y hora)</li>
+<li><code>oldEmail</code>: valor anterior del email (cadena de caracteres)</li>
+<li><code>newEmail</code>: nuevo valor con el que se ha actualizado</li>
+</ul>
+</li>
+</ul>
+<p>Además de código de los disparadores, se deben adjuntar algunas sentencias SQL para comprobar que funcionan correctamente, mostrando el contenido de las tablas antes y después de las operaciones.</p>
+<ul>
+<li>
+<p><strong>AC1104</strong>. (RABD.5 // CE5h // 3p) Utilizando las tablas, funciones y procedimiento de la actividad anterior, se pide:</p>
+</li>
+<li>
+<p>Crea un <em>trigger</em> (<code>ac1104triggerGuardarAlumnosAfterDelete</code>) sobre la tabla <code>alumnado</code>, para que cada vez que se elimine un alumno, inserte un nuevo registro en la tabla <code>logAlumnosEliminados</code>, cuyos campos son:</p>
+<ul>
+<li><code>id</code>: clave primaria (entero autonumérico)</li>
+<li><code>idAlumno</code> (entero)</li>
+<li><code>fechaHora</code>: marca de tiempo</li>
+<li><code>nombre</code>: nombre del alumno (cadena de caracteres)</li>
+<li><code>apellido</code> (cadena de caracteres)</li>
+<li><code>email</code> (cadena de caracteres)</li>
+<li>Crea un <em>trigger</em> (<code>ac1104triggerMensajeAfterDelete</code>) sobre la tabla <code>alumnado</code> y que se ejecute tras <code>ac1104triggerGuardarAlumnosAfterDelete</code>, para que cada vez que se elimine un alumno, almacene en la tabla <code>mensajes</code> un texto similar a <em>"Se ha eliminado al alumno XXX con email YYY a las ZZ:ZZ"</em>, a partir de la información almacenada en la tabla <code>logAlumnosEliminados</code>.</li>
+</ul>
+<p>La estructura de la tabla <code>mensajes</code> es:</p>
+<ul>
+<li><code>id</code>: clave primaria (entero autonumérico)</li>
+<li><code>fechaHora</code>: marca de tiempo</li>
+<li><code>texto</code> (cadena de caracteres)</li>
+</ul>
+</li>
+</ul>
+<p>Además del código de los disparadores, se deben adjuntar algunas sentencias SQL para comprobar que funcionan correctamente, mostrando el contenido de las tablas antes y después de las operaciones. Finalmente, debes contestar a estas preguntas: ¿Qué ocurre si el primer <em>trigger</em> falla? ¿Se ejecuta el segundo?</p>
+<ul>
+<li>
+<p><strong>AP1105</strong>. (RABD.5 // CE5j // 3p) Sobre la base de datos <code>empresa</code>, se pide:</p>
+</li>
+<li>
+<p>Crea el trigger <code>ap1105triggerHolaHijo</code> de manera que al insertar un nuevo hijo en la tabla <code>hijo</code>, automáticamente incremente el atributo <code>NumHi</code> de la tabla <code>empleado</code> del empleado correspondiente.</p>
+</li>
+<li>
+<p>Crea el trigger homónimo <code>ap1105triggerAdiosHijo</code> por si se diera el caso que falleciera el hijo de un empleado/a.</p>
+</li>
+<li>
+<p><strong>AC1106</strong>. (RABD.5 // CE5j // 3p) Siguiendo con la tabla <code>alumnado</code>, se pide:</p>
+</li>
+<li>
+<p>Crea un procedimiento llamado <code>ac1106insertarAlumno</code> que reciba como entrada los cuatro datos de un alumno (<code>id</code>, <code>nombre</code>, <code>apellidos</code>, <code>curso</code>) como parámetros de entrada y los inserte en la tabla. Recuerda que el campo <code>email</code> se rellena automáticamente a través del trigger <code>ac1103triggerCrearEmailBeforeInsert</code>.</p>
+</li>
+</ul>
+<p>El procedimiento devolverá como salida un parámetro llamado <code>error</code> que tendrá un valor igual a <code>0</code> si la operación se ha podido realizar con éxito o <code>1</code> en caso contrario. Deberá manejar los errores que puedan ocurrir cuando se intenta insertar una fila que contiene una clave primaria repetida.</p>
+<ol>
+<li>
+<p>Escribe un procedimiento (<code>ac1106nombreAlumnoIfCount</code>) que muestre el nombre de un alumno dado su código. En caso de que no se encuentre, devolverá <code>Alumn@ no encontrado</code> en un parámetro de salida.</p>
+<ol>
+<li>Utiliza <code>IF</code> para contar si ha encontrado al alumno.</li>
+<li>Crea un nuevo procedimiento (<code>ac1106nombreAlumnoHandler</code>) pero ahora utiliza un manejador de errores (sin usar <code>IF</code>)</li>
+<li>Debes comprobar el error <code>NOT FOUND</code>.</li>
+<li>La consulta debe guardar el resultado en la variable de salida mediante <code>SELECT … INTO</code>.</li>
+<li>Con la misma idea que el anterior, escribe un procedimiento (<code>ac1106nombreAlumnoIfNombre</code>) el cual directamente recupere el nombre del alumno (sin contar previamente), y dependiendo de si lo encuentra o no, rellene el parámetro de salida con el valor adecuado.</li>
+<li>Crea un procedimiento llamado <code>ac1106upsertAlumno</code>, que con la misma idea que <code>ac1106insertarAlumno</code>, pero en el caso de que el alumno ya exista, y gestionando la captura de <code>SQLException</code>, modificará los datos de dicho alumno con los datos recibidos como parámetros.</li>
+<li>Con la misma idea que el anterior, crea un procedimiento llamado <code>ac1106upsertAlumnoCallInsert</code>, pero en esta ocasión, invoca a <code>ac1106insertarAlumno</code> y realiza la actualización a partir del error devuelto por el procedimiento de inserción.</li>
+</ol>
+</li>
+<li>
+<p><strong>AC1107</strong>. (RABD.5 // CE5j // 3p) Sobre la base de datos <code>empresa</code>, crea una tabla que se llame <code>salarios</code> a partir del siguiente DDL:</p>
+</li>
+</ol>
+<p><code>CREATE TABLE salarios (
+      id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      salario DECIMAL(12,2) check (salario &gt; 0),
+      codigo_empleado INT
+  );</code></p>
+<p>Además, crea una tabla <code>log_errores</code> a partir del siguiente DDL:</p>
+<p><code>CREATE TABLE log_errores (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+      codigo_error INT,
+      mensaje VARCHAR(255),
+      origen VARCHAR(100)
+  );</code></p>
+<p>Escribe los triggers <code>ac1107triggerSalariosEmpleadoAfterInsert</code> y <code>ac1107triggerSalariosEmpleadoAfterUpdate</code> que nos permita llevar un control de las modificaciones en los salarios de los empleados. Los disparadores se ejecutarán después de cada inserción o modificación (si ha cambiado el salario), insertando un registro en la tabla <code>salarios</code>.</p>
+<p>Los <em>triggers</em> deben realizar una gestión correcta de los errores de manera que, si sucede algo inesperado, se inserte un registro en <code>log_errores</code>. Para recuperar el código y el mensaje de error debes ejecutar <code>GET DIAGNOSTICS CONDITION 1 @error_msg = MESSAGE_TEXT, @error_code = MYSQL_ERRNO;</code>. Finalmente, la columna <code>origen</code> de la tabla <code>log_errores</code> almacenará el nombre del <em>trigger</em> que ha lanzado el error.</p>
+<p>Además del código de los disparadores, se deben adjuntar algunas sentencias SQL para comprobar que funcionan correctamente (y también qué sucede cuando no), mostrando el contenido de las tablas antes y después de las operaciones.</p>
+<ul>
+<li>
+<p><strong>AC1108</strong>. (RABD.5 // CE5h, CE5j // 3p) Sobre la base de datos <code>empresa</code> y haciendo uso de señales, se pide:</p>
+</li>
+<li>
+<p>El procedimiento <code>ac1108salariosHabilidad</code> que reciba como argumento el nombre de una habilidad y muestre el total de los salarios de los empleados que tienen dicha habilidad. Si no hubiera ningún empleado, lanzará una señal con el mensaje "<em>Para la habilidad XXXX no hay ningún empleado existente</em>". Si la habilidad no existe, el mensaje será "<em>La habilidad XXX no existe</em>".</p>
+</li>
+<li>
+<p>El trigger <code>ac1108triggerHijoAfterInsert</code> que, tras insertar un hijo, compruebe que si el número de hijo es el mayor (de entre sus herman@s), tenga una fecha de nacimiento menor a la de sus herman@s. Si no fuera así, lanzará una señal con el mensaje "<em>El hijo XXX debe ser menor que su hermano YYY</em>".</p>
+</li>
+<li>
+<p><strong>AC1109</strong>. (RABD.5 // CE5j // 3p) Crea la base de datos <code>cine</code> con las siguientes tablas, e inserta datos de prueba:</p>
+</li>
+<li>
+<p>Tabla <code>cuentas</code>:</p>
+<ul>
+<li><code>idCuenta</code>: entero sin signo (PK).</li>
+<li><code>saldo</code>: real sin signo.</li>
+</ul>
+</li>
+<li>Tabla <code>entradas</code>:<ul>
+<li><code>idButaca</code>: entero sin signo (PK).</li>
+<li><code>nif</code>: cadena de 9 caracteres.</li>
+</ul>
+</li>
+</ul>
+<p>Crear un procedimiento llamado <code>ac1109comprarEntrada</code> que reciba 3 parámetros de entrada (<code>nif</code>, <code>idCuenta</code>, <code>idButaca</code>) y devuelva como salida un parámetro llamado <code>error</code> que tendrá un valor igual a <code>0</code> si la operación se ha podido realizar con éxito o <code>1</code> en caso contrario.</p>
+<p>Pasos del procedimiento de compra:</p>
+<ol>
+<li>Inicia una transacción.</li>
+<li>Actualiza <code>cuentas.saldo</code> cobrando <code>5</code> euros a la cuenta con el <code>idCuenta</code> adecuado. Debes comprobar que la cuenta tiene saldo suficiente y que la cuente existe.</li>
+<li>Inserta una fila en la tabla <code>entradas</code> indicando la butaca (<code>idButaca</code>) que acaba de comprar el usuario (<code>nif</code>), siempre y cuando la entrada no estuviera asignada previamente a ningún usuario.</li>
+<li>Comprueba si ha ocurrido algún error en las operaciones anteriores. Si todo va bien aplica un <code>COMMIT</code> a la transacción y si ha ocurrido algún error haz <code>ROLLBACK</code>, y muestra un error con un mensaje informativo.</li>
+</ol>
+<p>A continuación, duplica el procedimiento llamándolo <code>ac1109comprarEntradaSenyales</code>. Elimina el parámetro error, y cuando suceda alguna anomalía, además de hacer un <code>ROLLBACK</code>, lanza una señal en cada caso con el mensaje adecuado.</p>
+<ul>
+<li>
+<p><strong>AP1110</strong>. (RABD.5 // CE5h, CE5j // 3p) En la actividad <a href="#AP1105">AP1105</a> se planteaba actualizar la cantidad de hijos de un empleado mediante un disparador asociado a la inserción de un nuevo registro en la tabla <code>hijo</code>. Realmente, es mejor que ambas operaciones formen parte de una transacción y que se gestionen dentro de un procedimiento almacenado. Dicho esto, se pide:</p>
+</li>
+<li>
+<p>Elimina el trigger <code>ap1105triggerHolaHijo</code>.</p>
+</li>
+<li>Crea la función <code>ap1110funcCompruebaHijo</code> que valide, para un empleado, que la cantidad de hijos almacenados en la tabla <code>hijo</code> concuerda con el atributo <code>NumHi</code> de la tabla <code>empleado</code>. En caso contrario, debe lanzar una señal con un mensaje adecuado.</li>
+<li>Crea el procedimiento almacenado <code>ap1110procInsertaHijo</code>, que haciendo un buen uso de las transacciones y la gestiones de errores, y tras validar que los datos existen previamente, tanto inserte los datos en la tabla <code>hijo</code> como modifique la columna <code>NumHi</code> de la tabla <code>empleado</code>. En caso de error, debe lanzar una señal con un mensaje adecuado (o relanzar la existente, si fuera el caso).</li>
+</ul>
+<p>Además del código de los programas, se deben adjuntar algunas sentencias SQL para comprobar que funcionan correctamente, mostrando el contenido de las tablas antes y después de las operaciones.</p>
+<ul>
+<li>
+<p><strong>AC1111</strong>. (RABD.5 // CE5h, CE5i, CE5j // 3p) Haciendo uso de cursores y la base de datos <code>empresa</code>, se pide:</p>
+</li>
+<li>
+<p>Crea la tabla <code>empleado_copia</code> con la misma estructura que la tabla <code>empleado</code> (mediante <code>CREATE TABLE .... LIKE ...</code>).</p>
+</li>
+<li>Crea el procedimiento <code>ac1111empleadosSinHijos</code>, para que, utilizando cursores y recuperando todos los empleados que no tienen hijos en la consulta, recorra el resultado e inserte en <code>empleado_copia</code> aquellos empleados que no tiene hijos.</li>
+<li>Crea el procedimiento <code>ac1111empleadosNumHijos</code>, para que, utilizando cursores con parámetros, recorra la tabla de empleados e inserte en <code>empleado_copia</code> aquellos empleados que tienen la cantidad de hijos recibidos como un parámetro de entrada del procedimiento.</li>
+</ul>
+<p>Además del código, se deben adjuntar algunas sentencias SQL para comprobar que funciona correctamente, mostrando el contenido de las tablas antes y después de las operaciones.</p>
+<ul>
+<li>
+<p><strong>AC1112</strong>. (RABD.5 // CE5h, CE5i, CE5j // 3p) Haciendo uso de cursores y la base de datos <code>empresa</code>, se pide:</p>
+</li>
+<li>
+<p>Crea la tabla <code>empleado_plus</code> con los mismos datos que la tabla <code>empleado</code> (mediante <code>CREATE TABLE .... AS SELECT ...</code>)</p>
+</li>
+<li>Sobre la nueva tabla <code>empleado_plus</code>, añade la columna <code>HijMayor</code> que permita almacenar el nombre del hijo mayor de cada empleado. Para ello, crea el procedimiento almacenado <code>ac1112procHijos</code>, y mediante un cursor, sobre los hijos mayores de cada empleado, modifique el campo del empleado y almacene su nombre.</li>
+<li>Crea una función llamada <code>ac1112funcionHabilidadesEmpleado</code> que a partir del código de un empleado, y utilizando un cursor, devuelva las habilidades de dicho empleado separadas por comas. Es decir, para el empleado <code>1</code> deberá almacenar <code>GEREN,RELPU</code>. No puedes utilizar la función <code>GROUP_CONCAT</code>.</li>
+<li>
+<p>Sobre la nueva tabla <code>empleado_plus</code>, añade la columna <code>DescHabs</code> que permita almacenar los códigos de las habilidades. A continuación, crea el procedimiento almacenado <code>ac1112procHabilidadesEmpleados</code> que complete dicha columna utilizando la función <code>ac1112funcionHabilidadesEmpleado</code>.</p>
+</li>
+<li>
+<p><strong>AC1113</strong>. (RABD.5 // CE5h, CE5i, CE5j // 3p) Haciendo uso de la base de datos <code>retail</code>, se pide:</p>
+</li>
+<li>
+<p>Crea un procedimiento llamado <code>ac1113insertaCategoriaDepartamento</code> que inserte una categoría y su departamento dentro de una transacción a partir del nombre de una categoría y de su departamento. Dentro del procedimiento hemos de comprobar previamente si existen tanto la categoría como el departamento, y actuar en consecuencia.</p>
+<p>Recuerda que para recuperar un campo autoincrementable de un registro recién insertado puedes emplear la función <code>LAST_INSERT_ID()</code>.
+  - Crea un procedimiento llamado <code>ac1113desnormalizarCategorias</code> que, utilizando cursores, rellene la tabla <code>categorias_desnorm</code> con la información proveniente de las tablas de categorías y departamentos. Podemos crear la tabla <code>categorias_desnorm</code> mediante el siguiente DDL:</p>
+<p><code>CREATE TABLE categorias_desnorm (
+    category_id INT(11) PRIMARY KEY,
+    category_name VARCHAR(45),
+    department_id INT(11),
+    department_name VARCHAR(45)
+);</code>
+  - Crea el evento <code>ac1113evento</code> que se ejecute cada día a las 12 de la noche, que elimine la tabla desnormalizada, la vuelva a crear y la rellene con los datos.</p>
+</li>
+<li>
+<p><strong>PY1114</strong>. (RABD.5 // todos los CE // 10p) Siguiendo el reto y la actividad de proyecto <a href="08sql-subquerys.html#PY813">PY813</a>, en esta actividad nos vamos a centrar en crear una serie de funcionalidades:</p>
+</li>
+</ul>
+<p>Para ello, se pide un informe que detalle:</p>
+<ul>
+<li>Definición de 2 eventos que automaticen tareas con diferente periodicidad</li>
+<li>Definición de 2 disparadores sobre operaciones asociadas al modelo de datos.</li>
+<li>Definición de 2 procedimientos almacenados que realicen más de una operación dentro de una transacción, haciendo una gestión adecuada de los errores, ya sea mediante señales o excepciones, y sus consiguientes manejadores.</li>
+<li>Definición de 2 procedimientos almacenados que utilicen cursores que recorran cierta cantidad de datos, realizando operaciones sobre una o más tablas, haciendo una gestión adecuada de los errores, ya sea mediante señales o excepciones, y sus consiguientes manejadores.</li>
+<li>Resultados de su ejecución sobre el modelo físico.</li>
+</ul>
+<p>Se utilizará una rúbrica para su evaluación en base a la siguiente lista de cotejo:</p>
+<ul>
+<li>Limpieza y calidad del código fuente.</li>
+<li>Documentación del código fuente.</li>
+<li>El informe entregado no contiene faltas de ortografía.</li>
+<li>El informe entregado tiene un formato adecuado (portada, apartados, autores, etc...).</li>
+<li>
+<p>El informe debe indicar cómo se han repartido las tareas y qué ha realizado cada alumno/a.</p>
+</li>
+<li>
+<p><strong>PO1115</strong>. (RABD.5 // todos los CE // 60p) La prueba objetiva, que cubre todo el RABD.5 asociada a la programación mediante SQL, consiste en:</p>
+</li>
+<li>
+<p>(10p) Crear y gestionar disparadores (<em>triggers</em>).</p>
+</li>
+<li>(10p) Crear y gestionar eventos.</li>
+<li>(20p) Desarrollar procedimientos almacenados y/o funciones que hagan uso de transacciones, realizando una buena gestión del manejo de errores mediante señales y/o excepciones.</li>
+<li>
+<p>(20p) Desarrollar procedimientos almacenados y/o funciones que hagan uso de cursores, realizando una buena gestión del manejo de errores mediante señales y/o excepciones.</p>
+</li>
+<li>
+<p><strong>AR1116</strong>. (RABD.5 // CE5h, CE5i, CE5j // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.expand"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

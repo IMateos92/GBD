@@ -1,0 +1,4503 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="02er.html">
+      
+      
+        <link rel="next" href="04mr-eer.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>3.- Diseño lógico: Modelo Relacional. Normalización - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#diseno-logico-modelo-relacional" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.- Diseño lógico: Modelo Relacional. Normalización
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="03mr.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-9h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (9h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-modelo-relacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El modelo relacional
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elementos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elementos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elementos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dominio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clave-subrogada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clave subrogada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claves-candidatas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves candidatas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claves-ajenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves ajenas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#borrado-y-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Borrado y actualización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricciones-semanticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricciones semánticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricciones semánticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nulos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integridad-de-entidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integridad de entidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integridad-referencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integridad referencial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#representacion-grafica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Representación gráfica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diccionario-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diccionario de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diccionario de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Componentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anomalias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anomalías
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencias-funcionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencias funcionales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formas-normales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formas Normales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso a paso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desnormalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desnormalización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-9h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (9h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-modelo-relacional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        El modelo relacional
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elementos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elementos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elementos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dominio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dominio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clave-subrogada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clave subrogada
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claves-candidatas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves candidatas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claves-ajenas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves ajenas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#borrado-y-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Borrado y actualización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricciones-semanticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricciones semánticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricciones semánticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nulos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nulos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integridad-de-entidad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integridad de entidad
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integridad-referencial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integridad referencial
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#representacion-grafica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Representación gráfica
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diccionario-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diccionario de datos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diccionario de datos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#componentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Componentes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anomalias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anomalías
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencias-funcionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencias funcionales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formas-normales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formas Normales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso a paso
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desnormalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desnormalización
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:modelo-relacional">Modelo Relacional</a>
+<a href="tags.html#tag:ra6">RA6</a></p>
+<h1 id="diseno-logico-modelo-relacional">Diseño Lógico: Modelo Relacional</h1>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta UT vamos a continuar trabajando el RA6: <strong>Diseña modelos relacionales normalizados interpretando diagramas entidad/relación</strong>.</p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<ul>
+<li><strong>CE6a</strong>: Se han utilizado herramientas gráficas para representar el diseño lógico.</li>
+<li><strong>CE6b</strong>: Se han identificado las tablas del diseño lógico.</li>
+<li><strong>CE6c</strong>: Se han identificado los campos que forman parte de las tablas del diseño lógico.</li>
+<li><strong>CE6d</strong>: Se han analizado las relaciones entre las tablas del diseño lógico.</li>
+<li><strong>CE6e</strong>: Se han identificado los campos clave.</li>
+<li><strong>CE6f</strong>: Se han aplicado reglas de integridad.</li>
+<li><strong>CE6g</strong>: Se han aplicado reglas de normalización.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Bases de datos relacionales:</p>
+<ul>
+<li>Modelo de datos.</li>
+<li>Terminología del modelo relacional.</li>
+<li>Tipos de datos.</li>
+<li>Claves primarias.</li>
+<li>Restricciones de validación.</li>
+<li>El valor NULL.</li>
+<li>Claves ajenas.</li>
+</ul>
+<p>Interpretación de Diagramas Entidad/Relación:</p>
+<ul>
+<li>Elementos del modelo relacional.</li>
+<li>Restricciones semánticas del modelo relacional.</li>
+<li>Normalización de modelos relacionales.</li>
+</ul>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Qué diferencia el modelo conceptual del lógico?</li>
+<li>¿Cuál es el elemento principal del modelo relacional?</li>
+<li>¿Podemos tener dos atributos con el mismo nombre?</li>
+<li>Si una tabla tiene 3 columnas y 5 filas, ¿Cuál es su cardinalidad y grado?</li>
+<li>¿Podemos tener una tabla sin columnas?</li>
+<li>¿Y una tabla sin filas?</li>
+<li>¿Qué función tiene la clave primaria?</li>
+<li>¿Qué es una clave alternativa?</li>
+<li>¿Todas las tablas tienen más de una clave candidata?</li>
+<li>¿En qué consiste la integridad referencial?</li>
+<li>¿El valor de una clave ajena siempre debe tener valor?</li>
+<li>¿Qué es una dependencia funcional?</li>
+<li>¿Y una dependencia funcional completa?</li>
+<li>¿En qué consiste la 1FN? ¿Y la 2FN? ¿Y la 3FN?</li>
+<li>¿Qué es la denormalización y cuál es su objetivo?</li>
+</ol>
+<h3 id="programacion-de-aula-9h">Programación de Aula (9h)</h3>
+<p>Esta unidad es la tercera, con lo que se imparte en la primera evaluación, durante la segunda quincena de octubre, con una duración estimada de 9 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Modelo Relacional</td>
+<td><a href="#AC301">AC301</a></td>
+<td>CE6b, CE6c</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#elementos">Elementos</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#restricciones-semanticas">Restricciones</a></td>
+<td><a href="#AC303">AC303</a></td>
+<td>CE6f</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#notacion">Notación</a></td>
+<td><a href="#AC305">AC305</a></td>
+<td>CE6a, CE6e, CE6f</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Interpretando modelos</td>
+<td><a href="#AC309">AC309</a></td>
+<td>CE6d</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#diccionario-de-datos">Diccionario de datos</a></td>
+<td><a href="#AC311">AC311</a></td>
+<td>CE6c, CE6d</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#dependencias-funcionales">Dependencias funcionales</a></td>
+<td><a href="#AC313">AC313</a></td>
+<td>CE6g</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#formas-normales">Formas normales</a></td>
+<td><a href="#AC314">AC314</a></td>
+<td>CE6g</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#desnormalizacion">Desnormalización</a></td>
+<td><a href="#AC315">AC315</a></td>
+<td>CE6g</td>
+</tr>
+</tbody>
+</table>
+<h2 id="el-modelo-relacional">El modelo relacional</h2>
+<p>En la <a href="02er.html#diseno-de-bases-de-datos">unidad anterior</a> estudiamos que un <strong>modelo lógico</strong> representa de forma conceptual la estructura de una base de datos, pero dependiendo del SGBD a utilizar.</p>
+<p><img alt="" src="images/03modelo-logico.png" title="Modelo lógico" /></p>
+<p>Modelo lógico</p>
+<p>Si nuestra elección es un SGBD relacional, el modelo por excelencia es el <strong>modelo relacional</strong>. Creado por <em>Codd</em> a finales de los años 60, aunque los primeros SGBD relacionales no aparecieron hasta los 80. Una base de datos modelada mediante el modelo relacional se conoce como una base de datos relacional.</p>
+<p>Supuso una revolución en el diseño lógico de las base de datos, dando lugar a la segunda generación de SGBD.</p>
+<p>Es el modelo lógico más extendido, y <em>por ende</em>, el mercado de SGBD está copado de soluciones relacionales como <em>Oracle</em>, <em>PostgreSQL</em>, <em>MySQL</em>, <em>SQL Server</em>, etc...</p>
+<p>Los objetivos del modelo relacional son:</p>
+<ul>
+<li>Independencia física</li>
+<li>La forma de almacenar los datos no debe influir en su manipulación lógica</li>
+<li>Independencia lógica</li>
+<li>Las aplicaciones que usan el SGBD no deben sufrir una modificación cuando se modifique una base de datos.</li>
+<li>Flexibilidad</li>
+<li>Diferentes vistas para diferentes usuarios</li>
+<li>Uniformidad</li>
+<li>Sencillez</li>
+</ul>
+<h2 id="elementos">Elementos</h2>
+<p>El elemento principal es la <strong>relación</strong>, que consiste en una tabla que contiene filas y columnas. Una base de datos relacional consiste en un conjunto de tablas relacionadas donde cada tabla tiene un nombre único.</p>
+<p>Las relaciones se conocen como tablas relacionales o más comúnmente como <strong>tablas</strong>.</p>
+<p>Cada <strong>columna</strong> (también llamado <strong>campo</strong> o atributo de la relación) almacena información sobre una propiedad determinada de la tabla, como puede ser el nombre, DNI, apellidos o la edad.</p>
+<p>Cada <strong>fila</strong> posee una ocurrencia o ejemplar de la instancia o relación representada por la tabla (a las filas se las llama también <strong>tuplas</strong> o <strong>registros</strong>).</p>
+<p><img alt="" src="images/03elementos-tabla.png" title="Elementos de una tabla" /></p>
+<p>Elementos de una tabla</p>
+<p>Grado y Cardinalidad</p>
+<p>El <strong>grado</strong> de una relación indica el número de columnas.<br />
+La <strong>cardinalidad</strong> indica el número de filas.</p>
+<p>Así pues, un ejemplo de una relación <code>CLIENTE</code> de grado 5 (<code>dni</code>, <code>nombre</code>, <code>direccion</code>, <code>fecha</code> y <code>genero</code>) con 3 tuplas sería:</p>
+<table>
+<thead>
+<tr>
+<th>dni</th>
+<th>nombre</th>
+<th>dirección</th>
+<th>fecha</th>
+<th>genero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>Pedro Casas</td>
+<td>Avenida de la libertad, 23</td>
+<td>21/03/24</td>
+<td>M</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>Mireia Vidal</td>
+<td>Porta de la Morera, 6</td>
+<td>22/03/24</td>
+<td>F</td>
+</tr>
+<tr>
+<td>34123456C</td>
+<td>Laura Meca</td>
+<td>Plaça de Baix, s/n</td>
+<td>23/03/24</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+<p>Como podemos observar, en la cabecera están los nombres de las columnas, y cada fila supone una nueva ocurrencia. Podemos referirnos al campo de una tabla mediante la notación <strong><code>TABLA.campo</code></strong>, por ejemplo, <code>CLIENTE.nombre</code> referencia el campo <code>nombre</code> de la tabla <code>CLIENTE</code>.</p>
+<p>En una misma tabla, no podemos repetir el nombre de las columnas, aunque sí que lo podemos repetir en tablas diferentes. Por ejemplo, <code>CLIENTE.dni</code> y <code>PROVEEDOR.dni</code> serían campos de tablas diferentes con el mismo nombre.</p>
+<p>Una restricción del modelo relacional es que dentro de una tabla no puede haber dos tuplas iguales, ya que implicaría el mismo dato dos veces. Además, todas las tuplas deben tener el mismo número de campos, aunque alguno esté vacío (se permiten campos con valores nulos).</p>
+<p>El orden no importa</p>
+<p>El orden de las tuplas no importa, ni tampoco el orden de los atributos.</p>
+<p>Dicho esto, esta sería otra representación de la misma tabla:</p>
+<table>
+<thead>
+<tr>
+<th>dni</th>
+<th>dirección</th>
+<th>genero</th>
+<th>fecha</th>
+<th>nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>34123456C</td>
+<td>Plaça de Baix, s/n</td>
+<td>F</td>
+<td>23/03/24</td>
+<td>Laura Meca</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>Porta de la Morera, 6</td>
+<td>F</td>
+<td>22/03/24</td>
+<td>Mireia Vidal</td>
+</tr>
+<tr>
+<td>12345678A</td>
+<td>Avenida de la libertad, 23</td>
+<td>M</td>
+<td>21/03/24</td>
+<td>Pedro Casas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dominio">Dominio</h3>
+<p>El dominio de un atributo indica el tipo de valores para un determinado campo. Dicho de otro modo, cada atributo sólo puede tomar un valor en el dominio en el que está inscrito.</p>
+<p>Si nos basamos en el ejemplo anterior, tendríamos que los dominios serían:</p>
+<ul>
+<li><code>dni</code>: 8 dígitos y una letra.</li>
+<li><code>nombre</code>: cadena de hasta 32 caracteres.</li>
+<li><code>dirección</code>: cadena de hasta 64 caracteres.</li>
+<li><code>fecha</code>: fecha compuesta de <code>dd/mm/yy</code>.</li>
+<li><code>genero</code>: caracteres <code>M</code>, <code>F</code> o <code>?</code></li>
+</ul>
+<p>Como cada atributo sólo puede tomar un valor para una misma tupla (los valores de los campos son atómicos), no podríamos poner dos DNIs o dos fechas a un mismo cliente.</p>
+<p>A muy alto nivel, los tipos de datos básicos para los dominios son:</p>
+<ul>
+<li>Texto: cadena de caracteres, letras, símbolos o números con los que no se realizan operaciones (por ejemplo, un código postal).</li>
+<li>Numérico: números sobre los cuales se pueden realizar operaciones matemáticas.</li>
+<li>Fecha/hora: fechas, horas, o ambas.</li>
+<li>Booleano (V/F - Sí/No): datos con dos posibles valores.</li>
+<li>Autonumérico: secuencia (1,2,3,...) que el SGBD incrementa de forma automática cuando se añade un nuevo registro.</li>
+</ul>
+<p>Tipos de dominio</p>
+<p>Cuando estudiemos el modelo físico haremos más hincapié en todos los tipos de dominio existente. De momento, lo más importante es tener claro que todos los valores de un determinado campo en una tabla comparten el mismo dominio.</p>
+<h3 id="claves">Claves</h3>
+<p>Cada tabla tiene una columna (o en algunos casos un conjunto de columnas) que sirven como <strong>clave primaria</strong> (<strong>PK</strong> / <em>primary key</em>). Su propósito es distinguir a una tupla de otra dentro de la tabla.</p>
+<p>Cada tabla debe tener una clave primaria, la cual es una columna (o conjunto de columnas) cuyo valor es único para cada fila.</p>
+<p>Volvamos al ejemplo anterior sobre la tabla <code>CLIENTE</code>:</p>
+<table>
+<thead>
+<tr>
+<th>dni</th>
+<th>nombre</th>
+<th>dirección</th>
+<th>fecha</th>
+<th>genero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>Pedro Casas</td>
+<td>Avenida de la libertad, 23</td>
+<td>21/03/24</td>
+<td>M</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>Mireia Vidal</td>
+<td>Porta de la Morera, 6</td>
+<td>22/03/24</td>
+<td>F</td>
+</tr>
+<tr>
+<td>34123456C</td>
+<td>Laura Meca</td>
+<td>Plaça de Baix, s/n</td>
+<td>23/03/24</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+<p>El campo <code>dni</code> funciona como clave primaria de la tabla, ya que no hay dos clientes con el mismo DNI. Pero ¿y el campo <code>nombre</code>? Aunque en la tabla no tengamos ahora mismo dos clientes con el mismo nombre, conceptualmente sabemos que se puede dar el caso, y por lo tanto, no sería una elección correcta, ya que el nombre de un cliente no lo identifica de forma univoca.</p>
+<h4 id="clave-subrogada">Clave subrogada</h4>
+<p>Cuando en una tabla no tengamos una columna que identifique claramente a una tabla, podemos crear una nueva columna numérica, normalmente denominada <code>id</code>, que tomas valores secuenciales y autoincrementables, de manera que actúa como una clave sustituta independiente de los valores de negocio, que realmente no tiene un significado por sí misma.</p>
+<p>Si añadimos una clave subrogada a la tabla <code>CLIENTE</code> tendríamos:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>dni</th>
+<th>nombre</th>
+<th>dirección</th>
+<th>fecha</th>
+<th>genero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>12345678A</td>
+<td>Pedro Casas</td>
+<td>Avenida de la libertad, 23</td>
+<td>21/03/24</td>
+<td>M</td>
+</tr>
+<tr>
+<td>2</td>
+<td>48123456B</td>
+<td>Mireia Vidal</td>
+<td>Porta de la Morera, 6</td>
+<td>22/03/24</td>
+<td>F</td>
+</tr>
+<tr>
+<td>3</td>
+<td>34123456C</td>
+<td>Laura Meca</td>
+<td>Plaça de Baix, s/n</td>
+<td>23/03/24</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+<h4 id="claves-candidatas">Claves candidatas</h4>
+<p>Si una tabla tiene más de un campo (o un conjunto de ellos) que pueden identificar unívocamente a cada tupla de la tabla, se dice que todas las claves posibles son <strong>claves candidatas</strong>.</p>
+<p>De entre las claves candidatas, elegiremos una como la clave primaria y el resto serán <strong>claves alternativas</strong>. Así pues, una clave alternativa es una clave candidata que no es primaria.</p>
+<p>Por ejemplo, si pensamos en la tabla <code>ESTUDIANTE</code> podemos definir los siguientes campos: <code>nif</code>, <code>codigo</code>, <code>nombre</code>, <code>fMatricula</code>, <code>direccion</code>. Las claves candidatas serían <code>ESTUDIANTE.codigo</code> y <code>ESTUDIANTE.nif</code>, ya que permiten identificar de forma unívoca a cada estudiante. Si nos decantamos por <code>ESTUDIANTE.codigo</code> como su clave primaria, entonces <code>ESTUDIANTE.nif</code> sería una clave alternativa.</p>
+<table>
+<thead>
+<tr>
+<th>nif</th>
+<th>codigo</th>
+<th>nombre</th>
+<th>fMatricula</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>1/9/24</td>
+<td>Avenida de la libertad, 23</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>1/9/24</td>
+<td>Porta de la Morera, 6</td>
+</tr>
+<tr>
+<td>34123456C</td>
+<td>3</td>
+<td>Laura Meca</td>
+<td>1/9/24</td>
+<td>Plaça de Baix, s/n</td>
+</tr>
+</tbody>
+</table>
+<h4 id="claves-ajenas">Claves ajenas</h4>
+<p>Finalmente, tenemos las <strong>claves ajenas</strong> (<strong>FK</strong> / <em>foreign key</em>), los cuales son campos cuyos valores referencian a valores de otra tabla.</p>
+<p>Dentro del modelo relacional, el hecho de relacionar los datos de una tabla con otra es crucial, y se realiza mediante las claves ajenas. Así pues, la clave ajena de una tabla referencia, normalmente, al valor de la clave primaria de otra tabla. Por ello, los dominios de la clave ajena y de la clave primaria referenciada deben ser iguales (un campo numérico no puede referenciar a un campo de texto).</p>
+<p>Comencemos con el mismo ejemplo que vimos con las <a href="02er.html#relacion-1n">relaciones 1:N</a> del modelo conceptual, donde teníamos que todo producto tiene una categoría, pero de una categoría, tenemos muchos productos, el cual representamos así:</p>
+<p><img alt="" src="images/02relaciones1n.png" title="Relación 1:N" /></p>
+<p>Relación 1:N</p>
+<p>Si lo representamos mediante tablas, podríamos tener la siguiente estructura:</p>
+<ul>
+<li><code>CATEGORIA</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>codigo</th>
+<th>nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Consola</td>
+</tr>
+<tr>
+<td>2</td>
+<td>TIC</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Cocina</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Bricolaje</td>
+</tr>
+<tr>
+<td>- <code>PRODUCTO</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>codigo</th>
+<th>nombre</th>
+<th>codCategoria<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>PS5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Nevera</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Teclado</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>XBOX</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Ratón</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Volante</td>
+<td><code>NULL</code></td>
+</tr>
+<tr>
+<td>- Representación de las ocurrencias</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><img alt="" src="images/02ocurrencias1n.png" title="Ocurrencias 1:N" /></p>
+<p>Ocurrencias 1:N
+- Representación relacional</p>
+<hr />
+<p><img alt="" src="images/03producto-categoria.png" title="Representación Producto-Categoría" /></p>
+<p>Representación Producto-Categoría</p>
+<p>Puedes observar como hemos subrayado las claves primaria de cada tabla. ¿Qué atributo tiene la función de clave ajena? En este ejemplo, la columna <code>PRODUCTO.codCategoria</code> es una clave ajena que apunta a <code>CATEGORIA.codigo</code> (fíjate que en este caso, al atributo que es clave ajena le hemos puesto un asterisco <code>*</code> tras su nombre). Si revisamos los valores, podemos comprobar como podemos tener valores repetidos y valores nulos, facilitando que de una categoría tengamos varios productos (categorías de los productos <code>1</code> y <code>4</code>), que de una categoría no tengamos productos (la categoría <code>4</code> no está asociada a ningún producto) y, aunque el modelo conceptual no representaba dicha cardinalidad, que tengamos productos sin categoría (como el producto <code>6</code>).</p>
+<p>Cuando tenemos dos tablas relacionadas mediante una clave ajena, mediante operaciones relacionales que veremos en la <a href="06sql.html">Unidad 6</a>, podremos crear una nueva relación con el resultado de unir una clave ajena con los datos a los que referencia.</p>
+<p>Así pues, al unir ambas tablas, obtendríamos como resultado:</p>
+<table>
+<thead>
+<tr>
+<th>PRODUCTO.codigo</th>
+<th>PRODUCTO.nombre</th>
+<th>PRODUCTO.codCategoria</th>
+<th>CATEGORIA.nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>PS5</td>
+<td>1</td>
+<td>Consola</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Nevera</td>
+<td>3</td>
+<td>Cocina</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Teclado</td>
+<td>2</td>
+<td>TIC</td>
+</tr>
+<tr>
+<td>4</td>
+<td>XBOX</td>
+<td>1</td>
+<td>Consola</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Ratón</td>
+<td>2</td>
+<td>TIC</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Volante</td>
+<td><code>NULL</code></td>
+<td><code>NULL</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Veamos otro ejemplo, donde tenemos dos tablas, una para estudiantes (igual que el ejemplo de las claves candidatas) y otra para almacenar qué cursos realizan los estudiantes, similares a las siguientes:</p>
+<ul>
+<li><code>ESTUDIANTE</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>nif</th>
+<th>codigo</th>
+<th>nombre</th>
+<th>fMatricula</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>1/9/24</td>
+<td>Avenida de la libertad, 23</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>1/9/24</td>
+<td>Porta de la Morera, 6</td>
+</tr>
+<tr>
+<td>34123456C</td>
+<td>3</td>
+<td>Laura Meca</td>
+<td>1/9/24</td>
+<td>Plaça de Baix, s/n</td>
+</tr>
+<tr>
+<td>- <code>CURSAR</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>nifEstudiante<code>*</code></th>
+<th>asignatura</th>
+<th>anyo</th>
+<th>repetidor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>2024</td>
+<td>true</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>1</td>
+<td>2024</td>
+<td>false</td>
+</tr>
+<tr>
+<td>12345678A</td>
+<td>2</td>
+<td>2023</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>El campo <code>CURSAR.nifEstudiante</code> es una clave ajena de la relación <code>CURSAR</code> y enlaza con la relación <code>ESTUDIANTE</code> con el campo <code>ESTUDIANTE.nif</code>.</p>
+<p>Visualmente, lo podemos representar mediante el siguiente gráfico:</p>
+<p><img alt="" src="images/03estudiante-cursar.png" title="Clave ajena entre ESTUDIANTE y CURSAR" /></p>
+<p>Clave ajena entre ESTUDIANTE y CURSAR</p>
+<p>Conviene aclarar que un campo puede ser clave primaria y clave ajena a la vez. Además, una tabla puede tener más de una clave ajena o no tener ninguna. Además, en el caso de las relaciones reflexivas, la clave ajena de la relación enlazará con la clave primaria de sí misma.</p>
+<h4 id="borrado-y-actualizacion">Borrado y actualización</h4>
+<p>Cuanto trabajamos con varias tablas relacionadas mediante claves ajenas y claves primarias, debemos definir las reglas y modificar la clave primaria a la que referencian.</p>
+<p>Al actualizar/borrar un registro que contiene una clave ajena, se puede:</p>
+<ul>
+<li><strong>Rechazar</strong>: no se permite el borrado/modificación</li>
+<li><strong>Propagar</strong>: se borra/modifica el registro, y las tuplas que lo referencian</li>
+<li><strong>Anular</strong>: se borra/modifica el registro y las tuplas que lo referencian ponen a nulo la clave ajena.</li>
+</ul>
+<p>Autoevaluación</p>
+<p>Si volvemos a la relación entre <code>ESTUDIANTE</code> y <code>CURSAR</code>, ¿qué sucede cuando eliminamos el estudiante <code>12345678A</code>?</p>
+<ul>
+<li><code>ESTUDIANTE</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>nif</th>
+<th>codigo</th>
+<th>nombre</th>
+<th>fMatricula</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>1/9/24</td>
+<td>Avenida de la libertad, 23</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>1/9/24</td>
+<td>Porta de la Morera, 6</td>
+</tr>
+<tr>
+<td>- <code>CURSAR</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>nifEstudiante<code>*</code></th>
+<th>asignatura</th>
+<th>anyo</th>
+<th>repetidor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>2024</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>1</td>
+<td>2024</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>12345678A</td>
+<td>2</td>
+<td>2023</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>Profundizaremos en las operaciones entre claves ajenas y primarias cuando trabajemos las operaciones DML sobre el modelo físico en la <a href="05ddl.html"><em>Unidad 5.- Modelo Físico - SQL - Instrucciones DDL y DML</em></a>.</p>
+<h2 id="restricciones-semanticas">Restricciones semánticas</h2>
+<p>A la hora de definir las propiedades de una tabla y sus columnas podemos emplear las siguientes restricciones:</p>
+<ul>
+<li><strong>clave primaria</strong>: los atributos marcados como clave primaria no puedan repetir valores.</li>
+<li><strong>unicidad</strong>: impide que los valores de los atributos marcados de esa forma puedan repetirse, considerándose unívocos. A nivel visual se marcan con <code>UK</code>. Vamos a considerar que un atributo <code>UK</code> no permite valores repetidos pero sí nulos (dependiendo del SGBD, en algunos casos se permiten y en otros no).</li>
+<li><strong>obligatoriedad</strong> (<code>VNN</code>): prohíbe que el atributo marcado de esta forma no tenga ningún valor (valor no nulo).</li>
+<li><strong>regla de validación</strong>: condición que debe de cumplir un dato concreto para que sea actualizado.</li>
+</ul>
+<p>Además, podemos definir diferentes restricciones:</p>
+<ul>
+<li>a <strong>nivel de fila</strong>, por ejemplo, de relación entre columnas, del tipo la fecha de devolución debe ser posterior a la fecha de préstamo</li>
+<li>a <strong>nivel de conjunto de filas</strong>, por ejemplo, un cliente no puede hacer más de 20 pedidos en un día</li>
+<li>a <strong>nivel de negocio</strong>, del tipo, al insertar un pedido, se debe comprobar si la dirección de envío es la misma que la dirección del cliente, y en caso de no serlo, añadir una nueva dirección al cliente.</li>
+</ul>
+<h3 id="nulos">Nulos</h3>
+<p>Los valores nulos (<code>NULL</code>) indican contenidos de atributos que no tienen ningún valor, bien porque la información es desconocida o no aplicable. Es decir, más que un valor, es la ausencia de información. Algunos SGBD muestran la palabra clave <code>NULL</code>, mientras que otros muestran el campo en blanco.</p>
+<p>Por ejemplo, si en la tabla <code>ESTUDIANTE</code> tenemos un registro con la dirección nula, está indicando que desconocemos la dirección de <code>Mireia Vidal</code>, no que no tenga dirección.</p>
+<table>
+<thead>
+<tr>
+<th>nif</th>
+<th>codigo</th>
+<th>nombre</th>
+<th>fMatricula</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>1/9/24</td>
+<td>Avenida de la libertad, 23</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>1/9/24</td>
+<td><code>NULL</code></td>
+</tr>
+<tr>
+<td>34123456C</td>
+<td>3</td>
+<td>Laura Meca</td>
+<td>1/9/24</td>
+<td>Plaça de Baix, s/n</td>
+</tr>
+</tbody>
+</table>
+<p>Si el campo es una clave ajena, indica que el registro actual no está relacionado con ninguno.</p>
+<p>Las bases de datos relacionales admiten utilizar ese valor en todo tipo de operaciones.</p>
+<p>En cuanto a los campos booleano (V/F), define un tercer valor en la lógica, ya que además del valor verdadero o falso, existe el valor para los nulos.</p>
+<h3 id="integridad-de-entidad">Integridad de entidad</h3>
+<p>La integridad de entidad define que todas las claves primarias deben tener valor, y, por lo tanto, no admiten valores nulos.</p>
+<p>Si volvemos a la tabla <code>ESTUDIANTE</code>, no podemos tener ningún estudiante con el NIF vacío.</p>
+<p>Al definir un campo como <code>PK</code> ya estamos declarando que dicho campo no admite valores nulos (ni repetidos por el propio concepto de clave primaria).</p>
+<h3 id="integridad-referencial">Integridad referencial</h3>
+<p>Si una relación R1 posee una clave ajena que la enlaza con la relación R2, entonces diremos que cumple la restricción de <strong>integridad referencial</strong> si todo valor de dicha clave ajena de R1 cumple una de las dos condiciones:</p>
+<ol>
+<li>coincide con algún valor de la clave primaria en la relación R2</li>
+<li>toma el valor nulo (<code>NULL</code>)</li>
+</ol>
+<p>Es decir, prohíbe colocar valores en una clave ajena que no estén reflejados en la
+clave primaria de la tabla que relaciona.</p>
+<p>Veamos un ejemplo que no cumple con la integridad referencial. Tengamos los siguientes datos, sabiendo que <code>CURSAR.nifEstudiante</code> es una clave ajena que apunta a <code>ESTUDIANTE.nif</code>:</p>
+<ul>
+<li><code>ESTUDIANTE</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>nif</th>
+<th>codigo</th>
+<th>nombre</th>
+<th>fMatricula</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>1/9/24</td>
+<td>Avenida de la libertad, 23</td>
+</tr>
+<tr>
+<td>48123456B</td>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>1/9/24</td>
+<td>Porta de la Morera, 6</td>
+</tr>
+<tr>
+<td>34123456C</td>
+<td>3</td>
+<td>Laura Meca</td>
+<td>1/9/24</td>
+<td>Plaça de Baix, s/n</td>
+</tr>
+<tr>
+<td>- <code>CURSAR</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>nifEstudiante<code>*</code></th>
+<th>asignatura</th>
+<th>anyo</th>
+<th>repetidor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>1</td>
+<td>2024</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td></td>
+<td>1</td>
+<td>2024</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>66666666Z</td>
+<td>2</td>
+<td>2023</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>El primer fallo que encontramos es que el campo <code>CURSAR.nifEstudiante</code> contiene nulos. Aunque las claves ajenas permiten valores nulos, al tratarse también de una clave primaria, estaría incumpliendo la integridad de entidad.</p>
+<p>El segundo error es que el valor <code>66666666Z</code> referencia a un estudiante invalido, y este valor sí que viola la integridad referencial, ya que dicho valor no existe en <code>ESTUDIANTE.nif</code>.</p>
+<h2 id="notacion">Notación</h2>
+<p>Para representar una tabla en el modelo relación usaremos una notación textual que facilita su comprensión y posterior transformación al modelo físico. A esta representación se le conoce como <strong>esquema relacional</strong> (o esquema lógico/canónico).</p>
+<p>Pondremos el nombre de la tabla en mayúsculas, y a continuación, entre paréntesis, enumeraremos los campos mediante su nombre en minúsculas (y opcionalmente su dominio). Como convención, el primer atributo será aquel que hace la función de clave primaria, el cual además subrayaremos para facilitar la legibilidad, y a aquellos campos que sean claves ajenas les añadiremos un asterisco (<code>*</code>) para indicar su condición.</p>
+<p>Tras el listado de campos, enumeraremos las restricciones, con el siguiente orden:</p>
+<ol>
+<li>la clave primaria (<code>PK</code>), con el atributo o conjunto de atributos que identifican unívocamente a una tupla.</li>
+<li>las claves ajenas (<code>FK</code>) (si las hubiera), indicando el nombre de la columna, una flecha, y la relación a la que referencia.</li>
+<li>el resto de restricciones (<code>UK</code>, <code>VNN</code>, comprobaciones, etc...) (si las hubiera)</li>
+</ol>
+<p>Más propiedades</p>
+<p>Un campo puede tener opcionalmente las siguientes propiedades:</p>
+<ul>
+<li>Descripción: texto breve que aporta información sobre el contenido o la finalidad del campo.</li>
+<li>Tamaño: tamaño máximo permitido.</li>
+<li>Rango de valores posibles, a modo de enumeración.</li>
+<li>Requerido o <code>NOT NULL</code>: no permite valores nulos.</li>
+<li>Predeterminado (<code>DEFAULT</code>): valor por defecto para cuando no se inserta ningún valor.</li>
+</ul>
+<p>Por ejemplo, un esquema lógico en modelo relacional que relaciona un libro con un autor, y un autor con muchos libros (relación 1:N) podría ser el siguiente:</p>
+<p><code>AUTOR (codigo: autonumérico, nombre: texto, fnac: fecha, nacionalidad: texto)  
+· PK: (codigo)</code></p>
+<p><code>LIBRO (isbn: texto, titulo: texto, descripcion: texto, autor*: numérico, editorial: texto, pvp: real)  
+· PK: (isbn)  
+· FK: (autor) → AUTOR</code></p>
+<p>Por legibilidad, vamos a omitir los dominios y representar las tablas únicamente con el nombre de los campos, y posteriormente, en el diccionario de datos, definiremos sus tipos. De este modo, quedaría así:</p>
+<p><code>AUTOR (codigo, nombre, fnac, pais)  
+· PK: (codigo)</code></p>
+<p><code>LIBRO (isbn, titulo, autor*, editorial, pvp)  
+· PK: (isbn)  
+· FK: (autor) → AUTOR</code></p>
+<p>Tenemos que el autor se identifica por un código, el cual es su clave primaria. En cambio, los libros se identifican por su ISBN, y tienen un atributo <code>autor</code> que referencia a la clave primaria de <code>AUTOR</code> (y por tanto, deben tener el mismo dominio). De esta relación, deducimos que el nombre del atributo de la clave ajena no tiene por qué coincidir con el nombre de la clave primaria, pero sí su dominio.</p>
+<p>Si analizamos las cardinalidades de las tablas, tenemos:</p>
+<ul>
+<li><code>Card(LIBRO, ESCRIBIR) = (0, 1)</code>: Todo libro tiene un atributo autor, y sólo uno, el cual puede estar rellenado o no.</li>
+<li><code>Card(AUTOR, ESCRIBIR) = (0, N)</code>: Si un libro tiene un atributo autor, y el mismo autor puede aparecer en más de un libro, entonces un autor puede escribir muchos libros (o ninguno, si no aparece en ninguna ocurrencia de <code>LIBRO</code>).</li>
+</ul>
+<p>En la próxima unidad estudiaremos el proceso de transformación de un modelo conceptual a uno relacional, y en concreto, cómo se gestionan las claves ajenas para cumplir las cardinalidades y restricciones de las relaciones.</p>
+<p>DBML - Database Markup Language</p>
+<p>La notación que vamos a emplear en clase es sencilla y cumple su propósito.</p>
+<p>Dicho esto, desde principio de 2020, gracias a la empresa <a href="https://dbdiagram.io/">https://dbdiagram.io/</a>, se está popularizando <a href="https://dbml.dbdiagram.io/home">DBML</a> como un lenguaje de marcado para representar bases de datos.</p>
+<p>Si quieres profundizar en su uso, es recomendable consultar su <a href="https://dbml.dbdiagram.io/docs">sintaxis</a> o puedes probar a generar diagramas en <a href="https://dbdiagram.io/">https://dbdiagram.io/</a>.</p>
+<p>En nuestro caso, por ejemplo, podemos representa las entidades <code>AUTOR</code> y <code>LIBRO</code> del siguiente modo:</p>
+<pre><code>Table AUTOR {
+    codigo entero [primary key]
+    nombre cadena
+    fnac fecha
+    pais cadena
+}
+
+Table LIBRO {
+    isbn cadena [primary key]
+    titulo cadena
+    autor entero [ref: &gt; AUTOR.codigo]
+    editorial cadena
+    pvp real
+}
+</code></pre>
+<p>Obteniendo como resultado el diagrama:</p>
+<p><img alt="" src="images/03autor-libro.png" title="Diagrama AUTOR-LIBRO" /></p>
+<p>Diagrama AUTOR-LIBRO</p>
+<p>Vamos a crear datos ficticios y comprobaremos si el modelo cumple la relación de uno a muchos:</p>
+<ul>
+<li><code>AUTOR</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>codigo</th>
+<th>nombre</th>
+<th>fnac</th>
+<th>pais</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Brandon Sanderson</td>
+<td>19/12/75</td>
+<td>USA</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Juan Gómez Jurado</td>
+<td>16/12/77</td>
+<td>España</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Jöel Dicker</td>
+<td>16/06/85</td>
+<td>Suiza</td>
+</tr>
+<tr>
+<td>- <code>LIBRO</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>isbn</th>
+<th>titulo</th>
+<th>autor<code>*</code></th>
+<th>editorial</th>
+<th>pvp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9788420476841</td>
+<td>Un animal salvaje</td>
+<td>3</td>
+<td>Alfaguara</td>
+<td>23,90</td>
+</tr>
+<tr>
+<td>9788420414065</td>
+<td>La verdad sobre el caso Harry Quebert</td>
+<td>3</td>
+<td>Alfaguara</td>
+<td>23,90</td>
+</tr>
+<tr>
+<td>9788491221722</td>
+<td>Lazarillo de Tormes</td>
+<td><code>NULL</code></td>
+<td>Santillana</td>
+<td>14,20</td>
+</tr>
+<tr>
+<td>9788419260444</td>
+<td>Nacidos de la bruma</td>
+<td>1</td>
+<td>Nova</td>
+<td>24,90</td>
+</tr>
+</tbody>
+</table>
+<p>Así pues, comprobamos que tenemos un autor (el <code>3</code> con dos libros), e incluso un libro sin autor, confirmando la relación 1:N conforme queríamos diseñar.</p>
+<p>Cardinalidad de las relaciones</p>
+<p>Con lo que sabemos hasta ahora, piensa:</p>
+<ul>
+<li>¿Cómo evitamos que la cardinalidad mínima sea 0 entre LIBRO y AUTOR, es decir, que <code>Card(LIBRO, ESCRIBIR) = (1,1)</code>, de manera que cada libro lo escriba siempre un autor, no permitiendo valores nulos en la clave ajena?</li>
+<li>¿Cómo cambiamos la relación de 1:N a una relación 1:1, para que cada autor solo pudiera escribir un libro?</li>
+</ul>
+<h3 id="representacion-grafica">Representación gráfica</h3>
+<p>Aunque ya hemos visto que podemos emplear <a href="https://dbdiagram.io/">DBDiagrams</a> para generar un diagrama a partir del esquema lógico mediante <a href="https://dbml.dbdiagram.io/docs">DBML</a>, también podemos emplear diversas herramientas existentes en el mercado, como <a href="https://erdplus.com/">ERDPlus</a> o <a href="https://www.mysql.com/products/workbench/">MySQLWorbench</a> (más cercano al modelo físico), que permiten dibujar los elementos.</p>
+<p>En nuestro caso, nos vamos a centrar en ERDPlus, principalmente por ser una herramienta online gratuita. Una vez registrados, tenemos la opción de generar un diagrama ER o un esquema relacional. En este caso, nos centraremos en el esquema relacional.</p>
+<p>Mediante la barra superior, con el botón <code>TABLE</code> nos aparecerá un diálogo a la derecha donde podremos indicar el nombre de la tabla y añadir y configurar los atributos de la tabla. Tras añadir todos los atributos, debemos configurar su clave primaria mediante el botón <em>PRIMARY KEY</em> del menú lateral:</p>
+<p><img alt="" src="images/03erdplus-autor.png" title="Tabla AUTOR en ERDPlus" /></p>
+<p>Tabla AUTOR en ERDPlus</p>
+<p>A continuación, repetimos los pasos y añadimos los campos de la tabla <code>LIBRO</code>, pero sin añadir la clave ajena. Para ello, mediante el botón <em>CONNECT</em> de la barra superior, pinchamos en <code>AUTOR</code> y arrastramos a <code>LIBRO</code>, y veremos como añade un nuevo atributo en la tabla <code>LIBRO</code> con la clave primaria de <code>AUTOR</code>, marcando el nuevo atributo con la etiqueta <em>FK</em>. A continuación, para que coincida con nuestro modelo lógico, renombramos el atributo, y lo colocamos tras el <code>titulo</code>:</p>
+<p><img alt="" src="images/03erdplus-relationhip.gif" title="Clave ajena con ERDPlus" /></p>
+<p>Clave ajena con ERDPlus</p>
+<h3 id="diccionario-de-datos">Diccionario de datos</h3>
+<p>El diccionario de datos de un modelo relacional es un repositorio central que almacena metadatos sobre los elementos de una base de datos.</p>
+<p>En un sistema de bases de datos relacional, el diccionario de datos incluye detalles sobre las estructuras de las tablas, las relaciones entre las tablas, las columnas, los índices, las restricciones, los procedimientos almacenados y otros objetos de la base de datos. Es esencialmente un <em>catálogo</em> que describe la estructura lógica y la organización de la base de datos.</p>
+<p>Las funciones del diccionario de datos son:</p>
+<ul>
+<li><strong>Documentación</strong>: Sirve como referencia para desarrolladores y administradores de bases de datos, ayudándoles a entender la estructura y organización de la base de datos.</li>
+<li><strong>Control de integridad</strong>: Ayuda a asegurar que las definiciones de las tablas y relaciones se mantengan coherentes y conformes a las reglas establecidas.</li>
+</ul>
+<h4 id="componentes">Componentes</h4>
+<ol>
+<li><strong>Tablas y columnas</strong>: Describe las tablas en la base de datos, los nombres de las columnas, tipos de datos (los diferentes <a href="05ddl.html#tipos-de-datos">tipos de datos</a> los estudiaremos en detalle en la <a href="05ddl.html">unidad 5</a>), tamaños y si permiten valores nulos.</li>
+<li><strong>Relaciones y claves</strong>: Define las relaciones entre tablas y especifica las claves primarias y ajenas.</li>
+<li><strong>Restricciones</strong>: Incluye detalles sobre restricciones como <code>UNIQUE</code>, <code>CHECK</code>, <code>NOT NULL</code>, y <code>DEFAULT</code>.</li>
+</ol>
+<p>Si nos centramos en los modelos físicos, podríamos incluir otros componentes como índices, vistas, procedimientos almacenados y funciones o <em>triggers</em>, así como usuarios y permisos.</p>
+<h4 id="ejemplo">Ejemplo</h4>
+<p>Para este ejemplo, nos vamos a basar en el mismo ejemplo que hemos utilizado en el apartado de <a href="#notacion">Notación</a>, donde un <code>AUTOR</code> escribe muchos <code>LIBRO</code>, pero un <code>LIBRO</code> sólo lo escribe un <code>AUTOR</code>.</p>
+<p>Para documentar el diccionario de datos, se utiliza una estructura de tabla con el nombre de la columna, el tipo de datos, las restricciones y una descripción del campo:</p>
+<ul>
+<li>Tabla <code>AUTOR</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Columna</strong></th>
+<th><strong>Tipo de Datos</strong></th>
+<th><strong>Restricción</strong></th>
+<th><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>codigo</code></td>
+<td><code>INT auto_increment</code></td>
+<td>PK</td>
+<td>Identificador único del autor.</td>
+</tr>
+<tr>
+<td><code>nombre</code></td>
+<td><code>VARCHAR(64)</code></td>
+<td></td>
+<td>Nombre del autor.</td>
+</tr>
+<tr>
+<td><code>fnac</code></td>
+<td><code>DATE</code></td>
+<td></td>
+<td>Fecha de nacimiento del autor.</td>
+</tr>
+<tr>
+<td><code>pais</code></td>
+<td><code>VARCHAR(32)</code></td>
+<td></td>
+<td>País de nacimiento del autor.</td>
+</tr>
+<tr>
+<td>- Tabla <code>LIBRO</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>Columna</strong></th>
+<th><strong>Tipo de Datos</strong></th>
+<th><strong>Restricción</strong></th>
+<th><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isbn</code></td>
+<td><code>INT</code></td>
+<td>PK</td>
+<td>Identificador único del libro.</td>
+</tr>
+<tr>
+<td><code>titulo</code></td>
+<td><code>VARCHAR(64)</code></td>
+<td></td>
+<td>Título del libro.</td>
+</tr>
+<tr>
+<td><code>autor</code></td>
+<td><code>INT</code></td>
+<td>FK</td>
+<td>Indica el autor del libro, referenciando a <code>AUTOR.codigo</code>.</td>
+</tr>
+<tr>
+<td><code>editorial</code></td>
+<td><code>VARCHAR(32)</code></td>
+<td></td>
+<td>Editorial que publica el libro.</td>
+</tr>
+<tr>
+<td><code>pvp</code></td>
+<td><code>DECIMAL(10,2)</code></td>
+<td></td>
+<td>Precio de venta al público del libro.</td>
+</tr>
+</tbody>
+</table>
+<p>A continuación, indicamos las relaciones y restricciones de las claves ajenas:</p>
+<ul>
+<li><strong>Clave ajena en <code>LIBRO</code></strong>: <code>autor</code> referencia a <code>codigo</code> en la tabla <code>AUTOR</code>, indicando la relación entre un libro y su autor.</li>
+<li>Restricción de borrado: rechazar.</li>
+<li>Restricción de modificación: propagar.</li>
+</ul>
+<h2 id="normalizacion">Normalización</h2>
+<p>Un principio del diseño relacional es que "<em>hechos distintos se deben almacenar en objetos distintos</em>".</p>
+<p>Para conseguir este objetivo, la <strong>normalización</strong> es una técnica dentro del diseño de bases de datos relacionales que consiste en la separación de atributos en tablas lo más simples posibles para suprimir dependencias erróneas entre atributos, reducir la redundancia así como optimizar los procesos de inserción, modificación y borrado en la bases de datos, evitando las anomalías previamente comentadas, lo que maximiza la integridad de los datos y su consistencia.</p>
+<p>Podemos simplificar el objetivo de la normalización en maximizar la integridad de los datos, reduciendo su redundancia.</p>
+<p>Para conseguirlo, se basa en el análisis de dependencias entre atributos mediante un proceso que consiste en identificar y aplicar una serie de reglas a las relaciones obtenidas del esquema relacional.</p>
+<p>Supuesto Comerciales</p>
+<p>Supongamos los siguientes datos sobre ventas que realizan una serie de comerciales de los cuales tenemos su código y nombre, su estado laboral (con un código y una descripción), la ciudad y la provincia donde realizan las ventas, así como las poblaciones de dichas ciudades y provincias.</p>
+<table>
+<thead>
+<tr>
+<th>comercialID</th>
+<th>comercialNom</th>
+<th>estadoID</th>
+<th>estadoDesc</th>
+<th>ciudad</th>
+<th>provincia</th>
+<th>ciudadPob</th>
+<th>provinciaPob</th>
+<th>ventas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Carlos Suarez</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>230.000</td>
+<td>1.800.000</td>
+<td>33</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>Carlos Suarez</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+<td>Denia</td>
+<td>Alicante</td>
+<td>42.000</td>
+<td>1.800.000</td>
+<td>22</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Manoli Campos</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>230.000</td>
+<td>1.800.000</td>
+<td>55</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Manoli Campos</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+<td>Aspe</td>
+<td>Alicante</td>
+<td>22.000</td>
+<td>1.800.000</td>
+<td>44</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Carlos Suarez</td>
+<td>JPM</td>
+<td>Jornada Partida Mañanas</td>
+<td>Cartagena</td>
+<td>Murcia</td>
+<td>218.000</td>
+<td>1.520.000</td>
+<td>17</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Sonia Sánchez</td>
+<td>JPT</td>
+<td>Jornada Partida Tardes</td>
+<td>Gandía</td>
+<td>Valencia</td>
+<td>73.000</td>
+<td>2.550.000</td>
+<td>27</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Marina Vidal</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+<td>Valencia</td>
+<td>Valencia</td>
+<td>807.000</td>
+<td>1.800.000</td>
+<td>37</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Michael Johnson</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+<td>Valencia</td>
+<td>California</td>
+<td>63.000</td>
+<td>38.940.000</td>
+<td>47</td>
+</tr>
+</tbody>
+</table>
+<p>Claramente, tenemos datos redundantes. Si reorganizamos los datos de otra manera podríamos evitar dependencias.</p>
+<h3 id="anomalias">Anomalías</h3>
+<p>Una <strong>anomalía</strong> se refiere a una inconsistencia o problema que puede surgir en una base de datos, especialmente cuando no está normalizada. Estas anomalías pueden manifestarse de diversas maneras, afectando la integridad y consistencia de la información almacenada.</p>
+<p>Los tipos de anomalías en bases de datos son:</p>
+<ul>
+<li><strong>anomalías de actualización</strong>: ocurren cuando se intenta actualizar un registro en múltiples ubicaciones y no todas las copias se actualizan correctamente, generando discrepancias en los datos.</li>
+<li><strong>anomalías de inserción</strong>: surgen cuando no se puede insertar un nuevo registro en una tabla sin introducir datos redundantes o violar ciertas restricciones. Por ejemplo, si tenemos una tabla que almacena información de estudiantes y cursos, si no hay una clave principal que identifique de forma única cada registro, se podrían generar anomalías al intentar insertar nueva información.</li>
+<li><strong>anomalías de eliminación</strong>: se producen cuando se elimina información importante al intentar eliminar un registro específico, lo que puede llevar a la pérdida de datos. Siguiendo con el ejemplo anterior, si se elimina un registro de estudiante y este registro también contiene información sobre un curso, podría perderse la información del curso si no se toman precauciones.</li>
+</ul>
+<p>Para solucionar las anomalías, debemos normalizar las tablas.</p>
+<h3 id="dependencias-funcionales">Dependencias funcionales</h3>
+<p>Antes de entrar a conocer los pasos de la normalización, previamente tenemos que definir una serie de conceptos:</p>
+<ul>
+<li><strong>Dependencia funcional</strong> (DF): es la relación semántica existente entre atributos de una misma tabla. Decimos que <strong>A → B</strong>, es decir, que <strong>B depende funcionalmente de A</strong> (o A determina a B), si y solo si para cada valor de A sólo puede existir un B.</li>
+</ul>
+<p>El sentido de la relación no es bidireccional. Que para una valor de A sólo exista un B, no significa que dado B, siempre obtengamos A. Por ejemplo, la dependencia <code>dni → nombre, apellidos</code> es correcta, ya que tanto el nombre de una persona como sus apellidos dependen funcionalmente de su DNI, pero no al revés. ¿Dado un nombre de una persona, podemos saber su DNI?</p>
+<p>DF - Supuesto Comerciales</p>
+<p>El primer paso es para cada columna, identificar las dependencias que hay entre los atributos.</p>
+<p>Por ejemplo, cogemos el nombre del comercial, y detectamos que dependen funcionalmente del identificador del comercial, por lo tanto: <code>comercialID → comercialNom</code>. Pero si nos fijamos bien en los nombres de los comerciales, no podemos decir lo mismo en el sentido contrario, ya que tenemos un nombre repetido en diferentes códigos de comercial (¡qué casualidad!), con lo que no es correcto decir <code>comercialNom → comercialID</code>.</p>
+<p>Si hacemos lo mismo con el identificador del estado del comercial, deducimos que depende también del identificador, obteniendo <code>comercialID → estadoID</code>.</p>
+<p>Y lo mismo con la descripción del estado. En este caso, se cumplen que tanto el identificador del comercial como el identificador del estado permiten obtener la descripción del estado, obteniendo <code>comercialID → estadoDesc</code> y <code>estadoID → estadoDesc</code>.</p>
+<p>Si continuamos con todos los atributos y agrupamos las dependencias funcionales tenemos:</p>
+<ul>
+<li><code>comercialID → comercialNom, estadoID, estadoDesc</code></li>
+<li><code>estadoID → estadoDesc</code></li>
+<li><code>estadoDesc → estadoID</code></li>
+<li><code>provincia → provinciaPob</code></li>
+<li><code>ciudad, provincia → ciudadPob</code>, por ejemplo, tenemos dos ciudades <code>Valencia</code> en provincias diferentes</li>
+<li><code>comercialID , ciudad, provincia → ventas</code></li>
+</ul>
+<p>Tal como hemos comentado previamente, cuando agrupamos los atributos, la dependencia <code>comercialID → comercialNom, estadoID, estadoDesc</code> significa que tanto el nombre del comercial, como el código de su estado y el estado dependen del identificador del comercial.
+- <strong>Dependencia funcional completa</strong> (DFC): cuando tenemos que <em>A1, A2, ...AN → B</em> (B tiene una dependencia funcional del conjunto A1, A2, ...AN), pero no de ninguno de sus subconjuntos.</p>
+<p>Es decir, B depende de la combinación completa de atributos, y no de un parte de la clave.</p>
+<p>DFC - Supuesto Comerciales</p>
+<p>Tenemos que las ventas dependen de la combinación <code>comercialID, ciudad, provincia</code> y no de un subconjunto de ellas, es decir, <code>comercialID, ciudad, provincia → ventas</code>.
+- <strong>Dependencia funcional transitiva</strong> (DFT): se dice que hay un DFT entre A y C, si A → B y B → C, siendo B y C columnas no claves. Dicho de otro modo, cuando tenemos columnas no claves que determinan otras columnas no clave.</p>
+<p>DFT - Supuesto Comerciales</p>
+<p>Tenemos que <code>comercialID → comercialNom, estadoID, estadoDesc</code> y que <code>estadoID → estadoDesc</code>, por lo que tenemos una dependencia transitiva de <code>comercialID</code> a <code>estadoDesc</code>, ya que <code>comercialID → estadoID → estadoDesc</code>.</p>
+<h3 id="formas-normales">Formas Normales</h3>
+<p><img alt="" src="images/03FN.png" title="Formas normales" /></p>
+<p>Formas normales - Wikipedia</p>
+<p>La normalización consiste en una serie de pasos, cada uno de los cuales se corresponde a una forma normal (FN). Conforme se va avanzando en la normalización, las tablas tienen una estructura más limpia y con menor redundancia.</p>
+<p><em>Codd</em> propuso en 1972 tres formas normales, a las que se sumó la forma normal de <em>Boyce-Codd</em> en 1974, y luego se añadieron dos más por parte de <em>Fagin</em> entre 1977 y 1979. En este curso, nos vamos a centrar en las tres primeras, que cubren la mayoría de casos con los que nos vamos a encontrar, ya que se considera que una base de datos que está en 3FN es una base de datos correctamente diseñada</p>
+<p>Todas las formas normales se construyen sobre una forma normal previa, de forma que se anidan unas dentro de otras:</p>
+<ul>
+<li><strong>1FN</strong>: Una relación está en primera forma normal si, y sólo si, todos sus dominios contienen valores atómicos. Supone la eliminación de todos los campos multivaluados.</li>
+</ul>
+<p>Por lo general, si tenemos una tabla de un modelo relacional, por las propias restricciones semánticas del modelo relacional, no deberíamos tener ningún campo con varios valores, ya que deberían haberse transformado en relaciones 1:N.</p>
+<p>1FN - Supuesto Comerciales</p>
+<p>Como ninguna columna tiene más de un valor, la tabla ya está en 1FN.
+- <strong>2FN</strong>: una relación está en segunda forma normal si está en 1FN y todas las columnas que no son clave tienen un DFC de la clave primaria.</p>
+<p>Para ello, descompondremos la tabla en varias subtablas, y comprobaremos que ningún subconjunto de los atributos no clave determinan campos no principales.</p>
+<p>Si todas las claves candidatas de las tablas en 1FN son simples (unitarias), automáticamente las tablas ya están en 2FN. En cambio, si la clave primaria es compuesta, deberemos comprobar que todos los atributos dependen de la clave primaria compuesta y no de un subconjunto de esta.</p>
+<p>2FN - Supuesto Comerciales</p>
+<p>Si revisamos las dependencia funcionales, hemos de comprobar que todos los atributos no clave dependan de toda la clave primaria. Para ello, necesitamos crear al menos tres tablas:</p>
+<p><code>COMERCIAL (comercialID, comercialNom, estadoID, estadoDesc)  
+  · PK: (codigo)</code></p>
+<p><code>CIUDAD (ciudad, provincia, ciudadPob, provinciaPob)  
+  · PK: (ciudad)</code></p>
+<p><code>REGISTRO (comercialID*, ciudad*, provincia*, ventas)  
+  · PK: (comercialID, ciudad, provincia)</code></p>
+<p>Dando como resultado las siguientes tablas con datos:</p>
+<ul>
+<li>
+<p><code>COMERCIAL</code></p>
+<table>
+<thead>
+<tr>
+<th>comercialID</th>
+<th>comercialNom</th>
+<th>estadoID</th>
+<th>estadoDesc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Carlos Suarez</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Manoli Campos</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Carlos Suarez</td>
+<td>JPM</td>
+<td>Jornada Partida Mañanas</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Sonia Sánchez</td>
+<td>JPT</td>
+<td>Jornada Partida Tardes</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Marina Vidal</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Michael Johnson</td>
+<td>JC</td>
+<td>Jornada Completa</td>
+</tr>
+<tr>
+<td>- <code>CIUDAD</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>ciudad</th>
+<th>provincia</th>
+<th>ciudadPob</th>
+<th>provinciaPob</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>230.000</td>
+<td>1.800.000</td>
+</tr>
+<tr>
+<td>Denia</td>
+<td>Alicante</td>
+<td>42.000</td>
+<td>1.800.000</td>
+</tr>
+<tr>
+<td>Aspe</td>
+<td>Alicante</td>
+<td>22.000</td>
+<td>1.800.000</td>
+</tr>
+<tr>
+<td>Cartagena</td>
+<td>Murcia</td>
+<td>218.000</td>
+<td>1.520.000</td>
+</tr>
+<tr>
+<td>Gandía</td>
+<td>Valencia</td>
+<td>73.000</td>
+<td>2.550.000</td>
+</tr>
+<tr>
+<td>Valencia</td>
+<td>Valencia</td>
+<td>807.000</td>
+<td>1.800.000</td>
+</tr>
+<tr>
+<td>Valencia</td>
+<td>California</td>
+<td>63.000</td>
+<td>38.940.000</td>
+</tr>
+<tr>
+<td>- <code>REGISTRO</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>comercialID<code>*</code></th>
+<th>ciudad<code>*</code></th>
+<th>provincia<code>*</code></th>
+<th>ventas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>33</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>Denia</td>
+<td>Alicante</td>
+<td>22</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>55</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Aspe</td>
+<td>Alicante</td>
+<td>44</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Cartagena</td>
+<td>Murcia</td>
+<td>17</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Gandía</td>
+<td>Valencia</td>
+<td>27</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Valencia</td>
+<td>Valencia</td>
+<td>37</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Valencia</td>
+<td>California</td>
+<td>47</td>
+</tr>
+<tr>
+<td>- <strong>3FN</strong>: 2FN + todo atributo que no es clave primaria no tiene una dependencia funcional transitiva de otro atributo no clave, es decir, depende únicamente de la clave primaria de modo no transitivo.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>3FN - Supuesto Comerciales</p>
+<p>Ahora revisamos que no haya atributos que dependan de forma transitiva de la clave primaria. Tanto <code>COMERCIAL.estadoDesc</code> como <code>CIUDAD.provinciaPob</code> dependen de forma transitiva de un atributo no que es clave en sus tablas (<code>COMERCIAL.estadoID</code> y <code>CIUDAD.provincia</code>, respectivamente). Es decir, tenemos las DFT <code>comercialID → estadoID → estadoDesc</code> y <code>ciudad → provincia → provinciaPob</code>.</p>
+<p>Así pues, para deshacer las dependencias funcionales transitivas dividimos las tablas <code>COMERCIAL</code> y <code>CIUDAD</code> en dos nuevas tablas (<code>ESTADO</code>y <code>PROVINCIA</code>):</p>
+<p><code>ESTADO (estadoID, estadoDesc)  
+  · PK: (codigo)</code></p>
+<p><code>COMERCIAL (comercialID, comercialNom, estadoID*)  
+  · PK: (codigo)  
+  · FK: (estadoID) → ESTADO</code></p>
+<p><code>PROVINCIA (provincia, provinciaPob)  
+  · PK: (provincia)</code></p>
+<p><code>CIUDAD (ciudad, provincia*, ciudadPob)  
+  · PK: (ciudad)  
+  · FK: (provincia) → PROVINCIA</code></p>
+<p><code>REGISTRO (comercialID*, ciudad*, provincia*, ventas)  
+  · PK: (comercialID, ciudad, provincia)  
+  · FK: (comercialID) → COMERCIAL  
+  · FK: (ciudad, provincia) → CIUDAD</code></p>
+<p>Dando como resultado las siguientes tablas con datos:</p>
+<ul>
+<li>
+<p><code>ESTADO</code></p>
+<table>
+<thead>
+<tr>
+<th>estadoID</th>
+<th>estadoDesc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JC</td>
+<td>Jornada Completa</td>
+</tr>
+<tr>
+<td>JPM</td>
+<td>Jornada Partida Mañanas</td>
+</tr>
+<tr>
+<td>JPT</td>
+<td>Jornada Partida Tardes</td>
+</tr>
+<tr>
+<td>- <code>COMERCIAL</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>comercialID</th>
+<th>comercialNom</th>
+<th>estadoID<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Carlos Suarez</td>
+<td>JC</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Manoli Campos</td>
+<td>JC</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Carlos Suarez</td>
+<td>JPM</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Sonia Sánchez</td>
+<td>JPT</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Marina Vidal</td>
+<td>JC</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Michael Johnson</td>
+<td>JC</td>
+</tr>
+<tr>
+<td>- <code>PROVINCIA</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>provincia</th>
+<th>provinciaPob</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alicante</td>
+<td>1.800.000</td>
+</tr>
+<tr>
+<td>Murcia</td>
+<td>1.520.000</td>
+</tr>
+<tr>
+<td>Valencia</td>
+<td>2.550.000</td>
+</tr>
+<tr>
+<td>California</td>
+<td>38.940.000</td>
+</tr>
+<tr>
+<td>- <code>CIUDAD</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>ciudad</th>
+<th>provincia<code>*</code></th>
+<th>ciudadPob</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>230.000</td>
+</tr>
+<tr>
+<td>Denia</td>
+<td>Alicante</td>
+<td>42.000</td>
+</tr>
+<tr>
+<td>Aspe</td>
+<td>Alicante</td>
+<td>22.000</td>
+</tr>
+<tr>
+<td>Cartagena</td>
+<td>Murcia</td>
+<td>218.000</td>
+</tr>
+<tr>
+<td>Gandía</td>
+<td>Valencia</td>
+<td>73.000</td>
+</tr>
+<tr>
+<td>Valencia</td>
+<td>Valencia</td>
+<td>807.000</td>
+</tr>
+<tr>
+<td>Valencia</td>
+<td>California</td>
+<td>63.000</td>
+</tr>
+<tr>
+<td>- <code>REGISTRO</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>comercialID<code>*</code></th>
+<th>ciudad<code>*</code></th>
+<th>provincia<code>*</code></th>
+<th>ventas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>33</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>Denia</td>
+<td>Alicante</td>
+<td>22</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Badajoz</td>
+<td>Alicante</td>
+<td>55</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Aspe</td>
+<td>Alicante</td>
+<td>44</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Cartagena</td>
+<td>Murcia</td>
+<td>17</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Gandía</td>
+<td>Valencia</td>
+<td>27</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Valencia</td>
+<td>Valencia</td>
+<td>37</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Valencia</td>
+<td>California</td>
+<td>47</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>El problema de la 3FN es que no maneja relaciones que:</p>
+<ul>
+<li>Tienen varias claves candidatas,</li>
+<li>Esas claves candidatas son compuestas, y</li>
+<li>Las claves candidatas tienen por lo menos un atributo en común.</li>
+<li><strong>FNBC</strong>: Es una mejora de la 3FN donde, si tenemos más de una clave candidata y estas son compuestas y comparten algún atributo entonces, ningún atributo, sea clave o no, puede depender de algo que no sea la clave primaria.</li>
+</ul>
+<p>Si la clave no es compuesta y no existe más de una clave candidata (sólo tenemos la clave primaria), la FNBC es equivalente a la 3FN.</p>
+<p>El objetivo de la FNBC es asegurar que cada dato de una tabla depende únicamente de una clave real y completa, y no de otra cosa.</p>
+<p>3FN - Supuesto Comerciales</p>
+<p>Como la única tabla con una clave primaria compuesta (<code>REGISTRO</code>) no tiene otras claves candidatas, ya está en FNBC.</p>
+<p>En resumen...</p>
+<p>En la práctica, cuando todas las tablas están en FNBC, se puede considerar que la base de datos está totalmente normalizada. Una tabla en FNBC ya está desde 1FN hasta 3FN y tiene las siguientes características:</p>
+<ul>
+<li>Tiene una clave primaria.</li>
+<li>No tiene columnas multivaluadas.</li>
+<li>Todas las columnas dependen de una clave pero nada más.</li>
+<li>No contiene ninguna dependencia transitiva.</li>
+</ul>
+<p><img alt="" src="images/03normalizacion.png" title="Proceso de normalización" /></p>
+<p>Proceso de normalización</p>
+<h3 id="paso-a-paso">Paso a paso</h3>
+<p>Vamos a plasmar el proceso de normalización en un ejemplo resuelto paso a paso.</p>
+<p>Tenemos una tabla sobre la cual queremos comprobar si está normalizada. Se basa en los datos de una escuela de diseño, donde tenemos alumnado que cursa diversas asignaturas que imparte un docente, y en la cual puede obtener una calificación de dicho docente.</p>
+<p>Se muestra un ejemplo de datos de la tabla de la cual partimos:</p>
+<table>
+<thead>
+<tr>
+<th>codAlumno</th>
+<th>nomAlumno</th>
+<th>codAsignatura</th>
+<th>nomAsignatura</th>
+<th>codProfesor</th>
+<th>nomProfesor</th>
+<th>nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>A</td>
+<td>Diseño I</td>
+<td>X</td>
+<td>Miguel Ruiz</td>
+<td>9.85</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Pedro Casas</td>
+<td>B</td>
+<td>Pruebas I</td>
+<td>X</td>
+<td>Miguel Ruiz</td>
+<td>5.65</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>A</td>
+<td>Diseño I</td>
+<td>X</td>
+<td>Miguel Ruiz</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mireia Vidal</td>
+<td>A</td>
+<td>Diseño I</td>
+<td>X</td>
+<td>Miguel Ruiz</td>
+<td>9.85</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sonia Caparrós</td>
+<td>C</td>
+<td>Usabilidad</td>
+<td>Y</td>
+<td>Marina López</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Vamos a aplicar las diferentes reglas y transformaciones necesarias hasta comprobar la FNBC.</p>
+<p>El primer paso es definir las dependencias funcionales, obteniendo:</p>
+<ul>
+<li><code>codAlumno → nomAlumno</code>: El nombre del alumno depende funcionalmente del código.</li>
+<li><code>codAsignatura → nomAsignatura</code>: El nombre de la asignatura depende funcionalmente del código.</li>
+<li><code>codProfesor → nomProfesor</code>: El nombre del profesor depende funcionalmente del código.</li>
+<li><code>(codAlumno, codAsignatura, codProfesor) → nota</code>: La combinación del código del alumno, el código de la asignatura y el código del profesor determina la nota.</li>
+</ul>
+<p>Las claves candidatas de la relación serían <code>codAlumno</code>, <code>codAsignatura</code>, <code>codProfesor</code> y <code>(codAlumno, codAsignatura, codProfesor)</code> y los campos no clave serían <code>nomAlumno</code>, <code>nomAsignatura</code>, <code>nomProfesor</code> y <code>nota</code>.</p>
+<p>A continuación, comprobamos si cumple las diferentes formas normales:</p>
+<ul>
+<li>¿Está en 1FN? Comprobamos que la tabla no tiene campos multivaluados y, por lo tanto, la tabla de por sí ya está en primera forma normal.</li>
+<li>¿Está en 2FN? Está en 1FN y comprobamos las dependencias funcionales completas entre los atributos de la relación, es decir, todos los atributos no clave tienen una DFC de la clave primaria.</li>
+</ul>
+<p>Como los atributos <code>nomAlumno</code>, <code>nomAsignatura</code>, <code>nomProfesor</code> tienen no tienen una DFC de la clave <code>(codAlumno, codAsignatura, codProfesor)</code> (ya que la tienen de un subconjunto de la clave, por ejemplo, el nombre del alumno depende funcionalmente de su código), necesitamos descomponer la relación en las siguientes tablas:</p>
+<p><code>ALUMNO (codAlumno, nomAlumno)  
+  · PK: (codAlumno)</code></p>
+<p><code>ASIGNATURA (codAsignatura, nomAsignatura)  
+  · PK: (codAsignatura)</code></p>
+<p><code>PROFESOR (codProfesor, nomProfesor)  
+  · PK: (codProfesor)</code></p>
+<p><code>CALIFICAR (codAlumno*, codAlumno*, codAlumno*, nota)  
+  · PK: (codAlumno, codAsignatura, codProfesor)  
+  · FK: (codAlumno) → ALUMNO  
+  · FK: (codAsignatura) → ASIGNATURA  
+  · FK: (codProfesor) → PROFESOR</code>
+- ¿Está en 3FN? Está en 2FN y comprobamos que todos los atributos no clave dependen únicamente de la clave primaria.</p>
+<p>En la tabla <code>CALIFICAR</code> no hay dependencias transitivas, ya que nota depende directamente de la clave primaria compuesta <code>(codAlumno, codAsignatura, codProfesor)</code>.
+- ¿Está en FNBC? Está en 3FN y además, todos los atributos no dependen de otra cosa que la clave primaria.</p>
+<p>En la tabla <code>CALIFICAR</code>, <code>(codAlumno, codAsignatura, codProfesor)</code> juntos forman la única clave candidata, por lo tanto, ya está en 8FNBC.</p>
+<p>El resultado de normalizar la tabla inicial sería</p>
+<ul>
+<li><code>ALUMNO (codAlumno, nomAlumno)  
+  · PK: (codAlumno)</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>codAlumno</th>
+<th>nomAlumno</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Pedro Casas</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mireia Vidal</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sonia Caparrós</td>
+</tr>
+<tr>
+<td>- `ASIGNATURA (codAsignatura, nomAsignatura)</td>
+<td></td>
+</tr>
+<tr>
+<td>· PK: (codAsignatura)`</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>codAsignatura</th>
+<th>nomAsignatura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Diseño I</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Pruebas I</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Usabilidad</td>
+</tr>
+<tr>
+<td>- `PROFESOR (codProfesor, nomProfesor)</td>
+<td></td>
+</tr>
+<tr>
+<td>· PK: (codProfesor)`</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>codProfesor</th>
+<th>nomProfesor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X</td>
+<td>Miguel Ruiz</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>Marina López</td>
+</tr>
+<tr>
+<td>- `CALIFICAR (codAlumno<em>, codAlumno</em>, codAlumno*, nota)</td>
+<td></td>
+</tr>
+<tr>
+<td>· PK: (codAlumno, codAsignatura, codProfesor)</td>
+<td></td>
+</tr>
+<tr>
+<td>· FK: (codAlumno) → ALUMNO</td>
+<td></td>
+</tr>
+<tr>
+<td>· FK: (codAsignatura) → ASIGNATURA</td>
+<td></td>
+</tr>
+<tr>
+<td>· FK: (codProfesor) → PROFESOR`</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>codAlumno<code>*</code></th>
+<th>codAsignatura<code>*</code></th>
+<th>codProfesor<code>*</code></th>
+<th>nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td>X</td>
+<td>9.85</td>
+</tr>
+<tr>
+<td>1</td>
+<td>B</td>
+<td>X</td>
+<td>5.65</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A</td>
+<td>X</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>C</td>
+<td>Y</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Estas tablas están ahora en FNBC, eliminando redundancias y asegurando que todas las dependencias funcionales se respetan correctamente.</p>
+<h3 id="desnormalizacion">Desnormalización</h3>
+<p>El concepto de <strong>desnormalizar</strong> un modelo relacional consiste en transformar una base de datos a una forma normal menor, siempre con el objetivo de mejorar el rendimiento de las operaciones de consulta de datos, a costa de aceptar cierta redundancia de datos</p>
+<p>Por ejemplo, podemos unir varias relaciones en una si se usan juntas frecuentemente mediante operaciones <em>join</em>.</p>
+<p>Además del rendimiento en las consultas, podemos desnormalizar nuestros modelos para simplificar el esquema o reducir la complejidad de ciertas consultas.</p>
+<p>Un caso muy común es unir los datos de dos tablas que tienen una relación 1:1 en una única tabla (siempre que la semántica de las relaciones lo permita).</p>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Herramienta gráfica <a href="https://erdplus.com/">ERDPlus</a> para la realización de diagramas de modelos relacionales.</li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em><a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u3/a1/continguts.md">Model Relacional</a> - Institut Obert de Catalunya</em></p>
+</li>
+<li><a href="https://jorgesanchez.net/manuales/gbd/modelo-relacional.md">Modelo Relacional</a> de <em>Jorge Sánchez</em></li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut3/recopila.md">Bases de datos relacionales</a> de <em>Javier Gutiérrez</em></li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema2/index.md">Diseño de modelo lógicos normalizados</a> de gestionbasesdatos.readthedocs.io</li>
+<li><a href="https://www.cs.us.es/cursos/bd-2023/temas/BD-Tema-2.pdf">Diseño lógico</a> y <a href="https://www.cs.us.es/cursos/bd-2023/temas/BD-Tema-6.pdf">Normalización</a> de la <em>Universidad de Sevilla</em></li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<ul>
+<li><strong>AC301</strong>. (RABD.6 // CE6b, CE6c // 3p) Analiza la siguiente tabla <code>EMPLEADO</code> y enumera todos los errores que encuentres. A continuación, aporta una solución para cada uno de ellos. Finalmente, analiza las claves existentes:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>dni</th>
+<th>nombre</th>
+<th>genero</th>
+<th>direccion</th>
+<th>fAlta</th>
+<th>casado</th>
+<th>nombre</th>
+<th>codEmpleado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345678A</td>
+<td>Guillem Vidal</td>
+<td>M</td>
+<td>C Mayor, 5</td>
+<td>11/1/24</td>
+<td>N</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr>
+<td>12345679B</td>
+<td>Guillem Vidal</td>
+<td>M</td>
+<td>C Illueca, 26</td>
+<td>21/1/24</td>
+<td>N</td>
+<td></td>
+<td>2</td>
+</tr>
+<tr>
+<td>12345670C, 12345671D</td>
+<td>Juan y María Sánchez</td>
+<td>M,F</td>
+<td>C Illueca, 26</td>
+<td>31/1/24</td>
+<td>S,N</td>
+<td>Juani</td>
+<td>3,4</td>
+</tr>
+<tr>
+<td>98765431X</td>
+<td>Juani Mora</td>
+<td>F</td>
+<td></td>
+<td>30/2/24</td>
+<td>S</td>
+<td>Óscar</td>
+<td>X2</td>
+</tr>
+<tr>
+<td>98765432Z</td>
+<td>Domingo Gallardo</td>
+<td>M</td>
+<td>Avda Alicante, 12</td>
+<td>Lunes</td>
+<td>S</td>
+<td>María</td>
+<td>siete</td>
+</tr>
+<tr>
+<td>98765430Y</td>
+<td>Mónica Reig</td>
+<td>F</td>
+<td>03206</td>
+<td>3/2/24</td>
+<td>Sí</td>
+<td></td>
+<td>99</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p><strong>AR302</strong>. (RABD.6 // CE6d, CE6e // 3p) Indica si las siguientes afirmaciones son verdaderas o falsas y justifica la respuesta:</p>
+</li>
+<li>
+<p>La unión de todos los campos de una relación siempre funciona como clave de la
+    relación.</p>
+</li>
+<li>Toda relación tiene clave primaria.</li>
+<li>Toda relación posee, al menos, una clave ajena.</li>
+<li>Un campo que pertenece a la clave primaria de una relación puede tomar el valor <code>NULL</code>.</li>
+<li>Un campo que pertenece a una clave ajena de una relación puede tomar el valor <code>NULL</code>.</li>
+<li>Un mismo campo puede funcionar a la vez como clave primaria y como clave ajena de una relación.</li>
+<li>
+<p>Una clave ajena puede enlazar una relación consigo misma.</p>
+</li>
+<li>
+<p><strong>AC303</strong>. (RABD.6 // CE6f // 3p) A partir de los datos de las siguientes tablas, identifica todos los problemas con las restricciones semánticas asociadas al modelo relacional y aporta soluciones de cómo resolverlas, sabiendo que las PK son <code>PRODUCTO.codigo</code>y <code>CATEGORIA.codigo</code>, y tenemos una clave ajena de <code>PRODUCTO.categoria</code> que apunta a <code>CATEGORIA</code>.</p>
+</li>
+<li>
+<p><code>PRODUCTO</code></p>
+<table>
+<thead>
+<tr>
+<th>codigo</th>
+<th>nombre</th>
+<th>cantidad</th>
+<th>pvp</th>
+<th>categoria<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>Televisor LED 42"</td>
+<td>-5</td>
+<td>299.99</td>
+<td>1</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Lavadora XYZ</td>
+<td>010</td>
+<td>abc</td>
+<td>2</td>
+</tr>
+<tr>
+<td>102</td>
+<td>LEGO Batman</td>
+<td>tres</td>
+<td>299.99</td>
+<td>3</td>
+</tr>
+<tr>
+<td>105</td>
+<td>Pelota de fútbol</td>
+<td></td>
+<td>299.99</td>
+<td><code>NULL</code></td>
+</tr>
+<tr>
+<td>099</td>
+<td>Escritorio</td>
+<td>8</td>
+<td>299.99</td>
+<td>5</td>
+</tr>
+<tr>
+<td>- <code>CATEGORIA</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>codigo</th>
+<th>nombre</th>
+<th>descr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Electrónica</td>
+<td>Productos electrónicos de consumo</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>Hogar y cocina</td>
+</tr>
+<tr>
+<td><code>NULL</code></td>
+<td>Juguetes y Juegos</td>
+<td>Accesorios y juguetes para niños</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Deportes</td>
+<td>Artículos deportivos y outdoor</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Deportes</td>
+<td>Productos de oficina y papelería</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>AR304</strong>. (RABD.6 // CE6e, CE6f // 3p) A partir de los datos de la siguiente tabla de <code>COMERCIAL</code>, identifica todas las claves y restricciones posibles:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>dni</th>
+<th>codigo</th>
+<th>nombre</th>
+<th>genero</th>
+<th>direccion</th>
+<th>fAlta</th>
+<th>codPareja</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12345679B</td>
+<td>10</td>
+<td>Ana Vidal</td>
+<td>F</td>
+<td>C Illueca, 26</td>
+<td>21/1/24</td>
+<td></td>
+</tr>
+<tr>
+<td>12345670C</td>
+<td>20</td>
+<td>Lara Sánchez</td>
+<td>M</td>
+<td>C Almassera, 15</td>
+<td>31/1/24</td>
+<td>3</td>
+</tr>
+<tr>
+<td>98765431X</td>
+<td>30</td>
+<td>Ana Fernández</td>
+<td>F</td>
+<td></td>
+<td>13/2/24</td>
+<td>7</td>
+</tr>
+<tr>
+<td>98765432Z</td>
+<td>40</td>
+<td>Domingo Gallardo</td>
+<td>M</td>
+<td>Avda Alicante, 12</td>
+<td>23/2/24</td>
+<td></td>
+</tr>
+<tr>
+<td>98765430Y</td>
+<td>50</td>
+<td>Ana Vidal</td>
+<td>F</td>
+<td>C Eugeni D'Ors 5</td>
+<td>3/3/24</td>
+<td>6</td>
+</tr>
+<tr>
+<td>12345678A</td>
+<td>60</td>
+<td>Guillem Vidal</td>
+<td>M</td>
+<td>C Mayor, 5</td>
+<td>11/1/24</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>AC305</strong>. (RABD.6 // CE6a, CE6b, CE6c // 3p) Crea las tablas necesarias con datos ficticios (con al menos 5 registros cada tabla) que respete las restricciones semánticas del modelo relacional a partir del siguiente esquema relacional:</li>
+</ul>
+<p><code>EMPLEADO (nif, nombre, direccion, cargo)  
+  · PK: (nif)  
+  · VNN: (nombre)</code></p>
+<p><code>VEHICULO (matricula, codigo, marca, modelo, empleado*)  
+  · PK: (matricula)  
+  · FK: (empleado) → EMPLEADO  
+  · VNN: (empleado)  
+  · UK: (codigo)</code></p>
+<p>Para mostrar las diferentes restricciones del modelo debes tener en cuenta las cardinalidades de la relación, los posibles valores repetidos o nulos de los campos, etc...</p>
+<p>Una vez realizado, dibuja a mano un diagrama que represente el modelo relacional. A continuación, utiliza <a href="https://erdplus.com/">https://erdplus.com/</a> o <a href="https://dbdiagram.io/">https://dbdiagram.io/</a> para pasarlo a digital. En la entrega en <em>Aules</em>, adjunta ambos diagramas.</p>
+<ul>
+<li><strong>AP306</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d // 3p) A partir del siguiente esquema relacional, crea tres tablas con datos ficticios, y explica el tipo de relación existente entre los campos y las tablas relacionadas (cardinalidad):</li>
+</ul>
+<p><code>CONDUCTOR (nif, nombre, fAlta)  
+  · PK: (nif)</code></p>
+<p><code>CONDUCIR (nif*, matricula*, cantidad)  
+  · PK: (nif, matricula)  
+  · FK: (nif) → CONDUCTOR  
+      (matricula) → AUTOBUS</code></p>
+<p><code>AUTOBUS (matricula, tipo, numPlazas)  
+  · PK: (matricula)  
+  · VNN: (numPlazas)</code></p>
+<p>Para mostrar las diferentes restricciones del modelo debes tener en cuenta las cardinalidades de la relación, los posibles valores repetidos o nulos de los campos, etc...</p>
+<p>Una vez realizado, dibuja a mano un diagrama que represente el modelo relacional. A continuación, utiliza <a href="https://erdplus.com/">https://erdplus.com/</a> o <a href="https://dbdiagram.io/">https://dbdiagram.io/</a> para pasarlo a digital. En la entrega en <em>Aules</em>, adjunta ambos diagramas.</p>
+<ul>
+<li><strong>AR307</strong>. (RABD.6 // CE6d, CE6e, CE6f // 3p) A partir de las tablas de la actividad <a href="#AC303">AC303</a>, crea el esquema relacional.</li>
+</ul>
+<p>A continuación, crea una nueva tabla <code>PROVEEDOR</code> con datos asociados a esta nueva relación, y actualiza el esquema relacional para que estén las tres tablas relacionadas.</p>
+<ul>
+<li><strong>AR308</strong>. (RABD.6 // CE6b, CE6f // 3p) A partir del siguiente diagrama, crea el esquema relacional:</li>
+</ul>
+<p><img alt="" src="images/03ar308.png" title="Actividad 308" /></p>
+<p>Actividad 308</p>
+<ul>
+<li><strong>AC309</strong>. (RABD.6 // CE6d // 3p) A partir del siguiente diagrama relacional sobre un comercio:</li>
+</ul>
+<p><img alt="" src="images/03ac309.png" title="Actividad 309" /></p>
+<p>Actividad 309</p>
+<p>Contesta a las siguientes preguntas argumentado tus respuestas:</p>
+<ol>
+<li>¿Puede un <code>PEDIDO</code> contener más de un <code>PRODUCTO</code>?</li>
+<li>¿Podemos obtener cuales son las categorías de los productos con más pedidos?</li>
+<li>Si quisiéramos obtener cuales son las provincias de los clientes donde se realizan más pedidos ¿qué deberíamos añadir?</li>
+<li>¿Podemos tener dos proveedores con el mismo nombre?</li>
+<li>¿Todo <code>PRODUCTO</code> obligatoriamente pertenecerá a una <code>CATEGORIA</code>?</li>
+<li>
+<p>Cuando en un pedido compramos dos producto diferentes ¿Cuantas <code>LINEA_PEDIDO</code> necesitamos? ¿Y si son del mismo producto?</p>
+</li>
+<li>
+<p><strong>AR310</strong>. (RABD.6 // CE6d // 3p) A partir del siguiente diagrama relacional sobre una agencia de viajes:</p>
+</li>
+</ol>
+<p><img alt="" src="images/03ar310.png" title="Actividad 310" /></p>
+<p>Actividad 310</p>
+<p>Contesta a las siguientes preguntas justificando tus respuestas:</p>
+<ol>
+<li>¿Puede un hotel estar en más de un punto?</li>
+<li>Dada una ciudad, ¿Cuántos hoteles podemos tener?</li>
+<li>¿Podemos tener dos rutas con el mismo nombre?</li>
+<li>¿De cuantos tipos puede ser una ruta? ¿Y toda ruta debe tener un tipo?</li>
+<li>¿Podemos tener hoteles que no pertenezcan a ningún viaje? ¿Y al revés?, es decir, ¿Podemos tener viajes sin hotel incluido?</li>
+<li>Si en un determinado viaje no está incluido el hotel, ¿Puede haber más de una ruta?</li>
+</ol>
+<p>A continuación, añade al modelo las tablas y relaciones necesarias para almacenar la información de los clientes que realizan el viaje, así como en qué hotel duermen.</p>
+<ul>
+<li>
+<p><strong>AC311</strong>. (RABD.6 // CE6c, CE6d // 3p) A partir del esquema y de las tablas obtenidas en la actividad <a href="#AC305">AC305</a>, completa el diccionario de datos, indicando tanto la información de las tablas, como sus relaciones y restricciones.</p>
+</li>
+<li>
+<p><strong>AR312</strong>. (RABD.6 // CE6c, CE6d // 3p) A partir del diagrama y del esquema obtenidos en la actividad <a href="#AR310">AR310</a>, completa el diccionario de datos.</p>
+</li>
+<li>
+<p><strong>AC313</strong>. (RABD.6 // CE6g // 3p) A partir de la siguiente tabla, indica las dependencias funcionales:</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>codEnvio</th>
+<th>fEnvio</th>
+<th>codCamion</th>
+<th>tipoCamion</th>
+<th>codProducto</th>
+<th>tipoProducto</th>
+<th>cantidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>111</td>
+<td>1/1/24</td>
+<td>C1</td>
+<td>Tráiler</td>
+<td>A</td>
+<td>Zapatos</td>
+<td>180</td>
+</tr>
+<tr>
+<td>111</td>
+<td>1/1/24</td>
+<td>C1</td>
+<td>Tráiler</td>
+<td>B</td>
+<td>Gorras</td>
+<td>120</td>
+</tr>
+<tr>
+<td>222</td>
+<td>2/1/24</td>
+<td>C2</td>
+<td>Tráiler</td>
+<td>C</td>
+<td>Camisetas</td>
+<td>2000</td>
+</tr>
+<tr>
+<td>333</td>
+<td>3/1/24</td>
+<td>C3</td>
+<td>Furgoneta</td>
+<td>D</td>
+<td>Calcetines</td>
+<td>1200</td>
+</tr>
+<tr>
+<td>333</td>
+<td>3/1/24</td>
+<td>C3</td>
+<td>Furgoneta</td>
+<td>A</td>
+<td>Zapatos</td>
+<td>360</td>
+</tr>
+<tr>
+<td>444</td>
+<td>3/1/24</td>
+<td>C2</td>
+<td>Tráiler</td>
+<td>C</td>
+<td>Camisetas</td>
+<td>3000</td>
+</tr>
+<tr>
+<td>555</td>
+<td>3/1/24</td>
+<td>C1</td>
+<td>Tráiler</td>
+<td>B</td>
+<td>Gorras</td>
+<td>140</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>AC314</strong>. (RABD.6 // CE6g // 3p) Considera la siguiente relación que almacena información acerca de proyectos en una gran empresa aeroespacial. Se pide normalizar los datos hasta la tercera forma normal.</li>
+</ul>
+<p><code>TRABAJO (nomProy, jefeProy, idEmp, horas, nomEmp, fondos, fInicio,
+  salario, nomDpto, jefeDpto, puntos)</code></p>
+<p>Teniendo en cuenta que:</p>
+<ol>
+<li>Cada proyecto tiene un nombre único.</li>
+<li>Los nombres de los empleados, jefes de proyectos y jefes de departamentos no son únicos.</li>
+<li>Cada proyecto tiene un jefe de proyecto.</li>
+<li>Muchos empleados se pueden asignar para trabajar en cada proyecto, y un empleado se puede asignar a más de un proyecto.</li>
+<li>El atributo <code>horas</code> indica la cantidad de horas por semana que un empleado particular se asigna a trabajar en un proyecto particular.</li>
+<li>El atributo <code>fondos</code> almacena la cantidad de dinero asignada para un proyecto.</li>
+<li>El atributo <code>fInicio</code> da la fecha de comienzo para un proyecto.</li>
+<li>El atributo <code>nomDpto</code> proporciona el nombre del departamento al que pertenece un empleado. Los nombres de departamentos son únicos.</li>
+<li>El atributo <code>jefeDpto</code> proporciona el nombre del supervisor de departamento, que puede no ser el mismo que el supervisor o jefe del proyecto.</li>
+<li>El atributo <code>puntos</code> proporciona una medida del buen hacer de un empleado en un proyecto particular. El jefe de proyecto asigna la calificación al final del trabajo del empleado en dicho proyecto.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>nomProy</th>
+<th>jefeProy</th>
+<th>idEmp</th>
+<th>horas</th>
+<th>nomEmp</th>
+<th>fondos</th>
+<th>fInicio</th>
+<th>salario</th>
+<th>nomDpto</th>
+<th>jefeDpto</th>
+<th>puntos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zeus</td>
+<td>Duque</td>
+<td>E101</td>
+<td>25</td>
+<td>Pedro</td>
+<td>20.000</td>
+<td>1/4/24</td>
+<td>30.000</td>
+<td>Aeronáutica</td>
+<td>Ángel</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Zeus</td>
+<td>Duque</td>
+<td>E105</td>
+<td>30</td>
+<td>Laura</td>
+<td>20.000</td>
+<td>1/4/24</td>
+<td>26.000</td>
+<td>Robótica</td>
+<td>Paco</td>
+<td></td>
+</tr>
+<tr>
+<td>Zeus</td>
+<td>Duque</td>
+<td>E110</td>
+<td>10</td>
+<td>Miguel</td>
+<td>20.000</td>
+<td>1/4/24</td>
+<td>21.000</td>
+<td>Aeronáutica</td>
+<td>Ángel</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Atreus</td>
+<td>Meca</td>
+<td>E101</td>
+<td>5</td>
+<td>Pedro</td>
+<td>50.000</td>
+<td>15/10/24</td>
+<td>30.000</td>
+<td>Aeronáutica</td>
+<td>Ángel</td>
+<td></td>
+</tr>
+<tr>
+<td>Atreus</td>
+<td>Meca</td>
+<td>E110</td>
+<td>20</td>
+<td>Miguel</td>
+<td>50.000</td>
+<td>15/10/24</td>
+<td>21.000</td>
+<td>Aeronáutica</td>
+<td>Ángel</td>
+<td></td>
+</tr>
+<tr>
+<td>Atreus</td>
+<td>Meca</td>
+<td>E120</td>
+<td>15</td>
+<td>Noa</td>
+<td>50.000</td>
+<td>15/10/24</td>
+<td>25.000</td>
+<td>Lanzamientos</td>
+<td>Paco</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>AC315</strong>. (RABD.6 // CE6g // 3p) A partir del siguiente esquema relacional de una librería, desnormalízalo para simplificar su estructura:</li>
+</ul>
+<p><code>LIBRO (isbn, titulo, autor*, editorial*, numPaginas)  
+  · PK: (isbn)  
+  · FK: (autor) → ESCRITOR  
+  · FK: (editorial) → EDITORIAL</code></p>
+<p><code>ESCRITOR (nif, nombre, pais)  
+  · PK: (nif)</code></p>
+<p><code>EDITORIAL (codigo, nombre, pais)  
+  · PK: (codigo)</code></p>
+<ul>
+<li>
+<p><strong>AR316</strong>. (RABD.6 // CE6g // 3p) Realiza la normalización, paso a paso, indicando en cada uno de ellos las tablas resultantes y sus datos, de los siguientes supuestos:</p>
+</li>
+<li>
+<p>Un tabla que contiene la información de estudiantes y los cursos en los que se matricula, la cual tiene la siguiente información:</p>
+<table>
+<thead>
+<tr>
+<th>idEstudiante</th>
+<th>nomEstudiante</th>
+<th>cursos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>134</td>
+<td>Javier Hernández</td>
+<td>Matemáticas, Biología, Física</td>
+</tr>
+<tr>
+<td>178</td>
+<td>Sonia Tovar</td>
+<td>Biología, Informática</td>
+</tr>
+<tr>
+<td>249</td>
+<td>Juani Moya</td>
+<td>Informática, Matemáticas</td>
+</tr>
+<tr>
+<td>2. Una tabla que contiene información de productos y sus proveedores</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>idProducto</th>
+<th>nomProducto</th>
+<th>nomProveedor</th>
+<th>telefProveedor</th>
+<th>categoría</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1234</td>
+<td>Tela de araña</td>
+<td>Spiderman</td>
+<td>666000000</td>
+<td>Consumible</td>
+</tr>
+<tr>
+<td>3378</td>
+<td>Máquina del Tiempo</td>
+<td>Dr Who</td>
+<td>777000000</td>
+<td>Vehículo</td>
+</tr>
+<tr>
+<td>2549</td>
+<td>Varita Mágica</td>
+<td>Harry Potter</td>
+<td>888000000</td>
+<td>Herramienta</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>AP317</strong>. (RABD.6 // CE6g // 3p) A partir del siguiente esquema relacional, se nos pide optimizar el modelo aplicando desnormalización, ya que, para cada artista, se quieren recuperar las 5 canciones primeras canciones, y con el diseño actual, la consulta es muy lenta:</p>
+</li>
+</ul>
+<p><code>ARTISTA (id, nombre, foto)  
+  · PK: (id)</code></p>
+<p><code>ALBUM (id, nombre, foto, artista_id*)  
+  · PK: (id)  
+  · FK: (artista_id) → ARTISTA  
+  · VNN: (artista_id)</code></p>
+<p><code>CANCION (id, nombre, letra, album_id*)  
+  · PK: (id)  
+  · FK: (album_id) → ARTISTA  
+  · VNN: (album_id)</code></p>
+<p>¿Qué has hecho para mejorar el rendimiento? ¿En qué forma normal se encuentra ahora el modelo relacional? Justifica tu respuesta.</p>
+<ul>
+<li><strong>AR318</strong>. (RABD.6 // CE6b, CE6c, CE6d, CE6e, CE6f, CE6g // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</li>
+</ul>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.expand"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

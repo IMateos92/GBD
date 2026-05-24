@@ -1,0 +1,3112 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="03mr.html">
+      
+      
+        <link rel="next" href="05ddl.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>4.- Diseño lógico: Transformación de ER a MR - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#diseno-logico-transformacion-del-modelo-er-a-mr" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gestión de Bases de Datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4.- Diseño lógico: Transformación de ER a MR
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Gestión de Bases de Datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="00entorno.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación. EER Extendido
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional. Normalización
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="04mr-eer.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación de ER a MR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-15h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (15h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pasos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pasos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atributos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atributos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Atributos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claves-compuestas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves compuestas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relaciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1:N
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1:1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N:M
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="N:M">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nm-con-dimension-temporal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N:M con dimensión temporal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reflexivas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reflexivas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cardinalidad-minima-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cardinalidad mínima 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternativas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternativas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agregacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agregación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-mr-a-er" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De MR a ER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De MR a ER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cardinalidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cardinalidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dibujando-el-modelo-er" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dibujando el modelo ER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dibujando el modelo ER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supuesto-i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supuesto I
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supuesto-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supuesto II
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas. Funciones. Joins
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas. Funciones ventana. Vistas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización. CTE. Índices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL. Usuarios, permisos y transacciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL. Procedimientos y funciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado. Eventos, disparadores y cursores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/geoespaciales.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas geoespaciales sobre MariaDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/json.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    El tipo de datos JSON en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/restricciones-relaciones.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restricciones en las relaciones
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/supuestos.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supuestos completos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/ternarias.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relaciones ternarias en el modelo conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vocabulari
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#propuesta-didactica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Propuesta didáctica
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Propuesta didáctica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-evaluacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criterios de evaluación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contenidos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contenidos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programacion-de-aula-15h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Programación de Aula (15h)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pasos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pasos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atributos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atributos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Atributos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claves-compuestas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claves compuestas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relaciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Relaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1:N
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1:1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N:M
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="N:M">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nm-con-dimension-temporal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N:M con dimensión temporal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reflexivas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reflexivas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restricciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restricciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cardinalidad-minima-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cardinalidad mínima 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identificación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generalizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generalización
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generalización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternativas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternativas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agregacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agregación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-mr-a-er" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        De MR a ER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="De MR a ER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cardinalidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cardinalidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dibujando-el-modelo-er" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dibujando el modelo ER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dibujando el modelo ER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supuesto-i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supuesto I
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supuesto-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supuesto II
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Referencias
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actividades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><a href="tags.html#tag:modelo-entidad-relación">Modelo Entidad Relación</a>
+<a href="tags.html#tag:modelo-relacional">Modelo Relacional</a>
+<a href="tags.html#tag:ra6">RA6</a></p>
+<h1 id="diseno-logico-transformacion-del-modelo-er-a-mr">Diseño Lógico: Transformación del modelo ER a MR</h1>
+<h2 id="propuesta-didactica">Propuesta didáctica</h2>
+<p>En esta UT vamos a terminar de trabajar el RA6: <strong>Diseña modelos relacionales normalizados interpretando diagramas entidad/relación</strong>.</p>
+<h3 id="criterios-de-evaluacion">Criterios de evaluación</h3>
+<ul>
+<li><strong>CE6a</strong>: Se han utilizado herramientas gráficas para representar el diseño lógico.</li>
+<li><strong>CE6b</strong>: Se han identificado las tablas del diseño lógico.</li>
+<li><strong>CE6c</strong>: Se han identificado los campos que forman parte de las tablas del diseño lógico.</li>
+<li><strong>CE6d</strong>: Se han analizado las relaciones entre las tablas del diseño lógico.</li>
+<li><strong>CE6e</strong>: Se han identificado los campos clave.</li>
+<li><strong>CE6f</strong>: Se han aplicado reglas de integridad.</li>
+<li><strong>CE6h</strong>: Se han analizado y documentado las restricciones que no pueden plasmarse en el diseño lógico.</li>
+</ul>
+<h3 id="contenidos">Contenidos</h3>
+<p>Interpretación de Diagramas Entidad/Relación:</p>
+<p>− Paso del diagrama E/R al modelo relacional.</p>
+<p>Cuestionario inicial</p>
+<ol>
+<li>¿Cómo se transforma un atributo compuesto al modelo relacional?</li>
+<li>¿Y un atributo multivaluado?</li>
+<li>¿Qué diferencia hay en la transformación de una relación 1:N respecto a una relación 1:1?</li>
+<li>¿Qué tipo de relación provoca la creación de una nueva tabla?</li>
+<li>Cuando hablamos de generalizaciones, ¿qué tres opciones podemos plantear al transformarlas al modelo relacional?</li>
+<li>¿Qué diferencia una entidad débil respecto a una fuerte en el modelo relacional?</li>
+<li>¿Podemos tener una entidad débil sin clave primaria?</li>
+<li>Cuando una clave ajena además es clave alternativa, ¿que tipo de relación existe entre las entidades?</li>
+<li>¿Y si la clave ajena además está marcada como valor no nulo?</li>
+<li>Cuando tenemos una clave ajena que toda ella es una clave primaria, ¿que tipo de relación existe entre las entidades?</li>
+</ol>
+<h3 id="programacion-de-aula-15h">Programación de Aula (15h)</h3>
+<p>Esta unidad es la cuarta, con lo que se imparte en la primera evaluación, durante el mes de noviembre, con una duración estimada de 14 sesiones lectivas:</p>
+<table>
+<thead>
+<tr>
+<th>Sesión</th>
+<th>Contenidos</th>
+<th>Actividades</th>
+<th>Criterios trabajados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#pasos">Paso</a> de E/R al MR</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Relaciones <a href="#1n">1:N</a> y <a href="#11">1:1</a></td>
+<td><a href="#AC401">AC401</a>, <a href="#AC402">AC402</a></td>
+<td>CE6b-CE6f, CE6h</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Relaciones <a href="#nm">N:M</a></td>
+<td><a href="#AC403">AC403</a></td>
+<td>CE6b-CE6f, CE6h</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#restricciones">Restricciones</a></td>
+<td><a href="#AC406">AC406</a></td>
+<td>CE6b-CE6f, CE6h</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#generalizacion">Generalización</a></td>
+<td><a href="#AC408">AC408</a></td>
+<td>CE6b-CE6f, CE6h</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Práctica "Cocina"</td>
+<td><a href="#PR409">PR409</a></td>
+<td>CE6a-CE6g, CE6h</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#de-mr-a-er">De MR a EER</a> I</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>De MR a EER II</td>
+<td><a href="#AC410">AC410</a>, <a href="#AC411">AC411</a></td>
+<td>CE6d</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Práctica "Gimnasio"</td>
+<td><a href="#AC412">AC412</a></td>
+<td>CE6d</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Interpretando MR</td>
+<td><a href="#AC416">AC416</a></td>
+<td>CE6a-CE6f</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Práctica "Ticket de compra"</td>
+<td><a href="#PR418">PR418</a></td>
+<td>RA6</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Prueba objetiva</td>
+<td><a href="#PO419">PO419</a></td>
+<td>RA6</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Prueba objetiva</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Reto - diseño lógico</td>
+<td><a href="#PY417">PY417</a></td>
+<td>RA6</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Reto - exposiciones</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Al finalizar esta unidad, realizaremos una prueba objetiva consistente en modelar supuestos sencillos y posteriormente transformarlos a modelo relacional, así como interpretar modelos ya existentes.</p>
+<h2 id="pasos">Pasos</h2>
+<p>Una vez conocido el modelo conceptual entidad-relación y el modelo lógico relacional, vamos a estudiar como transformar y pasar de uno a otro. Para ello, seguiremos los siguientes pasos:</p>
+<ol>
+<li>Las entidades pasan a ser tablas</li>
+<li>Los atributos pasar a ser columnas</li>
+<li>Los atributos identificadores pasar a ser claves primarias.</li>
+<li>Los atributos de las relaciones pasan a columnas detrás de las claves ajenas</li>
+<li>Las relaciones, dependiendo de la cardinalidad, pasarán a ser claves ajenas y/o tablas.</li>
+</ol>
+<h2 id="atributos">Atributos</h2>
+<p>Conviene recordar que dentro de una tabla, no se puede repetir el nombre de ningún atributo, pero sí en tablas diferentes.</p>
+<p>Algunos profesionales prefieren que no se repitan los identificadores entre diferentes tablas de una misma BD, aunque es cierto que las herramientas ORM de generación de modelos físicos a partir de definición de clases u objetos suelen nombrar todas las claves primarias como <code>id</code> o <code>_id</code>.</p>
+<p>En cuanto a los atributos <strong>compuestos</strong>, se separan como atributos individuales dentro de la tabla, pudiéndoles poner el prefijo del atributo compuesto o el propio nombre del atributo si no da pie a confusión.</p>
+<p>Para los atributos <strong>derivados</strong>, dependiendo del caso, bien no se añaden como atributo (ya que se obtendrán a partir de los datos de las relaciones), o bien se renombra el atributo para almacenar el dato en crudo sobre el cual se realiza el cálculo necesario.</p>
+<p><img alt="" src="images/04atributos.png" title="Transformación de atributos" /></p>
+<p>Transformación de atributos</p>
+<p>Por ejemplo, si partimos de un sencillo modelo ER de un cliente, su transformación al modelo relacional sería la siguiente:</p>
+<p><code>CLIENTE (dni, nombre, calle, numPiso, ciudad, fnac)  
+· PK: (dni)</code></p>
+<p>Destacar que no hemos puesto el nombre del atributo compuesto, sino cada uno de sus atributos, y además, hemos renombrado <code>numero</code> a <code>numPiso</code> para evitar confusiones con otras entidades; respecto al atributo derivado <code>edad</code>, lo hemos cambiado por la fecha de nacimiento (<code>fnac</code>).</p>
+<p>Respecto a los atributos <strong>multivaluados</strong>, derivan en una relación uno a muchos (1:N), tal como veremos a continuación.</p>
+<h3 id="claves-compuestas">Claves compuestas</h3>
+<p>Normalmente, cada entidad tendrá un atributo identificador que traduciremos en una clave primaria. Pero puede darse el caso que una entidad tenga una clave compuesta, o tenga marcados dos atributos identificadores (en este caso, uno será la clave primaria y el otro será una clave alternativa que marcaremos como única).</p>
+<p>Por ejemplo, el siguiente diagrama representa un aula que se identifica mediante una clave compuesta:</p>
+<p><code>AULA (edificio, numSala, numAsientos)  
+· PK: (edificio, numSala)</code></p>
+<p>Sin embargo, también podemos tener un empleado con dos atributos identificadores:</p>
+<p><code>EMPLEADO (codigo, nif, nombre, salario)  
+· PK: (codigo)  
+· UK: (nif)</code></p>
+<p><img alt="" src="images/04claves-compuestas.png" title="Clave primaria compuesta vs claves candidatas" /></p>
+<p>Clave primaria compuesta vs claves candidatas</p>
+<h2 id="relaciones">Relaciones</h2>
+<p>Al transformar las relaciones, dependiendo de la cardinalidad deberemos colocar la clave ajena en un lugar u otro.</p>
+<h3 id="1n">1:N</h3>
+<p>La clave primaria de la entidad con cardinalidad máxima a 1 se incluye en la entidad con cardinalidad máxima N como clave ajena.</p>
+<p><img alt="" src="images/04relaciones1n.png" title="Transformación de relación 1:N" /></p>
+<p>Transformación de relación 1:N</p>
+<p><code>A (a0, a1, b0*)  
+· PK: (a0)  
+· FK: (b0) → B</code></p>
+<p><code>B (b0, b1)  
+· PK: (b0)</code></p>
+<p>De esta manera, tenemos que dado un registro en A, tendremos uno en B. Y dado un B, podemos tener muchos en A, cumpliendo la cardinalidad de uno a muchos.</p>
+<p>Por ejemplo, si tenemos un modelo donde, en vez de un atributo multivaluado, hemos creado una entidad para modelar que una persona puede tener muchos teléfonos:</p>
+<p><img alt="" src="images/04ejemplo1n.png" title="Ejemplo de relación 1:N" /></p>
+<p>Ejemplo de relación 1:N</p>
+<p>Si aplicamos la transformación recién vista, obtenemos el siguiente esquema lógico:</p>
+<p><code>PERSONA (dni, nombre, direccion)  
+· PK: (dni)</code></p>
+<p><code>TELEFONO (numero, propio, dni*)  
+· PK: (numero)  
+· FK: (dni) → PERSONA</code></p>
+<p>Conviene recordar que la clave ajena será la clave primaria que nos hemos traido desde la entidad con cardinalidad máxima a 1 (en este caso, llevamos la clave primaria de <code>PERSONA</code> a <code>TELEFONO</code>), de manera que el atributo <code>TELEFONO.dni</code> representa la relación <code>TENER</code>.</p>
+<p>Las claves ajenas se colocan tras los atributos de cada tabla (en este caso, detrás de <code>numero</code> y <code>propio</code>), y normalmente, se nombran con el mismo nombre de la clave primaria. Si diera pie a confusión, es recomendable renombrarla pudiendo como sufijo el nombre de la tabla.</p>
+<p>Finalmente, si quisiéramos generar el diagrama relacional, obtendríamos una gráfico similar al siguiente, donde se puede ver como desde <code>TELEFONO.dni</code> se conecta con <code>PERSONA.dni</code>:</p>
+<p><img alt="" src="images/04ejemplo1n-mr.png" title="Esquema relacional en ERDPlus" /></p>
+<p>Esquema relacional en ERDPlus</p>
+<p>Recordad la regla de integridad referencial del modelo relacional, donde cada valor de la clave ajena debe coincidir con un valor existente de la clave primaria a la que referencia (o ser nulo). De esta manera, no podemos tener un <code>dni</code> en la tabla <code>TELEFONO</code> que no exista previamente en la tabla <code>PERSONA</code>.</p>
+<ul>
+<li><code>PERSONA</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>dni</th>
+<th>nombre</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11111111A</td>
+<td>Pedro Casas</td>
+<td>Calle Mayor, 1</td>
+</tr>
+<tr>
+<td>22222222B</td>
+<td>Laura García</td>
+<td>Avda Libertad, 33</td>
+</tr>
+<tr>
+<td>33333333C</td>
+<td>Mireia Vidal</td>
+<td>Paseo de la Estación, 5</td>
+</tr>
+<tr>
+<td>- <code>TELEFONO</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>numero</th>
+<th>propio</th>
+<th>dni<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>636111111</td>
+<td>true</td>
+<td>22222222B</td>
+</tr>
+<tr>
+<td>686222222</td>
+<td>true</td>
+<td>11111111A</td>
+</tr>
+<tr>
+<td>666333333</td>
+<td>false</td>
+<td>11111111A</td>
+</tr>
+<tr>
+<td>666444444</td>
+<td>true</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Renombrando claves ajenas</p>
+<p>Aunque es muy común que el nombre del atributo que hace de clave ajena coincida con la clave primaria a la que apunta, podemos renombrarla y ponerle un nombre que facilite su comprensión.</p>
+<p>En el caso de la tabla <code>TELEFONO</code>, el campo <code>dni</code> hace referencia al titular del teléfono, no es que un teléfono tenga un dni. Podríamos haber modelado la tabla renombrando el <code>TELEFONO.dni</code> como <code>TELEFONO.propietario</code> dando un valor semántico al atributo:</p>
+<p><code>TELEFONO (numero, propio, propietario*)  
+· PK: (numero)  
+· FK: (propietario) → PERSONA</code></p>
+<p>Lo que sí es obligatorio es que los dominios de las claves ajenas y las claves primarias coincidan.</p>
+<p>Atributos multivaluados</p>
+<p>Cuando tenemos un atributo multivaluado, éste se mapea en una relación separada.</p>
+<p>Podemos crear una nueva tabla con un código o atributo identificador para cada registro y añadir una clave ajena a modo de relación 1:N.</p>
+<p><img alt="" src="images/04atributos-multivaluado.png" title="Atributo multivaluado" /></p>
+<p>Atributo multivaluado</p>
+<p>Así pues, si tenemos un empleado que tiene muchos teléfonos mediante un atributo, generaremos dos tablas:</p>
+<p><code>EMPLEADO (nif, nombre)  
+· PK: (nif)</code></p>
+<p><code>TELEFONO (numero, dni*)  
+· PK: (numero)  
+· FK: (dni) → EMPLEADO</code></p>
+<p>Si fuera un valor que pudiese compartirse entre varios empleados, como pudiera ser que un empleado tiene muchos cargos, y ese mismo cargo lo pueden tener varios empleados (pero no nos interesa a priori modelarlo conceptualmente como una entidad), podríamos crear una clave primaria compuesta:</p>
+<p><code>CARGO (cargo, dni*)  
+· PK: (cargo, dni)  
+· FK: (dni) → EMPLEADO</code></p>
+<h3 id="11">1:1</h3>
+<p>En este caso, la clave ajena se pone en cualquier entidad y se añade como clave alternativa/única (<code>UK</code>).</p>
+<p><img alt="" src="images/04relaciones11.png" title="Transformación de relación 1:1" /></p>
+<p>Transformación de relación 1:1</p>
+<p>Así pues, una posible solución sería llevar la clave ajena a A:</p>
+<p><code>A (a0, a1, b0*)  
+· PK: (a0)  
+· FK: (b0) → B  
+· UK: (b0)</code></p>
+<p><code>B (b0, b1)  
+· PK: (b0)</code></p>
+<p>Al hacer que el atributo que es clave ajena sea clave única, restringimos que dicho valor no se pueda repetir.</p>
+<p>Y la otra posible solución sería llevar la clave ajena a B:</p>
+<p><code>A (a0, a1)  
+· PK: (a0)</code></p>
+<p><code>B (b0, b1, a0*)  
+· PK: (b0)  
+· FK: (a0) → A  
+· UK: (a0)</code></p>
+<p><img alt="" src="images/04ejemplo11.png" title="Ejemplo de relación 1:1" /></p>
+<p>Ejemplo de relación 1:1</p>
+<p>Vamos a poner otro ejemplo. En este caso, tenemos la relación existente entre un vehículo y el empleado que lo conduce en una empresa, dando lugar a una relación 1:1 (fíjate como en este caso, hemos renombrado la clave ajena a <code>dniEmpleado</code> para facilitar la compresión):</p>
+<p><code>EMPLEADO (dni, nombre, dirección)  
+· PK: (dni)</code></p>
+<p><code>VEHICULO (matrícula, marca, modelo, dniEmpleado*)  
+· PK: (matrícula)  
+· FK: (dniEmpleado) → EMPLEADO  
+· UK: (dniEmpleado)</code></p>
+<p>¿Sabrías...?</p>
+<p>¿Sabrías crear otra solución donde la clave ajena estuviera en la entidad <code>EMPLEADO</code>?<br />
+A continuación, rellena las dos tablas con datos y comprueba si la relación entre ambas entidades es 1:N o 1:1.</p>
+<h3 id="nm">N:M</h3>
+<p>En el caso de las relaciones muchos a muchos, la relación se traduce en una nueva tabla, cuya clave primaria se compone de las claves primarias referenciadas, y cada clave primaria es una clave ajena.</p>
+<p><img alt="" src="images/04relacionesnm.png" title="Transformación de relación N:M" /></p>
+<p>Transformación de relación N:M</p>
+<p><code>A (a0, a1)  
+· PK: (a0)</code></p>
+<p><code>B (b0, b1)  
+· PK: (b0)</code></p>
+<p><code>R (a0*, b0*)  
+· PK: (a0, b0)  
+· FK: (a0) → A  
+· FK: (b0) → B</code></p>
+<p>Para este ejemplo, tenemos una empresa de transportes, donde un conductor conduce varios autobuses, y luego un autobus lo conducen varios conductores en diferentes trayectos, dando lugar a una relación muchos a muchos, donde en la relación añadimos el atributo <code>trayecto</code>:</p>
+<p><img alt="" src="images/04ejemplonm.png" title="Ejemplo de relación N:M" /></p>
+<p>Ejemplo de relación N:M</p>
+<p><code>CONDUCTOR (dni, nombre, experiencia)  
+· PK: (dni)</code></p>
+<p><code>AUTOBUS (matricula, categoria)  
+· PK: (matricula)</code></p>
+<p><code>CONDUCIR (dni*, matricula*, trayecto)  
+· PK: (dni, matricula)  
+· FK: (dni) → CONDUCTOR  
+· FK: (matricula) → AUTOBUS</code></p>
+<p>El orden importa</p>
+<p>Cuando pasamos una relación uno a muchos o muchos a muchos de un modelo ER a un modelo relacional, primero crearemos las tablas que no tienen claves ajenas.</p>
+<p>En este caso, empezaremos por <code>CONDUCTOR</code> y <code>AUTOBUS</code>, definiendo sus claves primarias y atributos.</p>
+<p>A continuación, crearemos la/s tabla/s que contiene claves ajenas a las tablas ya creadas, esto es, la tabla <code>CONDUCIR</code> que apunta a <code>CONDUCTOR</code> y <code>AUTOBUS</code>.</p>
+<p>En este caso, el diagrama del modelo relacional se traduce en tres tablas conectadas, colocando el atributo de la relación en la nueva tabla <code>CONDUCIR</code>. Destacar como la tabla tiene una clave primaria compuesta, donde de cada parte de la clave sale una clave ajena a cada una de las tablas que relaciona:</p>
+<p><img alt="" src="images/04ejemplonm-mr.png" title="Esquema relacional en ERDPlus" /></p>
+<p>Esquema relacional en ERDPlus</p>
+<p>Y comprobamos con datos cómo sí se cumplen las cardinalidades:</p>
+<ul>
+<li><code>AUTOBUS</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>matricula</th>
+<th>categoria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1111ABC</td>
+<td>normal</td>
+</tr>
+<tr>
+<td>2222BCD</td>
+<td>larga distancia</td>
+</tr>
+<tr>
+<td>3333DEF</td>
+<td>larga distancia</td>
+</tr>
+<tr>
+<td>- <code>CONDUCTOR</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>nif</th>
+<th>nombre</th>
+<th>experiencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11111111A</td>
+<td>Andrés Checa</td>
+<td>1</td>
+</tr>
+<tr>
+<td>22222222B</td>
+<td>José Escrig</td>
+<td>2</td>
+</tr>
+<tr>
+<td>33333333B</td>
+<td>Marina Fernández</td>
+<td>3</td>
+</tr>
+<tr>
+<td>- <code>CONDUCIR</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>nif<code>*</code></th>
+<th>matricula<code>*</code></th>
+<th>trayecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11111111A</td>
+<td>1111ABC</td>
+<td>A</td>
+</tr>
+<tr>
+<td>22222222B</td>
+<td>1111ABC</td>
+<td>B</td>
+</tr>
+<tr>
+<td>11111111A</td>
+<td>3333DEF</td>
+<td>C</td>
+</tr>
+</tbody>
+</table>
+<h4 id="nm-con-dimension-temporal">N:M con dimensión temporal</h4>
+<p>Si la relación tiene atributos de tipo fecha, será necesario incluir al menos uno en la clave primaria.</p>
+<p>Supongamos una empresa de alquiler de vehículos, donde tenemos que un cliente puede alquilar el mismo vehículo en fechas diferentes, o alquilar diferentes vehículos. Claramente, un vehículo lo pueden alquilar diferentes clientes en fechas diferentes. Para ello, creamos una relación muchos a muchos, colocando la fecha de inicio y de finalización del alquiler en la propia relación.</p>
+<p><img alt="" src="images/04ejemplonm-fecha.png" title="Relación N:M con dimensión temporal" /></p>
+<p>Relación N:M con dimensión temporal</p>
+<p>Al crear el modelo relacional, tendremos las dos tablas de las entidades relacionadas:</p>
+<p><code>CLIENTE (dni, nombre)  
+· PK: (dni)</code></p>
+<p><code>VEHICULO (matricula, kms)  
+· PK: (matricula)</code></p>
+<p>Y la tabla que las relaciona con el atributo de fecha de inicio como parte de la clave primaria (de este modo, el cliente A puede alquilar el vehículo X en días diferentes):</p>
+<p><code>ALQUILAR (dni*, matricula*, finicio, ffin)  
+· PK: (dni, matricula, finicio)  
+· FK: (dni) → CLIENTE  
+· FK: (matricula) → VEHICULO</code></p>
+<h3 id="reflexivas">Reflexivas</h3>
+<p><img alt="" src="images/04relacion-reflexiva.png" title="Relación reflexiva 1:N" /></p>
+<p>Relación reflexiva 1:N</p>
+<p>Recuerda que consideramos una relación reflexiva cuando una entidad se relaciona consigo misma.</p>
+<p>Dependiendo de la cardinalidad de la relación, si tenemos una cardinalidad 1:1 o 1:N, la clave ajena apuntará a la misma tabla, y por lo tanto tendremos que añadir un nuevo atributo (más los propios de la relación) a la tabla y si tenemos una relación N:M, las dos claves ajenas apuntarán a la misma entidad.</p>
+<p>Así pues, con el siguiente modelo 1:N tendríamos una entidad con sus atributos propios (<code>a0</code> y <code>a1</code>), al cual le añadimos la clave ajena (<code>a0r</code>) y los atributos de la relación (en este caso, <code>r0</code>):</p>
+<p><code>A (a0, a1, a0r*, r0)  
+· PK: (a0)  
+· FK: (a0r) → A</code></p>
+<p><img alt="" src="images/04relacion-reflexiva-mr.png" title="Relación reflexiva 1:N en MR" /></p>
+<p>Relación reflexiva 1:N en MR</p>
+<p>A nivel de tabla, tendríamos que unos posibles datos serían los siguientes, donde los valores de <code>a0r</code> deben ser algunos de los existentes previamente en <code>a0</code>:</p>
+<table>
+<thead>
+<tr>
+<th>a0</th>
+<th>a1</th>
+<th>a0r<code>*</code></th>
+<th>r0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>alfa</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>beta</td>
+<td>1</td>
+<td>azul</td>
+</tr>
+<tr>
+<td>3</td>
+<td>gamma</td>
+<td>2</td>
+<td>amarillo</td>
+</tr>
+<tr>
+<td>4</td>
+<td>delta</td>
+<td>1</td>
+<td>verde</td>
+</tr>
+</tbody>
+</table>
+<p>Claves ajenas compuestas</p>
+<p>¿Y si nuestra entidad tiene una clave primaria compuesta? En este caso, la clave ajena también deberá compuesta.</p>
+<p><img alt="" src="images/04ejemplo-reflexiva.png" title="Ejemplo de reflexiva 1:N" /></p>
+<p>Ejemplo de reflexiva 1:N</p>
+<p>Supongamos el siguiente diagrama donde tenemos que un producto puede ser el sustituto de uno o más productos de un almacén. Además, cada producto se identifica mediante un atributo compuesto que dará lugar a una clave primaria compuesta.</p>
+<p>Así pues, el modelo relacional sería:</p>
+<p><code>PRODUCTO (dpto, numero, nombre, pvp, dptoS*, numeroS*, fecha)  
+· PK: (dpto, numero)  
+· FK: (dptoS, numeroS) → PRODUCTO</code></p>
+<p>Donde la clave ajena también es compuesta.</p>
+<p>¿Serías capaz de dibujar el diagrama del modelo relacional?</p>
+<h2 id="restricciones">Restricciones</h2>
+<p>Una vez visto como se transforman los atributos y las relaciones, vamos a ver algunas particularidades a la hora de aplicar restricciones sobre las cardinalidades.</p>
+<h3 id="cardinalidad-minima-1">Cardinalidad mínima 1</h3>
+<p>Cuando la cardinalidad mínima es 1, independientemente de la cardinalidad máxima, estamos indicando que sí o sí dicha clave ajena debe tener un valor. Para cumplirla, únicamente debemos marcar la clave ajena como valor no nulo (VNN).</p>
+<p><img alt="" src="images/04restric-min1.png" title="Cardinalidad mínima a 1" /></p>
+<p>Cardinalidad mínima a 1</p>
+<p><code>A (a0, a1, b0*)  
+· PK: (a0)  
+· FK: (b0) → B  
+· VNN: (b0)</code></p>
+<p><code>B (b0, b1)  
+· PK: (b0)</code></p>
+<p>De esta manera, toda ocurrencia de A debe tener una de B.</p>
+<p>Cardinalidad mínima en N</p>
+<p><img alt="" src="images/04restric-min1N.png" title="Cardinalidad mínima a 1 en N" /></p>
+<p>Cardinalidad mínima a 1 en N</p>
+<p>Supongamos la misma relación que el caso que acabamos de ver, pero ahora ambos lados tienen la cardinalidad mínima a 1. El modelo relacional será el mismo:</p>
+<p><code>A (a0, a1, b0*)  
+· PK: (a0)  
+· FK: (b0) → B  
+· VNN: (b0)</code></p>
+<p><code>B (b0, b1)  
+· PK: (b0)</code></p>
+<p>Si la cardinalidad mínima está en el lado de N, se produce una pérdida expresiva, porque a nivel de base de datos no podemos obligar que para cada registro de B haya como mínimo uno de A.</p>
+<p>Vamos a comprobar con datos de ejemplo la pérdida expresiva. Si en la tablas tenemos los siguientes datos:</p>
+<ul>
+<li><code>A</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>a0</th>
+<th>a1</th>
+<th>bo<code>*</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>alfa</td>
+<td>x</td>
+</tr>
+<tr>
+<td>2</td>
+<td>beta</td>
+<td>x</td>
+</tr>
+<tr>
+<td>3</td>
+<td>gamma</td>
+<td>y</td>
+</tr>
+<tr>
+<td>- <code>B</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>b0</th>
+<th>b1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>rojo</td>
+</tr>
+<tr>
+<td>y</td>
+<td>azul</td>
+</tr>
+<tr>
+<td>z</td>
+<td>amarillo</td>
+</tr>
+</tbody>
+</table>
+<p>No podemos asegurar que todo valor de B aparezca en A, ya que el valor <code>z</code> de <code>B</code> no aparece para ninguna clave ajena en <code>A</code>.</p>
+<h3 id="identificacion">Identificación</h3>
+<p><img alt="" src="images/04restric-id.png" title="Restricción de ID" /></p>
+<p>Restricción de ID</p>
+<p>En las restricciones de identificación, la entidad débil se identifica, completamente o en parte, con la entidad fuerte. Es decir, parte de la clave primaria de la entidad débil son los atributos clave de la entidad fuerte. Es por ello, que la clave ajena debe formar parte de la clave primaria, la cual se define como una clave compuesta por la combinación de la clave primaria de la entidad fuerte y la débil:</p>
+<p><code>A (a0, b0*, a1)  
+· PK: (a0, bo)  
+· FK: (b0) → B</code></p>
+<p><code>B (b0, b1)  
+· PK: (b0)</code></p>
+<p>Los atributos clave de la entidad débil que no apuntan a la entidad fuerte se conocen como clave parcial. En el ejemplo anterior, <code>a0</code> sería la clave parcial de la entidad débil <code>A</code>.</p>
+<p><img alt="" src="images/04ejemplo-id2.png" title="Ejemplo de restricción de ID" /></p>
+<p>Ejemplo de restricción de ID</p>
+<p>En el siguiente ejemplo, tenemos que cada sala se identifica por el cine al que pertenece por un número de sala, el cual se reinicia por cada cine. Es decir, la sala 1 del cine IMF no es la misma tupla que la sala 1 del cine ABC:</p>
+<p><code>CINE (codigo, nombre, direccion)  
+· PK: (codigo)</code></p>
+<p><code>SALA (numero, codCine*, aforo)  
+· PK: (numero, codCine)  
+· FK: (codCine) → CINE</code></p>
+<p>Las tablas de datos de ejemplo demuestran que aunque la entidad débil repita número, la clave de la entidad fuerte deshace la ambigüedad:</p>
+<ul>
+<li><code>CINE</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>codigo</th>
+<th>nombre</th>
+<th>direccion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ABC</td>
+<td>Badajoz</td>
+</tr>
+<tr>
+<td>2</td>
+<td>IMF</td>
+<td>Ondara</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Odeón</td>
+<td>Badajoz</td>
+</tr>
+<tr>
+<td>- <code>SALA</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>numero</th>
+<th>codCine<code>*</code></th>
+<th>aforo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>50</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>60</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>70</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>55</td>
+</tr>
+</tbody>
+</table>
+<p>Ejemplo resuelto ID</p>
+<p>Supongamos el diagrama ER que vimos en la unidad 2 al tratar las <a href="02er.html#restricciones">restricciones de ID</a>. Vamos a obtener el modelo MR del mismo, teniendo en cuenta que la entidad <code>LINEA_PEDIDO</code> es una entidad débil respecto a la relación <code>CONTENER</code>, pero hace de entidad fuerte respecto a la relación <code>TENER</code>:</p>
+<p><img alt="" src="images/02restriccion-id-fuerte.png" title="Restricción de ID" /></p>
+<p>Restricción de ID</p>
+<p><code>PEDIDO (codigo, fecha)  
+· PK: (codigo)</code></p>
+<p><code>LINEA_PEDIDO (numero, codigo*, concepto, valor)  
+· PK: (numero, codigo)  
+· FK: (codigo) → PEDIDO</code></p>
+<p><code>OBSERVACION (codigo, descripcion, numPedido*, codPedido*)  
+· PK: (codigo)  
+· FK: (numPedido, codPedido) → LINEA_PEDIDO  
+· VNN: (numPedido, codPedido)</code></p>
+<p>¿Qué ha pasado con el atributo <code>PEDIDO.total</code>? <a href="#fn:1">1</a></p>
+<h2 id="generalizacion">Generalización</h2>
+<p>Cuando tenemos una relación de tipo generalización, crearemos una tabla para el padre y otra para cada hijo. Este planteamiento se conoce como <strong>explicitar</strong> las entidades.</p>
+<p><img alt="" src="images/04generalizacion.png" title="Generalización" /></p>
+<p>Generalización</p>
+<p>Para ello, las subclases, las entidades hijo, tienen como clave principal y ajena la clave de la superclase, el padre. De esta manera, los hijos tienen como clave primaria la misma que el padre.</p>
+<p><code>A (a0, a1)  
+· PK: (a0)</code></p>
+<p><code>B (a0*, b0, b1)  
+· PK: (a0)  
+· FK: (a0) → A</code></p>
+<p>Independientemente de si la generalización es disjunta o solapada, o total o parcial, el modelo relacional se realiza igual, perdiendo la semántica del modelo conceptual.</p>
+<p><img alt="" src="images/04ejemplo-gen.png" title="Ejemplo de Generalización de Persona" /></p>
+<p>Ejemplo de Generalización de Persona</p>
+<p>Por ejemplo, supongamos el siguiente modelo que representa la especialización de una persona en estudiante o trabajador:</p>
+<p>Si explicitamos las tablas obtendremos:</p>
+<p><code>PERSONA (dni, nombre, dirección, telefono)  
+· PK: (dni)</code></p>
+<p><code>ESTUDIANTE (dni*, nivelEst, lugarEst, horasCur)  
+· PK: (dni)  
+· FK: (dni) → PERSONA</code></p>
+<p><code>TRABAJADOR (dni*, numSegSocial, salario)  
+· PK: (dni)  
+· FK: (dni) → PERSONA</code></p>
+<h3 id="alternativas">Alternativas</h3>
+<p>Otros planteamientos diferentes a explicitar consisten en:</p>
+<ul>
+<li><strong>Colapsar</strong>: consiste en crea un única tabla con los datos de la superclase y las subclases. Es válido cuando las subclases se diferencian en muy pocos atributos. Como desventaja, las relaciones que los asocian al resto de las entidades son las mismas para las subclases, sin poder diferenciarlas. Así pues, es un solución más rápida, pero aporta peor semántica al modelo.</li>
+<li><strong>Dividir</strong>: si existen muchos atributos distintos entre las subclases y los accesos a los datos de las subclases también afectan a los atributos comunes, es mejor dividir los datos y crear una tabla por cada subclase, pero no para el padre. Este planteamiento es más eficiente en consultas sobre los hijos, pero aporta más redundancia de datos y peor semántica.</li>
+</ul>
+<p>Si retomamos el mismo ejemplo con estos planteamientos tendríamos:</p>
+<ul>
+<li>Colapsar: Una única tabla, creando un atributo tipo para indicar si es <code>estudiante</code> o <code>trabajador</code>:</li>
+</ul>
+<p><code>PERSONA (dni, nombre, dirección, telefono, tipo, nivelEst, lugarEst, horasCur, numSegSocial, salario)  
+  · PK: (dni)</code>
+- Dividir: Una tabla por cada subclase:</p>
+<p><code>ESTUDIANTE (dni, nombre, dirección, telefono, nivelEst, lugarEst, horasCur)  
+  · PK: (dni)</code></p>
+<p><code>TRABAJADOR (dni, nombre, dirección, telefono, numSegSocial, salario)  
+  · PK: (dni)</code></p>
+<h2 id="agregacion">Agregación</h2>
+<p>Una agregación no es más que una relación muchos a muchos, sobre la cual se relacionan otras tablas.</p>
+<p>Vamos a pasar al modelo relacional el ejemplo que hicimos en la unidad de modelo conceptual, sobre las incidencias que se registran en un centro educativo.</p>
+<p>El modelo ER es el siguiente, donde la entidad <code>SESION</code> es una agregación entre <code>DOCENTE</code> y <code>AULA</code>. La agregación que conceptualmente es una relación N:M se traduce en dos relaciones uno a muchos:</p>
+<p><img alt="" src="images/02agregacion.png" title="Agregación" /></p>
+<p>Agregación</p>
+<p>Así pues, el modelo relacional sería:</p>
+<p><code>DOCENTE (dni, nombre)  
+· PK: (dni)</code></p>
+<p><code>AULA (codigo, tipo)  
+· PK: (codigo)</code></p>
+<p>Si nos fijamos, la agregación tiene el mismo esquema que una relación muchos a muchos:</p>
+<p><code>SESION (dni*, codigo*, grupo)  
+· PK: (dni, codigo)  
+· FK: (dni) → DOCENTE   
+· FK: (codigo) → AULA</code></p>
+<p>Y al relacionar <code>INCIDENCIA</code> con <code>SESION</code>, como la clave primaria de <code>SESION</code> es compuesta, también lo será la clave ajena de la relación uno a muchos:</p>
+<p><code>INCIDENCIA (codigo*, descripcion, dniSesion*, codigoSesion*)  
+· PK: (codigo)  
+· FK: (dniSesion, codigoSesion) → SESION</code></p>
+<p>Relaciones N-arias</p>
+<p>Cuando tengamos relaciones de grado 3 o mayor, se transforman de forma similar a las relaciones muchos a muchos.</p>
+<p>Para ello, se crea una nueva tabla con la unión de las claves primarias de las entidades relacionadas, y crearemos tantas claves ajenas como entidades relacionadas.</p>
+<p>Si una de las entidades tiene cardinalidad máxima 1, se queda fuera de la clave primaria.</p>
+<h2 id="de-mr-a-er">De MR a ER</h2>
+<p>En ocasiones tendremos un modelo relacional y necesitaremos dibujar el modelo conceptual para entender bien los datos. En otras, el volver hacia atrás nos permitirá comprobar si el modelo obtenido es el resultado esperado.</p>
+<p>Para ello, sabiendo las relaciones entre las claves primarias y las claves ajenas, las claves únicas y las restricciones de valor no nulo, podemos dibujar el modelo ER a partir del esquema lógico.</p>
+<p>Algunas reglas que ya debes conocer son:</p>
+<ul>
+<li>
+<p>Si un atributo es clave ajena y no es clave primaria:</p>
+</li>
+<li>
+<p>Si es clave única, la relación es 1:1</p>
+</li>
+<li>Si no, la relación es 1:N</li>
+<li>Si el atributo también es valor no nulo (VNN), entonces la cardinalidad mínima es 1.</li>
+<li>
+<p>Si un atributo es clave ajena y es clave primaria:</p>
+</li>
+<li>
+<p>Si toda la clave primaria es clave ajena, es un hijo</p>
+</li>
+<li>Si la clave ajena es un subconjunto incompleto de la clave primaria, es una restricción de ID</li>
+<li>Si la clave ajena es un subconjunto completo de la clave primaria, es una relación N:M</li>
+</ul>
+<h3 id="cardinalidades">Cardinalidades</h3>
+<p>Un primer enfoque consiste en recuperar las cardinalidades de las relaciones a partir de un modelo relacional. De esta manera, será más fácil dibujar el modelo entidad relación.</p>
+<p>Vamos a partir de un modelo inicial sobre el cual vamos a ir iterando, el cual relaciona a un alumno con las asignaturas en las que se matricula:</p>
+<p><code>ASIGNATURA (id, nombre, horas)  
+· PK: (id)</code></p>
+<p><code>ALUMNO (dni, nombre)  
+· PK: (dni)</code></p>
+<p><code>MATRICULAR (id*, dni*, fecha)  
+· PK: (id, dni)  
+· FK: (id) → ASIGNATURA  
+· FK: (dni) → ALUMNO</code></p>
+<p>Revisando las relaciones, la tabla <code>MATRICULAR</code> tiene dos claves ajenas, una a <code>ASIGNATURA</code> y otra a <code>ALUMNO</code>, y ambas son clave primaria. Por lo tanto, la relación es N:M.</p>
+<p>Dicho esto, las cardinalidades de las relaciones son:</p>
+<ul>
+<li><code>Card(ASIGNATURA, MATRICULAR) = (0, N)</code></li>
+<li><code>Card(ALUMNO, MATRICULAR) = (0, N)</code></li>
+</ul>
+<p><img alt="" src="images/04mr-eer-01.png" title="De MR a EER I" /></p>
+<p>De MR a EER I</p>
+<p>Ahora supongamos que eliminamos la tabla <code>MATRICULAR</code> y colocamos las claves ajenas en las propias entidades <code>ALUMNO</code> y <code>ASIGNATURA</code>. Si añadimos la clave ajena en <code>ALUMNO</code> tendríamos:</p>
+<p><img alt="" src="images/04mr-eer-02.png" title="De MR a EER II" /></p>
+<p>De MR a EER II</p>
+<p><code>ASIGNATURA (id, nombre, horas)  
+· PK: (id)</code></p>
+<p><code>ALUMNO (dni, nombre, id*)  
+· PK: (dni)  
+· FK: (id) → ASIGNATURA</code></p>
+<p>En este caso, tenemos una relación 1:N entre <code>ASIGNATURA</code> y <code>ALUMNO</code> con las siguientes cardinalidades:</p>
+<ul>
+<li><code>Card(ASIGNATURA, MATRICULAR) = (0, N)</code></li>
+<li><code>Card(ALUMNO, MATRICULAR) = (0, 1)</code></li>
+</ul>
+<p>¿Y si ahora colocamos la clave ajena en <code>ASIGNATURA</code>? En este caso, tendríamos:</p>
+<p><img alt="" src="images/04mr-eer-03.png" title="De MR a EER III" /></p>
+<p>De MR a EER III</p>
+<p><code>ASIGNATURA (id, nombre, horas, dni*)  
+· PK: (id)  
+· FK: (dni) → ALUMNO</code></p>
+<p><code>ALUMNO (dni, nombre, id*)  
+· PK: (dni)</code></p>
+<p>Lo que conlleva que la relación 1:N cambie de sentido, con las siguientes cardinalidades:</p>
+<ul>
+<li><code>Card(ASIGNATURA, MATRICULAR) = (0, 1)</code></li>
+<li><code>Card(ALUMNO, MATRICULAR) = (0, N)</code></li>
+</ul>
+<p>Autoevaluación</p>
+<p>Y si en el último modelo, hacemos que la clave ajena de <code>ASIGNATURA</code> sea única, ¿qué pasaría? ¿Cómo cambiarían las cardinalidades?<br />
+Y si además hacemos que la clave ajena también tenga una restricción de valor no nulo (VNN), ¿qué pasaría? ¿Cómo cambiarían las cardinalidades?</p>
+<p>Finalmente, volvamos al caso de la relación N:M, pero ¿Y si cambiamos la clave primaria de la tabla <code>MATRICULAR</code> para que no sea una clave compuesta y la dividimos en una clave primaria más una clave única? Supongamos el siguiente caso:</p>
+<p><code>MATRICULAR (id*, dni*, fecha)  
+· PK: (id)  
+· UK: (dni)  
+· FK: (id) → ASIGNATURA  
+· FK: (dni) → ALUMNO</code></p>
+<p>En este caso, ya no tenemos una relación N:M, sino que tenemos una relación 1:1 con una restricción de identificación entre <code>ASIGNATURA</code> y <code>MATRICULAR</code> (a la que podemos llamar <code>MATRICULAR_ASIGNATURA</code>), de manera que <code>MATRICULAR</code> pasa de ser una relación N:M a una entidad débil. Además, tenemos una relación 1:N entre <code>ALUMNO</code> y <code>MATRICULAR</code> (a la que podemos llamar <code>MATRICULAR_ALUMNO</code>). Es decir, pasamos de tener una relación entre dos entidades, a tener dos relaciones entre tres entidades.</p>
+<p>Dicho de otra manera, un alumno se puede matricular en varias asignaturas, pero una asignatura sólo puede tener un alumno matriculado.</p>
+<p>Así pues, ahora las cardinalidades son:</p>
+<ul>
+<li><code>Card(ASIGNATURA, MATRICULAR_ASIGNATURA) = (0, 1)</code></li>
+<li><code>Card(MATRICULAR, MATRICULAR_ASIGNATURA) = (1, 1)</code></li>
+<li><code>Card(ALUMNO, MATRICULAR_ALUMNO) = (0, N)</code></li>
+<li><code>Card(MATRICULAR, MATRICULAR_ALUMNO) = (0, 1)</code></li>
+</ul>
+<p><img alt="" src="images/04mr-eer-04.png" title="De MR a EER IV" /></p>
+<p>De MR a EER IV</p>
+<h3 id="dibujando-el-modelo-er">Dibujando el modelo ER</h3>
+<p>A la hora de dibujar el modelo ER, debemos seguir un orden lógico. Primero, dibujamos las entidades que no tienen claves ajenas que salgan de ellas, y luego vamos añadiendo las entidades que sí tienen claves ajenas, revisando las restricciones y cardinalidades.</p>
+<h4 id="supuesto-i">Supuesto I</h4>
+<p>Vamos a crear el modelo conceptual partiendo del siguiente modelo relacional:</p>
+<p><code>A (a0, a1, a2)  
+· PK: (a0)</code></p>
+<p><code>B (b0, b1, a0*, c0*)  
+· PK: (b0)  
+· FK: (a0) → A  
+· FK: (c0) → D</code></p>
+<p><code>C (c0, c1, c2)  
+· PK: (c0)</code></p>
+<p><code>D (c0*, d0)  
+· PK: (c0)  
+· FK: (c0) → C</code></p>
+<p>Solución</p>
+<p>El primer paso es dibujar aquellas entidades que no tienen ninguna clave ajena que salga de ellas, es decir, entidades <em>"finales"</em>. Así pues empezaremos modelando la entidad <code>A</code>. Para modelar la entidad <code>B</code>, necesitamos previamente haber modelado las entidades <code>C</code> y <code>D</code>. Así pues, vamos a continuar con la entidad <code>C</code>.</p>
+<p>Cuando nos planteamos la entidad <code>C</code>, vemos que tiene un atributo que es clave ajena hacia <code>D</code>, el cual además es clave primaria, por lo tanto, podemos decir que <code>C</code> es una subclase de <code>D</code>.</p>
+<p>Finalmente, modelamos la entidad <code>B</code>, la cual tiene dos claves ajenas sencillas que no son claves primarias, y por lo tanto, son relaciones 1:N con las entidades a las que referencia.</p>
+<p>El resultado se puede comprobar en el siguiente diagrama:</p>
+<p><img alt="" src="images/04ejemploMR-ER.png" title="Supuesto MR-ER" /></p>
+<p>Supuesto MR-ER</p>
+<h4 id="supuesto-ii">Supuesto II</h4>
+<p>En este caso, vamos a realizar un ejemplo más complejo. Partimos del siguiente modelo relacional:</p>
+<p><code>A (a0, a1)  
+· PK: (a0)</code></p>
+<p><code>B (b0*, b1, b2, b3*)  
+· PK: (b0)  
+· FK: (b0) → A  
+· FK: (b3) → C  
+· VNN: (b3)</code></p>
+<p><code>C (c0*, c1)  
+· PK: (c0)  
+· FK: (c0) → A</code></p>
+<p><code>D (d0, d1, d2*)  
+· PK: (d0, d2)  
+· FK: (d2) → C</code></p>
+<p><code>E (e0*, e1*, e2*, e3)  
+· PK: (e0, e1, e2)  
+· FK: (e0) → A  
+· FK: (e1, e2) → D</code></p>
+<p>Solución</p>
+<p>En este caso, el orden de creación de las entidades serán <code>A</code>, luego <code>C</code> y <code>D</code>, y finalmente <code>B</code> y <code>E</code>.</p>
+<p>En caso de <code>C</code>, al tener una clave ajena que es una clave primaria (completa), entonces <code>C</code> es una subclase de <code>A</code>.
+Respecto a <code>D</code>, en este caso tenemos una clave ajena, pero que forma parte de la clave primaria (es un subconjunto de la clave primaria), y por tanto, es una restricción de identificación respecto a la entidad <code>C</code>.</p>
+<p>Una vez tenemos <code>A</code>, <code>C</code> y <code>D</code>, nos centramos en <code>B</code>. <code>B</code> sigue la misma estructura que <code>C</code>, por lo tanto, <code>B</code> también es una subclase de <code>A</code>, y además tiene otra clave ajena marcada como valor no nulo, que implica que es una relación 1:N (al no estar marcado como clave única), pero que sí tiene una cardinalidad mínima a 1 (por el valor no nulo).</p>
+<p>Para terminar, la entidad <code>E</code> tiene dos claves ajenas que cubren toda la clave primaria. Por lo tanto, es una relación N:M entre <code>A</code> y <code>D</code>.</p>
+<p>El resultado se puede comprobar en el siguiente diagrama:</p>
+<p><img alt="" src="images/04ejemploMR-ER2.png" title="Supuesto II MR-ER" /></p>
+<p>Supuesto II MR-ER</p>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li>Herramienta gráfica <a href="https://erdplus.com/">ERDPlus</a> para la realización de diagramas de modelos relacionales.</li>
+<li>
+<p>Materiales sobre el módulo de BD:</p>
+</li>
+<li>
+<p><em><a href="https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m02_/web/fp_dam_m02_htmlindex/WebContent/u3/a1/continguts.md">Model Relacional</a> - Institut Obert de Catalunya</em></p>
+</li>
+<li><a href="https://jorgesanchez.net/manuales/gbd/diseno-logico-relacional.md">Diseño lógico relacional</a> de <em>Jorge Sánchez</em></li>
+<li><a href="https://apuntes-daw.javiergutierrez.trade/bases-de-datos/ut3/recopila.md">Bases de datos relacionales</a> de <em>Javier Gutiérrez</em></li>
+<li><a href="https://gestionbasesdatos.readthedocs.io/es/latest/Tema2/index.md">Diseño de modelo lógicos normalizados</a> de gestionbasesdatos.readthedocs.io</li>
+<li><a href="https://www.cs.us.es/cursos/bd-2023/temas/BD-Tema-2.pdf">Diseño lógico</a>, por <em>Luis Valencia</em> y <em>David Orellana</em>, de la <em>Universidad de Sevilla</em>.</li>
+</ul>
+<h2 id="actividades">Actividades</h2>
+<ul>
+<li><strong>AC401</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 2p) Supongamos el siguiente modelo ER donde representamos un sistema de información donde modelamos los datos de un entrenador y los jugadores de un equipo de baloncesto. De momento, sólo modelamos la relación entre el entrenador y los jugadores:</li>
+</ul>
+<p><img alt="" src="images/04ac401.png" title="Actividad 401" /></p>
+<p>Actividad 401</p>
+<p>Obtén el esquema relacional y a continuación, mediante ERDPlus, dibuja el modelo relacional.</p>
+<ul>
+<li><strong>AC402</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 2p) Sobre el ejercicio anterior, vamos a añadir la entidad <code>EQUIPO</code> con el nombre del mismo, su logotipo, dirección y año de creación. Claramente, cada equipo sólo tiene un único entrenador, y un entrenador sólo puede serlo de un equipo.</li>
+</ul>
+<p>Se pide:</p>
+<ul>
+<li>Modifica el modelo ER para añadir la nueva entidad y la relación necesaria</li>
+<li>
+<p>Modifica el modelo relacional a partir del nuevo modelo ER.</p>
+</li>
+<li>
+<p><strong>AC403</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 3p) Tenemos el siguiente modelo ER que representa las diferentes ediciones que de un libro publica una editorial, y los autores que escriben los libros:</p>
+</li>
+</ul>
+<p><img alt="" src="images/04ac403.png" title="Actividad 403" /></p>
+<p>Actividad 403</p>
+<p>Obtén el esquema relacional y completa el diccionario de datos.</p>
+<ul>
+<li><strong>AR404</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 3p) Realiza el esquema lógico mediante un modelo relacional del siguiente modelo ER (es la solución del <a href="02er.html#supuesto-carreteras">Supuesto de Carreteras</a> de la sesión de Modelo ER):</li>
+</ul>
+<p><img alt="" src="images/02solucion-carretera.png" title="Actividad 404" /></p>
+<p>Actividad 404</p>
+<ul>
+<li><strong>AP405</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 3p) Tenemos el siguiente modelo ER sobre la organización de una empresa en departamentos y las características de sus empleados:</li>
+</ul>
+<p><img alt="" src="images/04ap405.png" title="Actividad 405" /></p>
+<p>Actividad 405</p>
+<p>Obtén el esquema relacional e indica las cardinalidades de las relaciones.</p>
+<ul>
+<li><strong>AC406</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 3p) A partir del siguiente modelo ER que contiene restricciones de cardinalidad mínima y restricciones de identificación, se pide:</li>
+</ul>
+<p><img alt="" src="images/04ac406.png" title="Actividad 406" /></p>
+<p>Actividad 406</p>
+<ul>
+<li>Genera el modelo relacional.</li>
+<li>Indica las cardinalidades de las relaciones.</li>
+<li>
+<p>Rellena tres tablas con datos ficticios (al menos 3 registros por tabla), ya sean datos relacionados o no, conforme consideres.</p>
+</li>
+<li>
+<p><strong>AR407</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 3p) Crea el modelo relacional a partir del modelo conceptual presentado en la <a href="02er.html#AC203">actividad 203</a> sobre un centro educativo.</p>
+</li>
+</ul>
+<p><img alt="" src="images/02ac203.png" title="Modelo ER Centro Educativo" /></p>
+<p>Modelo ER Centro Educativo</p>
+<ul>
+<li><strong>AC408</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 3p) Crea el modelo relacional a partir del modelo conceptual presentado en el supuesto de la tienda visto en el apartado de generalizaciones de la <a href="02er.html#supuesto-tienda">unidad 2</a>.</li>
+</ul>
+<p><img alt="" src="images/02solucion-tienda.png" title="Modelo EER Tienda" /></p>
+<p>Modelo EER Tienda</p>
+<ul>
+<li><strong>PR409</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6h // 6p) Crea el modelo relacional a partir del modelo conceptual presentado en la <a href="02er.html#AC215">actividad 215</a> sobre una cocina de un restaurante.</li>
+</ul>
+<p><img alt="" src="images/02cocina.png" title="Modelo EER Cocina" /></p>
+<p>Modelo EER Cocina</p>
+<ul>
+<li>
+<p><strong>AC410</strong>. (RABD.6 // CE6a, CE6f // 1p) Indica las cardinalidades de las siguientes tablas:</p>
+</li>
+<li>
+<p>410.1</p>
+<hr />
+<p><code>DEPARTAMENTO (id, nombre)  
+· PK: (id)</code></p>
+<p><code>EMPLEADO (nif, nombre, dpto*)  
+· PK: (nif)  
+· FK: (dpto) → DEPARTAMENTO</code></p>
+<hr />
+<ul>
+<li>Card(DEPARTAMENTO, TRABAJAR) = (     ,     )</li>
+<li>Card(EMPLEADO, TRABAJAR) = (     ,     )</li>
+<li>410.2</li>
+</ul>
+<hr />
+<p><code>DEPARTAMENTO (id, nombre)  
+· PK: (id)</code></p>
+<p><code>EMPLEADO (nif, nombre, dpto*)  
+· PK: (nif)  
+· FK: (dpto) → DEPARTAMENTO  
+· VNN: (dpto)</code></p>
+<hr />
+<ul>
+<li>Card(DEPARTAMENTO, TRABAJAR) = (     ,     )</li>
+<li>Card(EMPLEADO, TRABAJAR) = (     ,     )</li>
+<li>410.3</li>
+</ul>
+<hr />
+<p><code>DEPARTAMENTO (id, nombre, jefe)  
+· PK: (id)  
+· FK: (jefe) → EMPLEADO</code></p>
+<p><code>EMPLEADO (nif, nombre)  
+· PK: (nif)</code></p>
+<hr />
+<ul>
+<li>Card(DEPARTAMENTO, TRABAJAR) = (     ,     )</li>
+<li>Card(EMPLEADO, TRABAJAR) = (     ,     )</li>
+<li>410.4</li>
+</ul>
+<hr />
+<p><code>DEPARTAMENTO (id, nombre)  
+· PK: (id)</code></p>
+<p><code>EMPLEADO (nif, nombre, dpto*)  
+· PK: (nif)  
+· FK: (dpto) → DEPARTAMENTO  
+· UK: (dpto)</code></p>
+<hr />
+<ul>
+<li>Card(DEPARTAMENTO, TRABAJAR) = (     ,     )</li>
+<li>Card(EMPLEADO, TRABAJAR) = (     ,     )</li>
+</ul>
+</li>
+<li>
+<p><strong>AC411</strong>. (RABD.6 // CE6a, CE6d // 3p) A partir de los siguientes esquemas lógicos, dibuja el modelo ER:</p>
+</li>
+<li>
+<p>Esquema 1</p>
+<p><code>A (a0, a1)  
+ · PK: (a0)</code></p>
+<p><code>B (b0, b1, b2, a0*, c0*)  
+ · PK: (a0)  
+ · FK: (a0) → A  
+ · FK: (c0) → C</code></p>
+<p><code>C (c0, c1)  
+ · PK: (c0)</code></p>
+<p><code>M (c0*, m, n)  
+ · PK: (c0, m)  
+ · FK: (c0) → C</code>
+  2. Esquema 2</p>
+<p><code>A (a0, a1, bo*)  
+ · PK: (a0)  
+ · UK: (b0)  
+ · VNN: (b0)  
+ · FK: (b0) → B</code></p>
+<p><code>B (b0, b1)  
+ · PK: (b0)</code></p>
+<p><code>C (b0*, a0*, c0)  
+ · PK: (b0, a0)  
+ · FK: (b0) → B  
+ · FK: (a0) → A  
+ · VNN: (c0)</code></p>
+</li>
+<li>
+<p><strong>AC412</strong>. (RABD.6 // CE6a, CE6d // 3p) A partir del siguiente modelo relacional, dibuja el diagrama ER:</p>
+</li>
+</ul>
+<p><code>EMPLEADO (num, dni, nombre, direccion, banco)  
+  · PK: (num)  
+  · UK: (dni)</code></p>
+<p><code>MEDICO (num*, espec, anyo)  
+  · PK: (num)  
+  · FK: (num) → EMPLEADO</code></p>
+<p><code>SOCIO (num*, dniS, fechaNac, medicoChequeo*, fechaChequeo, resultadoChequeo)  
+  · PK: (num)  
+  · UK: (dniS)  
+  · FK: (num) → EMPLEADO  
+  · FK: (medicoChequeo) → MEDICO</code></p>
+<p><code>TAQUILLA (num*, estado, tamaño)  
+  · PK: (nun)</code></p>
+<p><code>FIJA (num*, socio*)  
+  · PK: (num)  
+  · FK: (num) → TAQUILLA  
+  · FK: (socio) → SOCIO</code></p>
+<p><code>DIARIA (num*, socio*)  
+  · PK: (num)  
+  · FK: (num) → TAQUILLA  
+  · FK: (socio) → SOCIO</code></p>
+<p><code>DISCIPLINA (nombre, descripcion)  
+  · PK: (nombre)</code></p>
+<p><code>MONITOR (num*, fechaNac, disciplina*)  
+  · PK: (num)  
+  · FK: (num) → EMPLEADO  
+  · FK: (disciplina) → DISCIPLINA</code></p>
+<p><code>SESION (dia, hora, sala, monitor*, disciplina*)  
+  · PK: (dia, hora, sala)  
+  · FK: (monitor) → MONITOR  
+  · FK: (disciplina) → DISCIPLINA  
+  · VNN: (monitor)  
+  · VNN: (disciplina)</code></p>
+<p><code>TECNICO (num*)  
+  · PK: (num)  
+  · FK: (num) → EMPLEADO</code></p>
+<p><code>MODELO (codigo, descripcion, empresas, tecnico*)  
+  · PK: (codigo)  
+  · FK: (tecnico) → TECNICO</code></p>
+<p><code>APARATO (num, codigo*, fechaAdquisic, estado)  
+  · PK: (num, codigo)  
+  · FK: (codigo) → MODELO</code></p>
+<ul>
+<li><strong>AR413</strong>. (RABD.6 // CE6a, CE6d // 3p) A partir del siguiente modelo relacional, dibuja el diagrama ER:</li>
+</ul>
+<p><code>EDIFICIO (num, numPlantas, gestor*)  
+  · PK: (num)  
+  · FK: (gestor) → GESTOR</code></p>
+<p><code>GESTOR (codigo, nombre, apellido1, apellido2, salario, residencia*)  
+  · PK: (codigo)  
+  · FK: (residencia) → EDIFICIO  
+  · UK: (residencia)</code></p>
+<p><code>INSPECTOR (codigo, nombre)   
+  · PK: (codigo)</code></p>
+<p><code>SUPERVISAR (codigo*, num*, fUltima, fSiguiente)  
+  · PK: (codigo, num)  
+  · FK: (codigo) → INSPECTOR  
+  · FK: (num) → EDIFICIO</code></p>
+<p><code>TRABAJADOR (codigo, nombre)  
+  · PK: (codigo)</code></p>
+<p><code>APARTAMENTO (numA, numE*, dormitorios)   
+  · PK: (numA, numE)  
+  · FK: (numE) → EDIFICIO</code></p>
+<p><code>LIMPIAR (codigo*, numA*, numE*)  
+  · PK: (codigo, numA, numE)  
+  · FK: (numA, numE) → APARTAMENTO  
+  · FK: (codigo) → TRABAJADOR</code></p>
+<ul>
+<li><strong>AP414</strong>. (RABD.6 // CE6a, CE6e // 3p) Una vez realizada la actividad <a href="#AR413">AR412</a>, añade en el modelo ER una entidad <code>PERSONA</code> a modo de generalización de las tablas <code>GESTOR</code>, <code>INSPECTOR</code> y <code>TRABAJADOR</code>.</li>
+</ul>
+<p>Crea las tablas en el modelo relacional, modificando aquellas que sean necesarias, y comprueba si las tablas que dependen de ellas también deben modificarse.</p>
+<ul>
+<li><strong>AP415</strong>. (RABD.6 // CE6a, CE6e // 3p) Las siguientes tablas representan programas de televisión e invitados que participan en ellos:</li>
+</ul>
+<p><code>PROGRAMA (id, nombre)  
+  · PK: (id)</code></p>
+<p><code>INVITADO (dni, nombre)  
+  · PK: (dni)</code></p>
+<p>Añade los elementos necesarios (claves ajenas, únicas, valores no nulos, etc...) para que se cumplan las siguientes restricciones:</p>
+<ol>
+<li><code>Card(PROGRAMA, DAR_EXCLUSIVA) = (1 , 1)</code><br />
+<code>Card(INVITADO, DAR_EXCLUSIVA) = (0 , N)</code></li>
+<li><code>Card(PROGRAMA, ASISTIR) = (0 , N)</code><br />
+<code>Card(INVITADO, ASISTIR) = (1 , 1)</code></li>
+<li><code>Card(PROGRAMA, COTILLEAR) = (0 , N)</code><br />
+<code>Card(INVITADO, COTILLEAR) = (0 , N)</code></li>
+<li><code>Card(PROGRAMA, HACER_RIDICULO) = (0 , N)</code><br />
+<code>Card(INVITADO, HACER_RIDICULO) = (0 , 1)</code></li>
+<li><code>Card(PROGRAMA, INSULTAR) = (0 , 1)</code><br />
+<code>Card(INVITADO, INSULTAR) = (0 , 1)</code></li>
+<li><code>Card(PROGRAMA, DIFAMAR) = (0 , N)</code><br />
+<code>Card(INVITADO, DIFAMAR) = (0 , 1)</code></li>
+<li><code>Card(PROGRAMA, RAZONAR) = (0 , 1)</code><br />
+<code>Card(INVITADO, RAZONAR) = (1 , 1)</code></li>
+<li><code>Card(PROGRAMA, GRITAR) = (0 , N)</code><br />
+<code>Card(INVITADO, GRITAR) = (0 , N)</code></li>
+<li><code>Card(PROGRAMA, LADRAR) = (0 , N)</code><br />
+<code>Card(INVITADO, LADRAR) = (0 , N)</code></li>
+</ol>
+<p>Finalmente, dibuja el modelo ER resultante con todas las relaciones y restricciones.</p>
+<ul>
+<li><strong>AC416</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6g // 3p) A partir del siguiente modelo relacional:</li>
+</ul>
+<p><code>EQUIPO (num, fUltimaRevision, fAlta, detalle*)  
+  · PK: (num)  
+  · FK: (detalle) → DETALLE_EQUIPO  
+  · VNN: (detalle)</code></p>
+<p><code>DETALLE_EQUIPO (codigo, tipo, modelo, fUltimaRevision)  
+  · PK: (codigo)</code></p>
+<p><code>VENTA (codigo, precio, fecha, equipo*, cliente*, comercial*)  
+  · PK: (codigo)  
+  · FK: (equipo) → EQUIPO  
+  · FK: (cliente) → CLIENTE  
+  · FK: (comercial) → COMERCIAL  
+  · VNN: (equipo)  
+  · VNN: (cliente)  
+  · VNN: (comercial)</code></p>
+<p><code>ALQUILER (codigo, precio, fecha, equipo*, cliente*, comercial*)  
+  · PK: (codigo)  
+  · FK: (equipo) → EQUIPO  
+  · FK: (cliente) → CLIENTE  
+  · FK: (comercial) → COMERCIAL  
+  · VNN: (equipo)  
+  · VNN: (cliente)  
+  · VNN: (comercial)</code></p>
+<p><code>CLIENTE (id, nombre, categoría)  
+  · PK: (id)</code></p>
+<p><code>COMERCIAL (codigo, nombre, apellido1, rango, mentor*)  
+  · PK: (codigo)  
+  · FK: (mentor) → COMERCIAL</code></p>
+<p>Contesta a las siguientes preguntas argumentado tus respuestas:</p>
+<ol>
+<li>¿Puede un <code>EQUIPO</code> tener más de un <code>DETALLE_EQUIPO</code>?</li>
+<li>¿Puede un <code>COMERCIAL</code> vender varios <code>EQUIPO</code>?</li>
+<li>¿Un <code>ALQUILER</code> cuantos <code>DETALLE_EQUIPO</code> tendrá?</li>
+<li>¿Puede un <code>CLIENTE</code> alquilar y vender el mismo <code>EQUIPO</code>?</li>
+<li>¿Podemos averiguar que <code>COMERCIAL</code> vendió un determinado <code>EQUIPO</code>?</li>
+<li>¿Una persona puede ser <code>CLIENTE</code> y <code>COMERCIAL</code> a la vez?</li>
+<li>¿Todo <code>COMERCIAL</code> debe tener un mentor?</li>
+<li>
+<p>¿Un <code>COMERCIAL</code> puede tener varios mentores o un mentor puede mentorizar a varios comerciales?</p>
+</li>
+<li>
+<p><strong>PY417</strong>. (RABD.6 // CE6a, CE6b, CE6c, CE6d, CE6e, CE6f, CE6g, CE6h // 6p) Una vez finalizamos el bloque de <em>Diseño de bases de datos,</em> ya estamos en condiciones de afrontar el reto <a href="02er.html#reto-i-disenamos">Diseñamos</a>.</p>
+</li>
+</ol>
+<p>Para ello, a partir del modelo conceptual obtenido en la <a href="02er.html#PY216">actividad 216</a>, cada equipo debe entregar:</p>
+<ul>
+<li>El modelo ER.</li>
+<li>El modelo MR obtenido a partir del modelo ER.</li>
+<li>Diccionario de datos del MR.</li>
+</ul>
+<p>En las fechas indicadas por el docente, cada equipo entregará un informe con los diferentes artefactos generados y presentará al resto de la clase los modelos generados, mediante un exposición de máximo 10 minutos por equipo.</p>
+<p>Se utilizará una rúbrica para su evaluación en base a la siguiente lista de cotejo:</p>
+<ul>
+<li>El modelo relacional refleja todo el modelo conceptual.</li>
+<li>Se argumentan las decisiones de diseño tomadas por el equipo.</li>
+<li>El diccionario de datos está completo.</li>
+<li>El informe entregado no contiene faltas de ortografía.</li>
+<li>El informe entregado tiene un formato adecuado (portada, apartados, autores, etc...).</li>
+<li>
+<p>Todo el equipo participa tanto en el informe como en la exposición de forma equitativa.</p>
+</li>
+<li>
+<p><strong>PR418</strong>. (RABD.6 // RA6 // 3p) A partir del siguiente ticket de una compra en una tienda de deportes, se pide:</p>
+</li>
+<li>
+<p>Crea el modelo EER que permita almacenar toda la información</p>
+</li>
+<li>Crear el modelo relacional a partir del modelo EER anterior.</li>
+</ul>
+<p><img alt="" src="images/04ticket.png" title="Ticket de compra" /></p>
+<p>Ticket de compra</p>
+<ul>
+<li>
+<p><strong>PO419</strong>. (RABD.6 // RA6 // 60p) La prueba objetiva que agrupa todo el resultado de aprendizaje consistirá en:</p>
+</li>
+<li>
+<p>Crear un modelo ER a partir de un sistema de información.</p>
+</li>
+<li>Crear un modelo relacional a partir de un modelo ER (basado en uno de los modelos generados en el reto de la actividad anterior).</li>
+<li>Interpreta un modelo ER o un modelo relacional.</li>
+<li>
+<p>Crear un modelo ER a partir de un modelo relacional.</p>
+</li>
+<li>
+<p><strong>AR420</strong>. (RABD.6 // CE6b, CE6c, CE6d, CE6e, CE6f, CE6g // 3p) Una vez finalizada la unidad, responde todas las preguntas del cuestionario inicial, con al menos un par de líneas para cada una de las cuestiones.</p>
+</li>
+</ul>
+<hr />
+<ol>
+<li>Que al tratarse de un atributo derivado, no se traduce al modelo relacional, si no que formará parte de la aplicación que después se encargará de obtener el dato mediante una consulta. <a href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></li>
+</ol>
+<p><a href="https://ko-fi.com/T6T8GWT9N" title="Invítame a un café en ko-fi.com"><img alt="Invítame a un café en ko-fi.com" src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" /></a></p>
+<p>Gracias por tu tiempo. Si quieres me puedes <a href="https://ko-fi.com/T6T8GWT9N">invitar a un café en ko-fi</a>.</p>
+<p>¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.expand"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
