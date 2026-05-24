@@ -1,0 +1,2388 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Herramientas y comandos necesarios para montar el entorno de trabajo del curso.">
+      
+      
+      
+        <link rel="canonical" href="https://aitor-medrano.github.io/bd/00entorno.html">
+      
+      
+        <link rel="prev" href="anexos/jerarquicas.html">
+      
+      
+        <link rel="next" href="validacion.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Entorno de Trabajo - Gestión de Bases de Datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M22%2012a10%2010%200%200%201-10%2010A10%2010%200%200%201%202%2012%2010%2010%200%200%201%2012%202a10%2010%200%200%201%2010%2010M6%2013h8l-3.5%203.5%201.42%201.42L17.84%2012l-5.92-5.92L10.5%207.5%2014%2011H6z%22/%3E%3C/svg%3E');}</style>
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="css/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-QK8SL29WX3"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-QK8SL29WX3",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-QK8SL29WX3",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>if("undefined"!=typeof __md_analytics){var consent=__md_get("__consent");consent&&consent.analytics&&__md_analytics()}</script>
+  
+
+    
+    
+  
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Entorno de Trabajo - Gestión de Bases de Datos" />
+<meta property="og:description" content="Herramientas y comandos necesarios para montar el entorno de trabajo del curso." />
+<meta property="og:image" content="https://aitor-medrano.github.io/bd/assets/images/social/00entorno.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="https://aitor-medrano.github.io/bd/00entorno.html" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Entorno de Trabajo - Gestión de Bases de Datos" />
+<meta property="twitter:description" content="Herramientas y comandos necesarios para montar el entorno de trabajo del curso." />
+<meta property="twitter:image" content="https://aitor-medrano.github.io/bd/assets/images/social/00entorno.png" />
+</head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#entorno" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-header__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  <img src="images/bd.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bases de datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Entorno de Trabajo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="deep-orange"  aria-label="Cambiar a modo noche"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo noche" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="deep-orange"  aria-label="Cambiar a modo día"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo día" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Gestión de Bases de Datos" class="md-nav__button md-logo" aria-label="Gestión de Bases de Datos" data-md-component="logo">
+      
+  <img src="images/bd.png" alt="logo">
+
+    </a>
+    Bases de datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.- Sistemas de almacenamiento
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02er.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.- Diseño conceptual: Modelo Entidad/Relación
+  
+
+    
+      <br>
+      <small>EER Extendido</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03mr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3.- Diseño lógico: Modelo Relacional
+  
+
+    
+      <br>
+      <small>Normalización</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04mr-eer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4.- Diseño lógico: Transformación
+  
+
+    
+      <br>
+      <small>De ER a MR</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05ddl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5.- Diseño físico: DDL y DML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06sql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.- Consultas sencillas
+  
+
+    
+      <br>
+      <small>Funciones. Joins</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="07sql-group.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7.- Consultas agregadas
+  
+
+    
+      <br>
+      <small>Funciones ventana. Vistas</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="08sql-subquerys.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8.- Subconsultas. Optimización
+  
+
+    
+      <br>
+      <small>CTE. Índices</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="09dcl-tcl.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9.- DCL y TCL
+  
+
+    
+      <br>
+      <small>Usuarios, permisos y transacciones</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="10plsql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10.- Programación SQL
+  
+
+    
+      <br>
+      <small>Procedimientos y funciones</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="11triggers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11.- PL/SQL Avanzado
+  
+
+    
+      <br>
+      <small>Eventos, disparadores y cursores</small>
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.- NoSQL y Big Data
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    12.- NoSQL y Big Data
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12nosql.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.1.- Fundamentos NoSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="12redis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12.2.- Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="13mongodb.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13.- MongoDB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anexos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anexos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="anexos/jerarquicas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consultas jerárquicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="00entorno.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Entorno
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MariaDB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MariaDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cliente mariadb
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PhpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafana" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente-psql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cliente psql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pgadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PgAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dbeaver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DBeaver
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente-redis-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cliente redis-cli
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redisinsight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RedisInsight
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis cloud
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MongoDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongo-atlas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mongo Atlas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongodb-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB Compass
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="validacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validación CE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="relacion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relación con otros módulos profesionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="satisfaccion.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Autoevaluación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vocabulari.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <em>Vocabulari</em>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tags.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#herramientas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Herramientas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MariaDB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MariaDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente-mariadb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cliente mariadb
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phpmyadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PhpMyAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafana" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente-psql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cliente psql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pgadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PgAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dbeaver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DBeaver
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cliente-redis-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cliente redis-cli
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redisinsight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RedisInsight
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Redis cloud
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MongoDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongo-atlas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mongo Atlas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongodb-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB Compass
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegación" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="index.html" class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Inicio
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="anexos/jerarquicas.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Anexos
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="entorno">Entorno<a class="headerlink" href="#entorno" title="Permanent link">&para;</a></h1>
+<p>En esta páginas vamos a agrupar las herramientas que vamos a utilizar en el curso, con las instrucciones o comandos necesarios para su puesta en marcha.</p>
+<h2 id="herramientas">Herramientas<a class="headerlink" href="#herramientas" title="Permanent link">&para;</a></h2>
+<p>Las herramientas que vamos a utilizar a lo largo del curso son:</p>
+<ul>
+<li><a href="https://mariadb.org/">MariaDB</a>: SGBD relacional basado en <em>MySQL</em>.<ul>
+<li><a href="https://www.phpmyadmin.net/">PhpMyAdmin</a>: herramienta gráfica de gestión de <em>MariaDB</em> / <em>MySQL</em></li>
+</ul>
+</li>
+<li><a href="https://www.postgresql.org/">PostgreSQL</a>: SGBD relacional.<ul>
+<li><a href="https://www.pgadmin.org/">PgAdmin</a>: herramienta gráfica de gestión de <em>PostgreSQL</em>.</li>
+</ul>
+</li>
+<li><a href="https://redis.io/">Redis</a>: Base de datos NoSQL de tipo clave-valor.</li>
+<li><a href="https://www.mongodb.com/">MongoDB</a>: Base de datos NoSQL de tipo documental.</li>
+<li><a href="https://grafana.com/">Grafana</a>: herramienta de observabilidad y visualización de datos.</li>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a>: editor de texto/código.</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Docker</p>
+<p>En este módulo vamos a utilizar <a href="https://www.docker.com/">Docker</a> como herramienta para probar las bases de datos. En pocas palabras, <em>Docker</em> permite lanzar contenedores que contienen los servicios que necesitemos. En este módulo no vamos a aprender a crear contenedores, sólo a lanzar contenedores ya existentes.</p>
+<p>Para ello, el primer paso es instalar <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> en tu ordenador.</p>
+</div>
+<h2 id="mariadb">MariaDB<a class="headerlink" href="#mariadb" title="Permanent link">&para;</a></h2>
+<p><em>MariaDB</em> es un SGBD relacional basado en <em>MySQL</em>, ampliamente utilizado en el desarrollo de aplicaciones web y multiplataforma.</p>
+<p><em>MariaDB</em> dispone de un interfaz basada en páginas web llamada <em>PhpMyAdmin</em>, que a través de un servidor web, por ejemplo <em>Apache</em>, permite administrar las bases de datos de un servidor desde cualquier equipo de la red.</p>
+<p>Este <em>software</em> dispone de opciones para realizar prácticamente cualquier operación que se pueda realizar vía SQL. Permite gestionar las bases de datos de un servidor, crear, borrar y modificar tablas, lanzar comandos SQL, exportar e importar información, recopilar estadísticas, hacer copias de seguridad, etc. Además dispone de un pequeño diseñador que permite gestionar las relaciones de las tablas.</p>
+<p>Para lanzar tanto <em>MariaDB</em> com <em>PhpMyAdmin</em> mediante <em>Docker</em>, el primer paso es crear la definición de los dos contenedores en un archivo <em>Docker Compose</em>, el cual hemos llamado <a href="resources/docker-compose-mariadb.yml"><code>docker-compose-mariadb.yml</code></a>, donde además de la definición de ambos contenedores, configuraremos el usuario para acceder al SBGD, así como el volumen para los datos:</p>
+<div class="highlight"><span class="filename">docker-compose-mariadb.yml</span><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="nt">services</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 2 "></span><span class="w">  </span><span class="nt">mariadb</span><span class="p">:</span>
+<span class="hll"><span class="linenos" data-linenos=" 3 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariadb:latest</span>
+</span><span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdb</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3306:3306</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_ROOT_PASSWORD=root</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_DATABASE=pruebas</span>
+<span class="linenos" data-linenos="10 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_USER=s8a</span>
+<span class="linenos" data-linenos="11 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_PASSWORD=s8a</span>
+<span class="linenos" data-linenos="12 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="13 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariabd_data:/var/lib/mysql</span>
+<span class="linenos" data-linenos="14 "></span>
+<span class="linenos" data-linenos="15 "></span><span class="w">  </span><span class="nt">phpmyadmin</span><span class="p">:</span>
+<span class="hll"><span class="linenos" data-linenos="16 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phpmyadmin</span>
+</span><span class="linenos" data-linenos="17 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phpma</span>
+<span class="linenos" data-linenos="18 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos="19 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080:80</span>
+<span class="linenos" data-linenos="20 "></span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="linenos" data-linenos="21 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PMA_HOST=mariadb</span>
+<span class="linenos" data-linenos="22 "></span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="linenos" data-linenos="23 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariadb</span>
+<span class="linenos" data-linenos="24 "></span>
+<span class="linenos" data-linenos="25 "></span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="26 "></span><span class="w">  </span><span class="nt">mariabd_data</span><span class="p">:</span>
+</code></pre></div>
+<p>Para lanzar los contenedores, utilizaremos el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>compose<span class="w"> </span>-p<span class="w"> </span>mariadb-s8a<span class="w"> </span>-f<span class="w"> </span>docker-compose-mariadb.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>
+</code></pre></div>
+<h3 id="cliente-mariadb">Cliente <code>mariadb</code><a class="headerlink" href="#cliente-mariadb" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Recuerda arrancar el contenedor</p>
+<p>No te olvides que debes arrancar el contenedor cada vez que quieras usarlo, ya sea mediante el botón <em>play</em> en <em>Docker Desktop</em>, o mediante <code>docker start &lt;nombreContenedor&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>start<span class="w"> </span>mdb<span class="w"> </span>
+</code></pre></div>
+</div>
+<p>Primero nos conectamos al contenedor (el cual en el archivo <em>docker-compose</em> hemos llamado <code>mdb</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>mdb<span class="w"> </span>bash
+</code></pre></div>
+<div class="admonition abstract">
+<p class="admonition-title">Copiando archivos en el contenedor</p>
+<p>Si queremos introducir un archivo dentro del contenedor, por ejemplo, para importar sus datos, previamente lo hemos de copiar dentro (un buen destino es <code>/tmp</code>, ya que existe en todos los contenedores):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>cp<span class="w"> </span>datos.sql<span class="w"> </span>mdb:/tmp
+</code></pre></div>
+</div>
+<p>A continuación, con el cliente del SGBD, nos conectamos al servidor (al ser <code>localhost</code> no hace falta que lo indiquemos) pasándole el usuario (<code>-u nomusuario</code>) y la contraseña (<code>-pcontraseña</code>)`:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mariadb<span class="w"> </span>-u<span class="w"> </span>s8a<span class="w"> </span>-ps8a<span class="w"> </span>pruebas
+</code></pre></div>
+<p>Y obtendremos información como que nos hemos conectado correctamente, y en la última línea muestra que ha conectado con la bd <code>pruebas</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="gp">root@e6dbf61ca4db:/# </span>mariadb<span class="w"> </span>-u<span class="w"> </span>s8a<span class="w"> </span>-ps8a<span class="w"> </span>pruebas
+<span class="linenos" data-linenos=" 2 "></span><span class="go">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span>
+<span class="linenos" data-linenos=" 3 "></span><span class="go">Your MariaDB connection id is 5</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="go">Server version: 11.4.2-MariaDB-ubu2404 mariadb.org binary distribution</span>
+<span class="linenos" data-linenos=" 5 "></span>
+<span class="linenos" data-linenos=" 6 "></span><span class="go">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span>
+<span class="linenos" data-linenos=" 7 "></span>
+<span class="linenos" data-linenos=" 8 "></span><span class="go">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span>
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="hll"><span class="linenos" data-linenos="10 "></span><span class="go">MariaDB [pruebas]&gt;</span>
+</span></code></pre></div>
+<p>Si quieres más información sobre como conectar con <em>MariaDB</em> y todos los parámetros disponibles, consulta la <a href="https://mariadb.com/kb/en/connecting-to-mariadb/">documentación oficial</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">s8a superusuario</p>
+<p>Si queremos evitar usar el usuario <code>root</code> para crear bases de datos e importar esquemas, es muy cómodo configurar el usuario que hemos creado para que pueda acceder a todos los recursos. Para ello, una vez hemos entrado con root:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mariadb<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-proot
+</code></pre></div>
+<p>Le damos todos permisos a todos los recursos al usuario <code>s8a</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="k">GRANT</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;s8a&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="k">GRANT</span><span class="w"> </span><span class="k">OPTION</span><span class="p">;</span>
+<span class="linenos" data-linenos="2 "></span><span class="n">FLUSH</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="p">;</span>
+</code></pre></div>
+<p>La gestión de permisos la estudiaremos en la unidad <em>9.- Lenguaje SQL: Control de Datos DCL y Transacciones TCL</em>.</p>
+</div>
+<figure style="float: right;">
+    <img src="images/00phpmyadmin-login.png" width="202" title="Login en PhpMyAdmin">
+    <figcaption>Login en PhpMyAdmin</figcaption>
+</figure>
+
+<h3 id="phpmyadmin">PhpMyAdmin<a class="headerlink" href="#phpmyadmin" title="Permanent link">&para;</a></h3>
+<p>Para acceder a la interfaz gráfica de <em>PhpMyAdmin</em>, desde nuestro navegador web, nos  conectamos a <a href="http://localhost:8080">http://localhost:8080</a>, donde veremos el interfaz de <em>login</em>, y entramos con el usuario <code>s8a</code> y la contraseña <code>s8a</code> que habíamos configurado previamente en la definición del contenedor.</p>
+<p>Una vez dentro, en el menú lateral veremos las bases de datos a las cuales tenemos acceso, así como, una vez seleccionada una en concreto, las tablas con sus columnas e índices, y en la parte derecha, las diferentes opciones mediante el menú superior (desde herramientas para insertar o buscar registros, como importar o exportar los datos u obtener una representación gráfica del modelo físico):</p>
+<figure style="align: center;">
+    <img src="images/00phpmyadmin-estructura.png">
+    <figcaption>Estructura de una tabla en PhpMyAdmin</figcaption>
+</figure>
+
+<div class="admonition info">
+<p class="admonition-title">Aprendiendo <em>PhpMyAdmin</em></p>
+<p>Aunque en la red existen multitud de recursos con artículos y tutoriales sobre <em>PhpMyAdmin</em>, a lo largo del curso iremos utilizando la herramienta y viendo las posibilidades que ofrece conforme las vayamos necesitando.</p>
+</div>
+<h3 id="grafana">Grafana<a class="headerlink" href="#grafana" title="Permanent link">&para;</a></h3>
+<p><a href="https://grafana.com/">Grafana</a> es una plataforma de código abierto para la observabilidad y el análisis de datos en tiempo real. Permite visualizar métricas provenientes de diversas fuentes, como bases de datos SQL y NoSQL, sistemas de monitoreo como Prometheus o InfluxDB, y plataformas en la nube. Su interfaz intuitiva facilita la creación de paneles interactivos y gráficos personalizados, lo que lo convierte en una herramienta esencial para la monitorización de infraestructuras, aplicaciones y servicios. Además, Grafana soporta alertas y consultas avanzadas, permitiendo a los usuarios tomar decisiones basadas en datos de manera eficiente.</p>
+<p>Para lanzar <em>Grafana</em> sobre los contenedores que ya tenemos, crearemos un nuevo archivo, el cual hemos llamado <a href="resources/docker-compose-grafana.yml"><code>docker-compose-grafana.yml</code></a>, donde además de la definición de los contenedores previos, hemos configurado <em>Grafana</em> en el puerto 3000:</p>
+<div class="highlight"><span class="filename">docker-compose-grafana.yml</span><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="nt">services</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 2 "></span><span class="w">  </span><span class="nt">mariadb</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 3 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariadb:latest</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mdb</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3306:3306</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_ROOT_PASSWORD=root</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_DATABASE=pruebas</span>
+<span class="linenos" data-linenos="10 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_USER=s8a</span>
+<span class="linenos" data-linenos="11 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_PASSWORD=s8a</span>
+<span class="linenos" data-linenos="12 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="13 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariabd_data:/var/lib/mysql</span>
+<span class="linenos" data-linenos="14 "></span>
+<span class="linenos" data-linenos="15 "></span><span class="w">  </span><span class="nt">phpmyadmin</span><span class="p">:</span>
+<span class="linenos" data-linenos="16 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phpmyadmin</span>
+<span class="linenos" data-linenos="17 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phpma</span>
+<span class="linenos" data-linenos="18 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos="19 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080:80</span>
+<span class="linenos" data-linenos="20 "></span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="linenos" data-linenos="21 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PMA_HOST=mariadb</span>
+<span class="linenos" data-linenos="22 "></span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="linenos" data-linenos="23 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mariadb</span>
+<span class="linenos" data-linenos="24 "></span>
+<span class="linenos" data-linenos="25 "></span><span class="w">  </span><span class="nt">grafana</span><span class="p">:</span>
+<span class="hll"><span class="linenos" data-linenos="26 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana/grafana-oss</span>
+</span><span class="linenos" data-linenos="27 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana</span>
+<span class="linenos" data-linenos="28 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos="29 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;3000:3000&quot;</span>
+<span class="linenos" data-linenos="30 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="31 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana_data:/var/lib/grafana</span>
+<span class="linenos" data-linenos="32 "></span>
+<span class="linenos" data-linenos="33 "></span><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="34 "></span><span class="w">    </span><span class="nt">mariabd_data</span><span class="p">:</span>
+<span class="hll"><span class="linenos" data-linenos="35 "></span><span class="w">    </span><span class="nt">grafana_data</span><span class="p">:</span>
+</span></code></pre></div>
+<p>Una vez creado el archivo, lanzamos el contenedor mediante:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>compose<span class="w"> </span>-p<span class="w"> </span>mariadb-s8a<span class="w"> </span>-f<span class="w"> </span>docker-compose-grafana.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>
+</code></pre></div>
+<p>Y ya podremos acceder a la página de login (<a href="http://localhost:3000/">http://localhost:3000/</a>) con el usuario <code>admin</code> y contraseña <code>admin</code>, donde nos pedirá cambiar la contraseña. Una vez dentro, uno de los primeros pasos es añadir una fuente de datos (<em>data source</em>) de tipo <em>MySQL</em>. Ten en cuenta que en nombre del <em>host</em> debes configurar el nombre del contenedor: <code>mdb:3306</code>:</p>
+<figure style="align: center;">
+    <img src="images/00grafana-mysql.png">
+    <figcaption>Configurando la fuente de datos en Grafana</figcaption>
+</figure>
+
+<h2 id="postgresql">PostgreSQL<a class="headerlink" href="#postgresql" title="Permanent link">&para;</a></h2>
+<p><em>PostgreSQL</em> es un SGBD relacional <em>open-source</em> que sigue un modelo cliente-servidor, soportando accesos concurrentes de múltiples usuarios. Está escrito en C y tiene soporte para todos los sistemas operativos, incluyendo su uso mediante <em>Docker</em>. </p>
+<p>Por ello, necesitamos lanzar un contenedor con el servidor al cual nos conectaremos desde el cliente por línea de comandos <code>psql</code> o desde el cliente gráfico <em>PgAdmin</em>. Por ello, en el fichero de configuración <a href="resources/docker-compose-postgres.yml"><code>docker-compose-postgres.yml</code></a> de <em>Docker Compose</em> tenemos dos servicios:</p>
+<div class="highlight"><span class="filename">docker-compose-postgres.yml</span><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="nt">services</span><span class="p">:</span>
+<span class="hll"><span class="linenos" data-linenos=" 2 "></span><span class="w">  </span><span class="nt">db</span><span class="p">:</span>
+</span><span class="linenos" data-linenos=" 3 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:17</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5432:5432&quot;</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=s8a</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=s8a</span>
+<span class="linenos" data-linenos="10 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=pruebas</span>
+<span class="linenos" data-linenos="11 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="12 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg-data:/var/lib/postgresql/data</span>
+<span class="hll"><span class="linenos" data-linenos="13 "></span><span class="w">  </span><span class="nt">pgadmin</span><span class="p">:</span>
+</span><span class="linenos" data-linenos="14 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dpage/pgadmin4</span>
+<span class="linenos" data-linenos="15 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgadmin</span>
+<span class="linenos" data-linenos="16 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos="17 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;5050:80&quot;</span>
+<span class="linenos" data-linenos="18 "></span><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="linenos" data-linenos="19 "></span><span class="w">      </span><span class="nt">PGADMIN_DEFAULT_EMAIL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin@s8a.com</span>
+<span class="linenos" data-linenos="20 "></span><span class="w">      </span><span class="nt">PGADMIN_DEFAULT_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<span class="linenos" data-linenos="21 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="22 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgadmin-data:/var/lib/pgadmin</span>
+<span class="linenos" data-linenos="23 "></span>
+<span class="linenos" data-linenos="24 "></span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="25 "></span><span class="w">  </span><span class="nt">pg-data</span><span class="p">:</span>
+<span class="linenos" data-linenos="26 "></span><span class="w">  </span><span class="nt">pgadmin-data</span><span class="p">:</span>
+</code></pre></div>
+<!--
+Windows:
+docker run --name postgres `
+    -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password `
+    -p 5432:5432 `
+    -v ${PWD}/postgres-volume:/var/lib/postgresql/data `
+    -d postgres:latest
+-->
+
+<p>Tras crear este archivo en nuestro sistema, podemos crear los contenedores mediante:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>compose<span class="w"> </span>-p<span class="w"> </span>pg-s8a<span class="w"> </span>-f<span class="w"> </span>docker-compose-postgres.yml<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>
+</code></pre></div>
+<h3 id="cliente-psql">Cliente <code>psql</code><a class="headerlink" href="#cliente-psql" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Recuerda arrancar el contenedor</p>
+<p>No te olvides que debes arrancar el contenedor cada vez que quieras usarlo, ya sea mediante el botón <em>play</em> en <em>Docker Desktop</em>, o mediante <code>docker start &lt;nombreContenedor&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>start<span class="w"> </span>pg<span class="w"> </span>
+</code></pre></div>
+</div>
+<p>Primero nos conectamos al contenedor (el cual en el archivo <em>docker-compose</em> hemos llamado <code>pg</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>pg<span class="w"> </span>bash
+</code></pre></div>
+<p>A continuación, mediante el cliente del SGBD, nos conectamos al servidor (al ser <code>localhost</code> no hace falta que lo indiquemos) pasándole el usuario (<code>-U s8a</code>) y luego la base de datos a la que nos queremos conectar (<code>pruebas</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>psql<span class="w"> </span>-U<span class="w"> </span>s8a<span class="w"> </span>pruebas
+</code></pre></div>
+<p>Obteniendo información de la versión instalada y en la última línea muestra que ha conectado con la bd <code>pruebas</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">root@6475b31d89f4:/# </span>psql<span class="w"> </span>-U<span class="w"> </span>s8a<span class="w"> </span>pruebas
+<span class="linenos" data-linenos="2 "></span><span class="go">psql (17.5 (Debian 17.5-1.pgdg120+1))</span>
+<span class="linenos" data-linenos="3 "></span><span class="go">Type &quot;help&quot; for help.</span>
+<span class="linenos" data-linenos="4 "></span>
+<span class="hll"><span class="linenos" data-linenos="5 "></span><span class="go">pruebas=#</span>
+</span></code></pre></div>
+<p>Además de soportar sentencias SQL estándar, <code>psql</code> también viene con varios metacomandos que le permiten obtener información sobre la conexión actual, listar objetos de base de datos existentes, copiar datos de archivos externos y mucho más. Todos estos comandos comienzan con el símbolo de la barra invertida (<code>\</code>). Por ejemplo, si queremos obtener información de la conexión usaremos el comando <code>\conninfo</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="n">pruebas</span><span class="o">=#</span><span class="w"> </span><span class="err">\</span><span class="n">conninfo</span>
+<span class="linenos" data-linenos="2 "></span><span class="n">You</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">connected</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="ss">&quot;pruebas&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="ss">&quot;s8a&quot;</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="ss">&quot;/var/run/postgresql&quot;</span><span class="w"> </span><span class="k">at</span><span class="w"> </span><span class="n">port</span><span class="w"> </span><span class="ss">&quot;5432&quot;</span><span class="p">.</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Metacomandos</p>
+<p>Mediante el metacomando <code>\?</code> podemos obtener una lista completa de todos los metacomandos soportados por <code>psql</code>. Para cerrar la lista generada y devolver el control al indicador <code>psql</code>, pulsa la letra <code>q</code>.</p>
+</div>
+<h3 id="pgadmin">PgAdmin<a class="headerlink" href="#pgadmin" title="Permanent link">&para;</a></h3>
+<p>Una vez arrancados los contenedores, accederemos a <a href="http://localhost:5050/">http://localhost:5050/</a> y tras introducir los datos del usuario administrador (<code>admin@s8a.com</code> / <code>admin</code>), veremos el interfaz de inicio de la herramienta de administración <em>PgAdmin</em>.</p>
+<p>El siguiente paso es crear la conexión con el servidor. Para ello, creamos un nuevo servidor mediante la opción <em>Agregar un nuevo servidor</em> y en los datos de configuración, indicamos los mismos datos que hemos utilizado al definir el contenedor (en el nombre del servidor podemos poner el nombre del contenedor o su identificador <code>pg</code>, así como el usuario <code>s8a</code> y la contraseña <code>s8a</code>):</p>
+<figure style="align: center;">
+    <img src="images/00pgadmin-new-server.png">
+    <figcaption>Conectando con el servidor en PgAdmin</figcaption>
+</figure>
+
+<div class="admonition danger">
+<p class="admonition-title">Error - <em>role does not exists</em></p>
+<p>Si al crear la conexión al servidor recibís algún tipo de error similar a "rol inexistente", es probable que los volúmenes y las versiones de los contenedores no concuerden. Si es así, elimina los contenedores y los volúmenes, y vuelve a ejecutar el script de <em>Docker Compose</em>.</p>
+</div>
+<p>Una vez dentro, tendremos un cuadro de mandos para monitorizar el SGBD, así como poder navegar por las estructuras de la base de datos:</p>
+<figure style="align: center;">
+    <img src="images/00pgadmin-estructura.png">
+    <figcaption>Estructura de una tabla en PgAdmin</figcaption>
+</figure>
+
+<div class="admonition info">
+<p class="admonition-title">AWS RDS</p>
+<p>Además de utilizar ambos SGBD en local, podemos hacer uso de servicios en el cloud como AWS RDS.</p>
+</div>
+<h2 id="dbeaver">DBeaver<a class="headerlink" href="#dbeaver" title="Permanent link">&para;</a></h2>
+<p>Además de utilizar los clientes propios de cada SGBD, así como herramientas web específicas, es muy común utilizar un cliente gráfico multisolución como <em>DBeaver</em>.</p>
+<p>El primer paso es crear la conexión al SGBD, mediante la opción del menú y tras seleccionar el SGBD, indicaremos los datos de la conexión. En este caso, como ya no lo hacemos desde dentro del contenedor, el host siempre será <code>localhost</code>, y los usuarios, los indicados anteriormente.</p>
+<figure style="align: center;">
+    <img src="images/00dbeaver.png">
+    <figcaption>Interfaz de DBeaver para PostgreSQL</figcaption>
+</figure>
+
+<h2 id="redis">Redis<a class="headerlink" href="#redis" title="Permanent link">&para;</a></h2>
+<p><em>Redis</em> es una solución NoSQL basada en un modelo de datos de clave-valor en memoria que se utiliza como base de datos de respuesta rápida o caché de aplicaciones. A partir de la versión 8 (mayo de 2025), incluye en el <em>core</em> funcionalidades que antes se distribuían como módulos separados (<em>JSON</em>, <em>búsqueda</em>, <em>series temporales</em>, estructuras probabilísticas y <em>vector sets</em>), por lo que ya no es necesario instalar la antigua imagen <code>redis/redis-stack</code> para acceder a ellas.</p>
+<p>Aunque podemos instalar <em>Redis</em> en cualquier sistema operativo, en nuestro caso, vamos a centrarnos en hacerlo mediante un contenedor <em>Docker</em>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Adiós a redis-stack</p>
+<p>Si has visto en otros tutoriales las imágenes <code>redis/redis-stack</code> o <code>redis/redis-stack-server</code>, ten en cuenta que están <strong>deprecadas</strong> desde la salida de <em>Redis 8</em>: el mantenimiento de las versiones 6.2, 7.2 y 7.4 finaliza en diciembre de 2025. Para nuevas instalaciones, la imagen oficial recomendada es <code>redis:8</code> (o simplemente <code>redis:latest</code>).</p>
+<p>Otra diferencia importante: en <code>redis-stack</code>, <em>RedisInsight</em> venía empaquetado en el puerto <code>8001</code>. Desde <em>Redis 8</em>, <em>RedisInsight</em> es un contenedor independiente (<code>redis/redisinsight</code>) que se sirve por defecto en el puerto <code>5540</code>.</p>
+</div>
+<p>De forma similar a como hicimos con <em>MariaDB</em> y <em>PostgreSQL</em>, vamos a definir los contenedores en un archivo <em>Docker Compose</em>, al que llamaremos <a href="https://aitor-medrano.github.io/bd/resources/docker-compose-redis.yml"><code>docker-compose-redis.yml</code></a>, con dos servicios: el servidor de <em>Redis</em> y la interfaz gráfica <a href="https://redis.io/insight/"><em>RedisInsight</em></a>:</p>
+<div class="highlight"><span class="filename">docker-compose-redis.yml</span><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="nt">services</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 2 "></span><span class="w">  </span><span class="nt">redis</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 3 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis:8</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6379:6379</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis_data:/data</span>
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span><span class="w">  </span><span class="nt">redisinsight</span><span class="p">:</span>
+<span class="linenos" data-linenos="11 "></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis/redisinsight:latest</span>
+<span class="linenos" data-linenos="12 "></span><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redisinsight</span>
+<span class="linenos" data-linenos="13 "></span><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="linenos" data-linenos="14 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5540:5540</span>
+<span class="linenos" data-linenos="15 "></span><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="16 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redisinsight_data:/data</span>
+<span class="linenos" data-linenos="17 "></span><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="linenos" data-linenos="18 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+<span class="linenos" data-linenos="19 "></span>
+<span class="linenos" data-linenos="20 "></span><span class="nt">volumes</span><span class="p">:</span>
+<span class="linenos" data-linenos="21 "></span><span class="w">  </span><span class="nt">redis_data</span><span class="p">:</span>
+<span class="linenos" data-linenos="22 "></span><span class="w">  </span><span class="nt">redisinsight_data</span><span class="p">:</span>
+</code></pre></div>
+<p>Para lanzar los contenedores ejecutaremos el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>compose<span class="w"> </span>-p<span class="w"> </span>redis-s8a<span class="w"> </span>-f<span class="w"> </span>docker-compose-redis.yml<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div>
+<h3 id="cliente-redis-cli">Cliente <code>redis-cli</code><a class="headerlink" href="#cliente-redis-cli" title="Permanent link">&para;</a></h3>
+<p>Para conectarnos al cliente interactivo <code>redis-cli</code>, primero accedemos al contenedor y, dentro, lanzamos el cliente:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker exec -it redis redis-cli
+<span class="linenos" data-linenos="2 "></span># 127.0.0.1:6379&gt;
+</code></pre></div>
+<p>Una vez dentro del cliente, podemos comprobar la versión de <em>Redis</em> con la que estamos trabajando ejecutando <code>INFO server</code> o, de forma más concisa, con el comando <code>help</code>, que en su primera línea muestra la versión instalada:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>127.0.0.1:6379&gt; help
+<span class="linenos" data-linenos="2 "></span># redis-cli 8.6.2
+<span class="linenos" data-linenos="3 "></span># To get help about Redis commands type: ...
+</code></pre></div>
+<h3 id="redisinsight">RedisInsight<a class="headerlink" href="#redisinsight" title="Permanent link">&para;</a></h3>
+<p>Si accedemos a <a href="http://localhost:5540/">http://localhost:5540/</a> accederemos a la página de inicio de <em>RedisInsight</em>, donde tras aceptar la licencia, deberemos añadir nuestra base de datos de <em>Redis</em>. Como ambos contenedores están en la misma red de <em>Docker Compose</em>, en el campo <em>Host</em> indicaremos <code>redis</code> (el nombre del servicio) y en el puerto <code>6379</code>. Es decir, la URL completa de conexión es <code>redis://default@redis:6379</code>:</p>
+<figure style="align: center;">
+    <img src="images/00redis-add-database.png" width="800px">
+    <figcaption>Añadiendo una base de datos en Redis</figcaption>
+</figure>
+
+<p>Tras añadir la base de datos, <em>RedisInsight</em> nos permite explorar las claves, ejecutar comandos en su <em>Workbench</em> integrado y visualizar los datos en forma de árbol cuando utilizamos prefijos con <code>:</code> como separador (lo veremos en la unidad de <em>Redis</em>).</p>
+<figure style="align: center;">
+    <img src="images/00redis-insight.png" width="1024px">
+    <figcaption>Redis Insight</figcaption>
+</figure>
+
+<h3 id="redis-cloud">Redis cloud<a class="headerlink" href="#redis-cloud" title="Permanent link">&para;</a></h3>
+<p>Si no queremos instalar <em>Redis</em> en nuestro ordenador, podemos emplear <em>Redis cloud</em>, el cual ofrece de manera gratuita una instancia con 30MB de datos. Para ello, en la propia página de <em>Redis</em>, tras registrarnos, podremos crear una instancia.</p>
+<figure style="align: center;">
+    <img src="images/00redis-cloud.png" width="1024px">
+    <figcaption>Redis Cloud</figcaption>
+</figure>
+
+<p>Una vez creada, obtendremos su información de acceso, con su <em>endpoint</em> público, al cual podemos conectarnos con el cliente Redis CLI o mediante el interfaz gráfico <em>RedisInsight</em> (en su caso, deberíamos también instalarlo como cliente en nuestro dispositivo).</p>
+<figure style="align: center;">
+    <img src="images/00redis-cloud-s8a.png" width="1024px">
+    <figcaption>Conexión a Redis Cloud</figcaption>
+</figure>
+
+<h2 id="mongodb">MongoDB<a class="headerlink" href="#mongodb" title="Permanent link">&para;</a></h2>
+<p>Desde <a href="https://www.mongodb.com/try/download/community">https://www.mongodb.com/try/download/community</a> podemos descargar la versión <em>Community</em> acorde a nuestro sistema operativo.</p>
+<p>En vez de instalarlo como un servicio en nuestra máquina, a día de hoy, es mucho más cómodo hacer uso de contenedores <em>Docker</em> o utilizar una solución <em>cloud</em>.</p>
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h3>
+<p>Para lanzar el contenedor de <em>Docker</em> al que llamaremos <code>bd-mongo</code> mediante el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:27017:27017<span class="w"> </span>--name<span class="w"> </span>bd-mongo<span class="w"> </span>-d<span class="w"> </span>mongo
+</code></pre></div>
+<div class="admonition caution">
+<p class="admonition-title">MongoDB y procesadores AVX</p>
+<p>Si tenemos un procesador sin soporte para AVX, necesitamos instalar una versión inferior a la 5.0.</p>
+<p>Así pues, podemos indicar la versión 4.4:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:27017:27017<span class="w"> </span>--name<span class="w"> </span>bd-mongo<span class="w"> </span>-d<span class="w"> </span>mongo:4.4
+</code></pre></div>
+</div>
+<p>A continuación vamos a descargar el conjunto de datos (<a href="https://atlas-education.s3.amazonaws.com/sampledata.archive">sampledata.archive</a>) que ofrece <em>MongoDB</em> a modo de prueba, el cual vamos a emplear a lo largo de las diferentes sesiones.</p>
+<p>Volvemos al terminal de nuestro sistema y copiamos los datos desde nuestro sistema a la carpeta <code>/tmp</code> del contenedor:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span>cp<span class="w"> </span>sampledata.archive<span class="w"> </span>bd-mongo:/tmp
+</code></pre></div>
+<p>Posteriormente abrimos un terminal dentro de nuestro contenedor (o mediante <em>Attach Shell</em> en <em>VSCode</em>):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>bd-mongo<span class="w"> </span>bash
+</code></pre></div>
+<p>Y finalmente, restauramos los datos mediante <code>mongorestore</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mongorestore<span class="w"> </span>--archive<span class="o">=</span>/tmp/sampledata.archive
+</code></pre></div>
+<p>Una vez cargados, nos informará que se han restaurado 433.281 documentos.</p>
+<p>Por último, para acceder al cliente de <em>MongoDB</em> <code>mongosh</code>, ejecutamos el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code><span class="hll"><span class="linenos" data-linenos="1 "></span>mongosh
+</span><span class="linenos" data-linenos="2 "></span><span class="c1"># Current Mongosh Log ID: 69fcdbc860416d1c5444ba88</span>
+<span class="linenos" data-linenos="3 "></span><span class="c1"># Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&amp;serverSelectionTimeoutMS=2000&amp;appName=mongosh+2.8.2</span>
+<span class="linenos" data-linenos="4 "></span><span class="c1"># Using MongoDB:          8.2.7</span>
+<span class="linenos" data-linenos="5 "></span><span class="c1"># Using Mongosh:          2.8.2</span>
+<span class="linenos" data-linenos="6 "></span>
+<span class="linenos" data-linenos="7 "></span><span class="c1"># ...</span>
+<span class="linenos" data-linenos="8 "></span>
+<span class="linenos" data-linenos="9 "></span>test&gt;
+</code></pre></div>
+<p>Independientemente de nuestro sistema operativo, por defecto, el demonio se lanza sobre el puerto 27017. Una vez instalado, si accedemos a <a href="http://localhost:27017">http://localhost:27017</a> podremos ver que nos indica cómo estamos intentando acceder mediante HTTP a <em>MongoDB</em> mediante el puerto reservado al <em>driver</em> nativo.</p>
+<figure style="align: center;">
+    <img src="images/00localhost27017.png" alt="MongoDB - Acceso al puerto 27017">
+    <figcaption>Acceso al puerto 27017</figcaption>
+</figure>
+
+<h3 id="mongo-atlas">Mongo Atlas<a class="headerlink" href="#mongo-atlas" title="Permanent link">&para;</a></h3>
+<p>Si, en cambio, preferimos una solución <em>cloud</em>, disponemos de <a href="https://www.mongodb.com/es/atlas">Mongo Atlas</a>, que nos ofrece de manera gratuita un clúster compartido de servidores con 3 nodos y 512 MB para datos. Si queremos una solución <em>serverless</em> o un servidor dedicado, ya tendremos que <a href="https://www.mongodb.com/pricing">pasar por caja</a>.</p>
+<figure style="align: center;">
+    <img src="images/00mongoatlas-register.png" alt="MongoDB - Registro en Mongo Atlas">
+    <figcaption>Registro en Mongo Atlas</figcaption>
+</figure>
+
+<p>Para comenzar a utilizar <em>Mongo Atlas</em> el primer paso es <a href="https://www.mongodb.com/cloud/atlas/register">registrarnos</a> y completar un cuestionario sobre nuestro uso. Tras ello:</p>
+<ol>
+<li>
+<p>Creamos el clúster de despliegue. En nuestro caso, hemos realizado el despliegue en AWS en la región de Paris (<code>eu-west-3</code>) y dejado el nombre por defecto, <code>Cluster 0</code>.</p>
+<p><figure style="align: center;">
+  <img src="images/00mongoatlas-cluster.png" alt="MongoDB - Elección del clúster">
+  <figcaption>Elección del clúster</figcaption>
+</figure></p>
+</li>
+<li>
+<p>Creamos un usuario/contraseña para autenticar nuestra conexión. En nuestro caso, hemos creado el usuario <code>iabd</code> con la contraseña <code>iabdiabd</code> (después la podemos modificar desde el menú <em>Security -&gt; Database Access</em>):</p>
+<p><figure style="align: center;">
+  <img src="images/00mongoatlas-usuario.png" alt="MongoDB - Configuración del usuario">
+  <figcaption>Configuración del usuario</figcaption>
+</figure></p>
+<p>En la misma pantalla, indicamos que permitimos las conexiones desde todas las direcciones IP (esta decisión sólo la tomamos por comodidad, para poder conectarnos desde casa y el centro) mediante la IP <code>0.0.0.0</code> (después podemos modificar la configuración desde el menú <em>Security -&gt; Network Access</em>).</p>
+</li>
+<li>
+<p>Una vez realizados los dos pasos anteriores, comenzará la creación del clúster, la cual puede tardar de 2 a 3 minutos.</p>
+<p><figure style="align: center;">
+  <img src="images/00mongoatlas-dashboard.png" alt="MongoDB - Dashboard del clúster">
+  <figcaption>Dashboard del clúster</figcaption>
+</figure></p>
+</li>
+<li>
+<p>A continuación, cargaremos los datos de ejemplo. Para ello, en el menú con los tres puntos (<code>...</code>), elegiremos la opción <em>Load Sample Dataset</em>. Una vez haya finalizado, podremos ver los datos cargados pulsando sobre el botón <em>Browse Collections</em>:</p>
+<p><figure style="align: center;">
+  <img src="images/00mongoatlas-colecciones.png" alt="MongoDB - Colecciones con los datos de prueba">
+  <figcaption>Colecciones con los datos de prueba</figcaption>
+</figure></p>
+</li>
+</ol>
+<div class="admonition tip inline end">
+<p class="admonition-title">Conexión segura</p>
+<p>Mediante <code>srv</code> se establece una conexión segura</p>
+</div>
+<p>Finalmente, para obtener la cadena de conexión, desde el <em>dashboard</em> del clúster con la opción <em>Connect</em> o desde la pestaña <em>Cmd Line Tools</em> del propio clúster, podremos obtener la <a href="https://www.mongodb.com/docs/manual/reference/connection-string">cadena de conexión</a>, que tendrá un formato similar a :</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mongodb+srv://usuario:password@host/basededatos
+</code></pre></div>
+<p>En versiones anteriores, una herramienta de terceros bastante utilizada era <a href="http://robomongo.org"><em>RoboMongo</em></a> / <em>Robo3T</em> / <a href="https://studio3t.com/"><em>Studio3T</em></a> el cual extiende el shell y ofrece un IDE más amigable. A día de hoy, <em>MongoDB</em> tiene su propio IDE conocido como <a href="https://www.mongodb.com/es/products/compass">MongoDB Compass</a>.</p>
+<h3 id="mongodb-compass">MongoDB Compass<a class="headerlink" href="#mongodb-compass" title="Permanent link">&para;</a></h3>
+<p>En el curso nos vamos a centrar en el uso del <em>shell</em>, pero no está de más conocer las herramientas visuales que facilitan el trabajo con <em>MongoDB</em> en el día a día.</p>
+<p>Una de ellas es <a href="https://www.mongodb.com/es/products/compass"><em>MongoDB Compass</em></a>, que facilita la exploración y manipulación de los datos. De una manera flexible e intuitiva, <em>Compass</em> ofrece visualizaciones detalladas de los esquemas, métricas de rendimiento en tiempo real así como herramientas para la creación de consultas.</p>
+<p>Existen tres versiones de <em>Compass</em>, una completa con todas las características, una de sólo lectura sin posibilidad de insertar, modificar o eliminar datos (perfecta para analítica de datos) y una última versión <em>isolated</em> que solo permite la conexión a una instancia local.</p>
+<p>Una vez descargada e instalada la versión que nos interesa, tras crear la conexión a partir de la cadena de conexión (similar a <code>mongodb+srv://&lt;usuario&gt;:&lt;contraseña&gt;@cluster0.4hm7u8y.mongodb.net/test</code>), veremos en el menú de la izquierda todas las conexiones a servidores MongoDB almacenadas y las diferentes bases de datos de las respectivas conexiones:</p>
+<figure style="align: center;">
+    <img src="images/00mongocompass-init.png" alt="MongoDB - GUI de Mongo Compass">
+    <figcaption>GUI de Mongo Compass</figcaption>
+</figure>
+
+<p>Si seleccionamos una base de datos concreta, y de ella, una colección en el menú de la izquierda, en el panel central tendremos una visualización de los datos contenidos, así como opciones para analizar su esquema, realizar consultas agregadas, editar los índices, etc... Además, podremos realizar consultas sobre los datos:</p>
+<figure style="align: center;">
+    <img src="images/00mongocompass-coleccion.png" alt="MongoDB - Opciones desde una colección en MongoDBCompass">
+    <figcaption>Opciones desde una colección</figcaption>
+</figure>
+
+<div class="admonition tip">
+<p class="admonition-title">mongosh en Compass</p>
+<p>Tanto sobre el nombre de la conexión (dejando el ratón encima aparecerá un icono), como desde la parte superior derecha, podemos conectarnos desde un <em>shell</em> similar a <code>mongosh</code>.</p>
+</div>
+<!--
+* https://selectstarsql.com/
+-->
+
+<!--
+Contenidos básicos:
+
+Almacenamiento de la información:
+− Ficheros (planos, indexados, acceso directo, entre otros).
+− Bases de datos. Conceptos, usos y tipos según el modelo de datos, la
+ubicación de la información.
+− Sistemas gestores de base de datos: Funciones, componentes y tipos.
+− Bases de datos centralizadas y bases de datos distribuidas. Técnicas de
+fragmentación.
+− Legislación sobre protección de datos.
+− Big Data: introducción, análisis de datos, inteligencia de negocios.
+
+Bases de datos relacionales:
+− Modelo de datos.
+− Terminología del modelo relacional.
+− Tipos de datos.
+− Claves primarias.
+− Restricciones de validación.
+− Índices. Características.
+− El valor NULL.
+− Claves ajenas.
+− Vistas.
+− Usuarios. Privilegios.
+− Lenguaje de descripción de datos (DDL).
+− Lenguaje de control de datos (DCL).
+
+Realización de consultas:
+− Proyección, selección y ordenación de registros.
+− Operadores. Operadores de comparación. Operadores lógicos.
+− Consultas de resumen.
+− Agrupamiento de registros.
+− Composiciones internas.
+− Composiciones externas.
+− Subconsultas
+− Combinación de múltiples selecciones.
+− Optimización de consultas.
+
+Tratamiento de datos:
+− Inserción, borrado y modificación de registros.
+− Integridad referencial.
+− Subconsultas y composiciones en órdenes de edición.
+− Transacciones.
+− Políticas de bloqueo. Concurrencia.
+
+Programación de bases de datos:
+− Introducción. Lenguaje de programación.
+− Variables del sistema y variables de usuario.
+− Funciones.
+− Estructuras de control de flujo.
+− Procedimientos almacenados. Funciones de usuario.
+− Eventos y disparadores.
+− Excepciones.
+− Cursores.
+
+Interpretación de Diagramas Entidad/Relación:
+− El modelo E/R. Entidades y relaciones. Cardinalidades. Debilidad.
+− El modelo E/R ampliado. Generalización y especialización. Agregación.
+− Paso del diagrama E/R al modelo relacional.
+− Restricciones semánticas del modelo relacional.
+− Normalización de modelos relacionales.
+
+Uso de bases de datos no relacionales:
+− Características de las bases de datos no relacionales.
+− Tipos de bases de datos no relacionales.
+− Elementos de las bases de datos no relacionales.
+− Sistemas gestores de bases de datos no relacionales.
+− Herramientas de los sistemas gestores de bases de datos no relacionales
+para la gestión de la información almacenada.
+
+
+Las actividades profesionales asociadas a esta función se aplican en:
+− La gestión de la información almacenada en bases de datos.
+− El desarrollo de aplicaciones que acceden a bases de datos.
+
+La formación del módulo contribuye a alcanzar los objetivos generales c), e), f), p) y t) del ciclo formativo y las competencias b), c), e), p) y t) del título.
+
+-->
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        <a href='https://ko-fi.com/T6T8GWT9N' title='Invítame a un café en ko-fi.com' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=3' border='0' alt='Invítame a un café en ko-fi.com' /></a>
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Me encantan estos apuntes" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="Los apuntes son mejorables" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Gracias por tu tiempo. Si quieres me puedes <a href='https://ko-fi.com/T6T8GWT9N'>invitar a un café en ko-fi</a>.
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              ¡Gracias por tu colaboración! Ayúdame a mejorar los apuntes enviándome un mail a <a href="mailto:a.medrano@edu.gva.es">a.medrano@edu.gva.es</a> con tus comentarios.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="anexos/jerarquicas.html" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Consultas jerárquicas">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Consultas jerárquicas
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="validacion.html" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Validación CE">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Validación CE
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2026/2027 Nacho Mateos - <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Licencia CC BY-NC-SA</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://aitor-medrano.github.io/" target="_blank" rel="noopener" title="aitor-medrano.github.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://aitor-medrano.github.io/blog" target="_blank" rel="noopener" title="aitor-medrano.github.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://bsky.app/profile/aitormedrano.bsky.social" target="_blank" rel="noopener" title="bsky.app" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3 3.4.4 6.7.9 10 1.3M288 227.1c-26.1-50.7-97.1-145.2-163.1-191.8C61.6-9.4 37.5-1.7 21.6 5.5 3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7 3.3-.5 6.6-.9 10-1.4-3.3.5-6.6 1-10 1.4-93.9 14-177.3 48.2-67.9 169.9C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4 102.4-103.4 28.1-156-65.8-169.9-3.3-.4-6.7-.8-10-1.3 3.4.4 6.7.9 10 1.3 64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/aitormedrano" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M357.2 48h70.6L273.6 224.2 455 464H313L201.7 318.6 74.5 464H3.8l164.9-188.5L-5.2 48h145.6l100.5 132.9zm-24.8 373.8h39.1L119.1 88h-42z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:<a.medrano@edu.gva.es>" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l208 156a48 48 0 0 0 57.6 0l208-156c12.1-9.1 19.2-23.3 19.2-38.4 0-26.5-21.5-48-48-48zM0 196v188c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V196L313.6 344.8c-34.1 25.6-81.1 25.6-115.2 0z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+      <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+        <div class="md-consent__overlay"></div>
+        <aside class="md-consent__inner">
+          <form class="md-consent__form md-grid md-typeset" name="consent">
+            
+
+
+  
+
+
+<h4>Consentimiento de cookie</h4>
+<p>Esta página de apuntes utiliza cookies para reconocer las visitas, medir la efectividad de la documentación y averiguar si encuentras aquello que buscas o cómo has llegado a estos apuntes. Con tu consentimiento, me ayudas a mejorar estos materiales.</p>
+<input class="md-toggle" type="checkbox" id="__settings" >
+<div class="md-consent__settings">
+  <ul class="task-list">
+    
+    
+      
+        
+  
+  
+    
+    
+  
+  <li class="task-list-item">
+    <label class="task-list-control">
+      <input type="checkbox" name="analytics" checked>
+      <span class="task-list-indicator"></span>
+      Google Analytics
+    </label>
+  </li>
+
+      
+    
+    
+      
+    
+    
+  </ul>
+</div>
+<div class="md-consent__controls">
+  
+    
+      <button class="md-button md-button--primary">Aceptar</button>
+    
+    
+    
+  
+    
+    
+    
+      <label class="md-button" for="__settings">Gestionar cookies</label>
+    
+  
+</div>
+          </form>
+        </aside>
+      </div>
+      <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout((function(){document.querySelector("[data-md-component=consent]").hidden=!1}),250);var form=document.forms.consent;for(var action of["submit","reset"])form.addEventListener(action,(function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map((function(e){return[e,!0]})))),location.hash="",location.reload()}))</script>
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["header.autohide", "navigation.top", "navigation.tracking", "navigation.footer", "navigation.indexes", "navigation.path", "content.code.annotate", "announce.dismiss", "toc.follow", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="js/print-site.js"></script>
+      
+    
+  </body>
+</html>
